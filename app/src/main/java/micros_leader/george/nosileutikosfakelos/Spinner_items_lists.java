@@ -513,7 +513,7 @@ public class Spinner_items_lists {
         ArrayList <Spinner_item> lista = new ArrayList<>();
 
         lista.add(new Spinner_item(0,""));
-        lista.add(new Spinner_item(1,"2:00"));
+        lista.add(new Spinner_item(1,"2:00123"));
         lista.add(new Spinner_item(2,"2:15"));
         lista.add(new Spinner_item(3,"2:30"));
         lista.add(new Spinner_item(4,"2:45"));
