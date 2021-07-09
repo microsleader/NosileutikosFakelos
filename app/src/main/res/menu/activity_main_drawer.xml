@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/iatrikes_odigies"
+            android:icon="@drawable/icon_dialysis"
+            android:title="Ιατρικές οδηγίες" />
+
+
+        <item
+            android:id="@+id/stable_measurements"
+            android:icon="@drawable/icon_dialysis"
+            android:title="Σταθερές μετρήσεις" />
+        <item
+            android:id="@+id/continuous_measurements"
+            android:icon="@drawable/icon_measurement"
+            android:title="Συνεχείς μετρήσεις" />
+
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/settings"
+                android:icon="@drawable/icon_settings"
+                android:title="Ρυθμίσεις" />
+            <item
+                android:id="@+id/log_out"
+
+                android:icon="@drawable/icon_log_out"
+                android:title="Αποσύνδεση" />
+        </menu>
+    </item>
+
+</menu>

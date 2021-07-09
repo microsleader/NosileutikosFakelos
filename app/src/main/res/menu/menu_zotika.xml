@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+
+    <item
+        android:id="@+id/sigkentrotika_ana_ora"
+        android:icon="@drawable/item"
+        android:title="@string/sigkentrotika_ana_ora"/>
+
+    <item
+        android:id="@+id/sigkentrotika_ana_3oro"
+        android:icon="@drawable/ic_error_outline_black_24dp"
+        android:title="@string/sigkentrotika_ana_3oro"/>
+
+
+    <item
+        android:id="@+id/sigkentrotika_olwn_ton_asthenwn"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/sigkentrotika_all_patients"/>
+
+</menu>

@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OROFOI.f_Diagnoseis_Istoriko.Diagnoseis_Istoriko_Activity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Διαγνώσεις" />
+
+        <Spinner
+            android:id="@+id/floorsSP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/spinner_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+
+        <TextView
+            android:id="@+id/patientsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/edittext_shape"
+            android:gravity="center"
+            android:text="patients"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/floorsSP" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/patientsTV">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ιστορικό"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/ok"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="2"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Βάρος:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Ύψος:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Επάγγελμα:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Οικογεν.κατάσταση:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Οικογεν. ιστορικό:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="58dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Ατομικό αναμνηστικό:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="132dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Λήψη φαρμάκων:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="120dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text"
+                            android:maxLines="10"
+                            android:text="Παρούσα Νόσος:"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/weightET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="numberDecimal"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/heightET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="numberDecimal"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/epaggelmaET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text|textCapSentences"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/oikKatastasiET"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text|textCapSentences"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/oikIstorikoET"
+                            android:layout_width="match_parent"
+                            android:layout_height="80sp"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text|textCapSentences"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/atomAnamnistikoET"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text|textCapSentences"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/lipsiFarmakonET"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="12dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text|textCapSentences"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/parousaNososET"
+                            android:layout_width="match_parent"
+                            android:layout_height="150dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textMultiLine|text|textCapSentences"
+                            android:paddingLeft="2dp"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Διαγνώσεις"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/ok1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="22dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:text="Διάγνωση εισόδου:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:text="Διάγν. εισόδου ICD 10:"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="32dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:text="Δευτερεύουσα διάγν. εισ. ICD 10:"
+                            android:textAlignment="center"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:id="@+id/diagnEisodouTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textPersonName|textMultiLine"
+
+                            android:maxLines="5"
+                            android:singleLine="false" />
+
+                        <TextView
+                            android:id="@+id/diagnEisodouICD10TV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:inputType="textPersonName|textMultiLine"
+                            android:maxLines="5"
+                            android:singleLine="false" />
+
+                        <TextView
+                            android:id="@+id/deutereuousaDiagnEisodouICD10TV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="20dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/edittext_shape"
+                            android:ems="10"
+                            android:gravity="center"
+                            android:maxLines="5"
+                            android:singleLine="false" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

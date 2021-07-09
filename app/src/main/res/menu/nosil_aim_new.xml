@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/notifications"
+        android:icon="@drawable/ic_os_notification_fallback_white_24dp"
+        android:title="@string/patients_notification"/>
+
+
+    <item
+        android:id="@+id/far_agogi"
+        android:icon="@drawable/item"
+        android:title="@string/monimi_far_agogi"/>
+
+
+
+    <item
+        android:id="@+id/xreosima_ilika"
+        android:icon="@drawable/item"
+        android:title="@string/xreosima_ilika_string"/>
+
+    <item
+        android:id="@+id/sigkentrotika_sinexwn"
+        android:icon="@drawable/ic_error_outline_black_24dp"
+        android:title="@string/sigkentrotika_sinexeis_metriseis"/>
+
+    <item
+        android:id="@+id/sigkentrotika_statherwn"
+        android:icon="@drawable/ic_error_outline_black_24dp"
+        android:title="@string/sigkentrotika_statheres_metriseis"/>
+
+
+
+    <item
+        android:id="@+id/sigkentrotika_medical_instructions"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/sigkentrotika_medical_instructions"/>
+
+</menu>

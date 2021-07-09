@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Τελευταία σταθερή μέτρηση" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="22dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="7"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="22dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="22dp"
+                        android:background="@android:color/darker_gray">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+
+                            <LinearLayout
+                                android:id="@+id/title"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Ημ/νία:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Ώρα έναρξης:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Ώρα λήξης:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Διάρκεια:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Αρχικό βάρος:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Ξηρό βάρος:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Διαφορά βάρους"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Uf αρχικό:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/textV"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Uf τελικό:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Βάρος εξόδου:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Υπεύθυνος νοσηλευτής:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/textVi"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Νοσηλευτής φλεβοκέντησης:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="2ος Νοσηλευτής:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Αγγ. Προσπέλαση:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Διάρκεια:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Max UF/h"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Αιματοκρίτης:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Αιμοσφαιρίνη:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Ροή Αίματος:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Ροή διαλύματος:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Ροή υποκατάστατου:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Αγωγιμότητα:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Θερμοκ. διαλύματος:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="HCO3:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Kt/V:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:paddingTop="3dp"
+                                    android:text="Πίεση εξόδου:"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/textview_shape"
+                                    android:gravity="center"
+                                    android:paddingLeft="10dp"
+                                    android:text="Κατάσταση φίλτρου"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/newValues"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="3dp"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+
+                                <TextView
+                                    android:id="@+id/dateTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    android:paddingLeft="0dp"
+                                    android:textAlignment="center"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/timeStartTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:paddingLeft="2dp"
+                                    android:paddingTop="2dp"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    tools:text="00:00" />
+
+                                <TextView
+                                    android:id="@+id/timeFinishedTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:paddingLeft="2dp"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    tools:text="00:00" />
+
+                                <TextView
+                                    android:id="@+id/durationTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    android:paddingLeft="2dp"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/startWeightET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:paddingLeft="2dp"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:id="@+id/ksiroWeightET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal" />
+
+                                <TextView
+                                    android:id="@+id/diffrenceWeightTV"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName"
+                                    android:paddingLeft="12dp"
+                                    android:textAlignment="viewStart"
+                                    android:textColor="@color/black"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:id="@+id/ufStartET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/ufFinishedET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/exitWeightET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/ipeuthnosNosSP"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName" />
+
+                                <TextView
+                                    android:id="@+id/flevoNosSP"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName" />
+
+                                <TextView
+                                    android:id="@+id/secondNosSP"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName" />
+
+                                <TextView
+                                    android:id="@+id/prospelasiSP"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="textPersonName" />
+
+                                <TextView
+                                    android:id="@+id/duration2ET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:hint="20:00"
+                                    android:inputType="time"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/maxUFET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/aimatokrtisET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/aimosfairniET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/roiAimatosET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/roiDialimatosET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/roiIpokatastatouET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+
+                                    android:id="@+id/agogimotitaET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/thermDialimatosET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/hco3ET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/ktvET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/piesiEksodosET"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center"
+                                    android:inputType="numberDecimal"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:id="@+id/katastasiFiltrouSP"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:background="@drawable/edittext_shape"
+                                    android:ems="10"
+                                    android:gravity="center" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,15 @@
+<resources>
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="title_farmaka_list">dosologies</string>
+    <string name="title_farmaka_detail">farmaka Detail</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_main__aim">MainActivity_Aim</string>
+
+
+</resources>

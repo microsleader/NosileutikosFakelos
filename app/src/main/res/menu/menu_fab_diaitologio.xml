@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sigkentrotika_astheni"
+        android:icon="@drawable/icon_measurement"
+        android:title="@string/sigentrotika_astheni">
+    </item>
+
+    <item
+        android:id="@+id/sigkentrotika"
+        android:icon="@drawable/item"
+        android:title="@string/sigentrotika">
+
+    </item>
+</menu>

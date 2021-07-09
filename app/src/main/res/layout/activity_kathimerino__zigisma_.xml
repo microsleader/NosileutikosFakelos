@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OROFOI.f_Kathimerino_zigisma.Kathimerino_Zigisma_Activity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Καθημερινό ζύγισμα" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:layout_editor_absoluteX="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="22dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+            <Spinner
+                android:id="@+id/floorsSP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_layout" />
+
+            <TextView
+                android:id="@+id/patientsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:background="@drawable/edittext_shape"
+
+                android:gravity="center"
+                android:paddingLeft="1dp"
+                android:text="patients" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="22dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView55"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:text="Αναφερόμενο βάρος ασθενούς που δεν κινητοποιείται (τελεύταιο ζύγισμα προ  εισαγωγής)"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:text="Βάρος σώματος την ημέρα εισαγωγής" />
+
+                    <TextView
+                        android:id="@+id/textView27"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:text="Προεγχειρητικό βάρος:" />
+
+                    <TextView
+                        android:id="@+id/textView26"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:text="Ημ/νία" />
+
+                    <TextView
+                        android:id="@+id/textView54"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:text="Επιλογή μέρας:"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:text="Ύψος" />
+
+                    <TextView
+                        android:id="@+id/textView53"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginBottom="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:gravity="center"
+                        android:paddingLeft="2dp"
+                        android:text="Ζυγισμα κείμενο ημέρας" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/anafVarosET"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="textMultiLine|numberDecimal"
+                        android:paddingLeft="1dp" />
+
+                    <EditText
+                        android:id="@+id/varosET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="textMultiLine|numberDecimal"
+                        android:paddingLeft="1dp" />
+
+                    <EditText
+                        android:id="@+id/proVarosET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="textMultiLine|numberDecimal"
+                        android:paddingLeft="1dp" />
+
+                    <TextView
+                        android:id="@+id/dateTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:paddingLeft="1dp" />
+
+                    <Spinner
+                        android:id="@+id/daysSP"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/spinner_layout"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/ipsosET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="1dp" />
+
+                    <EditText
+                        android:id="@+id/textET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:paddingLeft="1dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/updateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:layout_marginBottom="120dp"
+                android:background="@drawable/button_shape"
+                android:shadowColor="#10EF08"
+                android:text="Καταχωρηση"
+                app:finalCornerAngle="50dp"
+                app:initialCornerAngle="50dp"
+                app:spinning_bar_color="@android:color/holo_blue_bright"
+                app:spinning_bar_padding="8dp"
+                app:spinning_bar_width="4dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="32dp"
+        android:clickable="true"
+        tools:layout_editor_absoluteX="512dp"
+        tools:layout_editor_absoluteY="873dp" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

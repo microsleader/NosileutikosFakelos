@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">HL Plus Νοσηλευτικός φάκελος</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_settings">Ρυθμίσεις</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="successful_update">Πετυχημένη ενημέρωση</string>
+    <string name="check_internet_access">Ελέγξτε τη σύνδεσή σας</string>
+    <string name="xreosima_ilika_string">Χρεώσιμα υλικά</string>
+    <string name="monimi_far_agogi">Φαρμακευτική αγωγή</string>
+    <string name="patients_notification">Ειδοποιήσεις</string>
+    <string name="sigkentrotika_statheres_metriseis"> Συγκεντρωτικά σταθερών </string>
+    <string name="sigkentrotika_sinexeis_metriseis"> Συγκεντρωτικά συνεχών </string>
+    <string name="sigkentrotika_all_metrisewn"> Συγκεντρωτικά μετρήσεων </string>
+    <string name="sigkentrotika_all_metrisewn_read_only"> Συγκεντρωτικά μετρήσεων / μόνο διάβασμα  </string>
+
+
+    <string name="sigkentrotika_medical_instructions"> Συγκεντρωτικά ιατρικών οδηγιών </string>
+
+    <string name="stath_metriseis_oles">Όλες οι σταθερές μετρήσεις</string>
+    <string name="efapax_farmaka">Φαρμακευτική αγωγή</string>
+    <string name="farmakeutiki_agogi_sinedrias">Φαρμακευτική αγωγή συνεδρίας</string>
+    <string name="sinex_metriseis_oles">Όλες οι συνεχείς μετρήσεις</string>
+    <string name="prosthiki_farmakou_text">Προσθήκη φαρμάκου</string>
+    <string name="enimerosi_farmakou_text">Ενημέρωση φαρμάκου</string>
+    <string name="diagrafi_farmakou_text">Διαγραφή φαρμάκου</string>
+    <string name="error_user_id">Δεν είστε ο ίδιος χρήστης που έκανε καταχώρηση</string>
+
+    <string name="thetikesKalliergies">ΘΕΤΙΚΕΣ ΚΑΛΛΙΕΡΓΙΕΣ ΑΠΟ ΑΛΛΟ ΝΟΣΟΚΟΜΕΙΟ</string>
+    <string name="kalliergies">ΚΑΛΛΙΕΡΓΙΕΣ</string>
+    <string name="eidikiFrontida">ΕΙΔΙΚΗ ΦΡΟΝΤΙΔΑ-ΥΠΟΣΤ.-ΠΑΡΑΚΟΛ.</string>
+    <string name="iatrikes_odigies">Ιατρικές οδηγίες</string>
+    <string name="poreia_alles_eksetaseis">Πορεία νόσου - άλλες εξετάσεις</string>
+    <string name="sigkentrotika_ergastiriaka">Εργαστηριακά</string>
+    <string name="isozigio">Ισοζύγιο</string>
+
+    <string name="sigentrotika">Συγκεντρωτικά</string>
+    <string name="sigentrotika_astheni">Συγκεντρωτικά / ασθενή</string>
+    <string name="sigkentrotika_ana_ora">Συγκεντρωτικά ανά ώρα / ασθενή</string>
+    <string name="sigkentrotika_ana_3oro">Συγκεντρωτικά ανά 3ωρο</string>
+    <string name="info">Πληροφορίες</string>
+    <string name="info_epipedo_sinidisis">
+        0: Φυσιολογικη \n
+        1: Υπνηλία - Ληθαργος με εύκολη αφύπνιση \n
+        2: Υπνηλία - αφύπνιση μετά από έντονα ερεθίσματα \n
+        3: Κώμα - Δεν αφυνπνίζεται (μόνο αντανακλαστικά ή καμμία απάντηση)
+    </string>
+
+    <string name="info_kinitikotita_anw_akrou">
+        0: Καμία πτώση \n
+        1: ήπια πτώση εντός 10 sec \n
+        2: πτώση - ακουμπά στο κρεβάτι \n
+        3: κώμα - Δεν αφυνπνίζεται (μόνο αντανακλαστικά ή καμμία απάντηση) \n
+        4: πληγία - καμία κίνηση
+    </string>
+
+    <string name="info_kinitikotita_katw_akrou">
+        0: Καμία πτώση \n
+        1: ήπια πτώση εντός 5 sec \n
+        2: πτώση - ακουμπά στο κρεβάτι \n
+        3: κώμα - Δεν αφυνπνίζεται (μόνο αντανακλαστικά ή καμμία απάντηση) \n
+        4: πληγία - καμία κίνηση
+    </string>
+
+    <string name="no_data">Δεν υπάρχουν δεδομένα αυτη τη στιγμή</string>
+
+    <string name="title_farmaka_list">dosologies</string>
+    <string name="title_farmaka_detail">farmaka Detail</string>
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_main__aim">MainActivity_Aim</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="sigkentrotika_all_patients"> Συγκεντρωτικά ασθενών  </string>
+
+
+    <item name="xreosima_ilika" type="id" />
+    <item name="oles_oi_statheres_metriseis" type="id" />
+    <item name="oles_oi_sinexeis_metriseis" type="id" />
+
+    <item name="prosthiki_farmakou" type="id" />
+    <item name="enimerosi_farmakou" type="id" />
+    <item name="diagrafi_farmakou" type="id" />
+
+    <string name="choose_item">Επιλέχτε είδος</string>
+
+    <string name="programmatismos_odigies_1">Επιλέχτε είδος</string>
+    <string name="programmatismos_odigies_2">Επιλέχτε είδος</string>
+
+</resources>
+
+

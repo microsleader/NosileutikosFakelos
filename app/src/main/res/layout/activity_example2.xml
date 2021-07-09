@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_main.xml -->
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_example2_scene"
+    tools:showPaths="true">
+
+
+    <TextView
+        android:id="@+id/titleTV"
+        android:text=""
+        android:layout_width="170dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/textview_shape"
+        android:gravity="center"
+        />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

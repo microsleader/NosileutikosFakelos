@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="3dp"
+    android:layout_marginEnd="2dp"
+
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:weightSum="3">
+
+    <TextView
+        android:id="@+id/eidosTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_weight="1"
+        android:hint="Είδος"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dosiTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_weight="1"
+        android:hint="Δόση"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lastdateTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="3dp"
+        android:layout_weight="1"
+        android:hint="Τελ. λήψη"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/paratiriseisTV"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="3dp"
+        android:layout_weight="1"
+        android:background="@drawable/edittext_shape"
+        android:ems="10"
+        android:hint="Παρατηρήσεις"
+        android:gravity="center"
+     />
+
+</LinearLayout>

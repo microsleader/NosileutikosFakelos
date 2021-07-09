@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="micros_leader.george.nosileutikosfakelos">
+
+    <uses-sdk tools:overrideLibrary="com.shashank.sony.fancydialoglib" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:appComponentFactory="whateverString"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true"
+        android:windowSoftInputMode="stateAlwaysHidden"
+        tools:replace="android:appComponentFactory">
+        <activity android:name=".METH.METH_MAP.Ektimisi_kind_ptoseos.Ektimisi_kind_ptoseos_Activity"></activity>
+        <activity android:name=".METH.METH_MAP.f_imerologio_katragrafis_diatrofis.Imer_katagr_diatrofis_Activity" />
+        <activity android:name=".BaseAct.TestBaseAct" />
+        <activity android:name="micros_leader.george.Tests.TestActivity" />
+        <activity android:name=".METH.METH_MAP.f_Nursing_katagrafi_efarmogis_metron_elegxou_loimokseon.Katagrafi_efarmogis_metron_elegxou_loimokseon_Act" />
+        <activity android:name=".METH.METH_MAP.f_Med_instr_transfer_cardio.Med_instr_tr_cardio_Activity" />
+        <activity android:name=".OROFOI.f_programmatismos_p_a.Programmatismos_p_a_Activity" />
+        <activity
+            android:name=".OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.Sigkentrotika_metrisewn_2_fragments"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.Sigkentrotika_Farm_agogis" />
+        <activity android:name=".EKSOTERIKA.Enimerotiko_simeioma_eksetasis_activity" />
+        <activity android:name=".Main_menu.Menu_generalActivity_NEW" />
+        <activity android:name=".METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity" />
+        <activity android:name=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity" />
+        <activity android:name=".METH.METH_MAP.f_Nosil_logodosia.Logodosia_Meth_Activity" />
+        <activity android:name=".METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth" />
+        <activity android:name=".METH.METH_MAP.f_Nosil_Elegxos.Nosil_elegxos_Meth" />
+        <activity
+            android:name=".OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_main__aim"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" /> <!-- <activity palio -->
+        <!-- android:name=".OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim" -->
+        <!-- android:label="@string/title_activity_main__aim" -->
+        <!-- android:configChanges="orientation" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar.NoActionBar" /> -->
+        <activity android:name=".OROFOI.f_Nosileutikos_aimokatharseis.activities.MedicalInstructionsActivity" /> <!-- <activity android:name=".f_Plano_klinwn.PlanoKlinonActivity" /> -->
+        <activity android:name=".OROFOI.f_Nosileutiki_anafora.Nosil_istoriko.Nosil_IstorikoActivity_NEW" />
+        <activity
+            android:name=".TableView.TableActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".OROFOI.f_Kathimerino_zigisma.Kathimerino_Zigisma_Activity" />
+        <activity
+            android:name=".OROFOI.f_karta_xorigisis_farmakon.Prosthiki_Farmakou_Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".OROFOI.f_karta_xorigisis_farmakon.FarmakaListActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_item_list"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar" />
+        <activity
+            android:name=".OROFOI.f_karta_xorigisis_farmakon.FarmakaDetailActivity"
+            android:label="@string/title_item_detail"
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="micros_leader.george.nosileutikosfakelos.OROFOI.f_karta_xorigisis_farmakon.FarmakaListActivity" />
+        </activity> <!-- <activity -->
+        <!-- android:name=".f_karta_xorigisis_farmakon.farmakaDetailActivity" -->
+        <!-- android:label="@string/title_farmaka_detail" -->
+        <!-- android:parentActivityName=".f_karta_xorigisis_farmakon.farmakaListActivity" -->
+        <!-- android:theme="@style/AppTheme.NoActionBar.NoActionBar"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.PARENT_ACTIVITY" -->
+        <!-- android:value="microsleader.george.nosileutikosfakelos.f_karta_xorigisis_farmakon.farmakaListActivity" /> -->
+        <!-- </activity> -->
+        <activity android:name=".OROFOI.f_Nosileutiki_anafora.Nosil_logodosia.Nosil_Anafora_Logodosia_Activity" />
+        <activity
+            android:name=".OROFOI.f_Zotika_simeia.Zotika_simeia_Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize" /> <!-- <activity -->
+        <!-- android:name=".f_example.VOICEACTIVITY" -->
+        <!-- android:configChanges="keyboardHidden|orientation|screenSize" /> -->
+        <!-- <activity -->
+        <!-- android:name=".OROFOI.f_example.Grafeis_kai_milaeiActivity" -->
+        <!-- android:configChanges="keyboardHidden|orientation|screenSize" /> -->
+        <activity android:name=".OROFOI.f_example.ExampleActivity2" />
+        <activity android:name=".OROFOI.f_Nosileutikos_aimokatharseis.activities.SinexeisMetriseis_All_Activity" />
+        <activity android:name=".OROFOI.f_Nosileutikos_aimokatharseis.activities.StatheresMetriseis_All_Activity" />
+        <activity android:name=".OROFOI.f_Nosileutiki_anafora.Nosil_istoriko.Nosil_IstorikoActivity_OLD" />
+        <activity android:name=".MainGraphicsActivity" />
+        <activity android:name="micros_leader.george.Tests.My_test_activity" />
+        <activity
+            android:name=".OROFOI.f_Parakolouthisi.ParakolouthisiActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Isozigio_pros_apov.Isozigio_p_a_Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".OROFOI.f_EktimisiEpigonton.EktimisiEpigontonActivity" />
+        <activity
+            android:name=".OROFOI.f_Eksitirio.EksitirioActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Diaitologio.DiaitologioActivity_UNCLOMPLETED"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Diaitologio.DiaitologioActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Diagnoseis_Istoriko.Diagnoseis_Istoriko_Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_example.ExampleForBasicActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Snel.SnelActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Logodosia.LogodosiaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".Main_menu.Menu_generalActivity" />
+        <activity
+            android:name=".LoginActiity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".OROFOI.f_Nosileutikos_aimokatharseis.activities.Nephroxenia_Main_Activity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- <service android:name=".f_example.SpeechService" /> -->
+        <service android:name=".OROFOI.f_Logodosia.MyVoiceService" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="micros_leader.george.nosileutikosfakelos.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

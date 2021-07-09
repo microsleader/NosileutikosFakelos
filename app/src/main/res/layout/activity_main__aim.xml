@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
+    tools:context=".OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_2.MainActivity_Aim">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
+
+        <Spinner
+            android:id="@+id/vardiesSP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="80dp"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/currentDateTextView" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vardiesSP">
+
+            <TextView
+                android:id="@+id/patientsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="8"
+                android:drawableRight="@drawable/drop_down2"
+                android:paddingTop="10dp"
+                android:paddingBottom="12dp"
+                android:textAlignment="center"
+                android:textColor="@color/book_loading_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="search" />
+
+
+            <Button
+                android:id="@+id/buttonRef"
+                android:layout_width="18dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="10dp"
+
+                android:layout_weight="1"
+                android:background="@drawable/icon_refresh" />
+
+        </LinearLayout>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <!--<include layout="@layout/content_main" />-->
+
+    <com.github.ag.floatingactionmenu.OptionsFabLayout
+        android:id="@+id/fabMenu"
+        custom:options_menu="@menu/nosil_aim_new"
+        custom:options_color="@color/colorPrimary"
+        custom:src="@drawable/info_fab_icon"
+        custom:color = "@color/blue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|bottom" />
+
+
+
+
+
+
+
+    <!--<com.leinardi.android.speeddial.SpeedDialView-->
+        <!--android:id="@+id/fabMenu"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|bottom"-->
+        <!--app:sdMainFabClosedSrc="@drawable/info_fab_icon"-->
+        <!--app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"-->
+        <!--android:layout_margin="16dp"-->
+        <!--app:sdOverlayLayout="@id/overlay"/>-->
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

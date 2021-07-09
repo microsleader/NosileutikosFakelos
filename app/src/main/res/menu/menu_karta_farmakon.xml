@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/diagrafi_farmakou"
+        android:icon="@drawable/cancel"
+        android:title="@string/diagrafi_farmakou_text">
+
+    </item>
+
+    <item
+        android:id="@+id/enimerosi_farmakou"
+        android:icon="@drawable/icon_measurement"
+        android:title="@string/enimerosi_farmakou_text">
+    </item>
+
+    <item
+        android:id="@+id/prosthiki_farmakou"
+        android:icon="@drawable/item"
+        android:title="@string/prosthiki_farmakou_text">
+
+    </item>
+</menu>

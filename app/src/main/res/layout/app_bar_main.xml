@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+
+    tools:context=".OROFOI.f_Nosileutikos_aimokatharseis.activities.Nephroxenia_Main_Activity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <!--<com.leinardi.android.speeddial.SpeedDialOverlayLayout-->
+        <!--android:id="@+id/overlay"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+
+    <include layout="@layout/content_main" />
+
+    <com.github.ag.floatingactionmenu.OptionsFabLayout
+        android:id="@+id/fabMenu"
+        custom:options_color="@color/colorPrimary"
+        custom:src="@drawable/info_fab_icon"
+        custom:color = "@color/blue"
+        custom:options_menu="@menu/nosil_aim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end|bottom" />
+
+
+    <!--<com.leinardi.android.speeddial.SpeedDialView-->
+        <!--android:id="@+id/fabMenu"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="end|bottom"-->
+        <!--app:sdMainFabClosedSrc="@drawable/info_fab_icon"-->
+        <!--app:layout_behavior="@string/speeddial_scrolling_view_snackbar_behavior"-->
+        <!--android:layout_margin="16dp"-->
+        <!--app:sdOverlayLayout="@id/overlay"/>-->
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

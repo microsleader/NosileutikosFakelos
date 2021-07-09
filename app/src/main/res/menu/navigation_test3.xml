@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/updateButton"
+        android:icon="@drawable/ic_iconfinder_save_"
+        android:title="ΑΠΟΘΗΚΕΥΣΗ"
+        android:enabled="true"
+
+        app:showAsAction="always|withText"
+
+        />
+
+    <item
+        android:id="@+id/med_instr_fr"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Ιατρ. οδηγίες" />
+
+    <item
+        android:id="@+id/statheres_fr"
+        android:icon="@drawable/icon_dialysis"
+        android:title="Σταθ. μετρήσεις" />
+
+    <item
+        android:id="@+id/sinexeis_fr"
+        android:icon="@drawable/icon_measurement"
+        android:title="Συνεχ. μετρήσεις" />
+
+
+
+</menu>

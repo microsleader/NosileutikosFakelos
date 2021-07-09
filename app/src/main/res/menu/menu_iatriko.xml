@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sigkentrotika_iatrikes_odigies"
+        android:icon="@drawable/drug_icon"
+        android:title="@string/iatrikes_odigies"/>
+
+    <item
+        android:id="@+id/sigkentrotika_poreia_alles_eksetaseis"
+        android:icon="@drawable/icon_measurement"
+        android:title="@string/poreia_alles_eksetaseis"/>
+
+
+    <item
+        android:id="@+id/sigkentrotika_ergastiriaka"
+        android:icon="@drawable/icon_dialysis"
+        android:title="@string/sigkentrotika_ergastiriaka"/>
+
+    <item
+        android:id="@+id/sigkentrotika_isozigio"
+        android:icon="@drawable/item"
+        android:title="@string/isozigio"/>
+
+
+</menu>
