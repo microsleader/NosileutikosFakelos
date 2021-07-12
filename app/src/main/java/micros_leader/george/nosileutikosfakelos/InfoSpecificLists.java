@@ -1873,11 +1873,12 @@ public class InfoSpecificLists extends StaticFields{
 
         lista.add(new ItemsRV("Προηγ. νοσηλείες (ημ/νία, αιτία)", "Proigoumenes_nosileies","", EDITTEXT_ITEM, KEIMENO));
         lista.add(new ItemsRV("Αλλεργίες", "Allergies", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Αλλεργίες\nφαγητού", "allergies_fagitou", "", EDITTEXT_ITEM, KEIMENO));
         lista.add(new ItemsRV("Μέτρα λοιμώξεων (είδος)", "metra_loimoxeon", SPINNER_TYPE, getMetraLoimokseisLista()));
 
         lista.add(new ItemsRV("Κύρια συμπτώματα κατά την εισαγωγή", "simptomata_eisagogis", "", EDITTEXT_ITEM, KEIMENO));
-        lista.add(new ItemsRV("Αρτηριακή πίεση Σ", "piesi1", "", EDITTEXT_ITEM, KEIMENO));
-        lista.add(new ItemsRV("Αρτηριακή πίεση Δ", "piesi2", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Αρτηριακή πίεση Σ", "piesi1", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Αρτηριακή πίεση Δ", "piesi2", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("Σφύξεις", "sfixeis", "", EDITTEXT_ITEM, AKERAIOS));
         lista.add(new ItemsRV("Θερμοκρασία", "thermokrasia", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("Παλμική οξυμετρία", "oximetria", "", EDITTEXT_ITEM, DEKADIKOS));
@@ -1912,7 +1913,7 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new ItemsRV("Οιδήματα", "idimata", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Φλεβίτιδα", "flevitida", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Αναιμία", "anaimia", false, CHECKBOX_ITEM));
-        lista.add(new ItemsRV("Στοιχεία ΗΚΓ", "stoixeia_hkg", "", EDITTEXT_ITEM, KEIMENO));
+        //lista.add(new ItemsRV("Στοιχεία ΗΚΓ", "stoixeia_hkg", "", EDITTEXT_ITEM, KEIMENO));
 
         lista.add(new ItemsRV("ΠΕΠΤΙΚΟ", "", TITLE_ITEM)); //41
 
@@ -1970,7 +1971,7 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new ItemsRV("έγερση", "voithia_egersi", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("πόνος", "ms_ponos", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("πόνος που", "ms_ponos_pou", "", EDITTEXT_ITEM, KEIMENO));
-        lista.add(new ItemsRV("κλίμακα πόνου", "ms_ponos_klimaka", "", EDITTEXT_ITEM, AKERAIOS));
+        lista.add(new ItemsRV("κλίμακα πόνου", "ms_ponos_klimaka", SPINNER_TYPE_NEW,Spinner_items_lists.getVathmoiPonou()));
         lista.add(new ItemsRV("Βάδιση", "vadisi", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Με Π", "me_pi", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Με πατερίτσες", "me_pateritses", false, CHECKBOX_ITEM));
@@ -3382,17 +3383,17 @@ public class InfoSpecificLists extends StaticFields{
 
         ArrayList<TableViewItem> lista = new ArrayList<>();
         // lista.add(new TableViewItem("ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("dateStart", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("itemID", TEXTVIEW_MEDICINE_TYPE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("category", SPINNER_TYPE_NEW, Spinner_items_lists.getTypeMedicine()));
-        lista.add(new TableViewItem("ml_hour", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("dosi", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("dosologia", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("diakopike", CHECKBOX_TYPE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("dateStop", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("ID","ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("UserID","UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Χρήστης","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Ημ/νία Εναρξης","dateStart", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Φάρμακα","itemID", TEXTVIEW_MEDICINE_TYPE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Κατηγορία","category", SPINNER_TYPE_NEW, Spinner_items_lists.getTypeMedicine()));
+        lista.add(new TableViewItem("ML/ώρα","ml_hour", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Δόση","dosi", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Δοσολογία","dosologia", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Διακόπηκε","diakopike", CHECKBOX_TYPE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Ημ/νία διακοπής","dateStop", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
 
 
         return lista;
