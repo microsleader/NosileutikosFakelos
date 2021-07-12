@@ -152,8 +152,10 @@ public class SinexeisFragment extends Fragment {
                  //   Utils.timeHandlerErrorButton(bd.updateButton, main);
                  //   Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
-                main.alertDialog.dismiss();
+                if (main != null) {
+                    Toast.makeText(main, str, Toast.LENGTH_SHORT).show();
+                    main.alertDialog.dismiss();
+                }
             }
 
             @Override
@@ -551,10 +553,13 @@ public class SinexeisFragment extends Fragment {
                 @Override
                 public void taskComplete2(JSONArray results) throws JSONException {
 
-                    JSONObject metrisi = results.getJSONObject(0);
-                    if (!metrisi.has("status")) // TO STATUS EINAI OTAN DEN IPARXOUN STOIXEIA
-                        id = String.valueOf(metrisi.getInt("ID"));
+                    if (results != null) {
+                        JSONObject metrisi = results.getJSONObject(0);
+                        if (!metrisi.has("status")) // TO STATUS EINAI OTAN DEN IPARXOUN STOIXEIA
+                            id = String.valueOf(metrisi.getInt("ID"));
+                    }
                 }
+
 
             };
             task.execute();

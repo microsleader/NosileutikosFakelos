@@ -90,11 +90,9 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
 
 
-
     private void medicines (){
         bundle1  =   tableView_sigkentrotika_dialogFragment( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID),
                 transgroupID,
-
                 null,
                 InfoSpecificLists.getKartaXorigisisFarmakwn(),
                 false,
