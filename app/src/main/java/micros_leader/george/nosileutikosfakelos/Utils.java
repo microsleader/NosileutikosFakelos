@@ -137,7 +137,7 @@ public class Utils  {
         return false;
     }
 
-    public static final boolean isNetworkAvailable2(Context ctx) {
+    public static  boolean isNetworkAvailable2(Context ctx) {
         final ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (cm != null) {
@@ -166,6 +166,7 @@ public class Utils  {
     public static String getCurrentDate() {
 
         Calendar c = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
         String currentDate = df.format(c.getTime());
@@ -177,6 +178,7 @@ public class Utils  {
     public static String getCurrentDateTimeConverted() {
 
         Calendar c = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy, HH:mm");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
         String currentDate = df.format(c.getTime());
@@ -190,11 +192,11 @@ public class Utils  {
     public static String getCurrentMonthYear() {
 
         Calendar c = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("MM/yyyy");
         df.setTimeZone(TimeZone.getTimeZone("GMT"));
-        String currentDate = df.format(c.getTime());
 
-        return currentDate;
+        return df.format(c.getTime());
 
     }
 
@@ -222,15 +224,17 @@ public class Utils  {
     }
 
     public static String getNextDate(Context context, String curDate) {
+        @SuppressLint("SimpleDateFormat")
         final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         final Calendar calendar = Calendar.getInstance();
         final Date date;
         try {
             date = format.parse(curDate);
 
-            calendar.setTime(date);
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-
+            if (date != null) {
+                calendar.setTime(date);
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+            }
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -246,10 +250,10 @@ public class Utils  {
         final Date date;
         try {
             date = format.parse(curMonth);
-
-            calendar.setTime(date);
-            calendar.add(Calendar.MONTH, 1);
-
+            if (date != null) {
+                calendar.setTime(date);
+                calendar.add(Calendar.MONTH, 1);
+            }
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -260,19 +264,19 @@ public class Utils  {
 
     public static String getCurrentTime() {
         Date today = new Date();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-        String currentTime = format.format(today);
 
-        return currentTime;
+        return format.format(today);
 
     }
 
     public static String getCurrentTime2() {
         Date today = new Date();
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-        String currentTime = format.format(today);
 
-        return currentTime;
+        return format.format(today);
 
     }
 
@@ -370,7 +374,7 @@ public class Utils  {
 
             fos.write(bytes);
             fos.close();
-        } catch (java.io.IOException e) {
+        } catch (java.io.IOException ignored) {
         }
 
 
@@ -522,8 +526,7 @@ public class Utils  {
         String floorsStr = sp.getString("floorsMapStr", "");
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken<HashMap<String, Integer>>(){}.getType();
-        HashMap<String, Integer> floorsMap = gson.fromJson(floorsStr, type);
-        return floorsMap;
+            return gson.fromJson(floorsStr, type);
     }
 
 
@@ -582,7 +585,7 @@ public class Utils  {
         sp = context.getSharedPreferences("settings", Activity.MODE_PRIVATE);
         String mapString = sp.getString("medicinesMap", "");
         TypeToken<HashMap<String,Integer>> token = new TypeToken<HashMap<String,Integer>>() {};
-        HashMap<String,Integer> retrievedMap=new Gson().fromJson(mapString,token.getType());
+        HashMap<String,Integer> retrievedMap = new Gson().fromJson(mapString,token.getType());
 
         return retrievedMap;
     }
@@ -732,9 +735,9 @@ public class Utils  {
     }
 
 
-    public static ArrayList getVardiesCodeName(ArrayList<Vardies> vardies){
+    public static ArrayList<String> getVardiesCodeName(ArrayList<Vardies> vardies){
 
-        ArrayList vardiesCodeName = new ArrayList();
+        ArrayList<String> vardiesCodeName = new ArrayList();
 
         if (vardies == null || vardies.isEmpty())
             vardiesCodeName.add("0 , Δεν υπάρχουν καταχωρημένες βάρδιες");
@@ -771,7 +774,7 @@ public class Utils  {
         if (str == null || !str.contains(split))
             return "";
 
-        String parts[] = str.split(split);
+        String[] parts = str.split(split);
         return parts[0].trim();
 
     }
@@ -782,7 +785,7 @@ public class Utils  {
         if (str == null || !str.contains(split))
             return "";
 
-        String parts[] = str.split(split);
+        String[] parts = str.split(split);
         if (parts.length < index)
             return "";
 
@@ -817,7 +820,7 @@ public class Utils  {
 
 
 
-        public static String checkFormat1(String str){
+    public static String checkFormat1(String str){
 
         DecimalFormat formatter = new DecimalFormat("0.000");
         if (str.equals("")){
@@ -850,6 +853,7 @@ public class Utils  {
 
     public static String checkFormat3(String str) {
 
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
         str = (str.equals("") ? "00:00:00" : str);
         //Double num = Double.parseDouble(str);
@@ -860,7 +864,8 @@ public class Utils  {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        str = formatter.format(date);
+        if (date != null)
+          str = formatter.format(date);
 
         return str;
 
@@ -869,6 +874,7 @@ public class Utils  {
 
     public static String hourFormat(String str) {
 
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
 
         if (str.equals("")){
@@ -888,7 +894,9 @@ public class Utils  {
             }
             e.printStackTrace();
         }
-        str = formatter.format(date);
+
+        if (date != null)
+            str = formatter.format(date);
 
         return str;
 
@@ -927,8 +935,8 @@ public class Utils  {
             return "";
         }
 
-        String partsArxiko[] = arxiko.split(":");
-        String partsTeliko[] = teliko.split(":");
+        String[] partsArxiko = arxiko.split(":");
+        String[] partsTeliko = teliko.split(":");
 
         String hourArxiko = partsArxiko[0];
         String minutesArxiko = partsArxiko[1];
@@ -1081,7 +1089,7 @@ public class Utils  {
 
 
         else{
-            String parts[] = str.split(":");
+            String[] parts = str.split(":");
             String hour = parts[0];
             String min = parts[1];
 
@@ -1223,10 +1231,9 @@ public class Utils  {
     public static String checkIfThereIsComma(String str){
 
        if (str.contains(","))
-           str.replace(",",".");
+           return  str.replace(",",".");
 
-        return str;
-
+       return str;
     }
 
 
@@ -1354,6 +1361,8 @@ public class Utils  {
 
     public static String convertDateToDatemilliseconds(String date){
 
+
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         formatter.setLenient(false);
 
@@ -1375,6 +1384,7 @@ public class Utils  {
             }
 
         }
+
         long oldMillis = oldDate.getTime();
         return String.valueOf(oldMillis);
     }
@@ -1392,13 +1402,14 @@ public class Utils  {
 
     }
 
-    public static String convertHourTomilliseconds(String hour){
+    public static String convertHourTomilliseconds(String oldTime){
 
+
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         formatter.setLenient(false);
 
 
-        String oldTime = hour;
         Date oldDate = null;
         try {
             oldDate = formatter.parse(oldTime);
@@ -1411,13 +1422,13 @@ public class Utils  {
         return String.valueOf(oldMillis);
     }
 
-    public static String convertHourTomillisecondsGR(String hour){
+    public static String convertHourTomillisecondsGR(String oldTime){
 
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         formatter.setLenient(false);
 
 
-        String oldTime = hour;
         Date oldDate = null;
         try {
             if (oldTime.equals(""))
@@ -1451,6 +1462,7 @@ public class Utils  {
         if (date == 0)
             return "-";
 
+        @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat(format);
         formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
 
@@ -1515,25 +1527,26 @@ public class Utils  {
 
 
     public static String getYesterdayDateString() {
+
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(getYesterday());
     }
 
 
-    public static ArrayList deleteProtesTheseis(ArrayList lista, int fores){
+    public static ArrayList<String> deleteProtesTheseis(ArrayList<String> lista, int fores){
 
         if (fores > lista.size())
             return lista;
 
-        for (int i =0; i<fores; i++){
-            lista.remove(0);
+        if (fores > 0) {
+            lista.subList(0, fores).clear();
         }
 
 
         return lista;
     }
 
-    public static ArrayList deleteTeleutaiesTheseis(ArrayList lista, int fores){
+    public static ArrayList<String> deleteTeleutaiesTheseis(ArrayList<String> lista, int fores){
         for (int i = 0; i<fores; i++){
             lista.remove(lista.size() - 1);
         }
@@ -1543,7 +1556,7 @@ public class Utils  {
 
 
 
-    public static void setValuesTolistaAdaptor(int titles_positions[] , ArrayList<ItemsRV> listAdaptor, ArrayList<String> valuesJson){
+    public static void setValuesTolistaAdaptor(int[] titles_positions, ArrayList<ItemsRV> listAdaptor, ArrayList<String> valuesJson){
 
         if (titles_positions == null)
             titles_positions  = new int [] {};
@@ -1589,7 +1602,7 @@ public class Utils  {
     }
 
 
-    public static void setValuesTo_valuesJSON(int titles_positions[] , ArrayList<ItemsRV> listAdaptor, ArrayList<String> valuesJson){
+    public static void setValuesTo_valuesJSON(int[] titles_positions, ArrayList<ItemsRV> listAdaptor, ArrayList<String> valuesJson){
 
         ArrayList<Integer> lista_titles = new ArrayList<>();
         ArrayList<ItemsRV> lista_values ;
@@ -1644,20 +1657,17 @@ public class Utils  {
 
     public static String getColorTextRed(String text) {
 
-        String input = "<font color=" + "#800000" + ">" + text + "</font>";
-        return input;
+        return "<font color=" + "#800000" + ">" + text + "</font>";
     }
 
     public static String getColorTextBlue(String text) {
 
-        String input = "<font color=" + "#000080" + ">" + text + "<br> <br>" + "</font>";
-        return input;
+        return "<font color=" + "#000080" + ">" + text + "<br> <br>" + "</font>";
     }
 
     public static String getColorTextGreen(String text) {
 
-        String input = "<font color=" + "#208000" + ">" + text + "<br> <br>" + "</font>";
-        return input;
+        return "<font color=" + "#208000" + ">" + text + "<br> <br>" + "</font>";
     }
 
 
@@ -1671,14 +1681,7 @@ public class Utils  {
     }
 
 
-    public static String getKeyByValue2(Map<String, Integer> map,String value) {
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            if (entry.getValue().equals(value)) {
-                return  entry.getKey();
-            }
-        }
-        return "";
-    }
+
 
     public static String [] getArraylistToStringArray(ArrayList<String> lista){
 
@@ -1887,7 +1890,8 @@ public class Utils  {
                 String myFormat = "dd-MM-yyyy"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-                textView.setText(sdf.format(myCalendar.getTime()));            }
+                textView.setText(sdf.format(myCalendar.getTime()));
+            }
 
         };
 
@@ -1905,15 +1909,7 @@ public class Utils  {
 
 
 
-    public static int indexOfIgnoreCase(ArrayList<String> lista, String text){
 
-        int n = lista.size();
-        for(int i=0;i<n;i++){
-            if(lista.get(i).equalsIgnoreCase(text))
-                return i;
-        }
-        return -1;
-    }
 
     public static void showImageDialog(Context ctx, int imageID) {
 
@@ -2056,7 +2052,7 @@ public class Utils  {
 
             StringBuilder sb = new StringBuilder();
             StringJoiner sj = new StringJoiner(",");
-            sb.append("INSERT INTO " + table + " ( ");
+            sb.append("INSERT INTO ").append(table).append(" ( ");
             for (String col : cols) {
                 sj.add(col);
             }

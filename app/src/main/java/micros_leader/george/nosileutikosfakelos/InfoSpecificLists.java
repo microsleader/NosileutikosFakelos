@@ -1872,7 +1872,7 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new ItemsRV("Ο.Ε.Μ.", "oem", false, CHECKBOX_ITEM));
 
         lista.add(new ItemsRV("Προηγ. νοσηλείες (ημ/νία, αιτία)", "Proigoumenes_nosileies","", EDITTEXT_ITEM, KEIMENO));
-        lista.add(new ItemsRV("Αλλεργίες", "Allergies", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Αλλεργίες φαρμ.", "Allergies",  MULTI_TYPE_LOOKUP, "medicine"));
         lista.add(new ItemsRV("Αλλεργίες\nφαγητού", "allergies_fagitou", "", EDITTEXT_ITEM, KEIMENO));
         lista.add(new ItemsRV("Μέτρα λοιμώξεων (είδος)", "metra_loimoxeon", SPINNER_TYPE, getMetraLoimokseisLista()));
 

@@ -1027,10 +1027,51 @@ public class Str_queries {
                 " order by watch";
     }
 
-    public  String getNOSIL_ISTORIKO_PERSON(String transgroupID){
+//    public static String getNOSIL_ISTORIKO_PERSON(String transgroupID){
+//
+//        return " , UserID, blue_count  from v_Nursing_nosil_istoriko where TransGroupID = " + transgroupID;
+//    }
 
-        return " , UserID, blue_count  from v_Nursing_nosil_istoriko where TransGroupID = " + transgroupID;
+    public static String getNOSIL_ISTORIKO_PERSON(String transgroupID){
+
+        return "select *,\n" +
+                "(CASE WHEN Tropos_metaforas IN (2,3,4) THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN omilia IN (2) THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN akoi IN (2,4) THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN orasi IN (2,4) THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN anapnoi IN (2) THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN anaimia = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN nautia = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN emetoi = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN diskolia_sti_kataposi = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN paxi_entero IN (3) THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN sixnoouria = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN disouria = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN ipo_emokatharsi = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN ourokathetiras = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN voithia_igiini = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN voithia_ntisimo = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN voithia_egersi = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN ms_ponos = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN me_pi = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN me_pateritses = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN me_mpasouni = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN katagma = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN anisixos = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN agnoi_tin_sovatorita = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN epikinonia IN (2,3) THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN imipligia = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN epiliptikes_kriseis = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN lipothimia = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN adinamia = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN moudiasma = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN tromos = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN kefalalgia = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN zali = 1 THEN 1 ELSE 0 END\n"
+                + "+ CASE WHEN xrisi_inopnevmatos = 1 THEN 1 ELSE 0 END) as Blue_count\n" +
+                " from Nursing_nosil_istoriko where TransGroupID = " + transgroupID;
     }
+
 
 
     public static String getNOSILEUTIKO_ISTORIKO_INSERT(String transgroupid, ArrayList<Nosil_IstorikoList> lista){

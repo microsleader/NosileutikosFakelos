@@ -15,13 +15,14 @@ import java.util.ArrayList;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
+import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentMedicineCloseListener;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutiki_anafora.Nosil_logodosia.Nosil_Anafora_Logodosia_Activity;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivityNosilIstorikoBinding;
 
-public class Nosil_IstorikoActivity_NEW extends BasicActivity  {
+public class Nosil_IstorikoActivity_NEW extends BasicActivity   {
 
 
 
@@ -89,8 +90,8 @@ public class Nosil_IstorikoActivity_NEW extends BasicActivity  {
 
 
     private void getNosil_Istoriko(){
-
-        getJSON_DATA( new Str_queries().getNOSIL_ISTORIKO_PERSON(transgroupID),  new String[]{"ID","TransGroupID"}  ,nameJson);
+        getJSON_DATA(Str_queries.getNOSIL_ISTORIKO_PERSON(transgroupID));
+       // getJSON_DATA( new Str_queries().getNOSIL_ISTORIKO_PERSON(transgroupID),  new String[]{"ID","TransGroupID"}  ,nameJson);
     }
 
 

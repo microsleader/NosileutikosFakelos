@@ -11,6 +11,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
@@ -18,7 +19,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +47,7 @@ import java.util.StringJoiner;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
+import micros_leader.george.nosileutikosfakelos.DialogFragmentSearches.DF_SearchMultiLookup;
 import micros_leader.george.nosileutikosfakelos.DiffUtil.ItemsRv_Callback;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended;
@@ -65,6 +66,7 @@ import static micros_leader.george.nosileutikosfakelos.StaticFields.CHECKBOX_ITE
 import static micros_leader.george.nosileutikosfakelos.StaticFields.CHECKBOX_TYPE_READ_ONLY_VALUE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.DEKADIKOS_WITH_NEGATIVE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.EDITTEXT_ITEM;
+import static micros_leader.george.nosileutikosfakelos.StaticFields.MULTI_TYPE_LOOKUP;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.SPINNER_ITEM;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.SPINNER_ITEM_NEW;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_CLOCK_TYPE;
@@ -274,6 +276,10 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
                     v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_many_items_textview_rec_adapter, parent, false);
                 break;
             }
+
+            case StaticFields.MULTI_TYPE_LOOKUP: //multi_type_lookup
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_many_items_textview_rec_adapter, parent, false);
+                break;
 
             case 2: {
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_many_items_edittext_rec_adapter, parent, false);
@@ -707,7 +713,9 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
                         holder.oldValueCH.setChecked(trueOrFalse);
                     }
 
-            } else if (type == MULTI_TYPE) {
+            }
+            //  MULTI TYPE  ΜΟΝΟ ΜΙΑ ΕΠΙΛΟΓΗ
+            else if (type == MULTI_TYPE) {
                 holder.titleTV.setText(title);
                 holder.valueTV.setTag(position);
 
@@ -733,6 +741,48 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
                 }
                 // value = value.replace("\ufffd",",");
             }
+
+
+
+            else if (type == MULTI_TYPE_LOOKUP){
+                holder.titleTV.setText(title);
+                holder.valueTV.setTag(position);
+
+                String lookup_query = result.get(position).getLookup_query();
+                if (!value.isEmpty() && lookup_query != null) {
+                    String ids = value.replace("\ufffd", ",");
+                    holder.valueTV.setText(ids);
+
+                    AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
+
+                    task.query =  Str_queries.setglobals(Utils.getUserID(act) ,"2", Utils.getcompanyID(act)) + "\n" +
+                            "select ID, Name from " + lookup_query + " where id in (" + ids + ")";
+                    task.ctx = act;
+                    task.listener = new AsyncCompleteTask2() {
+                        @Override
+                        public void taskComplete2(JSONArray results) throws JSONException {
+                            if (results != null && !results.getJSONObject(0).has("status")) {
+                                //ΓΙΑ ΟΤΑΝ ΕΡΧΕΤΑΙΑ ΠΟ ΤΗ ΒΑΣΗ ΒΑΖΩ ΣΕ ΚΑΘΕ ΣΕΙΡΑ id ΚΑΙ name ΜΑΖΙ
+                                StringJoiner s = new StringJoiner("\n");
+                                for (int i = 0; i < results.length(); i++) {
+                                    JSONObject jsonObject = results.getJSONObject(i);
+                                    int id = jsonObject.getInt("ID");
+                                    String name = jsonObject.getString("Name");
+                                    s.add(id + " , " + name);
+                                }
+                                holder.valueTV.setText(s.toString());
+                            }
+                        }
+                    };
+                    task.execute();
+
+
+                }
+            }
+
+
+
+
 
 
             if (desplayImageID != 0) {
@@ -987,13 +1037,13 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
 
 
-            if (viewType == TITLE_ITEM) {
+           else if (viewType == TITLE_ITEM) {
                 titleTV =  itemView.findViewById(R.id.titleTV);
                 valueTV =  itemView.findViewById(R.id.valueTV);
 
             }
 
-            if (viewType == EDITTEXT_ITEM) {
+           else if (viewType == EDITTEXT_ITEM) {
                 valueET =  itemView.findViewById(R.id.valueET);
 
                 if (editextsUsingDialogs) {
@@ -1183,6 +1233,30 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
                     }
                 });
+
+            }
+
+
+            else if (viewType == MULTI_TYPE_LOOKUP){
+                titleTV =  itemView.findViewById(R.id.titleTV);
+                valueTV = itemView.findViewById(R.id.valueTV);
+                titleTV.setTypeface(null, Typeface.BOLD);
+//                int pos = (int )valueTV.getTag();
+              //  String lookup = result.get(pos).getLookup_query();
+
+                valueTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Utils.isNetworkAvailable2(act)) {
+                            String [] idsNames = valueTV.getText().toString().split("\n");
+
+                            //ΤΟΥ ΠΕΡΝΑΩ ΚΑΙ ΤΟ ΑΝΤΙΚΕΙΜΕΝΟ ΩΣΤΕ ΜΕΣΑ ΑΠΟ ΤΟΝ ΛΙΣΕΝΕΡ ΝΑ ΤΟΥ ΠΕΡΝΑΩ ΤΗΝ ΚΑΙΝΟΥΡΙΑ ΤΙΜΗ ΜΕ ΤΑ IDS
+                            DF_SearchMultiLookup df = new DF_SearchMultiLookup(act, valueTV,result.get((Integer) valueTV.getTag()) ,idsNames);
+                            df.show(((FragmentActivity) act).getSupportFragmentManager(), "Dialog");
+                        }
+                    }
+                });
+               // valueTV.setOnClickListener(new SearchMultiLookupListener(act,"medicines",valueTV));
 
             }
 

@@ -21,9 +21,9 @@ public class SearchMedicineListener_Base implements View.OnClickListener {
 
 
     //    private ArrayList<String> lista;
-    private ArrayList<Medicines> medlista;
-    private HashMap<String,Integer> medMap;
-    private Activity activity;
+    private final ArrayList<Medicines> medlista;
+    private final HashMap<String,Integer> medMap;
+    private final Activity activity;
     DialogFragment dialogFragment;
 
 
@@ -59,7 +59,8 @@ public class SearchMedicineListener_Base implements View.OnClickListener {
     }
 
 
-    @Override public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 
         if (Utils.isNetworkAvailable2(v.getContext())) {
 
@@ -78,7 +79,7 @@ public class SearchMedicineListener_Base implements View.OnClickListener {
                     df.show(((FragmentActivity)activity).getSupportFragmentManager(), "Dialog");
 
                 else
-                    df.show(((FragmentActivity) Objects.requireNonNull(dialogFragment.getContext())).getSupportFragmentManager(), "Dialog");
+                    df.show(((FragmentActivity) dialogFragment.requireContext()).getSupportFragmentManager(), "Dialog");
 
 
                 // transgroupID = Utils.getfirstPartSplitCommaString(patientsTV.getText().toString());

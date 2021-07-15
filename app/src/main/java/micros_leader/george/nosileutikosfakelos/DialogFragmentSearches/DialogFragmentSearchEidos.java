@@ -66,6 +66,8 @@ public class DialogFragmentSearchEidos  extends DialogFragment {
 
 
             }
+
+
         };
         apotelesmataRecyclerView.setAdapter(adapter);
 

@@ -335,14 +335,6 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
 
-    public void getMedicinesLista(Activity extendedActivity){
-        this.extendedActivity = extendedActivity;
-        Utils.getMedicinesArrayList(extendedActivity);
-    }
-
-
-
-
 
         public void getFloors(Spinner floorSP, Activity extendedActivity){
 
