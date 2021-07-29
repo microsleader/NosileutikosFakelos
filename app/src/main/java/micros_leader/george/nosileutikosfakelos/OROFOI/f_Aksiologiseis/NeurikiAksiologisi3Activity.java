@@ -43,15 +43,16 @@ import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
-public class NeurikiAksiologisi3Activity extends BasicActivity implements  AsyncGetUpdateResult, AsyncGetCurrentMetrisi , AsyncCompleteGetPatientsTask, MyDialogFragmentCloseListener,View.OnClickListener {
+public class NeurikiAksiologisi3Activity extends BasicActivity implements  AsyncGetUpdateResult, AsyncGetCurrentMetrisi ,
+        AsyncCompleteGetPatientsTask, MyDialogFragmentCloseListener,View.OnClickListener {
 
 
-    public  TextView dateTV, patientsTV;
+    public  TextView dateTV, patientsTV, wraProseleusisNewTV, wraProtokollouTV, wraThromvolisisTV;
     private Spinner hoursSP;
     private EditText epipSinidisisET, kinAnoAkrouET, kinKatoAkrouET, afasiaET;
     private List <EditText> editTextList;
     private CircularProgressButton buttonEnimerosi;
-    private ImageView infoimage1 ,infoimage2 ,infoimage3 ,infoimage4;
+    private ImageView infoimage1 ,infoimage2 ,infoimage3 ,infoimage4, infoimage5, infoimage6, infoimage8, infoimage9, infoimage10, infoimage11, infoimage12, infoimage13, infoimage14, infoimage15, infoimage16, infoimage17, infoimage18;
     private ArrayList<String> watchList;
     private Boolean isThereTransgroupID;
     private String companyID ,  date,
@@ -76,6 +77,7 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
 
         dateTV = findViewById(R.id.dateTV);
+        Utils.dateListener(this,dateTV);
         hoursSP = findViewById(R.id.hoursSP);
         patientsTV = findViewById(R.id.patientsTV);
         epipSinidisisET = findViewById(R.id.epipSinidisisET);
@@ -94,6 +96,35 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         infoimage3.setOnClickListener(this);
         infoimage4 = findViewById(R.id.infoIV4);
         infoimage4.setOnClickListener(this);
+        infoimage5 = findViewById(R.id.egrigorsiIV);
+        infoimage5.setOnClickListener(this);
+        infoimage6 = findViewById(R.id.monthAgeIV);
+        infoimage6.setOnClickListener(this);
+        infoimage8 = findViewById(R.id.eyesHandsIV);
+        infoimage8.setOnClickListener(this);
+        infoimage9 = findViewById(R.id.ofthalmokinIV);
+        infoimage9.setOnClickListener(this);
+        infoimage10 = findViewById(R.id.imianopsiaIV);
+        infoimage10.setOnClickListener(this);
+        infoimage11 = findViewById(R.id.paresiFaceIV);
+        infoimage11.setOnClickListener(this);
+        infoimage12 = findViewById(R.id.ptwsiAnwAkrouIV);
+        infoimage12.setOnClickListener(this);
+        infoimage13 = findViewById(R.id.ptwsiKatwAkrouIV);
+        infoimage13.setOnClickListener(this);
+        infoimage14 = findViewById(R.id.ataxiaIV);
+        infoimage14.setOnClickListener(this);
+        infoimage15 = findViewById(R.id.astheticIV);
+        infoimage15.setOnClickListener(this);
+        infoimage16 = findViewById(R.id.afasiaNihssIV);
+        infoimage16.setOnClickListener(this);
+        infoimage17 = findViewById(R.id.disarthriaIV);
+        infoimage17.setOnClickListener(this);
+        infoimage18 = findViewById(R.id.neglectIV);
+        infoimage18.setOnClickListener(this);
+        wraProseleusisNewTV = findViewById(R.id.wraProseleusisNewTV);
+        wraProtokollouTV = findViewById(R.id.wraProtokollouTV);
+        wraThromvolisisTV = findViewById(R.id.wraThromvolisisTV);
 
         watchList = InfoSpecificLists.get3HoursLista();
 
@@ -107,10 +138,6 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         fabInitialize();
 
 
-
-
-        dateTVListener();
-
         checkboxListener();
 
         spinnerAdapter(watchList);
@@ -118,6 +145,10 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         getPatientsList(this,R.id.patientsTV,R.id.floorsSP);
 
         spinnerListener(); // ΜΕ ΤΟ ΠΟΥ ΜΠΑΙΝΕΙ Ο ΛΙΣΕΝΕΡ ΑΜΕΣΩΣ ΚΑΛΕΙ ΤΗ ΜΕΘΟΔΟ getCurrentMetrisi();
+
+        Utils.timeListener(this, wraProseleusisNewTV);
+        Utils.timeListener(this, wraProtokollouTV);
+        Utils.timeListener(this, wraThromvolisisTV);
 
     }
 
@@ -234,44 +265,6 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
 
 
-    private void dateTVListener(){
-        final Calendar myCalendar = Calendar.getInstance();
-
-
-        final DatePickerDialog.OnDateSetListener date12 = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                String myFormat = "dd-MM-yyyy"; //In which you need put here
-                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-                dateTV.setText(sdf.format(myCalendar.getTime()));
-                //   updateLabel(textView);
-                getCurrentMetrisi(transgroupID);
-
-            }
-
-        };
-
-        dateTV.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(NeurikiAksiologisi3Activity.this, date12, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-    }
-
 
 
 
@@ -358,6 +351,79 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
                 // do your code
                 Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
                         getString(R.string.info_epipedo_sinidisis));
+                break;
+
+            case R.id.egrigorsiIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_egrigorsi));
+                break;
+
+            case R.id.monthAgeIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_monthAge));
+            break;
+
+            case R.id.eyesHandsIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_eyesHands));
+                break;
+
+            case R.id.ofthalmokinIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_ofthalmokin));
+                break;
+
+            case R.id.imianopsiaIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_imianopsia));
+                break;
+
+            case R.id.paresiFaceIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_paresiFace));
+                break;
+
+            case R.id.ptwsiAnwAkrouIV:
+            case R.id.ptwsiKatwAkrouIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_ptwsiAnwAkrou));
+                break;
+
+            case R.id.ataxiaIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_ataxia));
+                break;
+
+            case R.id.astheticIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_asthetic));
+                break;
+
+            case R.id.afasiaNihssIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_afasia));
+                break;
+
+            case R.id.disarthriaIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_disarthria));
+                break;
+
+            case R.id.neglectIV:
+                // do your code
+                Utils.getAlertDialogInfo(NeurikiAksiologisi3Activity.this, getString(R.string.info),
+                        getString(R.string.info_neglect));
                 break;
 
             case R.id.updateButton:

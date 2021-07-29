@@ -102,20 +102,127 @@
                 </Spinner>
 
                 <LinearLayout
+                    android:id="@+id/timeLayoutLinear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:background="#F8F8F8"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="@id/hoursSP"
+                    app:layout_constraintStart_toStartOf="@id/timeCH"
+                    app:layout_constraintTop_toTopOf="@id/timeCH">
+
+                    <LinearLayout
+                        android:id="@+id/timeLabelsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:background="#FAF9F9"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView73"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:gravity="center"
+                            android:text="Ώρα προσέλευσης:"
+                            android:textColor="#020202" />
+
+                        <TextView
+                            android:id="@+id/textView72"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+
+                            android:gravity="center"
+                            android:text="Ώρα έναρξης Πρωτοκόλλου:"
+                            android:textColor="#020202"
+                            tools:paddingLeft="1dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_margin="3dp"
+
+                            android:layout_weight="1"
+                            android:text="Ώρα έναρξης θρομβόλυσης:"
+                            android:textColor="#020202"
+                            tools:paddingLeft="1dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/timeValuesLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/wraProseleusisNewTV"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:hint="hour"
+                            android:paddingLeft="1dp"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/wraProtokollouTV"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:hint="hour"
+                            android:paddingLeft="1dp"
+                            android:textAlignment="center" />
+
+                        <TextView
+                            android:id="@+id/wraThromvolisisTV"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:layout_margin="3dp"
+                            android:background="@drawable/edittext_shape"
+                            android:gravity="center"
+                            android:hint="hour"
+                            android:paddingLeft="1dp"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/linearLayout13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="100dp"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:weightSum="4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/hoursSP">
+                    app:layout_constraintStart_toStartOf="@id/timeLayoutLinear"
+                    app:layout_constraintTop_toTopOf="@id/timeLayoutLinear">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="22dp"
@@ -158,7 +265,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="22dp"
@@ -173,7 +280,7 @@
                             android:layout_weight="5"
                             android:background="@drawable/textview_shape"
                             android:gravity="center"
-                            android:text="Κινητικότητα άνω άκρου:" />
+                            android:text="Κινητικότητα άνω αριστερού άκρου:" />
 
                         <EditText
                             android:id="@+id/kinAnoAkrouET"
@@ -201,7 +308,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="22dp"
@@ -216,7 +323,50 @@
                             android:layout_weight="5"
                             android:background="@drawable/textview_shape"
                             android:gravity="center"
-                            android:text="Κινητικότητα κάτω άκρου:" />
+                            android:text="Κινητικότητα άνω δεξιού άκρου:" />
+
+                        <EditText
+                            android:id="@+id/kinAnoDexiouAkrouET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="01234"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/infoDexiouIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="Κινητικότητα κάτω αριστερού άκρου:" />
 
                         <EditText
                             android:id="@+id/kinKatoAkrouET"
@@ -244,7 +394,50 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="Κινητικότητα κάτω δεξιού άκρου:" />
+
+                        <EditText
+                            android:id="@+id/kinKatoAkrouDexiouET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="01234"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/infoKatwDexiouIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="22dp"
@@ -287,6 +480,625 @@
                     </LinearLayout>
 
 
+                    <TextView
+                        android:id="@+id/textView74"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/textview_shape"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="NIHSS (0-42 ΒΑΘΜΟΙ)"
+                        android:textAlignment="center"
+                        android:textColor="#FF0000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="1α.Εγρήγορση:" />
+
+                        <EditText
+                            android:id="@+id/egrigorsiET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="0123"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/egrigorsiIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="1β. Μήνας? Ηλικία? (1η απάντηση!)" />
+
+
+                        <EditText
+                            android:id="@+id/monthAgeET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/monthAgeIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="1γ. κ/α Μάτια, κ/α Χέρια: (αν αφασία ή κώφωση: Παντομίμα!)" />
+
+                        <EditText
+                            android:id="@+id/eyesHandsET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/eyesHandsIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="2. Δ/χη οφθαλμοκινητικότητας: (αν ο ασθενής δεν συνεργάζεται: οφθαλμοκεφαλ.)" />
+
+                        <EditText
+                            android:id="@+id/ofthalmokinET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/ofthalmokinIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="3. Ημιανοψία:" />
+
+                        <EditText
+                            android:id="@+id/imianopsiaET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/imianopsiaIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="4. Πάρεση προσωπικού:(αν ασθενής μη συνεργάσιμοσ: επώδυνο ερέθισμα)" />
+
+                        <EditText
+                            android:id="@+id/paresiFaceET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="0123"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/paresiFaceIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="5. Πτώση άνω άκρου Δ/Α Χ 10sec:" />
+
+                        <EditText
+                            android:id="@+id/ptwsiAnwAkrouET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="01234"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/ptwsiAnwAkrouIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="6. Πτώση κάτω άκρου Δ/Α Χ 5sec:" />
+
+                        <EditText
+                            android:id="@+id/ptwsiKatwAkrouET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="01234"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/ptwsiKatwAkrouIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="7. Αταξία:" />
+
+                        <EditText
+                            android:id="@+id/ataxiaET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/ataxiaIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="8. Αισθητικότητα:" />
+
+                        <EditText
+                            android:id="@+id/astheticET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/astheticIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="9. Αφασία:" />
+
+                        <EditText
+                            android:id="@+id/afasiaNihssET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="0123"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/afasiaNihssIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="10. Δυσαρθρία:" />
+
+                        <EditText
+                            android:id="@+id/disarthriaET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/disarthriaIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="11. Neglect (οπτικό/ απτικό/ αισθητικό):" />
+
+                        <EditText
+                            android:id="@+id/neglectET"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/edittext_shape"
+                            android:digits="012"
+                            android:inputType="number"
+                            android:maxLength="1" />
+
+                        <ImageView
+                            android:id="@+id/neglectIV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/info_fab_icon" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:orientation="horizontal"
+                        android:weightSum="8">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="5"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text="ΣΥΝΟΛΟ (score):"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="3dp"
+                            android:layout_weight="3"
+                            android:background="@drawable/textview_shape"
+                            android:gravity="center"
+                            android:text=""
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
                     <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
                         android:id="@+id/updateButton"
                         android:layout_width="wrap_content"
@@ -301,6 +1113,7 @@
                         app:spinning_bar_color="@android:color/holo_blue_bright"
                         app:spinning_bar_padding="8dp"
                         app:spinning_bar_width="4dp" />
+
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -308,19 +1121,17 @@
         </ScrollView>
 
 
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <com.github.ag.floatingactionmenu.OptionsFabLayout
         android:id="@+id/fab"
-        custom:options_menu="@menu/menu_aksiologisi_sigkentrotika"
-        custom:options_color="@color/colorPrimary"
-        custom:src="@drawable/info_fab_icon"
-        custom:color = "@color/blue"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="end|bottom" />
+        android:layout_gravity="end|bottom"
+        custom:color="@color/blue"
+        custom:options_color="@color/colorPrimary"
+        custom:options_menu="@menu/menu_aksiologisi_sigkentrotika"
+        custom:src="@drawable/info_fab_icon" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
