@@ -23,111 +23,117 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="Νευρολογική αξιολόγηση" />
 
+        <Spinner
+            android:id="@+id/floorsSP"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="22dp"
+            android:background="@drawable/spinner_layout"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintHorizontal_bias="0.0"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dateTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:gravity="center"
+            android:text="current date"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@+id/floorsSP" />
+
+        <TextView
+            android:id="@+id/patientsTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/edittext_shape"
+            android:gravity="center"
+            android:textAlignment="center"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@+id/dateTV" />
+
+        <CheckBox
+            android:id="@+id/timeCH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="22dp"
+            android:text="Ανα ώρα"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@+id/patientsTV" />
+
+        <Spinner
+            android:id="@+id/hoursSP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="50dp"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toEndOf="@+id/timeCH"
+            custom:layout_constraintTop_toBottomOf="@+id/patientsTV">
+
+        </Spinner>
+
 
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/timeCH">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/scrollConstraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
-                <Spinner
-                    android:id="@+id/floorsSP"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="58dp"
-                    android:layout_marginEnd="22dp"
-                    android:background="@drawable/spinner_layout"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/dateTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="22dp"
-                    android:gravity="center"
-                    android:text="current date"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/floorsSP" />
-
-                <TextView
-                    android:id="@+id/patientsTV"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="50dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="50dp"
-                    android:background="@drawable/edittext_shape"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dateTV" />
-
-                <CheckBox
-                    android:id="@+id/timeCH"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="22dp"
-                    android:text="Ανα ώρα"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/patientsTV" />
-
-                <Spinner
-                    android:id="@+id/hoursSP"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:layout_marginTop="22dp"
-                    android:layout_marginEnd="50dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/timeCH"
-                    app:layout_constraintTop_toBottomOf="@+id/patientsTV">
-
-                </Spinner>
 
                 <LinearLayout
                     android:id="@+id/timeLayoutLinear"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:background="#F8F8F8"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="@id/hoursSP"
-                    app:layout_constraintStart_toStartOf="@id/timeCH"
-                    app:layout_constraintTop_toTopOf="@id/timeCH">
+                    app:layout_constraintEnd_toEndOf="@id/linearLayout13"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_constraintStart_toStartOf="parent">
 
                     <LinearLayout
                         android:id="@+id/timeLabelsLayout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="8dp"
                         android:layout_weight="3"
                         android:background="#FAF9F9"
-                        android:layout_marginBottom="8dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/textView73"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
                             android:layout_marginTop="0dp"
                             android:layout_weight="1"
-                            android:layout_margin="3dp"
                             android:gravity="center"
                             android:text="Ώρα προσέλευσης:"
                             android:textColor="#020202" />
@@ -136,8 +142,8 @@
                             android:id="@+id/textView72"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_margin="3dp"
+                            android:layout_weight="1"
 
                             android:gravity="center"
                             android:text="Ώρα έναρξης Πρωτοκόλλου:"
@@ -147,10 +153,10 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
                             android:layout_margin="3dp"
-
                             android:layout_weight="1"
+
+                            android:gravity="center"
                             android:text="Ώρα έναρξης θρομβόλυσης:"
                             android:textColor="#020202"
                             tools:paddingLeft="1dp" />
@@ -168,10 +174,10 @@
                             android:id="@+id/wraProseleusisNewTV"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
-                            android:layout_margin="3dp"
                             android:background="@drawable/edittext_shape"
                             android:gravity="center"
                             android:hint="hour"
@@ -182,10 +188,10 @@
                             android:id="@+id/wraProtokollouTV"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
-                            android:layout_margin="3dp"
                             android:background="@drawable/edittext_shape"
                             android:gravity="center"
                             android:hint="hour"
@@ -196,10 +202,10 @@
                             android:id="@+id/wraThromvolisisTV"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_margin="3dp"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
-                            android:layout_margin="3dp"
                             android:background="@drawable/edittext_shape"
                             android:gravity="center"
                             android:hint="hour"
@@ -580,7 +586,6 @@
 
 
                     </LinearLayout>
-
 
 
                     <LinearLayout
