@@ -1,6 +1,5 @@
 package micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis;
 
-import android.app.DatePickerDialog;
 import androidx.appcompat.app.AlertDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,7 +9,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -23,11 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetCurrentMetrisi;
@@ -49,14 +44,17 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
     public  TextView dateTV, patientsTV, wraProseleusisNewTV, wraProtokollouTV, wraThromvolisisTV;
     private Spinner hoursSP;
-    private EditText epipSinidisisET, kinAnoAkrouET, kinKatoAkrouET, afasiaET;
+    private EditText epipSinidisisET, kinAnoAristerouAkrouET, kinAnoDexiouAkrouET, kinKatoAkrouDexiouET, kinKatoAristerouAkrouET, afasiaET, egrigorsiET, monthAgeET, eyesHandsET, ofthalmokinET, imianopsiaET, paresiFaceET, ptwsiAnwAkrouET, ptwsiKatwAkrouET,
+    ataxiaET, astheticET, afasiaNihssET, disarthriaET, neglectET;
     private List <EditText> editTextList;
     private CircularProgressButton buttonEnimerosi;
     private ImageView infoimage1 ,infoimage2 ,infoimage3 ,infoimage4, infoimage5, infoimage6, infoimage8, infoimage9, infoimage10, infoimage11, infoimage12, infoimage13, infoimage14, infoimage15, infoimage16, infoimage17, infoimage18;
     private ArrayList<String> watchList;
     private Boolean isThereTransgroupID;
     private String companyID ,  date,
-            epipedo_sinidisis , kinitikotita_ano_akrou, kinitikotita_kato_akrou, afasia;
+            epipedo_sinidisis , kinitikotita_ano_aristerou_akrou, kinitikotita_kato_aristerou_akrou, kinitikotita_ano_dexiou_akrou, kinitikotita_kato_dexiou_akrou, afasia,
+            egrigorsi, minas_ilikia, matia_xeria, ofthalmokinitikotita, imianopsia, paresi_proswpou,
+            ptwsi_anw_akrou, ptwsi_katw_akrou, ataxia, aisthitikotita, afasia_nihss, disarthria, neglect, wraProseleusis, wraProtokollou, wraThromvolisis;
 
     private CheckBox timeCH;
 
@@ -81,13 +79,34 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         hoursSP = findViewById(R.id.hoursSP);
         patientsTV = findViewById(R.id.patientsTV);
         epipSinidisisET = findViewById(R.id.epipSinidisisET);
-        kinAnoAkrouET = findViewById(R.id.kinAnoAkrouET);
-        kinKatoAkrouET = findViewById(R.id.kinKatoAkrouET);
+        kinAnoAristerouAkrouET = findViewById(R.id.kinAnoAristerouAkrouET);
+        kinKatoAristerouAkrouET = findViewById(R.id.kinKatoAristerouAkrouET);
+        kinAnoDexiouAkrouET = findViewById(R.id.kinAnoDexiouAkrouET);
+        kinKatoAkrouDexiouET = findViewById(R.id.kinKatoAkrouDexiouET);
         afasiaET = findViewById(R.id.afasiaET);
         timeCH = findViewById(R.id.timeCH);
         buttonEnimerosi = findViewById(R.id.updateButton);
         buttonEnimerosi.setOnClickListener(this);
         dateTV.setText(Utils.getCurrentDate());
+        wraProseleusisNewTV = findViewById(R.id.wraProseleusisNewTV);
+        Utils.timeListener(this, wraProseleusisNewTV);
+        wraProtokollouTV = findViewById(R.id.wraProtokollouTV);
+        Utils.timeListener(this, wraProtokollouTV);
+        wraThromvolisisTV = findViewById(R.id.wraThromvolisisTV);
+        Utils.timeListener(this, wraThromvolisisTV);
+        egrigorsiET = findViewById(R.id.egrigorsiET);
+        monthAgeET = findViewById(R.id.monthAgeET);
+        eyesHandsET = findViewById(R.id.eyesHandsET);
+        ofthalmokinET = findViewById(R.id.ofthalmokinET);
+        imianopsiaET = findViewById(R.id.imianopsiaET);
+        paresiFaceET = findViewById(R.id.paresiFaceET);
+        ptwsiAnwAkrouET = findViewById(R.id.ptwsiAnwAkrouET);
+        ptwsiKatwAkrouET = findViewById(R.id.ptwsiKatwAkrouET);
+        ataxiaET = findViewById(R.id.ataxiaET);
+        astheticET = findViewById(R.id.astheticET);
+        afasiaNihssET = findViewById(R.id.afasiaNihssET);
+        disarthriaET = findViewById(R.id.disarthriaET);
+        neglectET = findViewById(R.id.neglectET);
         infoimage1 = findViewById(R.id.infoIV1);
         infoimage1.setOnClickListener(this);
         infoimage2 = findViewById(R.id.infoIV2);
@@ -130,9 +149,23 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
         editTextList = new ArrayList<>();
         editTextList.add(epipSinidisisET);
-        editTextList.add(kinAnoAkrouET);
-        editTextList.add(kinKatoAkrouET);
-        editTextList.add(afasiaET);
+        editTextList.add(kinAnoAristerouAkrouET);
+        editTextList.add(kinKatoAristerouAkrouET);
+        editTextList.add(kinAnoDexiouAkrouET);
+        editTextList.add(kinKatoAkrouDexiouET);
+        editTextList.add(egrigorsiET);
+        editTextList.add(monthAgeET);
+        editTextList.add(eyesHandsET);
+        editTextList.add(ofthalmokinET);
+        editTextList.add(imianopsiaET);
+        editTextList.add(paresiFaceET);
+        editTextList.add(ptwsiAnwAkrouET);
+        editTextList.add(ptwsiKatwAkrouET);
+        editTextList.add(ataxiaET);
+        editTextList.add(astheticET);
+        editTextList.add(afasiaNihssET);
+        editTextList.add(disarthriaET);
+        editTextList.add(neglectET);
 
         fab = findViewById(R.id.fab);
         fabInitialize();
@@ -297,9 +330,25 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
             //  Log.e("array",array.toString());
             JSONObject jsonObject = results.getJSONObject(0);
             epipSinidisisET.setText(Utils.convertObjToString(jsonObject.getString("epipedo_sinidisis")));
-            kinAnoAkrouET.setText(Utils.convertObjToString(jsonObject.getString("kinitikotita_ano_akrou")));
-            kinKatoAkrouET.setText(Utils.convertObjToString(jsonObject.getString("kinitikotita_kato_akrou")));
+            kinAnoAristerouAkrouET.setText(Utils.convertObjToString(jsonObject.getString("kinitikotita_ano_aristerou_akrou")));
+            kinKatoAristerouAkrouET.setText(Utils.convertObjToString(jsonObject.getString("kinitikotita_kato_aristerou_akrou")));
+            kinAnoDexiouAkrouET.setText(Utils.convertObjToString(jsonObject.getString("kinitikotita_ano_dexiou_akrou")));
+            kinKatoAkrouDexiouET.setText(Utils.convertObjToString(jsonObject.getString("kinitikotita_kato_dexiou_akrou")));
             afasiaET.setText(Utils.convertObjToString(jsonObject.getString("afasia")));
+            //ta onomata twn pediwn sth bash (afou ta ftia3w sth bash) + ta nea pedia sthn kinitikothta
+            egrigorsiET.setText(Utils.convertObjToString(jsonObject.getString("egrigorsi")));
+            monthAgeET.setText(Utils.convertObjToString(jsonObject.getString("minas_ilikia")));
+            eyesHandsET.setText(Utils.convertObjToString(jsonObject.getString("matia_xeria")));
+            ofthalmokinET.setText(Utils.convertObjToString(jsonObject.getString("ofthalmokinitikotita")));
+            imianopsiaET.setText(Utils.convertObjToString(jsonObject.getString("imianopsia")));
+            paresiFaceET.setText(Utils.convertObjToString(jsonObject.getString("paresi_proswpou")));
+            ptwsiAnwAkrouET.setText(Utils.convertObjToString(jsonObject.getString("ptwsi_anw_akrou")));
+            ptwsiKatwAkrouET.setText(Utils.convertObjToString(jsonObject.getString("ptwsi_katw_akrou")));
+            ataxiaET.setText(Utils.convertObjToString(jsonObject.getString("ataxia")));
+            astheticET.setText(Utils.convertObjToString(jsonObject.getString("aisthitikotita")));
+            afasiaNihssET.setText(Utils.convertObjToString(jsonObject.getString("afasia_nihss")));
+            disarthriaET.setText(Utils.convertObjToString(jsonObject.getString("disarthria")));
+            neglectET.setText(Utils.convertObjToString(jsonObject.getString("neglect")));
 
             alertDialog.dismiss();
         } else {
@@ -463,11 +512,17 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
     private void insertInfo(){
         String query = "INSERT INTO Nursing_Parakolouthisi_Neurologiki (TransGroupID, Date, Watch, epipedo_sinidisis, " +
-                "kinitikotita_ano_akrou,kinitikotita_kato_akrou,afasia ,userID) "
+                "kinitikotita_ano_aristerou_akrou,kinitikotita_kato_aristerou_akrou,kinitikotita_ano_dexiou_akrou,kinitikotita_kato_dexiou_akrou , afasia ," +
+                "egrigorsi, minas_ilikia, matia_xeria, ofthalmokinitikotita, imianopsia, paresi_proswpou, ptwsi_anw_akrou, ptwsi_katw_akrou, ataxia, aisthitikotita," +
+                "afasia_nihss, disarthria, neglect, userID) "
                 + "VALUES (" + transgroupID + " , " +
                 " dbo.timeToNum(CONVERT(datetime, " + "'" + date + " " + Utils.getCurrentTime() + "' , 103)), " +
                 watchID + ", " + epipedo_sinidisis + ", " +
-                kinitikotita_ano_akrou + "," + kinitikotita_kato_akrou + ", " + afasia + " , " + Utils.getUserID(this) + " );";
+                kinitikotita_ano_aristerou_akrou + "," + kinitikotita_kato_aristerou_akrou + ", " +
+                kinitikotita_ano_dexiou_akrou + ", " + kinitikotita_kato_dexiou_akrou + ", " + afasia + ", " +
+                egrigorsi + ", " + minas_ilikia + ", " + matia_xeria + ", " + ofthalmokinitikotita + ", " +
+                imianopsia + ", " + paresi_proswpou + ", " + ptwsi_anw_akrou + ", " + ptwsi_katw_akrou + ", " +
+                ataxia + ", " + aisthitikotita + ", " + afasia_nihss + ", " + disarthria + ", " + neglect + " , " + Utils.getUserID(this) + " );";
 
         AsyncTaskUpdate task = new AsyncTaskUpdate(NeurikiAksiologisi3Activity.this, query);
         task.listener =  NeurikiAksiologisi3Activity.this;
@@ -482,8 +537,24 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
         String query = "update Nursing_Parakolouthisi_Neurologiki " +
                 " set Watch =" + watchID + " , epipedo_sinidisis = " + epipedo_sinidisis +
-                " , kinitikotita_ano_akrou = " + kinitikotita_ano_akrou + " ,kinitikotita_kato_akrou = " + kinitikotita_kato_akrou +
+                " , kinitikotita_ano_aristerou_akrou = " + kinitikotita_ano_aristerou_akrou +
+                " ,kinitikotita_kato_aristerou_akrou = " + kinitikotita_kato_aristerou_akrou +
+                " ,kinitikotita_ano_dexiou_akrou = " + kinitikotita_ano_dexiou_akrou +
+                " ,kinitikotita_kato_dexiou_akrou = " + kinitikotita_kato_dexiou_akrou +
                 " ,afasia = " + afasia +
+                " ,egrigorsi = " + egrigorsi +
+                " ,minas_ilikia = " + minas_ilikia +
+                " ,matia_xeria = " + matia_xeria +
+                " ,ofthalmokinitikotita = " + ofthalmokinitikotita +
+                " ,imianopsia = " + imianopsia +
+                " ,paresi_proswpou = " + paresi_proswpou +
+                " ,ptwsi_anw_akrou = " + ptwsi_anw_akrou +
+                " ,ptwsi_katw_akrou = " + ptwsi_katw_akrou +
+                " ,ataxia = " + ataxia +
+                " ,aisthitikotita = " + aisthitikotita +
+                " ,afasia_nihss = " + afasia_nihss +
+                " ,disarthria = " + disarthria +
+                " ,neglect = " + neglect +
                 " , userID = " + Utils.getUserID(this) +
                 " where transgroupid = " + transgroupID +
                 " and watch = " + watchID;
@@ -502,11 +573,28 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
         watchID = Utils.checkNull(hoursSP.getSelectedItem().toString());
         epipedo_sinidisis = Utils.checkNull(epipSinidisisET.getText().toString());
-        kinitikotita_ano_akrou = Utils.checkNull(kinAnoAkrouET.getText().toString());
-        kinitikotita_kato_akrou = Utils.checkNull(kinKatoAkrouET.getText().toString());
+        kinitikotita_ano_aristerou_akrou = Utils.checkNull(kinAnoAristerouAkrouET.getText().toString());
+        kinitikotita_kato_aristerou_akrou = Utils.checkNull(kinKatoAristerouAkrouET.getText().toString());
+        kinitikotita_ano_dexiou_akrou = Utils.checkNull(kinAnoDexiouAkrouET.getText().toString());
+        kinitikotita_kato_dexiou_akrou = Utils.checkNull(kinKatoAkrouDexiouET.getText().toString());
         afasia = Utils.checkNull(afasiaET.getText().toString());
-
+        egrigorsi = Utils.checkNull(egrigorsiET.getText().toString());
+        minas_ilikia = Utils.checkNull(monthAgeET.getText().toString());
+        matia_xeria = Utils.checkNull(eyesHandsET.getText().toString());
+        ofthalmokinitikotita = Utils.checkNull(ofthalmokinET.getText().toString());
+        imianopsia = Utils.checkNull(imianopsiaET.getText().toString());
+        paresi_proswpou = Utils.checkNull(paresiFaceET.getText().toString());
+        ptwsi_anw_akrou = Utils.checkNull(ptwsiAnwAkrouET.getText().toString());
+        ptwsi_katw_akrou = Utils.checkNull(ptwsiKatwAkrouET.getText().toString());
+        ataxia = Utils.checkNull(ataxiaET.getText().toString());
+        aisthitikotita = Utils.checkNull(astheticET.getText().toString());
+        afasia_nihss = Utils.checkNull(afasiaNihssET.getText().toString());
+        disarthria = Utils.checkNull(disarthriaET.getText().toString());
+        neglect = Utils.checkNull(neglectET.getText().toString());
         date = dateTV.getText().toString();
+        wraProseleusis = wraProseleusisNewTV.getText().toString();
+        wraProtokollou = wraProtokollouTV.getText().toString();
+        wraThromvolisis = wraThromvolisisTV.getText().toString();
         if (timeCH.isChecked())
             watchID = InfoSpecificLists.get24hoursID(hoursSP.getSelectedItem().toString());
         else

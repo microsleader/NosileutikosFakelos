@@ -93,7 +93,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="22dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -289,7 +288,7 @@
                             android:text="Κινητικότητα άνω αριστερού άκρου:" />
 
                         <EditText
-                            android:id="@+id/kinAnoAkrouET"
+                            android:id="@+id/kinAnoAristerouAkrouET"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -375,7 +374,7 @@
                             android:text="Κινητικότητα κάτω αριστερού άκρου:" />
 
                         <EditText
-                            android:id="@+id/kinKatoAkrouET"
+                            android:id="@+id/kinKatoAristerouAkrouET"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -1090,6 +1089,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/synoloTV"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
