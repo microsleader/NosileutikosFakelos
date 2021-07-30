@@ -11,8 +11,8 @@ public class BasicList {
 
     //ΑΝ ΥΠΑΡΧΟΥΝ ΤΙΤΛΟΙ ΣΤΟ RV
     // ΓΙΑ ΚΑΘΕ ΠΕΛΑΤΗ ΠΡΕΠΕΙ ΝΑ ΜΠΟΥΝ ΔΙΑΦΟΡΕΤΙΚΕΣ ΘΕΣΕΙΣ ΣΤΟ titloi_positions
-    private ArrayList<ItemsRV> lista = new ArrayList<>();
-    private ArrayList<TableViewItem> table_lista = new ArrayList<>();
+    private final ArrayList<ItemsRV> lista = new ArrayList<>();
+    private final ArrayList<TableViewItem> table_lista = new ArrayList<>();
     private int CUSTOMER_ID = 0;
 
     public BasicList (){

@@ -2957,7 +2957,29 @@ public class InfoSpecificLists extends StaticFields{
 
 
 
-    public static ArrayList<TableViewItem> getSigkentrotikaStatheresMetriseis_MEDIT() {
+    public static ArrayList<TableViewItem> getDiaitologio() {
+
+        BasicList lista = new BasicList();
+
+        lista.add(new TableViewItem("ID", "ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Ημ/νία", "datestr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("UserID","UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Νοσηλευτής","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+        lista.add(new TableViewItem("Δίετα","Dieta", TEXTVIEW_DIETA_TYPE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Αλλεργίες\nφαγητού","allergies_fagitou", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Μέτρα \nλοιμόξεων","metra_loimoxeon", SPINNER_TYPE_NEW, Spinner_items_lists.getMetraLoimokseisLista()));
+        lista.add(new TableViewItem("Οδηγίες - \nΠιθανή χρήση","odigies", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Σχόλια","remarks", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Σίτιση\n συνοδού","SitisiSinodou", SPINNER_ITEM_NEW, Spinner_items_lists.getSitisi_sinodou()));
+        lista.add(new TableViewItem("Δίετα \nσυνοδού","DietaSinodou", TEXTVIEW_DIETA_TYPE, TABLE_NO_TYPE));
+
+
+        return lista.getTableList();
+    }
+
+
+        public static ArrayList<TableViewItem> getSigkentrotikaStatheresMetriseis_MEDIT() {
 
         BasicList lista = new BasicList();
 

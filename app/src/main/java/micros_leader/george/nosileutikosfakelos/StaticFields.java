@@ -11,6 +11,7 @@ public class StaticFields {
     public static final int TEXTVIEW_DATE_TYPE = 120;
     public static final int TEXTVIEW_DATETIME_TYPE = 138;
     public static final int TEXTVIEW_CLOCK_TYPE = 8;
+    public static final int TEXTVIEW_DIETA_TYPE = 201;
     public static final int TEXTVIEW_LISTENER = 320;
     public static final int TEXTVIEW_PHOTO = 80;
     public static final  int TEXTVIEW_WITH_ALERT_DIALOG_SPINNER = 10;

@@ -698,10 +698,11 @@ public class Str_queries {
 
 
 
-        return "INSERT INTO nursing_Diaitologio(transgroupID, dateFrom, dieta, remarks, sitisiSinodou,userID) " +
+        return Str_queries.setglobals(userID,"2","1") +
+                "INSERT INTO nursing_Diaitologio(transgroupID, dateFrom, dieta, remarks, sitisiSinodou,userID) " +
                 "VALUES (" + transgroupID + "," +
                 dateTime +
-                ",'" + diaita + "', ' " + remarks + "' ,  " + sitisiSinodou + "," + userID + ")";
+                ",'" + diaita.replace(",","\ufffd") + "', ' " + remarks + "' ,  " + sitisiSinodou + "," + userID + ")";
 
     }
 

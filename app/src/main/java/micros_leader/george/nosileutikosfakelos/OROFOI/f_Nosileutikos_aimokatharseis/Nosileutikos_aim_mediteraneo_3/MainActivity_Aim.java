@@ -1215,6 +1215,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
     public void check_notifications_thread(){
 
+        //ΕΔΩ ΔΟΥΛΕΥΕΙ ΟΤΑΝ Η ΕΦΑΡΜΟΓΗ ΕΙΝΑΙ ΑΝΟΙΧΤΗ Η ΚΛΕΙΣΤΗ ΜΕΣΩ ΤΟΥ HOME
+        //ΑΝ ΤΗΝ ΚΛΕΙΣΕΙ ΤΕΛΕΙΩΣ Η ΑΠ[ΛΑ ΠΑΤΗΣΕΙ ΤΟ BACK ΔΕΝ ΘΑ ΛΕΙΤΟΥΡΓΕΙ
         String query = Str_queries.getNotification_Messages(companyID);
 
  //       public static void check_data_thread(String query,Activity act, long period , AsyncCompleteTask2 listener ){
@@ -1282,7 +1284,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
             }
         };
 
-         timer.schedule(not_timerTask, 0, 32000);
+         timer.schedule(not_timerTask, 0, 83200);
         }
 
 

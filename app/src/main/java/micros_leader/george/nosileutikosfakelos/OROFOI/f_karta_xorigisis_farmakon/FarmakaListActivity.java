@@ -248,7 +248,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
 
 
-        tf1 = new TableFragment();
+         tf1 = new TableFragment();
          tf1.setArguments(bundle1);
 
 

@@ -108,9 +108,9 @@
         <activity
             android:name=".OROFOI.f_Eksitirio.EksitirioActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".OROFOI.f_Diaitologio.DiaitologioActivity_UNCLOMPLETED"
-            android:configChanges="keyboardHidden|orientation|screenSize" />
+<!--        <activity-->
+<!--            android:name=".OROFOI.f_Diaitologio.DiaitologioActivity_UNCLOMPLETED"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize" />-->
         <activity
             android:name=".OROFOI.f_Diaitologio.DiaitologioActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />

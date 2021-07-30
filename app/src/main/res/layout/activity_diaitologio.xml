@@ -1,244 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context=".OROFOI.f_Diaitologio.DiaitologioActivity_UNCLOMPLETED">
+    android:orientation="vertical">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:title="Διαιτολόγιο" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="22dp"
-            android:layout_marginEnd="50dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-
-            <Spinner
-                android:id="@+id/floorsSP"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/spinner_layout" />
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Διαιτολόγιο" />
 
-            <TextView
-                android:id="@+id/patientsTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="22dp"
-                android:background="@drawable/edittext_shape"
 
-                android:gravity="center"
-                android:paddingLeft="1dp"
-                android:text="patients" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="22dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                <Spinner
+                    android:id="@+id/floorsSP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_layout" />
 
                 <TextView
-                    android:id="@+id/dateTV"
-                    android:layout_width="180dp"
+                    android:id="@+id/patientsTV"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="22dp"
-
-                    android:layout_weight="1"
+                    android:layout_marginTop="22dp"
                     android:background="@drawable/edittext_shape"
+
                     android:gravity="center"
-                    android:hint="date"
-                    android:paddingLeft="1dp"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/hourTV"
-                    android:layout_width="180dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="22dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/edittext_shape"
-                    android:gravity="center"
-                    android:hint="hour"
-                    android:paddingLeft="1dp"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="22dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView25"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:layout_marginEnd="22dp"
-                        android:background="@drawable/edittext_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
-                        android:text="Δίαιτα:" />
-
-                    <TextView
-                        android:id="@+id/textView27"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:layout_marginEnd="22dp"
-                        android:background="@drawable/edittext_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
-                        android:text="Σχόλια:" />
-
-                    <TextView
-                        android:id="@+id/textView26"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:layout_marginEnd="22dp"
-                        android:layout_marginBottom="22dp"
-                        android:background="@drawable/edittext_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
-                        android:text="Σίτιση συνοδού:" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:orientation="vertical">
-
-                    <EditText
-                        android:id="@+id/diaitaET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:background="@drawable/edittext_shape"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textMultiLine|textPersonName"
-                        android:paddingLeft="1dp" />
-
-                    <EditText
-                        android:id="@+id/sxoliaET"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:background="@drawable/edittext_shape"
-                        android:ems="10"
-                        android:gravity="center"
-                        android:inputType="textMultiLine|textPersonName"
-                        android:paddingLeft="1dp" />
-
-                    <Spinner
-                        android:id="@+id/sitisiSinodouSP"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-
-                        android:layout_marginBottom="22dp"
-                        android:background="@drawable/spinner_layout" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/katigoriesLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:orientation="horizontal"
-                android:weightSum="5">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/textview_shape_categories"
-                    android:gravity="center"
-                    android:paddingLeft="0dp"
-                    android:text="Δίαιτα"
-                    android:textColor="@color/book_loading_background"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/textview_shape_categories"
-                    android:gravity="center"
-                    android:paddingLeft="0dp"
-                    android:text="Σχόλια"
-                    android:textColor="@color/book_loading_page" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/textview_shape_categories"
-                    android:gravity="center"
-                    android:paddingLeft="0dp"
-                    android:text="Σιτ.Συνοδού"
-                    android:textColor="@color/book_loading_page" />
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/diaitesRV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="22dp"
-                android:layout_marginBottom="80dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </LinearLayout>
+                    android:paddingStart="1dp"
+                    android:paddingEnd="1dp"
+                    android:text="patients" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.github.ag.floatingactionmenu.OptionsFabLayout
-        android:id="@+id/fab12"
-        custom:options_menu="@menu/menu_fab_diaitologio"
-        custom:options_color="@color/colorPrimary"
-        custom:src="@drawable/info_fab_icon"
-        custom:color = "@color/blue"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="end|bottom" />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/toolbar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonsLayout"/>
+
+
+
+</LinearLayout>
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    xmlns:custom="http://schemas.android.com/apk/res-auto"-->
+<!--    tools:context=".OROFOI.f_Diaitologio.DiaitologioActivity_UNCLOMPLETED">-->
+
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+
+<!--        <androidx.appcompat.widget.Toolbar-->
+<!--            android:id="@+id/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="?attr/colorPrimary"-->
+<!--            android:minHeight="?attr/actionBarSize"-->
+<!--            android:theme="?attr/actionBarTheme"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:title="Διαιτολόγιο" />-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="50dp"-->
+<!--            android:layout_marginTop="22dp"-->
+<!--            android:layout_marginEnd="50dp"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/toolbar">-->
+
+
+<!--            <Spinner-->
+<!--                android:id="@+id/floorsSP"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/spinner_layout" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/patientsTV"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="22dp"-->
+<!--                android:background="@drawable/edittext_shape"-->
+
+<!--                android:gravity="center"-->
+<!--                android:paddingStart="1dp"-->
+<!--                android:paddingEnd="1dp"-->
+<!--                android:text="patients" />-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="22dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="2">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/dateTV"-->
+<!--                    android:layout_width="180dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="22dp"-->
+
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/edittext_shape"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="date"-->
+<!--                    android:paddingStart="1dp"-->
+<!--                    android:paddingEnd="1dp"-->
+<!--                    android:textAlignment="center" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/hourTV"-->
+<!--                    android:layout_width="180dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="22dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/edittext_shape"-->
+<!--                    android:gravity="center"-->
+<!--                    android:hint="hour"-->
+<!--                    android:paddingStart="1dp"-->
+<!--                    android:paddingEnd="1dp"-->
+<!--                    android:textAlignment="center" />-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="22dp"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="3">-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="end"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView25"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="22dp"-->
+<!--                        android:layout_marginEnd="22dp"-->
+<!--                        android:background="@drawable/edittext_shape"-->
+<!--                        android:gravity="center"-->
+<!--                        android:paddingStart="1dp"-->
+<!--                        android:paddingEnd="1dp"                        android:text="Δίαιτα:" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView27"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="22dp"-->
+<!--                        android:layout_marginEnd="22dp"-->
+<!--                        android:background="@drawable/edittext_shape"-->
+<!--                        android:gravity="center"-->
+<!--                        android:paddingStart="1dp"-->
+<!--                        android:paddingEnd="1dp"-->
+<!--                        android:text="Σχόλια:" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/textView26"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="22dp"-->
+<!--                        android:layout_marginEnd="22dp"-->
+<!--                        android:layout_marginBottom="22dp"-->
+<!--                        android:background="@drawable/edittext_shape"-->
+<!--                        android:gravity="center"-->
+<!--                        android:paddingStart="1dp"-->
+<!--                        android:paddingEnd="1dp"-->
+<!--                        android:text="Σίτιση συνοδού:" />-->
+<!--                </LinearLayout>-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/diaitaTV"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="22dp"-->
+<!--                        android:background="@drawable/edittext_shape"-->
+<!--                        android:ems="10"-->
+<!--                        android:gravity="center"-->
+<!--                        android:paddingStart="1dp"-->
+<!--                        android:paddingEnd="1dp" />-->
+
+<!--                    <EditText-->
+<!--                        android:id="@+id/sxoliaET"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="22dp"-->
+<!--                        android:background="@drawable/edittext_shape"-->
+<!--                        android:ems="10"-->
+<!--                        android:gravity="center"-->
+<!--                        android:inputType="textMultiLine|textPersonName"-->
+<!--                        android:paddingStart="1dp"-->
+<!--                        android:paddingEnd="1dp" />-->
+
+<!--                    <Spinner-->
+<!--                        android:id="@+id/sitisiSinodouSP"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="22dp"-->
+
+<!--                        android:layout_marginBottom="22dp"-->
+<!--                        android:background="@drawable/spinner_layout" />-->
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/katigoriesLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="3dp"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:weightSum="5">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:background="@drawable/textview_shape_categories"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingLeft="0dp"-->
+<!--                    android:text="Δίαιτα"-->
+<!--                    android:textColor="@color/book_loading_background"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="2"-->
+<!--                    android:background="@drawable/textview_shape_categories"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingLeft="0dp"-->
+<!--                    android:text="Σχόλια"-->
+<!--                    android:textColor="@color/book_loading_page" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@drawable/textview_shape_categories"-->
+<!--                    android:gravity="center"-->
+<!--                    android:paddingLeft="0dp"-->
+<!--                    android:text="Σιτ.Συνοδού"-->
+<!--                    android:textColor="@color/book_loading_page" />-->
+<!--            </LinearLayout>-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/diaitesRV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="22dp"-->
+<!--                android:layout_marginBottom="80dp">-->
+
+<!--            </androidx.recyclerview.widget.RecyclerView>-->
+
+<!--        </LinearLayout>-->
+
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+<!--    <com.github.ag.floatingactionmenu.OptionsFabLayout-->
+<!--        android:id="@+id/fab12"-->
+<!--        custom:options_menu="@menu/menu_fab_diaitologio"-->
+<!--        custom:options_color="@color/colorPrimary"-->
+<!--        custom:src="@drawable/info_fab_icon"-->
+<!--        custom:color = "@color/blue"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="end|bottom" />-->
+<!--    -->
+<!--</androidx.coordinatorlayout.widget.CoordinatorLayout>-->
