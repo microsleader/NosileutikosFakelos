@@ -1,6 +1,8 @@
 package micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis;
 
 import androidx.appcompat.app.AlertDialog;
+
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -21,15 +24,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetCurrentMetrisi;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
-import micros_leader.george.nosileutikosfakelos.Customers;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteGetPatientsTask;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetCurrentMetrisi;
@@ -76,7 +81,46 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
 
         dateTV = findViewById(R.id.dateTV);
-        Utils.dateListener(this,dateTV);
+        dateTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar myCalendar = Calendar.getInstance();
+
+
+                final DatePickerDialog.OnDateSetListener date12 = new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        // TODO Auto-generated method stub
+
+                        myCalendar.set(Calendar.YEAR, year);
+                        myCalendar.set(Calendar.MONTH, monthOfYear);
+                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        String myFormat = "dd-MM-yyyy"; //In which you need put here
+                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                        dateTV.setText(sdf.format(myCalendar.getTime()));
+                        getCurrentMetrisi(transgroupID);
+                        //   updateLabel(textView);
+
+                    }
+
+                };
+
+                dateTV.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        // TODO Auto-generated method stub
+                        new DatePickerDialog(NeurikiAksiologisi3Activity.this, date12, myCalendar
+                                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                    }
+                });
+            }
+        });
         hoursSP = findViewById(R.id.hoursSP);
         patientsTV = findViewById(R.id.patientsTV);
         epipSinidisisET = findViewById(R.id.epipSinidisisET);
@@ -139,16 +183,11 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         infoimage17.setOnClickListener(this);
         infoimage18 = findViewById(R.id.neglectIV);
         infoimage18.setOnClickListener(this);
-    //    synoloTV = findViewById(R.id.synoloTV);
+        synoloTV = findViewById(R.id.synoloTV);
 
         watchList = InfoSpecificLists.get3HoursLista();
 
         editTextList = new ArrayList<>();
-        editTextList.add(epipSinidisisET);
-        editTextList.add(kinAnoAristerouAkrouET);
-        editTextList.add(kinKatoAristerouAkrouET);
-        editTextList.add(kinAnoDexiouAkrouET);
-        editTextList.add(kinKatoAkrouDexiouET);
         editTextList.add(egrigorsiET);
         editTextList.add(monthAgeET);
         editTextList.add(eyesHandsET);
@@ -307,12 +346,6 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
 
 
-
-
-
-
-
-
     public void getCurrentMetrisi(String transgroupid) {
 
         if (Utils.isNetworkAvailable(NeurikiAksiologisi3Activity.this)) {
@@ -326,7 +359,6 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
             task.listener = NeurikiAksiologisi3Activity.this;
             task.query = query;
             task.execute();
-
 
         }
 
@@ -358,15 +390,25 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
             afasiaNihssET.setText(Utils.convertObjToString(jsonObject.getString("afasia_nihss")));
             disarthriaET.setText(Utils.convertObjToString(jsonObject.getString("disarthria")));
             neglectET.setText(Utils.convertObjToString(jsonObject.getString("neglect")));
-        //    synoloTV.setText(Utils.convertObjToString(jsonObject.getString("sumNIHSS")));
-            wraThromvolisisTV.setText(Utils.convertObjToString(jsonObject.getString("wraThromvolisis")));
-            wraProtokollouTV.setText(Utils.convertObjToString(jsonObject.getString("wraProtokollou")));
-            wraProseleusisNewTV.setText(Utils.convertObjToString(jsonObject.getString("wraProseleusis")));
+            wraThromvolisisTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("wraThromvolisis"))));
+            wraProtokollouTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("wraProtokollou"))));
+            wraProseleusisNewTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("wraProseleusis"))));
+            synoloTV.setText(calculateNIHSSscore(editTextList));
 
             alertDialog.dismiss();
         } else {
             isThereTransgroupID = false;
             Utils.edittextSetText(editTextList, "");
+            wraProseleusisNewTV.setText("");
+            wraProtokollouTV.setText("");
+            wraThromvolisisTV.setText("");
+            epipSinidisisET.setText("");
+            kinAnoAristerouAkrouET.setText("");
+            kinKatoAristerouAkrouET.setText("");
+            kinAnoDexiouAkrouET.setText("");
+            kinKatoAkrouDexiouET.setText("");
+            afasiaET.setText("");
+            synoloTV.setText("");
             alertDialog.dismiss();
         }
     }
@@ -544,6 +586,8 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         AsyncTaskUpdate task = new AsyncTaskUpdate(NeurikiAksiologisi3Activity.this, query);
         task.listener =  NeurikiAksiologisi3Activity.this;
         task.execute();
+
+        synoloTV.setText(calculateNIHSSscore(editTextList));
     }
 
 
@@ -574,7 +618,6 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
                 " ,wraProseleusis = dbo.timeToNum(CONVERT(time, " + "'" + wraProseleusisNewTV.getText().toString() + "' , 103))" +
                 " ,wraProtokollou = dbo.timeToNum(CONVERT(time, " + "'" + wraProtokollouTV.getText().toString()  +"' , 103)) " +
                 " ,wraThromvolisis = dbo.timeToNum(CONVERT(time, " + "'" + wraThromvolisisTV.getText().toString() +"' , 103)) " +
-               // " ,sumNIHSS = " + synoloTV +
                 " , userID = " + Utils.getUserID(this) +
                 " where transgroupid = " + transgroupID +
                 " and watch = " + watchID;
@@ -582,7 +625,7 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         task.listener = NeurikiAksiologisi3Activity.this;
         task.execute();
 
-
+        synoloTV.setText(calculateNIHSSscore(editTextList));
 
     }
 
@@ -611,7 +654,6 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         afasia_nihss = Utils.checkNull(afasiaNihssET.getText().toString());
         disarthria = Utils.checkNull(disarthriaET.getText().toString());
         neglect = Utils.checkNull(neglectET.getText().toString());
-       // sumNIHSS = Utils.checkNull(synoloTV.getText().toString());
         date = dateTV.getText().toString();
         wraProseleusis = Utils.checkNull(wraProseleusisNewTV.getText().toString());
         wraProtokollou = Utils.checkNull(wraProtokollouTV.getText().toString());
@@ -621,6 +663,24 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         else
             watchID = InfoSpecificLists.get3hoursID(hoursSP.getSelectedItem().toString());
 
+
+
+
+    }
+
+    public String calculateNIHSSscore(List <EditText> lista){
+        int sum =0;
+        for (EditText t : lista){
+            if (t != null && !t.getText().toString().trim().isEmpty()) {
+                sum += Integer.parseInt(t.getText().toString());
+            }
+        }
+
+        if(sum == 0){
+           return "";
+        }else{
+          return String.valueOf(sum);
+        }
     }
 
 
