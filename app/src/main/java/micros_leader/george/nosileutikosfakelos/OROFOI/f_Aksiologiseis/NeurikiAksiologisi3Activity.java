@@ -566,6 +566,7 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
     }
 
     private void insertInfo(){
+
         String query = "INSERT INTO Nursing_Parakolouthisi_Neurologiki (TransGroupID, Date, Watch, epipedo_sinidisis, " +
                 "kinitikotita_ano_aristerou_akrou,kinitikotita_kato_aristerou_akrou,kinitikotita_ano_dexiou_akrou,kinitikotita_kato_dexiou_akrou , afasia ," +
                 "egrigorsi, minas_ilikia, matia_xeria, ofthalmokinitikotita, imianopsia, paresi_proswpou, ptwsi_anw_akrou, ptwsi_katw_akrou, ataxia, aisthitikotita," +
@@ -578,9 +579,15 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
                 egrigorsi + ", " + minas_ilikia + ", " + matia_xeria + ", " + ofthalmokinitikotita + ", " +
                 imianopsia + ", " + paresi_proswpou + ", " + ptwsi_anw_akrou + ", " + ptwsi_katw_akrou + ", " +
                 ataxia + ", " + aisthitikotita + ", " + afasia_nihss + ", " + disarthria + ", " + neglect + " , " +
-                " dbo.timeToNum(CONVERT(time, " + "'" + wraProseleusisNewTV.getText().toString() + "' , 103)), "+
-                " dbo.timeToNum(CONVERT(time, " + "'" + wraThromvolisisTV.getText().toString()  + "' , 103)), " +
-                " dbo.timeToNum(CONVERT(time, " + "'" + wraProtokollouTV.getText().toString()  + "' , 103)), " +
+                (Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString()) == null ||
+                     Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString()) == "" ? "null"
+                     : Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString())) +" , " +
+                (Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString()) == null ||
+                        Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString()) == "" ? "null"
+                        : Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString())) +" , " +
+                (Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString()) == null ||
+                        Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString()) == "" ? "null"
+                        : Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString())) +" , " +
                 Utils.getUserID(this) + " );";
 
         AsyncTaskUpdate task = new AsyncTaskUpdate(NeurikiAksiologisi3Activity.this, query);
@@ -615,9 +622,18 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
                 " ,afasia_nihss = " + afasia_nihss +
                 " ,disarthria = " + disarthria +
                 " ,neglect = " + neglect +
-                " ,wraProseleusis = dbo.timeToNum(CONVERT(time, " + "'" + wraProseleusisNewTV.getText().toString() + "' , 103))" +
-                " ,wraProtokollou = dbo.timeToNum(CONVERT(time, " + "'" + wraProtokollouTV.getText().toString()  +"' , 103)) " +
-                " ,wraThromvolisis = dbo.timeToNum(CONVERT(time, " + "'" + wraThromvolisisTV.getText().toString() +"' , 103)) " +
+                " ,wraProseleusis = "
+               + (Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString()) == null ||
+                        Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString()) == "" ? "null"
+                        : Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString())) +
+                " ,wraProtokollou = "
+              +  (Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString()) == null ||
+                        Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString()) == "" ? "null"
+                        : Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString())) +
+                " ,wraThromvolisis = "
+               + (Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString()) == null ||
+                        Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString()) == "" ? "null"
+                        : Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString())) +
                 " , userID = " + Utils.getUserID(this) +
                 " where transgroupid = " + transgroupID +
                 " and watch = " + watchID;
