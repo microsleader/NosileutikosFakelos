@@ -22,6 +22,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -884,6 +885,8 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
             if (isIncludingOldValues) {
                 oldValueTV = itemView.findViewById(R.id.oldDocTV);
 
+                if (oldValueTV != null)
+                    oldValueTV.setImeOptions(EditorInfo.IME_ACTION_DONE);
                 if (viewType == EDITTEXT_ITEM) {
                     valueET =  itemView.findViewById(R.id.valueET);
                     oldValueTV.setOnClickListener(new View.OnClickListener() {
@@ -905,6 +908,9 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
             if (viewType == TEXTVIEW_ITEM ) {
                 valueTV =  itemView.findViewById(R.id.valueTV);
+                valueTV.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                valueTV.setFocusable(false);
+
                 setDateListener(valueTV);
             }
 
@@ -1045,6 +1051,8 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
            else if (viewType == EDITTEXT_ITEM) {
                 valueET =  itemView.findViewById(R.id.valueET);
+                valueET.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                valueET.setFocusable(false);
 
                 if (editextsUsingDialogs) {
                  //   valueET.seten(false);
@@ -1116,6 +1124,7 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
             else if (viewType == SPINNER_ITEM){
                 valueSP = itemView.findViewById(R.id.valueSP);
+                valueSP.setFocusable(false);
 
                 valueSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -1356,7 +1365,6 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
 
         ArrayAdapter adapter;
-
         if (lista.get(0) instanceof String)
             adapter = new ArrayAdapter<String>(act, R.layout.spinner_layout2, lista);
         else

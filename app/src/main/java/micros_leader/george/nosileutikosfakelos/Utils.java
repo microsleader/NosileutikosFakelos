@@ -1424,6 +1424,9 @@ public class Utils  {
 
     public static String convertHourTomillisecondsGR(String oldTime){
 
+        if (oldTime == null)
+            return "";
+
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
         formatter.setLenient(false);

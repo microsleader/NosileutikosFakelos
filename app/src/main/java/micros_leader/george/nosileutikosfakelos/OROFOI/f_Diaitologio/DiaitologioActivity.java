@@ -52,6 +52,7 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdateResult;
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended_str;
 import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentCloseListener;
+import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim;
 import micros_leader.george.nosileutikosfakelos.Permissions;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Listeners.SearchNosileuomenoListener;
@@ -83,67 +84,7 @@ public class DiaitologioActivity extends BasicActivity implements AsyncCompleteT
     private Bundle bundle1;
     private TableFragment tf1 ;
 
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_diaitologio);
-//
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-//
-//        toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        dateTV = findViewById(R.id.dateTV);
-//        hoursTV = findViewById(R.id.hourTV);
-//        patientsTV = findViewById(R.id.patientsTV);
-//        diaitaTV = findViewById(R.id.diaitaTV);
-//        diaitaTVListener();
-//        sxoliaET = findViewById(R.id.sxoliaET);
-//        sitisiSinodouSP = findViewById(R.id.sitisiSinodouSP);
-//       // updateButton = findViewById(R.id.updateButton);
-//        linearLayout = findViewById(R.id.katigoriesLayout);
-//        linearLayout.setVisibility(View.GONE);
-//        diaitesRV = findViewById(R.id.diaitesRV);
-//
-//
-//
-//        fab = findViewById(R.id.fab12);
-//
-//
-//        fabInitialize();
-//
-//
-//        diaitologioLista = new ArrayList<>();
-//        patientsNosileuomenoi = new ArrayList<>();
-//
-//        alertDialog = Utils.setLoadingAlertDialog(this);
-//        sitisiSinodouLista = InfoSpecificLists.getSitisiSinodouNames();
-//
-//        Utils.dateListener(this, dateTV);
-//        Utils.timeListener(this, hoursTV);
-//
-//        getPatientsList(this,R.id.patientsTV,R.id.floorsSP);
-//
-//        diaitesRV.setLayoutManager(new LinearLayoutManager(DiaitologioActivity.this, LinearLayoutManager.VERTICAL, false));
-//        diaitesRV.addItemDecoration(new DividerItemDecoration(DiaitologioActivity.this, LinearLayout.VERTICAL));
-//        diaitesRV.setItemViewCacheSize(30);
-//        diaitesRV.setHasFixedSize(true);
-//        diaitesRV.setNestedScrollingEnabled(false);
-//        adapter = new RecyclerViewDiaitologioAdaptor(DiaitologioActivity.this, diaitologioLista);
-//        diaitesRV.setAdapter(adapter);
-//
-//
-//
-//        spinnerAdapter();
-//
-//        thereIsImageUpdateButton();
-//
-//        updateButtonListener();
-//
-//
-//
-//    }
-//
+
 
     ActivityDiaitologioBinding bd;
 
@@ -153,33 +94,38 @@ public class DiaitologioActivity extends BasicActivity implements AsyncCompleteT
         bd = ActivityDiaitologioBinding.inflate(getLayoutInflater());
         View view = bd.getRoot();
         setContentView(view);
+        buttonsListners();
+
         diaitologioLista = new ArrayList<>();
         getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
     }
 
 
 
+    private void buttonsListners(){
+        bd.diaitologioBT.setOnClickListener(view -> showDiaitologioAstheni());
+        bd.dailyDietBT.setOnClickListener(view -> showDailyDiaitologioAstheni());
+        bd.dietEktimisiBT.setOnClickListener(view -> showDiaitologikiEktimisi());
+    }
 
     private void showFragment(){
 
 
-
         tf1 = new TableFragment();
         tf1.setArguments(bundle1);
-
 
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
 
         bd.fragment1.clearChildFocus(bd.fragment1);
-
         getSupportFragmentManager().beginTransaction()
                 .add(bd.fragment1.getId(), tf1)
                 .commit();
 
-
     }
+
+
     @Override
     public void taskCompleteGetPatients(ArrayList<PatientsOfTheDay> lista) {
         super.taskCompleteGetPatients(lista);
@@ -187,195 +133,191 @@ public class DiaitologioActivity extends BasicActivity implements AsyncCompleteT
 
     }
 
-//    private void diaitaTVListener(){
-//        diaitaTV.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                DF_items_categories df = new DF_items_categories();
-//                Bundle args = new Bundle();
-//                args.putString(DF_items_categories.LOOK_UP_TABLE, "nursing_diets");
-//                args.putString(DF_items_categories.TOOLBAR_TITLE, "Επιλογή διαιτών");
-//                args.putString(DF_items_categories.IDS, diaitaTV.getText().toString());
-//                df.setArguments(args);
-//                df.show(DiaitologioActivity.this.getSupportFragmentManager(), "Dialog");
-//            }
-//        });
+
+
+
+//
+//    public void getDiaitologio(String transgroupID) {
+//
+//        if (Utils.isNetworkAvailable2(this)) {
+//
+//            diaitologioLista.clear();
+//
+//            alertDialog.show();
+//            String query = new Str_queries().getDIAITOLOGIO_PERSON(transgroupID);
+//            AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
+//            task.ctx = getApplicationContext();
+//            task.listener = DiaitologioActivity.this;
+//            task.query = query;
+//            task.execute();
+//
+//
+//        }
 //
 //    }
+//
+//    @Override
+//    public void taskComplete2(JSONArray results) throws JSONException {
+//
+//        if (results != null) {
+//
+//            // ΕΑΝ ΔΕΝ ΕΧΕΙ ΣΤΑΤΟΥΣ ΔΗΛΑΔΗ ΕΑΝ ΕΧΕΙ ΑΠΟΤΕΛΕΣΜΑΤΑ ΝΑ ΦΕΡΕΙ ΝΑ ΚΑΝΕΙ ΤΟ ΑΠΟ ΚΑΤΩ
+//            if (!results.getJSONObject(0).has("status")) {
+//
+//                for (int i = 0; i < results.length(); i++) {
+//
+//
+//                    JSONObject currentDiaitologio = results.getJSONObject(i);
+//
+//                    Diaitologio diaitologio = new Diaitologio();
+//
+//                    diaitologio.setTransgroupid(Utils.convertObjToString(currentDiaitologio.get("TransGroupID")));
+//                    diaitologio.setId(Utils.convertObjToString(currentDiaitologio.get("ID")));
+//                    diaitologio.setDatefrom(Utils.convertObjToString(currentDiaitologio.get("dateF")));
+//                    diaitologio.setHourFrom(Utils.convertObjToString(currentDiaitologio.get("timeF")));
+//                    diaitologio.setDieta(Utils.convertObjToString(currentDiaitologio.get("Dieta")));
+//                    diaitologio.setSxolia(Utils.convertObjToString(currentDiaitologio.get("Remarks")));
+//                    diaitologio.setSitisiSinodou(InfoSpecificLists.getSitisiSinodouName(currentDiaitologio.getInt("sitisi_sinodou")));
+//                    diaitologio.setUserID(Utils.convertObjToString(currentDiaitologio.get("UserID")));
+//
+//
+//                    diaitologioLista.add(diaitologio);
+//
+//                }
+//
+//
+//                adapter.notifyDataSetChanged();
+//
+//                alertDialog.dismiss();
+//
+//
+//            } else {
+//                diaitologioLista.clear();
+//
+//                adapter.notifyDataSetChanged();
+//                alertDialog.dismiss();
+//            }
+//
+//
+//        }
+//
+//        else
+//            alertDialog.dismiss();
+//
+//
+//        showHideLayout();
+//    }
+//
+//
+//
 
-    private void spinnerAdapter() {
-        ArrayAdapter adapter = new ArrayAdapter<>(DiaitologioActivity.this,
-                R.layout.spinner_layout2, sitisiSinodouLista);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sitisiSinodouSP.setAdapter(adapter);
-    }
 
 
 
-    public void getDiaitologio(String transgroupID) {
 
-        if (Utils.isNetworkAvailable2(this)) {
+        private void showDiaitologioAstheni() {
 
-            diaitologioLista.clear();
+             String q = "select *, dbo.datetostr(dateFrom) as datestr , dbo.nameuser(userID) as username " +
+                     "from nursing_Diaitologio " +
+                    "where transgroupID = " + transgroupID + " order by datefrom desc";
 
-            alertDialog.show();
-            String query = new Str_queries().getDIAITOLOGIO_PERSON(transgroupID);
-            AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-            task.ctx = getApplicationContext();
-            task.listener = DiaitologioActivity.this;
-            task.query = query;
-            task.execute();
+                bundle1 =  tableView_sigkentrotika_dialogFragment(q,
+                            transgroupID,
+                            null,
+                            InfoSpecificLists.getDiaitologio(),
+                            false,
+                            false,
+                            true);
+
+                showFragment();
+         }
+
+
+        private void showDailyDiaitologioAstheni() {
+
+
+            AsyncTaskGetJSON2 t = new AsyncTaskGetJSON2();
+            t.ctx = this;
+            t.query = "select   \n" +
+                            "dbo.datetostr(n.date)  as datestr \n" +
+                            "from Nursing_Diaitologio_daily n \n" +
+                            " where n.transgroupID = " + transgroupID +
+                            " order by n.date desc, n.id desc";
+
+            t.listener = new AsyncCompleteTask2() {
+                @Override
+                public void taskComplete2(JSONArray results) throws JSONException {
+                    ArrayList <TableViewItem> lista = InfoSpecificLists.getDailyDiaitologio();
+                    String[] panoTitloi = new String[]{};
+                    String[] plagioiTitloi = new String[lista.size()];
+
+
+                    if (results != null && !results.getJSONObject(0).has("status")) {
+                        panoTitloi = new String[results.length()];
+
+                        for (int i = 0; i < results.length(); i++) {
+                            panoTitloi[i] = results.getJSONObject(i).getString("datestr");
+                        }
+                    }
+
+                        for (int i=0; i<lista.size(); i++){
+                            plagioiTitloi[i] = lista.get(i).getTitle();
+                        }
+
+
+
+                        String q = "select *, dbo.datetostr(date) as datestr , dbo.nameuser(userID) as username \n" +
+                                " from Nursing_Diaitologio_daily " +
+                                "where transgroupID = " + transgroupID + " order by date desc";
+
+                        bundle1 =  tableView_sigkentrotika_dialogFragment(q,
+                                transgroupID,
+                                panoTitloi,
+                                plagioiTitloi,
+                                lista,
+                                false,
+                                false,
+                                true);
+
+                        showFragment();
+
+                    }
+
+
+
+            };
+
+
+            t.execute();
+
+
+
 
 
         }
 
-    }
-
-    @Override
-    public void taskComplete2(JSONArray results) throws JSONException {
-
-        if (results != null) {
-
-            // ΕΑΝ ΔΕΝ ΕΧΕΙ ΣΤΑΤΟΥΣ ΔΗΛΑΔΗ ΕΑΝ ΕΧΕΙ ΑΠΟΤΕΛΕΣΜΑΤΑ ΝΑ ΦΕΡΕΙ ΝΑ ΚΑΝΕΙ ΤΟ ΑΠΟ ΚΑΤΩ
-            if (!results.getJSONObject(0).has("status")) {
-
-                for (int i = 0; i < results.length(); i++) {
-
-
-                    JSONObject currentDiaitologio = results.getJSONObject(i);
-
-                    Diaitologio diaitologio = new Diaitologio();
-
-                    diaitologio.setTransgroupid(Utils.convertObjToString(currentDiaitologio.get("TransGroupID")));
-                    diaitologio.setId(Utils.convertObjToString(currentDiaitologio.get("ID")));
-                    diaitologio.setDatefrom(Utils.convertObjToString(currentDiaitologio.get("dateF")));
-                    diaitologio.setHourFrom(Utils.convertObjToString(currentDiaitologio.get("timeF")));
-                    diaitologio.setDieta(Utils.convertObjToString(currentDiaitologio.get("Dieta")));
-                    diaitologio.setSxolia(Utils.convertObjToString(currentDiaitologio.get("Remarks")));
-                    diaitologio.setSitisiSinodou(InfoSpecificLists.getSitisiSinodouName(currentDiaitologio.getInt("sitisi_sinodou")));
-                    diaitologio.setUserID(Utils.convertObjToString(currentDiaitologio.get("UserID")));
-
-
-                    diaitologioLista.add(diaitologio);
-
-                }
-
-
-                adapter.notifyDataSetChanged();
-
-                alertDialog.dismiss();
-
-
-            } else {
-                diaitologioLista.clear();
-
-                adapter.notifyDataSetChanged();
-                alertDialog.dismiss();
-            }
-
-
-        }
-
-        else
-            alertDialog.dismiss();
-
-
-        showHideLayout();
-    }
 
 
 
-    private void fabInitialize() {
+        private void showDiaitologikiEktimisi() {
 
-        fab.setMainFabOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (fab.isOptionsMenuOpened())
-                    fab.closeOptionsMenu();
-            }
-        });
+            String q = "select *, dbo.datetostr(date) as datestr , dbo.nameuser(userID) as username " +
+                    " from Nursing_Diaitologiki_ektimisi " +
+                    "where transgroupID = " + transgroupID + " order by date desc";
 
-        fab.setMiniFabsColors(
-                R.color.colorPrimary,
-                R.color.colorPrimary,
-                R.color.colorPrimary);
-        //-------------------  PROSTHIKI ANTIKEIMENON STO MENOY TOY
-
-
-
-        //  LISTENER  GIA TA ITEMS TOY
-        fab.setMiniFabSelectedListener(new OptionsFabLayout.OnMiniFabSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public void onMiniFabSelected(MenuItem fabItem) {
-
-
-
-                switch (fabItem.getItemId()) {
-
-                    case R.id.sigkentrotika:
-
-                        showSigkentrotika();
-                        break;
-
-                    case R.id.sigkentrotika_astheni:
-
-                        showSigkentrotikaAstheni();
-
-                        break;
-
-                    default:
-
-                        break;
-                }
-            }
-        });
-    }
-
-
-
-    private void showSigkentrotika() {
-
-
-        startActivity(   tableView_sigkentrotika(Str_queries.getDIAITOLOGIO_SIGKENTROTIKA(),
-                transgroupID,
-                new String[]{"Όροφος","Κλίνη","Όνομα","Ώρα",
-                        "Διάγνωση","Δίαιτα","Σχόλια","Οδηγίες","Σίτιση συνοδού",
-                        "Ασφ. Φορεας 1", "Ασφ. Φορεας 2","Ασφ. Φορεας 3","Ασφ. Φορεας 4"},
-
-
-                null,
-                new String[]{"floorName","Code","patName", "tme",
-                        "clinicName", "Dieta","Remarks","odigies","SitisiSinodou",
-                        "insurance1","insurance2","insurance3","insurance4"},
-                false,
-                false,
-                false));
-
-    }
-
-
-
-        private void showSigkentrotikaAstheni() {
-
-
-        String q = "select *, dbo.datetostr(dateFrom) as datestr from nursing_Diaitologio " +
-                "where transgroupID = " + transgroupID + " order by datefrom desc";
-
-
-
-            bundle1 =  tableView_sigkentrotika_dialogFragment(q,//Str_queries.getDIAITOLOGIO_SIGKENTROTIKA_ASTHENI(transgroupID),
-                        transgroupID,
-                       // new String[]{"Ημ/νία από","Δίαιτα","Σχόλια","Σίτιση συνοδού"},
-                        null,
-                       // new String[]{"DateFrom","Dieta","Remarks","SitisiSinodou"},
-                        InfoSpecificLists.getDiaitologio(),
-                        false,
-                        false,
-                        true);
+            bundle1 =  tableView_sigkentrotika_dialogFragment(q,
+                    transgroupID,
+                    null,
+                    InfoSpecificLists.getDiaitologiki_ektimisi(),
+                    false,
+                    false,
+                    true);
 
             showFragment();
-    }
+        }
+
+
+
 
 
 
@@ -389,7 +331,7 @@ public class DiaitologioActivity extends BasicActivity implements AsyncCompleteT
         bd.patientsTV.setOnClickListener(new SearchNosileuomenoListener(DiaitologioActivity.this, patientsNosileuomenoi));
         transgroupID = Utils.getSplitSPartString(bd.patientsTV.getText().toString(),",",3);
 
-        showSigkentrotikaAstheni();
+        showDiaitologioAstheni();
     }
 
 
@@ -401,11 +343,9 @@ public class DiaitologioActivity extends BasicActivity implements AsyncCompleteT
         //GIA OTAN KLEINEI TO DIALOG NA APOTHIKEUEI TO TRANSGROUPID TOU EPILEGMENOU PATIENT
 
         transgroupID = Utils.getSplitSPartString(transgroupid,",",3);
-        showSigkentrotikaAstheni();
+        showDiaitologioAstheni();
 
-        //getDiaitologio(transgroupID);
 
-        //clearTexts();
     }
 
 
@@ -413,71 +353,6 @@ public class DiaitologioActivity extends BasicActivity implements AsyncCompleteT
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    private void updateButtonListener(){
-
-        updateIMB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                InputMethodManager imm = (InputMethodManager) DiaitologioActivity.this.getSystemService(INPUT_METHOD_SERVICE);
-                if ((getCurrentFocus()!=null))
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-
-                alertDialog.show();
-
-
-                if (Utils.isNetworkAvailable2(DiaitologioActivity.this ) &&
-                        !Utils.isEmpty(patientsTV, DiaitologioActivity.this)) {
-
-                    String date = dateTV.getText().toString();
-                    String time = hoursTV.getText().toString();
-
-
-
-                        if (date.equals("") && !time.equals(""))
-                                date = Utils.getCurrentDate();
-
-                        else if (!date.equals("") && time.equals(""))
-                            time = Utils.getCurrentTime();
-
-                        else if (date.equals("") && time.equals("")){
-                            date = "";
-                            time = "";
-
-                        }
-
-
-                    String diaita = diaitaTV.getText().toString().trim();
-                    String sxolia = sxoliaET.getText().toString().trim();
-                    String sitisiSinodou = InfoSpecificLists.getSitisiSinodouID(sitisiSinodouSP.getSelectedItem().toString());
-
-
-
-                    String query = new Str_queries().getDIAITOLOGIO_INSERT(transgroupID,date,time, diaita, sxolia,sitisiSinodou,userID);
-                    AsyncTaskUpdate task = new AsyncTaskUpdate(DiaitologioActivity.this, query);
-                    task.listener = DiaitologioActivity.this;
-                    task.execute();
-
-
-
-                }
-
-            }
-        });
-
-    }
 
 
 

@@ -2979,6 +2979,48 @@ public class InfoSpecificLists extends StaticFields{
     }
 
 
+    public static ArrayList<TableViewItem> getDailyDiaitologio() {
+
+        BasicList lista = new BasicList();
+
+        lista.add(new TableViewItem("ID", "ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+       // lista.add(new TableViewItem("Ημ/νία", "datestr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+       // lista.add(new TableViewItem("userID","UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Νοσηλευτής","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+        lista.add(new TableViewItem("Πρωινό","proino", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Δεκατιανό","dekatiano", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Μεσημεριανό","mesimeriano", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Απογευματινό","apogeumatino", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Βραδινό","vradino", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Προ ύπνου","pro_ipnou", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Άσκηση","askisi", EDIT_TEXT_TYPE, KEIMENO));
+
+        lista.add(new TableViewItem("Οδηγίες","odigies", EDIT_TEXT_TYPE, KEIMENO));
+
+
+        return lista.getTableList();
+    }
+
+
+    public static ArrayList<TableViewItem> getDiaitologiki_ektimisi() {
+
+        BasicList lista = new BasicList();
+
+        lista.add(new TableViewItem("ID", "ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Ημ/νία", "datestr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("UserID","UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+
+        lista.add(new TableViewItem("Μετρήσεις","metriseis", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Θεραπευτικό πλάνο","plano", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Νοσηλευτής","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+
+
+        return lista.getTableList();
+    }
+
+
         public static ArrayList<TableViewItem> getSigkentrotikaStatheresMetriseis_MEDIT() {
 
         BasicList lista = new BasicList();

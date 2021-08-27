@@ -577,7 +577,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
 
-    private void addPinakasPanoPlagioiTitloi(String[] plagioiTitloi, String[] col_names, JSONArray results) {
+    private void addPinakasPanoPlagioiTitloi(String[] plagioiTitloi, String[] col_names, JSONArray results) throws JSONException {
 
         double [] [] valuesForTotal= new double[plagioiTitloi.length][results.length()];
         HashMap <Integer,ArrayList<String>> tempHorizontalMap = new HashMap<>();
@@ -586,6 +586,20 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         int rowID =0;
         int col_index =0;
         lldetailTitles.removeAllViews();
+
+
+
+        if (isEditable){
+
+            JSONObject x = results.getJSONObject(0);
+            JSONObject clone = new JSONObject(x.toString());
+            for (int i=0; i<clone.length(); i++){
+                clone.put(clone.names().getString(i),"");
+            }
+            results.put(results.length()  ,clone);
+
+        }
+
         for (int rowIndex = 0; rowIndex < plagioiTitloi.length; rowIndex++) {
             tempHorList = new ArrayList<>();
             rowID ++;
@@ -607,9 +621,16 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 //----------------------------
 
 
-            JSONObject jsonObject;
+
+
             try {
-                for (int colIndex = 0; colIndex < results.length(); colIndex++) {
+
+
+
+
+                JSONObject jsonObject;
+
+                for (int colIndex = 0; colIndex < results.length() ; colIndex++) {
 
                     col_index = colIndex;
                     jsonObject = results.getJSONObject(colIndex);
@@ -794,10 +815,10 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
 
-        for (int row=0; row < results.length(); row++){  //3
+        for (int row=0; row < results.length(); row++){
                 valuesJson = new ArrayList<>();
 
-            for (int col=0; col < tempHorizontalMap.size(); col++) {  //6
+            for (int col=0; col < tempHorizontalMap.size(); col++) {
                 ArrayList<String> hor_values = tempHorizontalMap.get(col);
                 if (hor_values != null){
                     valuesJson.add(hor_values.get(row));
@@ -1599,6 +1620,18 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                     if (exeiWatchID)
                         createNewPanoTitlous(results);
 
+          //---------------
+                    if (tableViewArraylist != null && plagioiTitloi != null && panoTitloi != null && isEditable && results.length() == panoTitloi.length){
+                        //ΕΔΩ ΜΠΑΙΝΕΙ ΟΤΑΝ ΕΧΟΥΜΕ ΠΑΝς ΚΑΙ ΠΛΑΓΙΟΥΣ ΤΙΤΛΟΥΣ ΚΑΙ ΜΠΟΡΕΙ Ο ΧΡΗΣΤΗΣ ΝΑ ΚΑΝΕΙ ΑΛΛΑΓΕΣ
+                        //ΑΥΤΟ ΓΙΝΕΤΑΙ ΕΠΕΙΔΗ ΕΙΝΑΙ ΕΝΑ ΑΠΟ ΤΑ ΒΗΜΑΤΑ ΩΣΤΕ ΝΑ ΔΟΥΛΕΨΕΙ ΣΩΣΤΑ ΤΟ ΝΑ ΕΜΦΑΝΙΖΕΤΑΙ ΚΑΙΝΟΥΡΙΑ ΕΛΕΘΕΡΗ ΣΤΗΛΗ
+                        //ΓΙΑ ΝΑ ΚΑΝΕΙ ΙΣΝΕΡΤ Ο ΧΡΗΣΤΗΣ
+
+                        String [] temp = panoTitloi;
+                        panoTitloi = new String[temp.length + 1];
+                        System.arraycopy(temp, 0, panoTitloi, 0, temp.length);
+                        panoTitloi[temp.length ] = "";
+                    }
+            //------------------------------
                     addPanoTitles(panoTitloi);
 
 
@@ -1780,7 +1813,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     }
 
 
-     private TextView getTextviewDieta(TableRow.LayoutParams lp, String value,final int positionRow, final int indexOfColumn, boolean sameUser) {
+     private TextView getTextviewDieta(TableRow.LayoutParams lp, final String value,final int positionRow, final int indexOfColumn, boolean sameUser) {
 
         final TextView textView = getTextview(lp,value);
         if (sameUser){
@@ -1791,7 +1824,12 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                 public void onClick(View view) {
                     DF_items_categories df = new DF_items_categories(dialogFragment);
                     Bundle args = new Bundle();
-                    args.putString(DF_items_categories.IDS, value);
+
+                    if (value.isEmpty())
+                        args.putString(DF_items_categories.IDS, textView.getText().toString());
+                    else
+                        args.putString(DF_items_categories.IDS, value);
+
                     df.setArguments(args);
                     if (act != null)
                         df.show(((FragmentActivity)act).getSupportFragmentManager(), "Dialog");

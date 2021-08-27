@@ -193,13 +193,14 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
         log_out_iv();
         buttonRefreshPatientsListener();
 
-        newNotificationListener();
+        //newNotificationListener(); //TODO ΤΟ ΕΣΒΗΣΑ ΓΙΑ ΝΑ ΔΟΚΙΜΑΣΟΥΜΕ ΑΝ ΠΡΟΚΑΛΕΙ ΠΡΒΛΗΜΑ ΣΤΟ ΦΡΟΝΤΙΣ ΣΤΟΝ ΕΠΕΞΕΡΑΣΤΗ
         search_TV_listener();
+
         getVardies();
 
         changeColorOfTV();
-        if (isNurse && Customers.isFrontis(custID))
-            check_notifications_thread();
+//        if (isNurse && Customers.isFrontis(custID)) //TODO ΤΟ ΕΣΒΗΣΑ ΓΙΑ ΝΑ ΔΟΚΙΜΑΣΟΥΜΕ ΑΝ ΠΡΟΚΑΛΕΙ ΠΡΒΛΗΜΑ ΣΤΟ ΦΡΟΝΤΙΣ ΣΤΟΝ ΕΠΕΞΕΡΑΣΤΗ
+//            check_notifications_thread();
 
         alertDialog.dismiss();
     }
