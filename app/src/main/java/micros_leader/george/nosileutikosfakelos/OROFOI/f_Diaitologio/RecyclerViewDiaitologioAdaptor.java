@@ -61,7 +61,7 @@ public class RecyclerViewDiaitologioAdaptor extends RecyclerView.Adapter<Recycle
     public void onBindViewHolder(final RecyclerViewDiaitologioAdaptor.MyViewHolder holder, final int position) {
         // set the data in items
 
-        final String diaita = result.get(position).getDieta();
+        final String diaita = result.get(position).getDieta().replace("\ufffd",",").replace("?",",");
         final String transgroupID = result.get(position).getTransgroupid();
         final String id = result.get(position).getId();
         final String hourFrom = result.get(position).getHourFrom();

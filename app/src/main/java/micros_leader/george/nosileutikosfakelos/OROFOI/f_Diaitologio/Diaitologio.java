@@ -3,7 +3,8 @@ package micros_leader.george.nosileutikosfakelos.OROFOI.f_Diaitologio;
 public class Diaitologio {
 
     public String id,userID,transgroupid,datefrom ,hourFrom,dieta, sxolia, sitisiSinodou;
-
+    private String name ,periektikotita, xrisi_odigies,category;
+    boolean isSelected = false;
 
 
     public String getDatefrom() {
@@ -68,5 +69,47 @@ public class Diaitologio {
 
     public void setUserID(String userID) {
         this.userID = userID;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPeriektikotita() {
+        return periektikotita;
+    }
+
+    public void setPeriektikotita(String periektikotita) {
+        this.periektikotita = periektikotita;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public String getXrisi_odigies() {
+        return xrisi_odigies;
+    }
+
+    public void setXrisi_odigies(String xrisi_odigies) {
+        this.xrisi_odigies = xrisi_odigies;
+    }
+
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

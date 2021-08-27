@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.fragment.app.DialogFragment;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,11 +35,13 @@ public class AsyncTaskSearchMedicine extends AsyncTask<String, Void, JSONArray> 
     private String URL ,MED_TEXT;
 
 
-    public AsyncTaskSearchMedicine(DF_SearchMedicineFromBase df , String MED_TEXT){
+    public AsyncTaskSearchMedicine(DialogFragment df , String MED_TEXT){
         this.ctx = df.getContext();
         this.MED_TEXT = MED_TEXT;
         listener = (IMedLista) df;
     }
+
+
 
     @Override
     protected void onPreExecute() {

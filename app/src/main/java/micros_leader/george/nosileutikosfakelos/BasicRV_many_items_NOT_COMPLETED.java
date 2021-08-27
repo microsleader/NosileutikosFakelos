@@ -22,7 +22,6 @@ import java.util.HashMap;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdateResult;
-import micros_leader.george.nosileutikosfakelos.OROFOI.f_Diaitologio.DiaitologioActivity_UNCLOMPLETED;
 
 public class BasicRV_many_items_NOT_COMPLETED extends RecyclerView.Adapter<BasicRV_many_items_NOT_COMPLETED.MyViewHolder> implements SearchView.OnQueryTextListener {
 
@@ -171,7 +170,7 @@ public class BasicRV_many_items_NOT_COMPLETED extends RecyclerView.Adapter<Basic
             df.setArguments(putextra);
 
         }
-        df.show(((DiaitologioActivity_UNCLOMPLETED)act).getSupportFragmentManager() , "Dialog");
+       // df.show(((DiaitologioActivity_UNCLOMPLETED)act).getSupportFragmentManager() , "Dialog");
 
     }
 

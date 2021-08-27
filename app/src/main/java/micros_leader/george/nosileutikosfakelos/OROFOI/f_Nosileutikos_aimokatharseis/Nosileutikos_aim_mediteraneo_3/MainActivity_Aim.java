@@ -193,13 +193,14 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
         log_out_iv();
         buttonRefreshPatientsListener();
 
-        newNotificationListener();
+        //newNotificationListener(); //TODO ΤΟ ΕΣΒΗΣΑ ΓΙΑ ΝΑ ΔΟΚΙΜΑΣΟΥΜΕ ΑΝ ΠΡΟΚΑΛΕΙ ΠΡΒΛΗΜΑ ΣΤΟ ΦΡΟΝΤΙΣ ΣΤΟΝ ΕΠΕΞΕΡΑΣΤΗ
         search_TV_listener();
+
         getVardies();
 
         changeColorOfTV();
-        if (isNurse && Customers.isFrontis(custID))
-            check_notifications_thread();
+//        if (isNurse && Customers.isFrontis(custID)) //TODO ΤΟ ΕΣΒΗΣΑ ΓΙΑ ΝΑ ΔΟΚΙΜΑΣΟΥΜΕ ΑΝ ΠΡΟΚΑΛΕΙ ΠΡΒΛΗΜΑ ΣΤΟ ΦΡΟΝΤΙΣ ΣΤΟΝ ΕΠΕΞΕΡΑΣΤΗ
+//            check_notifications_thread();
 
         alertDialog.dismiss();
     }
@@ -1215,6 +1216,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
     public void check_notifications_thread(){
 
+        //ΕΔΩ ΔΟΥΛΕΥΕΙ ΟΤΑΝ Η ΕΦΑΡΜΟΓΗ ΕΙΝΑΙ ΑΝΟΙΧΤΗ Η ΚΛΕΙΣΤΗ ΜΕΣΩ ΤΟΥ HOME
+        //ΑΝ ΤΗΝ ΚΛΕΙΣΕΙ ΤΕΛΕΙΩΣ Η ΑΠ[ΛΑ ΠΑΤΗΣΕΙ ΤΟ BACK ΔΕΝ ΘΑ ΛΕΙΤΟΥΡΓΕΙ
         String query = Str_queries.getNotification_Messages(companyID);
 
  //       public static void check_data_thread(String query,Activity act, long period , AsyncCompleteTask2 listener ){
@@ -1282,7 +1285,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
             }
         };
 
-         timer.schedule(not_timerTask, 0, 32000);
+         timer.schedule(not_timerTask, 0, 83200);
         }
 
 

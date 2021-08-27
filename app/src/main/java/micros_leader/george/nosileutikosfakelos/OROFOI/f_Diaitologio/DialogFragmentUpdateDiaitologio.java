@@ -120,8 +120,8 @@ public class DialogFragmentUpdateDiaitologio extends DialogFragment  {
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
 
-        if (getActivity() != null)
-         ((DiaitologioActivity)getActivity()).getDiaitologio(transgroupid);
+//        if (getActivity() != null)
+//         ((DiaitologioActivity)getActivity()).getDiaitologio(transgroupid);
 
 
     }

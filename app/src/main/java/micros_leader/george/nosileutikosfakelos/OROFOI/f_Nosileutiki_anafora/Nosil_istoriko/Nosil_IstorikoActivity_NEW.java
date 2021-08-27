@@ -15,14 +15,20 @@ import java.util.ArrayList;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
+import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentMedicineCloseListener;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutiki_anafora.Nosil_logodosia.Nosil_Anafora_Logodosia_Activity;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivityNosilIstorikoBinding;
 
-public class Nosil_IstorikoActivity_NEW extends BasicActivity  {
+public class Nosil_IstorikoActivity_NEW extends BasicActivity   {
 
+
+
+    // ΑΥΤΟ ΤΟ ΦΥΛΛΑΔΙΟ ΕΙΝΑΙ ΤΟ ΠΡΩΤΟ ΠΟΥ ΣΥΜΠΛΗΡΩΝΕΤΑΙ ΚΑΙ ΕΙΝΑΙ ΜΟΝΟ ΜΙΑ ΕΓΓΡΑΦΗ ΑΝΑ ΝΟΣΗΛΕΙΑ
+    // ΜΕ ΤΟ ΠΟΥ ΣΥΜΠΛΗΡΩΘΕΙ ΠΡΕΠΕΙ ΝΑ ΑΠΟΘΗΚΕΥΕΙ ΚΑΠΟΙΑ ΔΕΔΟΜΕΝΑ ΚΑΙ ΣΕ ΑΛΛΑ ΦΥΛΛΑΔΙΑ ΤΑ ΟΠΟΙΑ ΕΚΕΙ ΜΟΡΟΥΝ ΝΑ ΑΛΛΑΧΤΟΥΝ
+    // ΑΥΤΟ ΘΑ ΓΙΝΕΙ ΜΕ ΤΑ ΤΡΙΓΚΕΡ
 
     ActivityNosilIstorikoBinding bd;
 
@@ -35,7 +41,7 @@ public class Nosil_IstorikoActivity_NEW extends BasicActivity  {
 
         managefabMenuIcon();
 
-        titloi_positions   = new int[]{0, 23,32, 35, 43,63,78,93,102,114,120,125};
+        titloi_positions   = new int[]{0, 24,33, 36, 43,63,78,93,102,114,120,125};
 
         table = "Nursing_nosil_istoriko";
 
@@ -57,11 +63,23 @@ public class Nosil_IstorikoActivity_NEW extends BasicActivity  {
         bd.fabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragmentFarmaka df =  new DialogFragmentFarmaka();
-                Bundle putextra = new Bundle();
-                putextra.putString("transgroupID", transgroupID);
-                df.setArguments(putextra);
-                df.show(getSupportFragmentManager() , "Dialog");
+//                DialogFragmentFarmaka df =  new DialogFragmentFarmaka();
+//                Bundle putextra = new Bundle();
+//                putextra.putString("transgroupID", transgroupID);
+//                df.setArguments(putextra);
+//                df.show(getSupportFragmentManager() , "Dialog");
+
+                Intent in  =   tableView_sigkentrotika( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID),
+                        transgroupID,
+                        null,
+                        InfoSpecificLists.getKartaXorigisisFarmakwn(),
+                        false,
+                        false,
+                        true);
+
+                in.putExtra("toolbar_title","Φάρμακα που λαμβάνει");
+                startActivity(in);
+
             }
         });
     }
@@ -72,8 +90,8 @@ public class Nosil_IstorikoActivity_NEW extends BasicActivity  {
 
 
     private void getNosil_Istoriko(){
-
-        getJSON_DATA( new Str_queries().getNOSIL_ISTORIKO_PERSON(transgroupID),  new String[]{"ID","TransGroupID"}  ,nameJson);
+        getJSON_DATA(Str_queries.getNOSIL_ISTORIKO_PERSON(transgroupID));
+       // getJSON_DATA( new Str_queries().getNOSIL_ISTORIKO_PERSON(transgroupID),  new String[]{"ID","TransGroupID"}  ,nameJson);
     }
 
 

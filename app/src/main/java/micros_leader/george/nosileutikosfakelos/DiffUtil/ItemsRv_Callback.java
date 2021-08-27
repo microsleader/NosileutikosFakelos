@@ -90,6 +90,9 @@ public class ItemsRv_Callback extends DiffUtil.Callback {
                     diff.putString("value", newItem.getValue());
                 }
             }
+
+            else if (newItem.getValue() != null && oldItem.getValue() == null)
+                diff.putString("value", newItem.getValue());
             else
                 diff.putString("value", "");
 

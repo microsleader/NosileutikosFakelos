@@ -335,14 +335,6 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
 
-    public void getMedicinesLista(Activity extendedActivity){
-        this.extendedActivity = extendedActivity;
-        Utils.getMedicinesArrayList(extendedActivity);
-    }
-
-
-
-
 
         public void getFloors(Spinner floorSP, Activity extendedActivity){
 
@@ -576,6 +568,17 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
 
+    public static void setRecyclerViewLinearLayout(RecyclerView recyclerView, Context ctx){
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(ctx, LinearLayout.VERTICAL));
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
+
+
+    }
+
 
 
     public void setRecyclerViewLinearLayout(RecyclerView recyclerView, int id, RecyclerView.Adapter adapter){
@@ -590,7 +593,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         if (adapter != null)
-        recyclerView.setAdapter(adapter);
+            recyclerView.setAdapter(adapter);
 
     }
 

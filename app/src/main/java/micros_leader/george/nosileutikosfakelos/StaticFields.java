@@ -5,23 +5,24 @@ public class StaticFields {
     public static int TITLE_ITEM = 0;
     public static int TEXTVIEW_ITEM = 1;
 
-    public static int TEXTVIEW_ITEM_READ_ONLY_VALUE = 5;
-    public static int TEXTVIEW_VALUE_FROM_VIEW = 20;
-    public static int TEXTVIEW_MEDICINE_TYPE = 38;
-    public static int TEXTVIEW_DATE_TYPE = 120;
-    public static int TEXTVIEW_DATETIME_TYPE = 138;
-    public static int TEXTVIEW_CLOCK_TYPE = 8;
-    public static int TEXTVIEW_LISTENER = 320;
-    public static int TEXTVIEW_PHOTO = 80;
-    public static int TEXTVIEW_WITH_ALERT_DIALOG_SPINNER = 10;
-    public static int TABLE_NO_ELEMENT = 100;
-    public static int EDITTEXT_ITEM = 2;
-    public static int SPINNER_ITEM = 3;
-    public static int SPINNER_ITEM_NEW = 12;
-    public static int CHECKBOX_ITEM = 4;
-    public static int CHECKBOX_TYPE_READ_ONLY_VALUE = 14;
-    public static int MULTI_TYPE = 2000;
-    public static int MULTI_TYPE_LOOKUP = 2001;
+    public static final int TEXTVIEW_ITEM_READ_ONLY_VALUE = 5;
+    public static final int TEXTVIEW_VALUE_FROM_VIEW = 20;
+    public static final int TEXTVIEW_MEDICINE_TYPE = 38;
+    public static final int TEXTVIEW_DATE_TYPE = 120;
+    public static final int TEXTVIEW_DATETIME_TYPE = 138;
+    public static final int TEXTVIEW_CLOCK_TYPE = 8;
+    public static final int TEXTVIEW_DIETA_TYPE = 201;
+    public static final int TEXTVIEW_LISTENER = 320;
+    public static final int TEXTVIEW_PHOTO = 80;
+    public static final  int TEXTVIEW_WITH_ALERT_DIALOG_SPINNER = 10;
+    public static final int TABLE_NO_ELEMENT = 100;
+    public static final int EDITTEXT_ITEM = 2;
+    public static final int SPINNER_ITEM = 3;
+    public static final int SPINNER_ITEM_NEW = 12;
+    public static final int CHECKBOX_ITEM = 4;
+    public static final int CHECKBOX_TYPE_READ_ONLY_VALUE = 14;
+    public static final int MULTI_TYPE = 2000;
+    public static final int MULTI_TYPE_LOOKUP = 2001;
 
 
     //TextTypes

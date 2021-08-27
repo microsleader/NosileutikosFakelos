@@ -11,6 +11,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
@@ -18,10 +19,10 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -47,6 +48,7 @@ import java.util.StringJoiner;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
+import micros_leader.george.nosileutikosfakelos.DialogFragmentSearches.DF_SearchMultiLookup;
 import micros_leader.george.nosileutikosfakelos.DiffUtil.ItemsRv_Callback;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended;
@@ -65,6 +67,7 @@ import static micros_leader.george.nosileutikosfakelos.StaticFields.CHECKBOX_ITE
 import static micros_leader.george.nosileutikosfakelos.StaticFields.CHECKBOX_TYPE_READ_ONLY_VALUE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.DEKADIKOS_WITH_NEGATIVE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.EDITTEXT_ITEM;
+import static micros_leader.george.nosileutikosfakelos.StaticFields.MULTI_TYPE_LOOKUP;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.SPINNER_ITEM;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.SPINNER_ITEM_NEW;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_CLOCK_TYPE;
@@ -275,6 +278,10 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
                 break;
             }
 
+            case StaticFields.MULTI_TYPE_LOOKUP: //multi_type_lookup
+                v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_many_items_textview_rec_adapter, parent, false);
+                break;
+
             case 2: {
                 v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_many_items_edittext_rec_adapter, parent, false);
                 break;
@@ -311,79 +318,77 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
         // ΕΔΩ ΘΑ ΜΠΕΙ ΓΙΑ ΤΑ ΙΤΕΜΣ ΠΟΥ ΕΧΟΥΜΕ ΣΤΗΝ ΟΘΟΝΗ ΕΚΕΙΝΗ ΤΗ ΣΤΙΓΜΗ ΚΑΙ ΑΛΛΑΖΟΥΝ ΚΑΙ ΠΡΕΠΕΙ ΝΑ ΤΑ ΑΛΛΑΞΩ
         // ΣΤΑ ΑΛΛΑ ΠΟΥ ΔΕΝ ΦΑΙΝΟΝΤΑΙ ΚΑΙ Α ΕΧΟΥΝ ΑΛΛΑΞΕΙ ΔΕΝ ΘΑ ΜΠΕΙ ΕΠΕΙΔΗ ΘΑ ΤΑ ΦΟΡΤΩΣΕΙ ΚΑΤΑ ΤΟ ΣΚΡΟΛ
         //Diff utils
-        if (payloads.isEmpty()){
-            super.onBindViewHolder(holder, position, payloads);
-        }
-        else{
-            Bundle o = (Bundle) payloads.get(0);
-            for (String key : o.keySet()) {
-                if (key.equals("value")) {
-                    String val  = o.getString("value");
-                   // String val  = result.get(position).getValue();
+        try {
 
-                    if (holder.valueTV != null) {
-                        int type = result.get(position).getType();
-                        int textType = result.get(position).gettexttype();
+            if (payloads.isEmpty()) {
+                super.onBindViewHolder(holder, position, payloads);
+            } else {
+                Bundle o = (Bundle) payloads.get(0);
+                for (String key : o.keySet()) {
+                    if (key.equals("value")) {
+                        String val = o.getString("value");
+                        // String val  = result.get(position).getValue();
 
-                        if (type== TEXTVIEW_ITEM && textType == TEXTVIEW_DATE_TYPE)
-                            holder.valueTV.setText(Utils.convertMillisecondsTO_onlyDate(val));
-                        else if (type== TEXTVIEW_ITEM)
-                            holder.valueTV.setText(Utils.convertMillisecondsToDateTime(val));
-                        else if (type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_DATE_TYPE)
-                            holder.valueTV.setText(Utils.convertMillisecondsTO_onlyDate(val));
-                        else  if (type == TEXTVIEW_CLOCK_TYPE    ||   ( type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_CLOCK_TYPE))
-                            holder.valueTV.setText(Utils.convertMilliSecondsToTime(val));
-                        else if (type == TEXTVIEW_DATETIME_TYPE)
-                            holder.valueTV.setText(Utils.convertMillisecondsToDateTime(val));
+                        if (holder.valueTV != null) {
+                            int type = result.get(position).getType();
+                            int textType = result.get(position).gettexttype();
 
-                        else if (type== MULTI_TYPE) {
-                            ArrayList ar =  result.get(position).getLista();
-                            ArrayList <Spinner_item> multiList =  ar;
-                            holder.valueTV.setText(Utils.getTextFromMultiType(val,multiList));
-                        }
+                            if (type == TEXTVIEW_ITEM && textType == TEXTVIEW_DATE_TYPE)
+                                holder.valueTV.setText(Utils.convertMillisecondsTO_onlyDate(val));
+                            else if (type == TEXTVIEW_ITEM)
+                                holder.valueTV.setText(Utils.convertMillisecondsToDateTime(val));
+                            else if (type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_DATE_TYPE)
+                                holder.valueTV.setText(Utils.convertMillisecondsTO_onlyDate(val));
+                            else if (type == TEXTVIEW_CLOCK_TYPE || (type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_CLOCK_TYPE))
+                                holder.valueTV.setText(Utils.convertMilliSecondsToTime(val));
+                            else if (type == TEXTVIEW_DATETIME_TYPE)
+                                holder.valueTV.setText(Utils.convertMillisecondsToDateTime(val));
 
-                        else
-                            holder.valueTV.setText(val);
-                    }
+                            else if (type == MULTI_TYPE) {
+                                ArrayList ar = result.get(position).getLista();
+                                ArrayList<Spinner_item> multiList = ar;
+                                holder.valueTV.setText(Utils.getTextFromMultiType(val, multiList));
+                            } else
+                                holder.valueTV.setText(val);
+                        } else if (holder.valueET != null)
+                            holder.valueET.setText(val);
 
-                    else if (holder.valueET != null)
-                      holder.valueET.setText(val);
+                        else if (holder.valueSP != null) {
+                            if (val == null || val.equals(""))
+                                val = "0";
 
-                    else if (holder.valueSP != null){
-                        if (val == null || val.equals(""))
-                            val = "0";
+                            if (holder.valueSP.getAdapter() != null) {
+                                SpinnerAdapter adapter = holder.valueSP.getAdapter();
 
-                        if (holder.valueSP.getAdapter() != null){
-                            SpinnerAdapter adapter =  holder.valueSP.getAdapter();
+                                // το Spinner_new_Image_Adapter ειναι instance του ArrayAdapter επειδη κανει extends
+                                if (adapter instanceof ArrayAdapter && !(adapter instanceof Spinner_new_Image_Adapter)) {
+                                    if (adapter.getCount() >= 0)
+                                        holder.valueSP.setSelection(Integer.parseInt(val));
+                                } else {
+                                    Spinner_new_Image_Adapter adap = (Spinner_new_Image_Adapter) holder.valueSP.getAdapter();
+                                    int realPos = adap.getPosition(new Spinner_item(Integer.parseInt(val), null));
+                                    holder.valueSP.setSelection(realPos == -1 ? 0 : realPos);
+                                }
 
-                            // το Spinner_new_Image_Adapter ειναι instance του ArrayAdapter επειδη κανει extends
-                            if (adapter instanceof ArrayAdapter && !(adapter instanceof Spinner_new_Image_Adapter)){
-                                if (adapter.getCount() >=0 )
-                                    holder.valueSP.setSelection(Integer.parseInt(val));
-                            }
-                            else{
-                                Spinner_new_Image_Adapter adap = (Spinner_new_Image_Adapter) holder.valueSP.getAdapter();
-                                int realPos  =  adap.getPosition(new Spinner_item(Integer.parseInt(val), null));
-                                holder.valueSP.setSelection(realPos == -1 ? 0 : realPos);
                             }
 
+                        } else if (holder.valueCH != null) {
+                            holder.valueCH.setChecked(result.get(position).isTrue);
+                            if (val != null && result.get(position).getValue() != null) {
+                                holder.valueCH.setText(val); //ΕΔΩ ΣΤΗΝ ΟΥΣΙΑ ΘΑ ΜΠΕΙ ΜΟΝΟ ΓΙΑ ΤΙΣ ΣΥΝΕΧΕΙΣ ΜΕΤΡΗΣΕΙΣ
+                                holder.valueCH.setEnabled(!val.isEmpty());
+                            }
                         }
 
+
                     }
-
-                    else if (holder.valueCH != null) {
-                        holder.valueCH.setChecked(result.get(position).isTrue);
-                        if (val != null && result.get(position).getValue() != null) {
-                            holder.valueCH.setText(val); //ΕΔΩ ΣΤΗΝ ΟΥΣΙΑ ΘΑ ΜΠΕΙ ΜΟΝΟ ΓΙΑ ΤΙΣ ΣΥΝΕΧΕΙΣ ΜΕΤΡΗΣΕΙΣ
-                            holder.valueCH.setEnabled(!val.isEmpty());
-                        }
-                    }
-
-
                 }
             }
-        }
 
+        }
+        catch (Exception e){
+
+        }
 
     }
 
@@ -394,205 +399,197 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
     public void onBindViewHolder(final BasicRV.MyViewHolder holder, final int position) {
         // set the data in items
 
-        String title = result.get(position).getTitleID();
-        String value = result.get(position).getValue();
-        String compCol = result.get(position).getcompareColValue();
-        boolean isCompValueSame = result.get(position).isCompValueSame;
-        int desplayImageID = result.get(position).getDesplay_image();
+        try {
+            String title = result.get(position).getTitleID();
+            String value = result.get(position).getValue();
+            String compCol = result.get(position).getcompareColValue();
+            boolean isCompValueSame = result.get(position).isCompValueSame;
+            int desplayImageID = result.get(position).getDesplay_image();
 
 
+            int type = result.get(position).getType();
+            int textType = result.get(position).gettexttype();
 
-        int type = result.get(position).getType();
-        int textType = result.get(position).gettexttype();
+            // TITLE
 
-        // TITLE
-
-        if (type == TEXTVIEW_TITLE_TYPE) {
-
-
-            holder.titleTV.setText(title);
-        }
+            if (type == TEXTVIEW_TITLE_TYPE) {
 
 
-        // TEXTVIEW
-
-        if (type == TEXTVIEW_ITEM || type == TEXTVIEW_ITEM_READ_ONLY_VALUE || type == TEXTVIEW_CLOCK_TYPE ||
-                type == TEXTVIEW_DATETIME_TYPE || type == TEXTVIEW_WITH_ALERT_DIALOG_SPINNER) {
+                holder.titleTV.setText(title);
+            }
 
 
-            if (type == TEXTVIEW_ITEM && textType == TEXTVIEW_DATE_TYPE)
-                value = Utils.convertMillisecondsTO_onlyDate(value);
-            else if (type == TEXTVIEW_ITEM || type == TEXTVIEW_DATETIME_TYPE)
-                 value = Utils.convertMillisecondsToDateTime(value);
-            else if (type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_DATE_TYPE)
-                value = Utils.convertMillisecondsTO_onlyDate(value);
-           else  if (type == TEXTVIEW_CLOCK_TYPE || type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_CLOCK_TYPE)
-               value = Utils.convertMilliSecondsToTime(value);
+            // TEXTVIEW
+
+            if (type == TEXTVIEW_ITEM || type == TEXTVIEW_ITEM_READ_ONLY_VALUE || type == TEXTVIEW_CLOCK_TYPE ||
+                    type == TEXTVIEW_DATETIME_TYPE || type == TEXTVIEW_WITH_ALERT_DIALOG_SPINNER) {
 
 
+                if (type == TEXTVIEW_ITEM && textType == TEXTVIEW_DATE_TYPE)
+                    value = Utils.convertMillisecondsTO_onlyDate(value);
+                else if (type == TEXTVIEW_ITEM || type == TEXTVIEW_DATETIME_TYPE)
+                    value = Utils.convertMillisecondsToDateTime(value);
+                else if (type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_DATE_TYPE)
+                    value = Utils.convertMillisecondsTO_onlyDate(value);
+                else if (type == TEXTVIEW_CLOCK_TYPE || type == TEXTVIEW_ITEM_READ_ONLY_VALUE && textType == TEXTVIEW_CLOCK_TYPE)
+                    value = Utils.convertMilliSecondsToTime(value);
 
 
-            if (oldValuesLista !=null)
-                if (position < oldValuesLista.size()) {
-                    if (type == TEXTVIEW_ITEM || type == TEXTVIEW_DATETIME_TYPE)
-                        holder.oldValueTV.setText(Utils.convertMillisecondsToDateTime(oldValuesLista.get(position)));
-                    else if (type == TEXTVIEW_CLOCK_TYPE)
-                        //holder.oldValueTV.setText(Utils.convertMilliSecondsToTime(oldValuesLista.get(position)));
-                    holder.oldValueTV.setText(Utils.convertMilliSecondsToTime(oldValuesLista.get(position)));
+                if (oldValuesLista != null)
+                    if (position < oldValuesLista.size()) {
+                        if (type == TEXTVIEW_ITEM || type == TEXTVIEW_DATETIME_TYPE)
+                            holder.oldValueTV.setText(Utils.convertMillisecondsToDateTime(oldValuesLista.get(position)));
+                        else if (type == TEXTVIEW_CLOCK_TYPE)
+                            //holder.oldValueTV.setText(Utils.convertMilliSecondsToTime(oldValuesLista.get(position)));
+                            holder.oldValueTV.setText(Utils.convertMilliSecondsToTime(oldValuesLista.get(position)));
 
-                    else
-                        holder.oldValueTV.setText(oldValuesLista.get(position));
+                        else
+                            holder.oldValueTV.setText(oldValuesLista.get(position));
 
-                }
+                    }
 
                 holder.valueTV.setText(value);
                 holder.titleTV.setText(title);
 
 
-            //    holder.valueTV.setText(convertMillisecondsToDate(value));
+                //    holder.valueTV.setText(convertMillisecondsToDate(value));
 
 
-            holder.valueTV.setTag(position);
-        }
-
-
-
-
-        if (type == TEXTVIEW_ITEM && result.get(position).gettexttype() == MEDICINES) {
-
-
-            holder.titleTV.setText(title);
-            holder.valueTV.setText(value);
-            holder.valueTV.setOnClickListener(new SearchMedicineListener_Base(act));
-
-
-            holder.valueTV.setTag(position);
-        }
-
-
-        // EDITTEXT
-        if (type == 2) {
-            holder.valueET.setTag(position);
-
-            holder.titleTV.setText(title);
-            holder.valueET.setText(value);
-
-            if (!editextsUsingDialogs) {
-                int edittextType = result.get(position).gettexttype();
-                int min = result.get(position).getMin();
-                int max = result.get(position).getMax();
-
-                specifyEdittext(holder.valueET, title, edittextType, min, max);
+                holder.valueTV.setTag(position);
             }
 
 
-            if (compCol != null && !isCompValueSame)
-                setStrokeColor(holder.valueET,3,Color.RED);
-            else
-                setStrokeColor(holder.valueET,3, Color.parseColor("#038768"));
+            if (type == TEXTVIEW_ITEM && result.get(position).gettexttype() == MEDICINES) {
 
-//   ΓΙΑ ΤΗΝ ΤΕΛΕΥΤΑΙΑ ΠΑΛΙΑ ΤΙΜΗ
 
-            if (oldValuesLista !=null)
-                if (position < oldValuesLista.size()) {
-                    holder.oldValueTV.setText(oldValuesLista.get(position));
-                    //ΤΟ ΒΑΖΩ ΚΑΙ ΕΔΩ ΕΠΕΙΔΗ ΟΤΑΝ ΤΟ ΠΡΟΗΓΟΥΜΕΝΟ VIEW ΕΙΝΑΙ ΚΟΚΚΙΝΟ, ΓΙΝΕΤΑΙ ΚΑΙ ΑΥΤΟ ΚΟΚΚΙΝΟ , ΑΛΛΑ ΜΟΝΟ ΤΟ ΕΝΑ ΕΠΟΜΕΝΟ
-                    //Π.Χ. ΣΤΑΘΕΡΕΣ ΜΕΤΡΗΣΕΙΣ ΟΤΑΝ Η ΘΕΡΜΟΚΡΑΣΙΑ ΕΙΝΑΙ ΚΟΚΚΙΝΗ ΤΟ VIEW OLD KTV ΜΕΝΕΙ ΚΑΙ ΑΥΤΟ
-                    setStrokeColor(holder.oldValueTV,3, Color.parseColor("#038768"));
+                holder.titleTV.setText(title);
+                holder.valueTV.setText(value);
+                holder.valueTV.setOnClickListener(new SearchMedicineListener_Base(act));
 
+
+                holder.valueTV.setTag(position);
+            }
+
+
+            // EDITTEXT
+            if (type == 2) {
+                holder.valueET.setTag(position);
+
+                holder.titleTV.setText(title);
+                holder.valueET.setText(value);
+
+                if (!editextsUsingDialogs) {
+                    int edittextType = result.get(position).gettexttype();
+                    int min = result.get(position).getMin();
+                    int max = result.get(position).getMax();
+
+                    specifyEdittext(holder.valueET, title, edittextType, min, max);
                 }
 
-        }
 
-
-        // SPINNER
-        else if (type == SPINNER_ITEM || type == SPINNER_ITEM_NEW) {
-
-
-            ArrayList lista ;
-            String lookup_query ;
-
-            if(result.get(position).getLista() != null)
-                lista = result.get(position).getLista();
-            else
-                lista = new ArrayList();
-
-
-            holder.titleTV.setText(title);
-            holder.valueSP.setTag(position);
-
-            if (compCol != null && !isCompValueSame)
-                setStrokeColor(holder.valueSP,3,Color.RED);
-            else
-                setStrokeColor(holder.valueSP,3, Color.parseColor("#038768"));
-
-
-
-            //---------
-            String valueFromBase = result.get(position).getValue();
-
-            if (valueFromBase == null || valueFromBase.equals("")) {
-                valueFromBase = "0";
-            }
-            //                else if (Integer.parseInt(valueFromBase) > lista.size())
-//                    valueFromBase = "0";
-             int spinner_position = 0;
-
-
-            if (type == SPINNER_ITEM) {
-
-                if (result.get(position).getMap() != null) {
-
-                    //GIA SETMAP AN EXOUME VALEI AN THIMAMAI KALA EINIA KALITERA NA EINAI SE MORFI (INT,INT)
-                    // EDW DEN MAS KANEI AN TA ID EINAI GIA ATOMA , ITEM P.X. 10803
-                    Map map = result.get(position).getMap();
-
-                    if (map.containsKey(Integer.parseInt(valueFromBase)))
-                        spinner_position = (int) map.get(Integer.parseInt(valueFromBase));
-                    else
-                        spinner_position = 0;
-
-
-                } else
-                    spinner_position = Integer.parseInt(valueFromBase);
+                if (compCol != null && !isCompValueSame)
+                    setStrokeColor(holder.valueET, 3, Color.RED);
+                else
+                    setStrokeColor(holder.valueET, 3, Color.parseColor("#038768"));
 
 //   ΓΙΑ ΤΗΝ ΤΕΛΕΥΤΑΙΑ ΠΑΛΙΑ ΤΙΜΗ
+
                 if (oldValuesLista != null)
-                    if (position < oldValuesLista.size())
+                    if (position < oldValuesLista.size()) {
                         holder.oldValueTV.setText(oldValuesLista.get(position));
+                        //ΤΟ ΒΑΖΩ ΚΑΙ ΕΔΩ ΕΠΕΙΔΗ ΟΤΑΝ ΤΟ ΠΡΟΗΓΟΥΜΕΝΟ VIEW ΕΙΝΑΙ ΚΟΚΚΙΝΟ, ΓΙΝΕΤΑΙ ΚΑΙ ΑΥΤΟ ΚΟΚΚΙΝΟ , ΑΛΛΑ ΜΟΝΟ ΤΟ ΕΝΑ ΕΠΟΜΕΝΟ
+                        //Π.Χ. ΣΤΑΘΕΡΕΣ ΜΕΤΡΗΣΕΙΣ ΟΤΑΝ Η ΘΕΡΜΟΚΡΑΣΙΑ ΕΙΝΑΙ ΚΟΚΚΙΝΗ ΤΟ VIEW OLD KTV ΜΕΝΕΙ ΚΑΙ ΑΥΤΟ
+                        setStrokeColor(holder.oldValueTV, 3, Color.parseColor("#038768"));
 
-
-
-               addadapterToSpinner(holder.valueSP, spinner_position, lista );
-            }
-
-            else {
-
-
-                //  SPINNER_ITEM_NEW
-            if (result.get(position).getValue() == null )
-                result.get(position).setValue("");
-
-            if (lista != null) {
-                    ArrayList<Spinner_item> finalList = lista;
-
-                    //Toast.makeText(act, "timi server: " + valueFromBase, Toast.LENGTH_SHORT).show();
-                    for (int i = 0; i < lista.size(); i++) {
-                        if (Utils.parseInt(valueFromBase) == finalList.get(i).getId()) {
-                            spinner_position = i;
-                            break;
-                        }
                     }
 
-                    //   ΓΙΑ ΤΗΝ ΤΕΛΕΥΤΑΙΑ ΠΑΛΙΑ ΤΙΜΗ
+            }
+
+
+            // SPINNER
+            else if (type == SPINNER_ITEM || type == SPINNER_ITEM_NEW) {
+
+
+                ArrayList lista;
+                String lookup_query;
+
+                if (result.get(position).getLista() != null)
+                    lista = result.get(position).getLista();
+                else
+                    lista = new ArrayList();
+
+
+                holder.titleTV.setText(title);
+                holder.valueSP.setTag(position);
+
+                if (compCol != null && !isCompValueSame)
+                    setStrokeColor(holder.valueSP, 3, Color.RED);
+                else
+                    setStrokeColor(holder.valueSP, 3, Color.parseColor("#038768"));
+
+
+                //---------
+                String valueFromBase = result.get(position).getValue();
+
+                if (valueFromBase == null || valueFromBase.equals("")) {
+                    valueFromBase = "0";
+                }
+                //                else if (Integer.parseInt(valueFromBase) > lista.size())
+//                    valueFromBase = "0";
+                int spinner_position = 0;
+
+
+                if (type == SPINNER_ITEM) {
+
+                    if (result.get(position).getMap() != null) {
+
+                        //GIA SETMAP AN EXOUME VALEI AN THIMAMAI KALA EINIA KALITERA NA EINAI SE MORFI (INT,INT)
+                        // EDW DEN MAS KANEI AN TA ID EINAI GIA ATOMA , ITEM P.X. 10803
+                        Map map = result.get(position).getMap();
+
+                        if (map.containsKey(Integer.parseInt(valueFromBase)))
+                            spinner_position = (int) map.get(Integer.parseInt(valueFromBase));
+                        else
+                            spinner_position = 0;
+
+
+                    } else
+                        spinner_position = Integer.parseInt(valueFromBase);
+
+//   ΓΙΑ ΤΗΝ ΤΕΛΕΥΤΑΙΑ ΠΑΛΙΑ ΤΙΜΗ
                     if (oldValuesLista != null)
-                        if (position < oldValuesLista.size()) {
+                        if (position < oldValuesLista.size())
+                            holder.oldValueTV.setText(oldValuesLista.get(position));
 
 
-                            //ΤΟΠΟΘΕΤΗ ΤΕΛΕΥΤΑΙΑΣ ΠΑΛΙΑΣ ΤΙΜΗΣ ΣΕ ΣΧΕΣΗ ΜΕ ΤΟ ΣΠΙΝΝΕΡ
-                           // int new_spinner_adapter_pos = oldValuesLista.get(position).equals("") ? 0 : Integer.parseInt(oldValuesLista.get(position));
-                            if (finalList.size() > 0) {
-                                holder.oldValueTV.setText(finalList.get(spinner_position).getName());
+                    addadapterToSpinner(holder.valueSP, spinner_position, lista);
+                } else {
+
+
+                    //  SPINNER_ITEM_NEW
+                    if (result.get(position).getValue() == null)
+                        result.get(position).setValue("");
+
+                    if (lista != null) {
+                        ArrayList<Spinner_item> finalList = lista;
+
+                        //Toast.makeText(act, "timi server: " + valueFromBase, Toast.LENGTH_SHORT).show();
+                        for (int i = 0; i < lista.size(); i++) {
+                            if (Utils.parseInt(valueFromBase) == finalList.get(i).getId()) {
+                                spinner_position = i;
+                                break;
+                            }
+                        }
+
+                        //   ΓΙΑ ΤΗΝ ΤΕΛΕΥΤΑΙΑ ΠΑΛΙΑ ΤΙΜΗ
+                        if (oldValuesLista != null)
+                            if (position < oldValuesLista.size()) {
+
+
+                                //ΤΟΠΟΘΕΤΗ ΤΕΛΕΥΤΑΙΑΣ ΠΑΛΙΑΣ ΤΙΜΗΣ ΣΕ ΣΧΕΣΗ ΜΕ ΤΟ ΣΠΙΝΝΕΡ
+                                // int new_spinner_adapter_pos = oldValuesLista.get(position).equals("") ? 0 : Integer.parseInt(oldValuesLista.get(position));
+                                if (finalList.size() > 0) {
+                                    holder.oldValueTV.setText(finalList.get(spinner_position).getName());
 
 
                                 /*
@@ -606,189 +603,225 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
                                    //ΣΥΓΚΡΙΝΩ ΑΝ ΤΟ ΟΝΟΜΑ ΤΟΥ ΤΕΛΕΥΤΟΥ ΙΤΕΜ ΕΙΝΑΙ ΙΔΙΟ ΜΕΤΑΞΥ ΤΟΥς ΓΙΑ ΕΠΙΠΛΕΟΝ ΕΠΙΒΕΒΑΙΩΣΗ
                                     // ΕΠΕΙΔΗ ΣΕ ΚΑΠΟΙΑ Η ΛΙΣΤΑ ΕΧΕΙ ΤΟ ΙΔΙΟ ΜΕΓΕΘΟΣ ΟΠΟΤΕ ΔΔΗΜΙΟΥΡΓΟΥΣΕ ΠΑΛΙ ΤΟ ΑΠΟ ΠΑΝΩ ΠΡΟΒΛΗΜΑ
                                  */
-                                if (holder.valueSP.getAdapter() != null
-                                        && (
+                                    if (holder.valueSP.getAdapter() != null
+                                            && (
                                             finalList.size() != holder.valueSP.getAdapter().getCount()
-                                             || (! finalList.get(finalList.size() -1 ).getName().equals(
-                                                 ((Spinner_item) holder.valueSP.getAdapter().getItem(holder.valueSP.getAdapter().getCount()-1)).getName()))))
-                                             {
-                                               addadapterToSpinner(holder.valueSP, spinner_position, lista);
+                                                    || (!finalList.get(finalList.size() - 1).getName().equals(
+                                                    ((Spinner_item) holder.valueSP.getAdapter().getItem(holder.valueSP.getAdapter().getCount() - 1)).getName())))) {
+                                        addadapterToSpinner(holder.valueSP, spinner_position, lista);
 
-                                            }
+                                    }
 
-                                if (holder.valueSP.getAdapter() != null && holder.valueSP.getAdapter().getCount() >=0 )
-                                    holder.valueSP.setSelection(spinner_position);
-                            }
-                        }
-
-
-
-            }
-
-
-           // if (holder.valueSP.getAdapter().getCount() > 0)
-            //LOOK UP PINAKAS DOWNLOAD
-             if (result.get(position).getLookup_query() != null  && lista.size() == 0) {
-
-                lookup_query = result.get(position).getLookup_query();
-
-
-                AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-                task.query = "select ID, Name from " +  lookup_query ;
-                task.ctx = act;
-                 final int[] final_spinner_position = {0};
-                 final String finalValueFromBase = valueFromBase;
-                 task.listener = new AsyncCompleteTask2() {
-                    @Override
-                    public void taskComplete2(JSONArray results) throws JSONException {
-                        if (results != null && !results.getJSONObject(0).has("status")){
-                           // ArrayList <Spinner_item> spinnerLista = new ArrayList();
-                            Spinner_item item  = new Spinner_item();
-                            //Η πρωτη επιλογή να ειναι κενή
-
-                            item.setId(0);
-                            item.setName("");
-                            lista.clear();
-                            lista.add(item);
-
-                            //boolean hasFoundSameValue = false;
-                            String valueForOldLista = "";
-                            String valueID = result.get(position).getValue();
-                            int final_spinner_position = 0;
-
-                            if (valueID == null || valueID.equals(""))
-                                valueID = "0";
-
-                            for (int i=0; i<results.length(); i ++) {
-                                JSONObject jsonObject = results.getJSONObject(i);
-                                int id = jsonObject.getInt("ID");
-                                String name = jsonObject.getString("Name");
-                                item = new Spinner_item();
-                                item.setId(id);
-                                item.setName(name);
-                                lista.add(item);
-
-
-                                if (valueID.equals(String.valueOf(id))){
-                                    final_spinner_position = i + 1; //εδω του οριζουμε την θεση που θα εμφανισει το σπιννερ i = θεση λιστας το +1 επειδη εχει προηγηθει το κενο item
+                                    if (holder.valueSP.getAdapter() != null && holder.valueSP.getAdapter().getCount() >= 0)
+                                        holder.valueSP.setSelection(spinner_position);
                                 }
-
-
-                                if (oldValuesLista != null)
-                                    if (oldValuesLista.get(position).equals(String.valueOf(id)))
-                                        valueForOldLista = name;
-
                             }
 
 
-
-                            if (oldValuesLista != null)
-                                holder.oldValueTV.setText(valueForOldLista);
-
-                            result.get(position).setLista_default((ArrayList) lista.clone());
-                            addadapterToSpinner(holder.valueSP, final_spinner_position, lista);
-                        }
                     }
-                };
-                task.execute();
-            }
+
+
+                    // if (holder.valueSP.getAdapter().getCount() > 0)
+                    //LOOK UP PINAKAS DOWNLOAD
+                    if (result.get(position).getLookup_query() != null && lista.size() == 0) {
+
+                        lookup_query = result.get(position).getLookup_query();
+
+
+                        AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
+                        task.query = "select ID, Name from " + lookup_query;
+                        task.ctx = act;
+                        final int[] final_spinner_position = {0};
+                        final String finalValueFromBase = valueFromBase;
+                        task.listener = new AsyncCompleteTask2() {
+                            @Override
+                            public void taskComplete2(JSONArray results) throws JSONException {
+                                if (results != null && !results.getJSONObject(0).has("status")) {
+                                    // ArrayList <Spinner_item> spinnerLista = new ArrayList();
+                                    Spinner_item item = new Spinner_item();
+                                    //Η πρωτη επιλογή να ειναι κενή
+
+                                    item.setId(0);
+                                    item.setName("");
+                                    lista.clear();
+                                    lista.add(item);
+
+                                    //boolean hasFoundSameValue = false;
+                                    String valueForOldLista = "";
+                                    String valueID = result.get(position).getValue();
+                                    int final_spinner_position = 0;
+
+                                    if (valueID == null || valueID.equals(""))
+                                        valueID = "0";
+
+                                    for (int i = 0; i < results.length(); i++) {
+                                        JSONObject jsonObject = results.getJSONObject(i);
+                                        int id = jsonObject.getInt("ID");
+                                        String name = jsonObject.getString("Name");
+                                        item = new Spinner_item();
+                                        item.setId(id);
+                                        item.setName(name);
+                                        lista.add(item);
+
+
+                                        if (valueID.equals(String.valueOf(id))) {
+                                            final_spinner_position = i + 1; //εδω του οριζουμε την θεση που θα εμφανισει το σπιννερ i = θεση λιστας το +1 επειδη εχει προηγηθει το κενο item
+                                        }
+
+
+                                        if (oldValuesLista != null)
+                                            if (oldValuesLista.get(position).equals(String.valueOf(id)))
+                                                valueForOldLista = name;
+
+                                    }
+
+
+                                    if (oldValuesLista != null)
+                                        holder.oldValueTV.setText(valueForOldLista);
+
+                                    result.get(position).setLista_default((ArrayList) lista.clone());
+                                    addadapterToSpinner(holder.valueSP, final_spinner_position, lista);
+                                }
+                            }
+                        };
+                        task.execute();
+                    }
+
+                }
+                if (lista != null && lista.size() > 0 && holder.valueSP.getAdapter() == null) // to adapter == null mpike gia tis statheres(dokimastika)
+                    addadapterToSpinner(holder.valueSP, spinner_position, lista);
 
             }
-            if (lista != null && lista.size() > 0 &&  holder.valueSP.getAdapter() == null) // to adapter == null mpike gia tis statheres(dokimastika)
-                 addadapterToSpinner(holder.valueSP, spinner_position, lista);
-
-        }
 
 
-        //  CHECKBOX
-        else if (type == CHECKBOX_ITEM || type == CHECKBOX_TYPE_READ_ONLY_VALUE) {
+            //  CHECKBOX
+            else if (type == CHECKBOX_ITEM || type == CHECKBOX_TYPE_READ_ONLY_VALUE) {
 
-            if(type == CHECKBOX_TYPE_READ_ONLY_VALUE)
-                holder.valueCH.setClickable(false);
+                if (type == CHECKBOX_TYPE_READ_ONLY_VALUE)
+                    holder.valueCH.setClickable(false);
 
-            holder.valueCH.setTag(position);
-            holder.valueCH.setText(title);
-            holder.valueCH.setChecked(result.get(position).getTrue());
+                holder.valueCH.setTag(position);
+                holder.valueCH.setText(title);
+                holder.valueCH.setChecked(result.get(position).getTrue());
 
 //   ΓΙΑ ΤΗΝ ΤΕΛΕΥΤΑΙΑ ΠΑΛΙΑ ΤΙΜΗ
 
-            if (oldValuesLista !=null)
-                if (position < oldValuesLista.size()) {
-                    holder.oldValueCH.setText(title);
-                    holder.oldValueCH.setClickable(false);
-                    boolean trueOrFalse = oldValuesLista.get(position).equals("1");
-                    holder.oldValueCH.setChecked(trueOrFalse);
-                }
+                if (oldValuesLista != null)
+                    if (position < oldValuesLista.size()) {
+                        holder.oldValueCH.setText(title);
+                        holder.oldValueCH.setClickable(false);
+                        boolean trueOrFalse = oldValuesLista.get(position).equals("1");
+                        holder.oldValueCH.setChecked(trueOrFalse);
+                    }
 
-        }
+            }
+            //  MULTI TYPE  ΜΟΝΟ ΜΙΑ ΕΠΙΛΟΓΗ
+            else if (type == MULTI_TYPE) {
+                holder.titleTV.setText(title);
+                holder.valueTV.setTag(position);
 
-        else if (type == MULTI_TYPE){
-            holder.titleTV.setText(title);
-            holder.valueTV.setTag(position);
+                if (result.get(position).getLista() != null) {
+                    ArrayList l = result.get(position).getLista();
+                    ArrayList<Spinner_item> multiList = l;
 
-            if(result.get(position).getLista() != null) {
-                ArrayList l = result.get(position).getLista();
-                ArrayList<Spinner_item> multiList = l;
-
-                if (value != null && !value.isEmpty()) {
-                    String[] v_ids = value.split("\ufffd");
-                    if (v_ids.length > 0) {
-                        StringJoiner s = new StringJoiner(" , ");
-                        for (int i = 0; i < v_ids.length; i++)
-                            for (int x = 0; x < multiList.size(); x++) {
-                                if (Integer.parseInt(v_ids[i]) == multiList.get(x).id) {
-                                    s.add(multiList.get(x).name);
-                                    break;
+                    if (value != null && !value.isEmpty()) {
+                        String[] v_ids = value.split("\ufffd");
+                        if (v_ids.length > 0) {
+                            StringJoiner s = new StringJoiner(" , ");
+                            for (int i = 0; i < v_ids.length; i++)
+                                for (int x = 0; x < multiList.size(); x++) {
+                                    if (Integer.parseInt(v_ids[i]) == multiList.get(x).id) {
+                                        s.add(multiList.get(x).name);
+                                        break;
+                                    }
                                 }
-                            }
 
-                        holder.valueTV.setText(s.toString());
+                            holder.valueTV.setText(s.toString());
+                        }
                     }
                 }
+                // value = value.replace("\ufffd",",");
             }
-           // value = value.replace("\ufffd",",");
+
+
+
+            else if (type == MULTI_TYPE_LOOKUP){
+                holder.titleTV.setText(title);
+                holder.valueTV.setTag(position);
+
+                String lookup_query = result.get(position).getLookup_query();
+                if (!value.isEmpty() && lookup_query != null) {
+                    String ids = value.replace("\ufffd", ",");
+                    holder.valueTV.setText(ids);
+
+                    AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
+
+                    task.query =  Str_queries.setglobals(Utils.getUserID(act) ,"2", Utils.getcompanyID(act)) + "\n" +
+                            "select ID, Name from " + lookup_query + " where id in (" + ids + ")";
+                    task.ctx = act;
+                    task.listener = new AsyncCompleteTask2() {
+                        @Override
+                        public void taskComplete2(JSONArray results) throws JSONException {
+                            if (results != null && !results.getJSONObject(0).has("status")) {
+                                //ΓΙΑ ΟΤΑΝ ΕΡΧΕΤΑΙΑ ΠΟ ΤΗ ΒΑΣΗ ΒΑΖΩ ΣΕ ΚΑΘΕ ΣΕΙΡΑ id ΚΑΙ name ΜΑΖΙ
+                                StringJoiner s = new StringJoiner("\n");
+                                for (int i = 0; i < results.length(); i++) {
+                                    JSONObject jsonObject = results.getJSONObject(i);
+                                    int id = jsonObject.getInt("ID");
+                                    String name = jsonObject.getString("Name");
+                                    s.add(id + " , " + name);
+                                }
+                                holder.valueTV.setText(s.toString());
+                            }
+                        }
+                    };
+                    task.execute();
+
+
+                }
+            }
+
+
+
+
+
+
+            if (desplayImageID != 0) {
+                holder.titleTV.setTypeface(null, Typeface.BOLD);
+                holder.titleTV.setOnClickListener(view -> Utils.showImageDialog(act, desplayImageID));
+
+            }
+
         }
-
-
-        if (desplayImageID != 0){
-            holder.titleTV.setTypeface(null, Typeface.BOLD);
-            holder.titleTV.setOnClickListener(view -> Utils.showImageDialog(act,desplayImageID));
+        catch (Exception e){
 
         }
-
 
     }
 
-    public void specifyEdittext(EditText valueET, String title, int edittextType,int min, int max) {
+    public void specifyEdittext(EditText valueET, String title, int edittextType,int min, int max){
 
 
+            if (edittextType == StaticFields.KEIMENO)
+                valueET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 
-        if (edittextType == StaticFields.KEIMENO)
-            valueET.setInputType(InputType.TYPE_CLASS_TEXT  | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+            else if (edittextType == AKERAIOS) {
+                valueET.setInputType(InputType.TYPE_CLASS_NUMBER);
+            } else if (edittextType == DEKADIKOS) {
+                valueET.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            } else if (edittextType == EUROS_TIMON) {
+                valueET.setInputType(InputType.TYPE_CLASS_NUMBER);
+                if (max != 0)
+                    valueET.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
 
-        else if (edittextType == AKERAIOS){
-            valueET.setInputType(InputType.TYPE_CLASS_NUMBER );
-        }
+            } else if (edittextType == 5)
+                valueET.setInputType(InputType.TYPE_DATETIME_VARIATION_TIME);
 
-        else if(edittextType == DEKADIKOS){
-            valueET.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL );
-        }
-        else if(edittextType == EUROS_TIMON){
-            valueET.setInputType(InputType.TYPE_CLASS_NUMBER );
-            if ( max!= 0)
-            valueET.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
-
-        }
-        else if(edittextType == 5)
-              valueET.setInputType(InputType.TYPE_DATETIME_VARIATION_TIME );
-
-        else if (edittextType == AKERAIOS_WITH_NEGATIVE){
-            valueET.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        }
-
-        else if(edittextType == DEKADIKOS_WITH_NEGATIVE){
-            valueET.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        }
+            else if (edittextType == AKERAIOS_WITH_NEGATIVE) {
+                valueET.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            } else if (edittextType == DEKADIKOS_WITH_NEGATIVE) {
+                valueET.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+            }
 
 
 
@@ -852,6 +885,8 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
             if (isIncludingOldValues) {
                 oldValueTV = itemView.findViewById(R.id.oldDocTV);
 
+                if (oldValueTV != null)
+                    oldValueTV.setImeOptions(EditorInfo.IME_ACTION_DONE);
                 if (viewType == EDITTEXT_ITEM) {
                     valueET =  itemView.findViewById(R.id.valueET);
                     oldValueTV.setOnClickListener(new View.OnClickListener() {
@@ -873,6 +908,9 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
             if (viewType == TEXTVIEW_ITEM ) {
                 valueTV =  itemView.findViewById(R.id.valueTV);
+                valueTV.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                valueTV.setFocusable(false);
+
                 setDateListener(valueTV);
             }
 
@@ -1005,14 +1043,16 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
 
 
-            if (viewType == TITLE_ITEM) {
+           else if (viewType == TITLE_ITEM) {
                 titleTV =  itemView.findViewById(R.id.titleTV);
                 valueTV =  itemView.findViewById(R.id.valueTV);
 
             }
 
-            if (viewType == EDITTEXT_ITEM) {
+           else if (viewType == EDITTEXT_ITEM) {
                 valueET =  itemView.findViewById(R.id.valueET);
+                valueET.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                valueET.setFocusable(false);
 
                 if (editextsUsingDialogs) {
                  //   valueET.seten(false);
@@ -1084,6 +1124,7 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
             else if (viewType == SPINNER_ITEM){
                 valueSP = itemView.findViewById(R.id.valueSP);
+                valueSP.setFocusable(false);
 
                 valueSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -1205,6 +1246,30 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
             }
 
 
+            else if (viewType == MULTI_TYPE_LOOKUP){
+                titleTV =  itemView.findViewById(R.id.titleTV);
+                valueTV = itemView.findViewById(R.id.valueTV);
+                titleTV.setTypeface(null, Typeface.BOLD);
+//                int pos = (int )valueTV.getTag();
+              //  String lookup = result.get(pos).getLookup_query();
+
+                valueTV.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Utils.isNetworkAvailable2(act)) {
+                            String [] idsNames = valueTV.getText().toString().split("\n");
+
+                            //ΤΟΥ ΠΕΡΝΑΩ ΚΑΙ ΤΟ ΑΝΤΙΚΕΙΜΕΝΟ ΩΣΤΕ ΜΕΣΑ ΑΠΟ ΤΟΝ ΛΙΣΕΝΕΡ ΝΑ ΤΟΥ ΠΕΡΝΑΩ ΤΗΝ ΚΑΙΝΟΥΡΙΑ ΤΙΜΗ ΜΕ ΤΑ IDS
+                            DF_SearchMultiLookup df = new DF_SearchMultiLookup(act, valueTV,result.get((Integer) valueTV.getTag()) ,idsNames);
+                            df.show(((FragmentActivity) act).getSupportFragmentManager(), "Dialog");
+                        }
+                    }
+                });
+               // valueTV.setOnClickListener(new SearchMultiLookupListener(act,"medicines",valueTV));
+
+            }
+
+
                 titleTV =  itemView.findViewById(R.id.titleTV);
 
          //   itemView.setOnClickListener(this);
@@ -1300,7 +1365,6 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
 
         ArrayAdapter adapter;
-
         if (lista.get(0) instanceof String)
             adapter = new ArrayAdapter<String>(act, R.layout.spinner_layout2, lista);
         else

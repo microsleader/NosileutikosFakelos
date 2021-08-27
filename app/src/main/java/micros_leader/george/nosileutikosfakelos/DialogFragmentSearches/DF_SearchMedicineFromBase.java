@@ -63,11 +63,11 @@ public class DF_SearchMedicineFromBase  extends DialogFragment implements IMedLi
         apotelesmataRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         if (getContext() != null)
             apotelesmataRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        apotelesmataRecyclerView.setItemViewCacheSize(300);
+        apotelesmataRecyclerView.setItemViewCacheSize(20);
         apotelesmataRecyclerView.setHasFixedSize(true);
 
 
-  if (getActivity() != null) {
+        if (getActivity() != null) {
             adapter = new SearchMedicineAdapter(getActivity(), medicinesArraylist, this);
             apotelesmataRecyclerView.setAdapter(adapter);
         }

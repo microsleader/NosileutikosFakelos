@@ -10,7 +10,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -31,6 +37,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
     public AsyncCompleteTask2 listener = null;
     private JSONArray JArray;
     private String URL ;
+    private java.net.URL url ;
 
 
     public AsyncTaskGetJSON2(){
@@ -58,6 +65,11 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
             base_URL = Utils.getAddress(ctx.getApplicationContext()) + ":" + Utils.getPort(ctx.getApplicationContext()) + "/rquery?cquery=";
 
             URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query));
+            try {
+                url = new URL(Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query)));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
 
             Log.e("url2", query);
 
@@ -72,10 +84,11 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
     protected JSONArray doInBackground(String... params) {
 
 
+
         try {
 
-        final OkHttpClient client = new OkHttpClient();
 
+        final OkHttpClient client = new OkHttpClient();
         final Request request = new Request.Builder()
                 .url(URL)
                 .get()
@@ -86,7 +99,8 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
 
             Response response = client.newCall(request).execute();
             String jsonData = response.body().string();
-
+            response.body().close();
+            response.close();
 
 
             try {
@@ -101,7 +115,6 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
 
 
         } catch (IOException e) {
@@ -123,7 +136,8 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
 
 
             try {
-                listener.taskComplete2(result);
+                if (listener != null && ctx != null)
+                    listener.taskComplete2(result);
             } catch (JSONException e) {
 
                 e.printStackTrace();

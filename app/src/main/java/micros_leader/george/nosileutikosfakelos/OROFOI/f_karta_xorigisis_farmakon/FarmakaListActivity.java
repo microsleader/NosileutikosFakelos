@@ -90,13 +90,9 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
 
 
-
     private void medicines (){
         bundle1  =   tableView_sigkentrotika_dialogFragment( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID),
                 transgroupID,
-                new String[]{"ID","UserID","Χρήστης","Ημ/νία Εναρξης","Φάρμακα","Κατηγορία" , "ML/ώρα" ,"Δόση",
-                        "Δοσολογία","Διακόπηκε","Ημ/νία διακοπής",
-                        },
                 null,
                 InfoSpecificLists.getKartaXorigisisFarmakwn(),
                 false,
@@ -216,8 +212,8 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
         sb.append("exec dbo.disable_triggers " );
 
         for (String hour: medsHours) {
-            sb.append(" insert into Nursing_ores_xorigisis(date,xorigisiID, hour) " +
-                    "values( dbo.timeToNum(CONVERT(datetime,GETDATE() , 103)) , " + itemID + ","  + Utils.convertHourTomillisecondsGR(hour) + ")" );
+            sb.append(" insert into Nursing_ores_xorigisis(date,xorigisiID, hour) " + "values( dbo.timeToNum(CONVERT(datetime,GETDATE() , 103)) , ")
+                    .append(itemID).append(",").append(Utils.convertHourTomillisecondsGR(hour)).append(")");
         }
         sb.append(" exec dbo.enable_triggers ");
 
@@ -232,7 +228,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
     private void medicines_display_hours (String medicineIDS){
 
-        bundle1  = tableView_sigkentrotika_dialogFragment(new Str_queries().getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, medicineIDS),
+        bundle1  = tableView_sigkentrotika_dialogFragment(Str_queries.getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, medicineIDS),
                 null,
                 new String[]{"ID","Χρήστης","Είδος","Ωρα χορήγησης","Χορηγήθηκε"},
                 null,
@@ -252,7 +248,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
 
 
-        tf1 = new TableFragment();
+         tf1 = new TableFragment();
          tf1.setArguments(bundle1);
 
 

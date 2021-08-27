@@ -30,6 +30,11 @@ public class Spinner_new_Adapter extends ArrayAdapter<Spinner_item>{
 
     @Override
     public Spinner_item getItem(int position){
+        if (values == null)
+            return new Spinner_item();
+        if (position >= values.length)
+            return values[0];
+
         return values[position];
     }
 

@@ -305,6 +305,41 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(7,"Πετέχειες"));
 
         return lista;
+
+    }
+
+
+    public static ArrayList <Spinner_item> getSitisi_sinodou () {
+
+        ArrayList<Spinner_item> lista = new ArrayList<>();
+
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"Π-Γ-Δ"));
+        lista.add(new Spinner_item(2,"Γ-Δ"));
+        lista.add(new Spinner_item(3,"Π"));
+        lista.add(new Spinner_item(4,"Γ"));
+        lista.add(new Spinner_item(5,"Δ"));
+
+
+        return lista;
+    }
+
+
+    public static ArrayList<Spinner_item> getMetraLoimokseisLista() {
+
+        ArrayList<Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"Πολυανθεκτικά"));
+        lista.add(new Spinner_item(2,"ουδετεροπερονικου και ανοσοκατεσταλμένου"));
+        lista.add(new Spinner_item(3,"Ουδετεροπεπτικού"));
+        lista.add(new Spinner_item(4,"Μέτρα επαφής"));
+        lista.add(new Spinner_item(5,"Σταγονιδίων"));
+        lista.add(new Spinner_item(6,"MDR"));
+
+
+        return lista;
     }
 
 

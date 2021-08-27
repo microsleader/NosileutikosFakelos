@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,11 +21,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
+import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended_str;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
 
-public class TableFragment extends DialogFragment {
+public class TableFragment extends DialogFragment implements DataSended_str {
 
     // ΣΕ ΠΕΡΙΠΤΩΣΗ ΠΟΥ ΘΕΛΟΥΜΕ CHECKBOX ΣΕ ΚΑΠΟΙΟ COLUMN NAME ΤΟΤΕ ΠΡΕΠΕΙ ΝΑ ΓΡΑΦΤΕΙ "column_name,checkbox" MONO ETSI DOYLEYEI
 
@@ -83,13 +85,6 @@ public class TableFragment extends DialogFragment {
 
 
 
-//        LinearLayout linearLayout = view.findViewById(R.id.linearLayout);
-//        ViewGroup.LayoutParams lp = linearLayout.getLayoutParams();
-//
-//        lp.width = RelativeLayout.LayoutParams.WRAP_CONTENT;
-//        lp.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-//        //linearLayout.setPadding(0,0,0,1200);
-
         callTable();
         alertDialog.dismiss();
 
@@ -120,11 +115,21 @@ public class TableFragment extends DialogFragment {
             tableClass.setInfoFromMedicineDialogFragment(id_name);
     }
 
+
+
+    public void setDietesInfo(String id_name) {
+        tableClass.setInfoDietesDialogFragment(id_name);
+    }
+
     public void addColAndValue(String col , String value){
         extraCols.add(col);
         extraValues.add(value);
 
     }
 
+    @Override
+    public void hereIsYourStr_Data(String info) {
+        setDietesInfo(info);
+    }
 }
 
