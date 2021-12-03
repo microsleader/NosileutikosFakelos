@@ -1,6 +1,7 @@
 package micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -67,6 +68,7 @@ public class StatheresFragment extends Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -80,6 +82,14 @@ public class StatheresFragment extends Fragment {
             companyID = Utils.getcompanyID(main);
             if (!main.isNurse)
                 bd.updateButton.setVisibility(View.INVISIBLE);
+
+            if (Customers.isFrontis(main.custID)) {
+                bd.loggedInUserTV.setVisibility(View.VISIBLE);
+                bd.loggedInUserTV.setText("Συνδεδεμένος χρήστης: \n" + Utils.getUserName(main));
+            }
+            else
+                bd.loggedInUserTV.setVisibility(View.GONE);
+
 
 
             oldValuesLista = new ArrayList<>();
@@ -277,7 +287,7 @@ public class StatheresFragment extends Fragment {
                             for (int i = 0; i < namesGiaApothikeusi.size(); i++)
                                 newList_oldValues.add(Utils.convertObjToString(tel_metr.get(namesGiaApothikeusi.get(i))));
 
-                            if (tel_metr != null && tel_metr.has("docName"))
+                            if (bd.oldDocTV != null && tel_metr != null && tel_metr.has("docName"))
                                 bd.oldDocTV.setText(convertObjToString(tel_metr.get("docName")));
 
                         }

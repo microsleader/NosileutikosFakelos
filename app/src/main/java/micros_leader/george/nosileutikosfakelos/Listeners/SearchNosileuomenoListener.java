@@ -17,12 +17,21 @@ public class SearchNosileuomenoListener implements View.OnClickListener {
 
 private ArrayList<PatientsOfTheDay> lista;
 
-private Activity activity;
+public Activity activity , activityFromSigxoneusi;
 
     public SearchNosileuomenoListener(Activity activity, ArrayList<PatientsOfTheDay> lista) {
         // keep references for your onClick logic
 
         this.activity = activity;
+        this.lista = lista;
+    }
+
+
+    public SearchNosileuomenoListener(Activity activity, Activity activityFromSigxoneusi, ArrayList<PatientsOfTheDay> lista) {
+        // keep references for your onClick logic
+
+        this.activity = activity;
+        this.activityFromSigxoneusi = activityFromSigxoneusi;
         this.lista = lista;
     }
 
@@ -37,7 +46,12 @@ private Activity activity;
             else {
 
 
-                    DialogFragmentSearchPatientNosileuomenos df = new DialogFragmentSearchPatientNosileuomenos();
+                    DialogFragmentSearchPatientNosileuomenos df;
+                    if (activityFromSigxoneusi != null)
+                        df = new DialogFragmentSearchPatientNosileuomenos(activityFromSigxoneusi);
+                    else
+                        df = new DialogFragmentSearchPatientNosileuomenos();
+
                     Bundle putextra = new Bundle();
                     putextra.putSerializable("patients", lista);
 

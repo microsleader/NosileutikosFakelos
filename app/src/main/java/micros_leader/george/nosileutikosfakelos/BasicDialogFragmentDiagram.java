@@ -34,6 +34,8 @@ import java.util.Map;
 
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
+import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Parakolouthisi.ParakolouthisiActivity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Zotika_simeia.Zotika_simeia_Activity;
 
@@ -44,13 +46,13 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
 
 
     private String transgroupID  , date ,katigoriaItem;
-    private int ANA_HOUR = 1;
-    private int ANA_3_HOURS = 3;
+    private final int ANA_HOUR = 1;
+    private final int ANA_3_HOURS = 3;
     private int kathe_poses_ores = 0;
     private Context CTX;
     private GraphView graph;
     private Spinner katigoriesSP;
-    private ArrayList katigoriesDiagramLista;
+    private ArrayList <String> katigoriesDiagramLista;
     private ArrayList watchLista;
     private LineChart lineChart;
     private Button resetZoomBT;
@@ -133,7 +135,10 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
 
     private String getAvtivityQuery(){
         String query ="";
-        katigoriaItem = getKatigoriaForTheQuery(katigoriesSP.getSelectedItem().toString());
+        if (act instanceof Zotika_Activity_Meth || act instanceof SigxoneusiFiladiwnActivity)
+            katigoriaItem = getKatigoria_meth_ForTheQuery(katigoriesSP.getSelectedItem().toString());
+        else
+            katigoriaItem = getKatigoriaForTheQuery(katigoriesSP.getSelectedItem().toString());
 
         if (act instanceof ParakolouthisiActivity)
             query = Str_queries.getPARAKOLOUTHISI_DIAGRAM_INFO(transgroupID,katigoriaItem,date);
@@ -145,6 +150,8 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
                 query = Str_queries.getZOTIKA_DIAGRAM_INFO_ANA_3ORO(transgroupID, katigoriaItem, date);
 
         }
+        else if (act instanceof Zotika_Activity_Meth || act instanceof SigxoneusiFiladiwnActivity)
+            query = Str_queries.getZOTIKA_METH_DIAGRAM_INFO(transgroupID, katigoriaItem, date);
 
         return query;
     }
@@ -183,7 +190,7 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
                             int watch = 0;
                                if (act instanceof ParakolouthisiActivity)
                                    watch = getWatchNameParakolouthisi(katigoriaMetrisi.getInt("watch"));
-                               else if (act instanceof Zotika_simeia_Activity)
+                               else if (act instanceof Zotika_simeia_Activity || act instanceof Zotika_Activity_Meth || act instanceof SigxoneusiFiladiwnActivity)
                                    watch = getWatchNameZotika(katigoriaMetrisi.getInt("watch"));
                             float metr ;
 
@@ -366,7 +373,7 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
                     katigoria = "oura";
                     break;
 
-                case "Κλίμαλα πόνου" :
+                case "Κλίμακα πόνου" :
                     katigoria = "ponos";
                     break;
             }
@@ -376,6 +383,51 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
             return katigoria;
         }
 
+
+        private String getKatigoria_meth_ForTheQuery(String spinnerItem){
+            switch (spinnerItem) {
+                case "Θερμοκρασία":
+                    return  "thermokrasia";
+
+                case "Σφύξεις":
+                    return "sfiksis";
+
+                case "Πιεση" :
+                    return "piesi";
+
+                case "Οξυμετρία" :
+                    return "oximetria";
+
+                case "Αναπνοές" :
+                    return "anapnoes";
+
+                case "Πόνος" :
+                    return "ponos";
+
+                case "Συστολική πίεση" :
+                    return "sistoliki_artiriaki_piesi";
+
+                case "Διαστολική πίεση" :
+                    return "diastoliki_artiriaki_piesi";
+
+//                case "SPO2" :
+//                    return "spo2";
+
+                case "Stick glu" :
+                    return "glu";
+
+//                case "Ούρα" :
+//                    return "oura";
+
+                case "Κλίμακα πόνου" :
+                    return "ponos";
+
+                default:
+                    return  "";
+            }
+
+
+        }
 
 
 
@@ -398,8 +450,7 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
 
             if (id < 100) //ΓΙΑ ΔΙΨΗΦΙΟΣΣ
                 return id;
-            else
-            {
+            else {
 
                 String str = String.valueOf(id);
                 id = Integer.parseInt(str.substring(1));

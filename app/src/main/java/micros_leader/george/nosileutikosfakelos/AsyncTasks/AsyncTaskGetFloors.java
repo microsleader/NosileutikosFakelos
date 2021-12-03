@@ -39,7 +39,7 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
     private IData listener = null;
     private ArrayList<String> floorsLista;
     private AlertDialog alertDialog;
-    private TextView patientsTV;
+    //private TextView patientsTV;
     private Spinner floorsSP;
     private ArrayAdapter adapter;
     private JSONArray JArray;
@@ -50,12 +50,28 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
     public AsyncTaskGetFloors(Activity activity , Spinner floorsSP , ArrayAdapter adapter ) {
 
 
-        this.patientsTV = patientsTV;
+
+        //this.patientsTV = patientsTV;
         this.floorsSP = floorsSP;
         this.adapter = adapter;
         this.activity = activity;
-        ctx = activity.getApplicationContext();
+        ctx = activity;
         listener = (IData) activity;
+        alertDialog = Utils.setLoadingAlertDialog(activity);
+
+    }
+
+
+    public AsyncTaskGetFloors(Activity activity , Spinner floorsSP , ArrayAdapter adapter, Activity actFromSigxoneusi ) {
+
+
+
+        //this.patientsTV = patientsTV;
+        this.floorsSP = floorsSP;
+        this.adapter = adapter;
+        this.activity = activity;
+        ctx = activity;
+        listener = (IData) actFromSigxoneusi;
         alertDialog = Utils.setLoadingAlertDialog(activity);
 
     }
@@ -81,7 +97,13 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
 
     }
 
-    @Override
+
+
+
+
+
+
+   @Override
     protected JSONArray doInBackground(String... params) {
 
 
@@ -186,8 +208,7 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
         alertDialog.dismiss();
 
 
-            adapter = new ArrayAdapter<>(activity,
-                    R.layout.spinner_layout2, floorsLista);
+            adapter = new ArrayAdapter<>(activity, R.layout.spinner_layout2, floorsLista);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         if (floorsLista != null) {

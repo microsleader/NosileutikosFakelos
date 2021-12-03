@@ -1,5 +1,6 @@
 package micros_leader.george.nosileutikosfakelos.Main_menu;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -58,7 +59,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
             "insurance1","insurance2","insurance3","insurance4","patient_age","tg_clinic", "DiagnosisIn",
             "treatment1","treatment2","treatment3","treatment4","remarks",};
 
-    private Button planoKlinonBt;
+    private Button planoKlinonBt, sigxoneusiBT;
     private Toolbar toolbar;
     private int customerID = 0;
     private SharedPreferences sp1 ;
@@ -77,7 +78,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
         name = getIntent().getStringExtra("name");
         id = getIntent().getStringExtra("id");
         companyID = getIntent().getStringExtra("companyID");
-        extendedActivity = this;
+        extendedAct = this;
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         filladiaLayout = findViewById(R.id.filadiaLayout);
@@ -123,12 +124,10 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
 
 
 
-
-
         planoKlinonBt = findViewById(R.id.planoKlinonBT);
+        sigxoneusiBT = findViewById(R.id.sigxoneusiBT);
+        sigxoneusiBT.setOnClickListener(this);
 
-
-        planoKlinonBT_listener();
 
         sp1 =  getSharedPreferences("settings", Activity.MODE_PRIVATE);
         editor= sp1.edit();
@@ -144,7 +143,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
 
     private void initializeRV() {
 
-        adapter = new Menu_general_RV_Adapter(menu_lista,this);
+        adapter = new Menu_general_RV_Adapter(menu_lista,this , true);
         setRecyclerViewgridrLayaout( R.id.recyclerView,  adapter, 2,titloi_positions );
     }
 
@@ -236,6 +235,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -259,6 +259,11 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+
+        if (v.getId() == R.id.planoKlinonBT)
+            planoKlinonBT_listener();
+        else if (v.getId() == R.id.sigxoneusiBT)
+            startActivity(new Intent(this, SigxoneusiFiladiwnActivity.class));
 
     }
 
@@ -368,6 +373,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
 
     @Override
     public void taskCompleteGetVardies(JSONArray results) throws JSONException {
+
 
     }
 }

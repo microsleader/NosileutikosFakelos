@@ -3,11 +3,14 @@ package micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -19,51 +22,101 @@ import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.BasicRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
+import micros_leader.george.nosileutikosfakelos.OROFOI.f_Zotika_simeia.Zotika_simeia_Activity;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
+import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.get24HoursLista;
 import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.getZotika24oroAnaOraLista_Meth;
+
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.Icon;
+
 
 public class Zotika_Activity_Meth extends BasicActivity {
 
+    public Spinner hoursSP;
 
-    private BasicRV adapterRV;
-    private TextView timeTV;
-    private boolean egineKataxorisi = false;
-    private Button neaEggrafiBT;
+    public BasicRV adapterRV;
+    public TextView timeTV;
+    public Button neaEggrafiBT , diagramBT;
+    private ArrayList <String> watchLista;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zotika___meth);
-
-        extendedActivity = this;
         neaEggrafiBT = findViewById(R.id.neaEggrafiBT);
+        hoursSP = findViewById(R.id.hoursSP);
+        diagramBT = findViewById(R.id.diagramBT);
+        fab = findViewById(R.id.fab);
+
+
+        initialize();
+
+    }
+
+
+    public void initialize(){
+        if (extendedAct == null)
+            extendedAct = this;
         neaEgrafiListener();
         table = "Nursing_Zotika_Simeia_Meth";
-        timeTV = findViewById(R.id.timeTV);
-        timeListener();
+        //timeListener();
+        diagramButtonListener();
 
-        getAll_col_names( getZotika24oroAnaOraLista_Meth());
-        fab = findViewById(R.id.fab);
+        watchLista = get24HoursLista();
+        spinnersAdapter();
+        watchID = InfoSpecificLists.get24hoursID(hoursSP.getSelectedItem().toString());
+
+        getAll_col_names( getZotika24oroAnaOraLista_Meth(true));
         fabListener();
-        titloi_positions = new int[]{17};
-        adapterRV = new ZotikaRV_adapter(this, getZotika24oroAnaOraLista_Meth(),titloi_positions);
+        titloi_positions = new int[]{20};
+        adapterRV = new ZotikaRV_adapter(extendedAct, getZotika24oroAnaOraLista_Meth(true), titloi_positions);
         listaAdaptor = adapterRV.result;
 
 
 
         setRecyclerViewgridrLayaout(R.id.zotikaMethRV ,adapterRV,2,titloi_positions);
 
-        getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
+        getPatientsList(extendedAct,R.id.patientsTV, R.id.floorsSP);
         thereIsDatePicker(R.id.dateTV);
         date = dateTV.getText().toString();
 
 
         thereIsImageUpdateButton();
-        insertOrUpdateListener(listaAdaptor,new String [] {"ID","TransGroupID","Date"});
+        insertOrUpdateListener(listaAdaptor,new String [] {"ID","TransGroupID","Date","watch"});
     }
+
+
+
+
+    private void spinnersAdapter() {
+        ArrayAdapter arrayAdapter = new ArrayAdapter<>(extendedAct,
+                R.layout.spinner_layout_for_vardies, watchLista);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        hoursSP.setAdapter(arrayAdapter);
+
+        hoursSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                watchID = InfoSpecificLists.get24hoursID(hoursSP.getSelectedItem().toString());
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
 
     private void fabListener() {
 
@@ -75,26 +128,15 @@ public class Zotika_Activity_Meth extends BasicActivity {
 
                 Intent in = tableView_sigkentrotika(query,
                         transgroupID,
-//                        new String[]{"ID","UserID","ΗΜ/ΝΙΑ / ΩΡΑ","Νοσηλευτής","V Συστολική Αρτ.Πίεση",
-//                                "X  Μέση Αρτ.Πίεση","Λ Διαστ. Αρτ. Πίεση","Σφύξεις","Καρδ.Ρυθμός-ΒΗΜΑΤΟΔΟΤΗΣ\n(συχνότητα)",
-//                                "ΘΕΡΜΟΚΡΑΣΙΑ","ΠΟΝΟΣ","ΙΑΒΡ-Σφυγμός Άκρου","ACT","CVP", "PCW",
-//                                "PAS-PAD","ScvO2-CO/CI","ICP-CPP",
-//                                //"Κόρες(μέγεθος/αντίδραση)",
-//                                "Δεξια κόρη (μεγεθος mm)" ,"Δεξια κόρη\nσυμβολο", "Αριστερή κόρη (μεγεθος mm)","Αριστερή κόρη\nσυμβολο",
-//                                "Τρόπος αερισμού","Άλλος τρόπος\nαερισμού","Μείγμα Οξυγόνου","Αναπνοές Αναπνευστήρα","Σύνολο αναπνοών",
-//                                "Εισπνεόμενος όγκος(ντ)","PEEP","Pr.Control","Pr.Support",
-//                                "ΟΞΥΜΕΤΡΊΑ(Ο2 Sat)","Peak Pressure-τύπος αναπνοής","ΘΕΣΗ ΚΡΕΒΑΤΙΟΥ","ΘΕΣΗ ΣΩΜΑΤΟΣ","ΑΝΑΡΡΟΦΗΣΗ",
-//                                "ΕΝΔΟΦΛΕΒΙΑ ΡΥΘΜΙΣΗ ΣΑΚΧΑΡΟΥ" ,"ΥΠΟΔΟΡΙΑ ΡΥΘΜΙΣΗ ΣΑΚΧΑΡΟΥ" , "Ινσουλίνη" , "GLU","IABP-MODE"
-//
-//                        },
+
                         null,
-                         InfoSpecificLists.getSigkentrotikaZotikaMeth(),
+                         InfoSpecificLists.getZotika24oroAnaOraLista_Meth(false),//getSigkentrotikaZotikaMeth
                         false,
                         false,
                         true);
 
 
-                startActivity(in);
+                extendedAct.startActivity(in);
             }
         });
 
@@ -112,7 +154,7 @@ public class Zotika_Activity_Meth extends BasicActivity {
                 clearListaAdaptor(listaAdaptor);
                 adapterRV.notifyDataSetChanged();
 
-                Toast.makeText(extendedActivity, "Μπορείτε να κάνετε μία νέα εγγραφη", Toast.LENGTH_SHORT).show();
+                Toast.makeText(extendedAct, "Μπορείτε να κάνετε μία νέα εγγραφη", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -127,7 +169,7 @@ public class Zotika_Activity_Meth extends BasicActivity {
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
                 TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(Zotika_Activity_Meth.this, new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(extendedAct, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         timeTV.setText( selectedHour + ":" + selectedMinute);
@@ -142,11 +184,19 @@ public class Zotika_Activity_Meth extends BasicActivity {
 
 
 
+    private void diagramButtonListener() {
+        diagramBT.setOnClickListener(v ->
+                 showDiagram(transgroupID,dateTV.getText().toString(),
+                         InfoSpecificLists.getZotikaKatigories_meth_DiagramLista(),1, extendedAct));
+
+    }
+
+
     @Override
     public void update_JSON(String str) {
         super.update_JSON(str);
 
-        if (str.equals(getString(R.string.successful_update))) {
+        if (str.equals(extendedAct.getString(R.string.successful_update))) {
             id = eggrafiID;
             weHaveData = true;
         }
@@ -162,17 +212,19 @@ public class Zotika_Activity_Meth extends BasicActivity {
     public void setValuesTo_valuesJSON(int[] titles_positions, ArrayList<ItemsRV> listAdaptor) {
         super.setValuesTo_valuesJSON(titles_positions, listAdaptor);
 
-        date = dateTV.getText().toString() + " " + timeTV.getText().toString();
+        date = dateTV.getText().toString() + " " + Utils.getCurrentTime2();
 
+    }
+
+    @Override
+    public void insert_or_update_data(ArrayList<ItemsRV> listaAdaptor, String[] names_col) {
+        super.insert_or_update_data(listaAdaptor, names_col);
     }
 
 
 
 
-
-
-
-    class ZotikaRV_adapter extends BasicRV {
+    static class ZotikaRV_adapter extends BasicRV {
 
 
         public ZotikaRV_adapter(Activity act, ArrayList<ItemsRV> result, int[] titloi_positions) {

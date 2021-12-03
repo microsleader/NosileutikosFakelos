@@ -44,7 +44,7 @@ public class SearchMedicineAdapter extends RecyclerView.Adapter<SearchMedicineAd
         this.context = context;
         this.result = result;
         this.dialog = dialog;
-        isMultiLookup = true;
+        isMultiLookup = false;
 
         this.listener = (MyDialogFragmentMedicineCloseListener) context;
         txtView = (TextView) ((Activity)context).findViewById(R.id.valueTV);

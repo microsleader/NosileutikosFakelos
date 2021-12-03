@@ -24,6 +24,7 @@ public class SearchPatientNosilAdapter extends RecyclerView.Adapter<SearchPatien
 
     private ArrayList<PatientsOfTheDay> result = null;
     private DialogFragmentSearchPatientNosileuomenos dialog;
+    private Activity activityFromSigxoneusi;
     TextView txtView;
     public MyDialogFragmentCloseListener listener = null;
 
@@ -38,6 +39,18 @@ public class SearchPatientNosilAdapter extends RecyclerView.Adapter<SearchPatien
 
 
     }
+
+    public SearchPatientNosilAdapter(Context context,Activity activityFromSigxoneusi, ArrayList result, DialogFragmentSearchPatientNosileuomenos dialog){
+        this.context = context;
+        this.result = result;
+        this.dialog = dialog;
+        this.listener = (MyDialogFragmentCloseListener) activityFromSigxoneusi;
+        txtView = (TextView) ((Activity)context).findViewById(R.id.patientsTV);
+
+
+    }
+
+
 
     @Override
     public SearchPatientNosilAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -58,6 +58,18 @@ public class AsyncTaskGetPlanoKlinonPatients extends AsyncTask<String, Void, JSO
     }
 
 
+    public AsyncTaskGetPlanoKlinonPatients(Activity activity , TextView patientsTV , int floorID,Activity actFromSigxoneusi) {
+
+        this.patientsTV = patientsTV;
+        this.activity = activity;
+        this.floorID = floorID;
+        ctx = activity.getApplicationContext();
+        listener = (IData) actFromSigxoneusi;
+        alertDialog = Utils.setLoadingAlertDialog(activity);
+
+    }
+
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

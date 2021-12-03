@@ -113,6 +113,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
 
 
             } catch (JSONException e) {
+                Log.e("eleos",Server.Crypt.decrypt(jsonData));
                 e.printStackTrace();
             }
 

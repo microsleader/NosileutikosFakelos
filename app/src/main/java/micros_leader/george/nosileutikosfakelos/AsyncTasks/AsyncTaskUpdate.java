@@ -44,7 +44,7 @@ public class AsyncTaskUpdate extends AsyncTask<String, Void, String> {
         if (query == null || query.isEmpty())
             cancel(true);
 
-        base_URL = Utils.getAddress(ctx.getApplicationContext()) + ":" + Utils.getPort(ctx.getApplicationContext()) + "/rquery?cquery=";;
+        base_URL = Utils.getAddress(ctx) + ":" + Utils.getPort(ctx) + "/rquery?cquery=";;
 
         URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query));
 

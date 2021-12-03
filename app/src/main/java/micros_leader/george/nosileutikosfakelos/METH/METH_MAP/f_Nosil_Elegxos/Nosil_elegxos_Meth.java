@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -48,7 +47,7 @@ public class Nosil_elegxos_Meth extends BasicActivity  implements DataSended{
         bd = ActivityNosilIstorikoMethBinding.inflate(getLayoutInflater());
         View view = bd.getRoot();
         setContentView(view);
-        extendedActivity = this;
+        extendedAct = this;
 
         logodosiaBTListener();
         setSupportActionBar(toolbar);

@@ -29,7 +29,7 @@ public class Enimerotiko_simeioma_eksetasis_activity extends BasicActivity {
 
         toolbar = findViewById(R.id.toolbar);
         sigkentrotikaBT = findViewById(R.id.sigkentrotikaBT);
-        extendedActivity = this;
+        extendedAct = this;
         adapterRV = new BasicRV(this, InfoSpecificLists.getEnimerotikoSimeiomaEksetasisEksoterika(),titloi_positions);
 
         listaAdaptor = adapterRV.result;

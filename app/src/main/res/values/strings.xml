@@ -62,6 +62,83 @@
         4: πληγία - καμία κίνηση
     </string>
 
+    <string name="info_egrigorsi">
+        0: Φυσιολογικη \n
+        1: Υπνηλία\n
+        2: Stupor\n
+        3: Κώμα (μόνο αντανακλαστικά ή καμμία απάντηση)
+    </string>
+
+    <string name="info_monthAge">
+        0: Δύο σωστές \n
+        1: Μία σωστή / Διασωλήνωση / Σοβαρή δυσαρθρία\n
+        2: Δύο λάθος / Καμία σωστή / Αφασία/Κώμα\n
+    </string>
+
+    <string name="info_eyesHands">
+        0: Σωστές \n
+        1: Μία λάθος\n
+        2: Δύο λάθος / Κώμα\n
+    </string>
+
+    <string name="info_ofthalmokin">
+        0: Χωρίς έλλειμα \n
+        1: μερική/ετερόπλευρη\n
+        2: σοβαρή / συζυγής απόκλιση\n
+    </string>
+
+    <string name="info_imianopsia">
+        0: απουσία \n
+        1: μερική/τεταρτοκυκλική/neglect\n
+        2: σοβαρή / συζυγής απόκλιση\n
+    </string>
+
+    <string name="info_paresiFace">
+        0: απουσία \n
+        1: ήπια\n
+        2: μέτρια\n
+        3: πλήρης /αμφοτερόπλευρη / χωρίς απάντηση\n
+    </string>
+
+    <string name="info_ptwsiAnwAkrou">
+        0: απουσία \n
+        1: ήπια\n
+        2: ακουμπά κρεβάτι\n
+        3: πλάγιες κινήσεις-ορατή σύσπαση\n
+        4: πληγία\n
+    </string>
+
+    <string name="info_ataxia">
+        0: απουσία / πληγία\n
+        1: 1 μέλος\n
+        2: > 1 μέλους\n
+    </string>
+
+    <string name="info_asthetic">
+        0: φυσιολογική\n
+        1: μειωμένη\n
+        2: αναισθησία/ άμφω / κώμα\n
+    </string>
+
+    <string name="info_afasia">
+        0: απουσία \n
+        1: ήπια\n
+        2: σοβαρή\n
+        3: μόνο ναι/ όχι/ κώμα\n
+    </string>
+
+    <string name="info_disarthria">
+        0: απουσία \n
+        1: ήπια / μέτρια\n
+        2: ακατανόητη ομιλία /αναρθρία\n
+    </string>
+
+    <string name="info_neglect">
+        0: απουσιάζει \n
+        1: μία ποιότητα\n
+        2: > 1 ποιότητες\n
+    </string>
+
     <string name="no_data">Δεν υπάρχουν δεδομένα αυτη τη στιγμή</string>
 
     <string name="title_farmaka_list">dosologies</string>
@@ -85,6 +162,10 @@
 
     <string name="programmatismos_odigies_1">Επιλέχτε είδος</string>
     <string name="programmatismos_odigies_2">Επιλέχτε είδος</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
 

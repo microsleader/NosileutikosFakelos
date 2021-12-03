@@ -13,7 +13,7 @@ public class TableViewItem implements Serializable {
     public String lookup_query;
     public int typeElement, textType;
     public ArrayList<Spinner_item> spinnerLista;
-    private String title,checkboxTitle;
+    public String title,checkboxTitle;
     private int width;
 
     public ArrayList<TableViewItem> tableLista = new ArrayList<>();

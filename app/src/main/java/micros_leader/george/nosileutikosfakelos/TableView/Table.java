@@ -866,11 +866,13 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
                 if (tableRow != null) {
-                    for (int x = 0 ; x < tableRow.getChildCount(); x ++) { //παιρνω την πρωττη γραμμη απο το detail για να παρω τις διαστασεις του καθε πεδιου
+                    for (int x = 0 ; x < tableRow.getChildCount(); x ++) { //παιρνω την πρωτη γραμμη απο το detail για να παρω τις διαστασεις του καθε πεδιου
                         View detailView = tableRow.getChildAt(x);
                         int detal_width = detailView.getWidth();
 
                         TextView headerTV = (TextView) firstRow.getChildAt(x);
+                        if (headerTV == null)
+                            return;
                         int header_width = headerTV.getWidth();
                         int header_height = headerTV.getHeight();
 
@@ -1737,7 +1739,14 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     }
 
     private TableRow.LayoutParams getLayoutsParams(){
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        lp.setMargins(10,10,0,0);
+        return lp;
+    }
+
+
+    private TableRow.LayoutParams getLayoutsParams_wrapWidth(){
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.MATCH_PARENT);
         lp.setMargins(10,10,0,0);
 
         return lp;
@@ -2213,14 +2222,13 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
         final EditText  editText = new EditText(ctx);
-        editText.setLayoutParams(lp);
+        editText.setLayoutParams(getLayoutsParams_wrapWidth());
         editText.setTextSize(18);
         editText.setPadding(1,0,1,0);
         editText.setGravity(Gravity.CENTER);
         editText.setBackgroundResource(R.drawable.table_row_cell);
         editText.setText(text);
 
-        // editText.setElegantTextHeight(true);
         editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editText.setMaxEms(14);
         editText.setSingleLine(false);
@@ -2242,7 +2250,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             editText.setBackgroundResource(R.color.light_green);
 
             if (edittextType == KEIMENO)
-                editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE );
 
             else if (edittextType == AKERAIOS) {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -2258,7 +2266,6 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             }
 
-
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -2269,8 +2276,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
                 }
 
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void afterTextChanged(Editable s) {
+
+
 
                     ArrayList<String> valuesLista = valuesMap.get(positionRow);
                     if (valuesLista != null) {
@@ -2299,10 +2309,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         if (hasValuesForCH){
             setValuesForSigkentrotikaSinexon(cbx);
-
         }
 
-        if (value.equals("1") || (tableViewArraylist.get(positionRow).force_value != null && tableViewArraylist.get(positionRow).force_value.equals("1")))
+        if (value.equals("1")
+                ||
+           (tableViewArraylist.size() > positionRow &&  tableViewArraylist.get(positionRow).force_value != null && tableViewArraylist.get(positionRow).force_value.equals("1")))
             cbx.setChecked(true);
         else
             cbx.setChecked(false);
@@ -2819,6 +2830,27 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         //startActivity(in);
 
 
+
+    }
+
+
+    public static Intent tableView_sigkentrotika(String query, String transgroupID, Activity act, String [] panoTitloi,
+                                          String [] plagioiTitloi , ArrayList<TableViewItem> lista,
+                                          boolean exeiWatchID, boolean exeiSinolo, boolean editable){
+
+
+
+        Intent in = new Intent(act, TableActivity.class);
+        in.putExtra("str_query",query);
+        in.putExtra("transgroupID",transgroupID);
+        in.putExtra("panoTitloi",panoTitloi);
+        in.putExtra("tableView_cols" , lista);
+        in.putExtra("plagioiTitloi",plagioiTitloi);
+        in.putExtra("exeiWatchID",exeiWatchID);
+        in.putExtra("exeiSinolo",exeiSinolo);
+        in.putExtra("editable",editable);
+
+        return in;
 
     }
 

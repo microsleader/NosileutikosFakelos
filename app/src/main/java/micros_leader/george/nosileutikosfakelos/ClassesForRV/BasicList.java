@@ -1,5 +1,7 @@
 package micros_leader.george.nosileutikosfakelos.ClassesForRV;
 
+import static micros_leader.george.nosileutikosfakelos.StaticFields.TITLE_ITEM;
+
 import java.util.ArrayList;
 
 import micros_leader.george.nosileutikosfakelos.MyApplication;
@@ -54,6 +56,38 @@ public class BasicList {
     }
 
     public ArrayList<TableViewItem> getTableList(){
+        if (table_lista.size() > 0)
+            return table_lista;
+        else if (lista.size() >0 && table_lista.size() == 0 )
+            return convertListToTableList();
+
+        return table_lista;
+    }
+
+    private ArrayList<TableViewItem> convertListToTableList(){
+        for (int i=0; i<lista.size(); i++){
+
+            if (lista.get(i).type == TITLE_ITEM)
+                continue;
+
+            TableViewItem x = new TableViewItem();
+
+            x.title = lista.get(i).getTitleID();
+            x.column = lista.get(i).col_name;
+            if (!x.column.equalsIgnoreCase("id"))
+                x.force_value = lista.get(i).value;
+
+            x.textType = lista.get(i).texttype;
+            x.typeElement = lista.get(i).type;
+            if (lista.get(i).sp_item_lista != null)
+                x.spinnerLista = lista.get(i).sp_item_lista;
+            else if ( lista.get(i).lista != null )
+                x.spinnerLista = (ArrayList) lista.get(i).lista;
+
+            x.lookup_query = lista.get(i).lookup_query;
+
+            table_lista.add(x);
+        }
         return table_lista;
     }
 }

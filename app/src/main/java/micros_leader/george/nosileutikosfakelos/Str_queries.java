@@ -468,7 +468,7 @@ public class Str_queries {
 
         public static String getSigkentrotika_statherwn_metrisewn(String patientID,String transgroupID ,int custID ) {
 
-            return  " select distinct top  3 n.* ," +
+            return  " select distinct top  32 n.* ," +
                     " dbo.timeToStr(n.schedule_time_start) as schtimeStart, " +
                     " dbo.namedoctor(n.ipefthinos_iatros_vardias) as ipefthinos_iatros_vardias, " +
                     " dbo.nameuser(n.userID) +  CHAR(10) +  dbo.nameuser(n.userID2) as username, " +
@@ -495,7 +495,7 @@ public class Str_queries {
 
                     " from Nursing_Hemodialysis_initial2_MEDIT n " +
                     " join transgroup tg on tg.id = n.TransGroupID" +
-                    " left join nursing_medical_instructions ins on  n.patientID = ins.patientID " +
+                    " left join nursing_medical_instructions ins on  n.patientID = ins.patientID and N.Med_instr_ID = INS.ID " +
 //
                     " left join Nursing_items_med_instr_eidos_aim eidos on eidos.id = n.eidos_aimID " +
                     " left join Nursing_items_med_instr_filter fil on fil.id = n.filtroID " +
@@ -514,7 +514,7 @@ public class Str_queries {
     //
 
         public static String getSigkentrotika_sinexwn_metrisewn(String patientID) {
-        return "select  top 8 " +
+        return "select  top 150 " +
                 "ni.*, " +
                 "dbo.DateTimeToString(date) as datestr,   " +
                 "dbo.TimeToStr(date) as timestr ,  " +
@@ -556,7 +556,7 @@ public class Str_queries {
     public static String getFarm_agogi(int customerID, String patientID, boolean monimi_agogi) {
 
         return " select n.* ,  \n " +
-                "p.lastname + ' ' + p.firstname as patientName , dbo.nameuser(userID) as username, dbo.nameuser(userID_stop) as username_stop, \n" +
+                "p.lastname + ' ' + p.firstname as patientName , dbo.nameuser(n.userID) as username, dbo.nameuser(userID_stop) as username_stop, \n" +
                 " dbo.datetostr(dateStart) as datestart_str , dbo.datetostr(dateStop) as datestop_str \n" +
                 (Customers.isFrontis(customerID) ? ", dosi.name as dosi_ID_text , sixn.name as sixnotita_ID_text " : "" ) +
 
@@ -1028,6 +1028,20 @@ public class Str_queries {
                 " order by watch";
     }
 
+
+
+
+    public static String getZOTIKA_METH_DIAGRAM_INFO(String transgroupID ,String katigoria, String date){
+
+        return "select " + katigoria + " , watch " +
+                "  from Nursing_Zotika_Simeia_Meth where TransGroupid = " + transgroupID +
+                " and dbo.datetime_to_date(date) = dbo.timeToNum(CONVERT(datetime, '" + date +"',103)) " +
+                " and watch is not null " +
+                " and LEN(watch) < 3 " +
+                " order by watch";
+    }
+
+
 //    public static String getNOSIL_ISTORIKO_PERSON(String transgroupID){
 //
 //        return " , UserID, blue_count  from v_Nursing_nosil_istoriko where TransGroupID = " + transgroupID;
@@ -1326,7 +1340,7 @@ public class Str_queries {
     public static String getSNEL_sigkentrotika(){
 
         return "select p.name, s.* , \n" +
-                " dbo.nameuser(userID) as username, \n" +
+                " dbo.nameuser(s.userID) as username, \n" +
                 " dbo.datetostr(tg.dateIn) as date \n" +
                 "from Nursing_Snel s\n" +
                 "join TransGroup tg on tg.id = s.transgroupid \n" +
@@ -1413,10 +1427,10 @@ public class Str_queries {
     public static String getKATHIMERINO_ZIGISMA_PERSON(String transgroupID,String date) {
 
         return  " select top 1 n1.ID, n1.TransGroupID,n1.date,n1.anaf_varos, " +
-        " n1.varos,n1.pro_varos,n1.ipsos,  n1.day_text, dbo.datetostr(n1.date) as dateS  " +
+        " n1.varos,n1.pro_varos,n1.ipsos, n1.bmi,  n1.day_text, dbo.datetostr(n1.date) as dateS  " +
         " from Nursing_Kathimerino_Zigisma n1 " +
         " where n1.transgroupid = " + transgroupID +
-        " and date = dbo.timeToNum(CONVERT(datetime, '" + date.replace("-","/") + "' , 103))  ";
+        " and dbo.DateTime2Date(date) = dbo.timeToNum(CONVERT(datetime, '" + date.replace("-","/") + "' , 103))  ";
 
     }
 
@@ -1498,8 +1512,8 @@ public class Str_queries {
 
     public static  String getZOTIKA_SIMEIA_SIGKENTROTIKA_ANA_HOUR(String transgroupID,String date){
 
-        return  "select * ,\n" +
-                " dbo.NAMEUSER(userID) as username, p.FirstName + ' ' + p.LastName as patName, \n" +
+        return  "select z.* ,\n" +
+                " dbo.NAMEUSER(z.userID) as username, p.FirstName + ' ' + p.LastName as patName, \n" +
                 " dbo.datetostr(z.date) as dateStr \n" +
                 " from Nursing_Zotika_Simeia z \n" +
                 " join transgroup tg on tg.id = z.transgroupid\n " +
@@ -1513,7 +1527,7 @@ public class Str_queries {
 
     public static  String getZOTIKA_SIMEIA_SIGKENTROTIKA_ANA_3_ORO(String transgroupID,String date){
 
-        return  "select *,\n" +
+        return  "select z.*,\n" +
                 " dbo.NAMEUSER(z.userID) as username, p.FirstName + ' ' + p.LastName as patName, \n" +
                 " dbo.datetostr(z.date) as dateStr \n" +
                 " from Nursing_Zotika_Simeia z\n" +
@@ -1715,7 +1729,7 @@ public class Str_queries {
 
     public static String getSigkentrotika_Medical_instructions(String patientID, int custID){
 
-        return "select  y.Name as yearName , \n" +
+        String x= "select  y.Name as yearName , \n" +
                 "m.Name as monthName ,\n" +
                 " n.DoctorID as  UserID,\n" +
                 " dur.name as  durationName,\n" +
@@ -1735,7 +1749,7 @@ public class Str_queries {
                 : "") +
 
 
-                (Customers.isFrontis(custID) ? "dbo.datetostr(embolio_covid2) as embolio_covid2_str, \n" : "") +
+                (Customers.isFrontis(custID) ? "dbo.datetostr(embolio_covid2) as embolio_covid2_str, dbo.datetostr(embolio_covid3) as embolio_covid3_str, \n" : "") +
 
                 " dbo.timetostr(Duration) as durationStr,  \n" +
                 " eidos.Name as eidos,\n" +
@@ -1762,6 +1776,9 @@ public class Str_queries {
                 " left join  Nursing_hemo_meds_periods fr6 on fr6.id =  n.etel_period\n" +
                 " where patientid =  " + patientID +
                 " order by n.year desc , n.Month desc , n.id desc ";
+
+
+        return x;
     }
 
 

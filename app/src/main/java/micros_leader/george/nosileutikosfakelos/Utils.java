@@ -975,14 +975,17 @@ public class Utils  {
         editorForLogin = prefs.edit();
 
         //-----------------------------------------------------------------
-        editorForLogin.putBoolean("login", false);
-        editorForLogin.putString("id", "");
-        editorForLogin.putString("name", "");
-        editorForLogin.putString("companyID", "");
-        editorForLogin.putString("linkdoctorID", "");
+//        editorForLogin.putBoolean("login", false);
+//        editorForLogin.putString("id", "");
+//        editorForLogin.putString("name", "");
+//        editorForLogin.putString("companyID", "");
+//        editorForLogin.putString("linkdoctorID", "");
+//        editorForLogin.apply();
+
+        editorForLogin.clear();
+        editorForLogin.apply();
 
 
-        editorForLogin.commit();
 
     }
 
@@ -992,6 +995,9 @@ public class Utils  {
 
 
     public static String convertObjToString(Object randomBg){
+
+        if (randomBg == null)
+            return "";
 
         String tmp = String.valueOf(randomBg);
         if (tmp.equals("null"))

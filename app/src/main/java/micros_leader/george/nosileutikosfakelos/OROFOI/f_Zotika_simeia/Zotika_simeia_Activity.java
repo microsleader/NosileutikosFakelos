@@ -87,9 +87,9 @@ public class Zotika_simeia_Activity extends BasicActivity {
             .setMessage("")
             .setPositiveBtnBackground(Color.parseColor("#2288c1"))  //Don't pass R.color.colorvalue
             .setPositiveBtnText("ανά ώρα")
-            .OnPositiveClicked(() -> showDiagram(transgroupID,dateTV.getText().toString(),InfoSpecificLists.getZotikaKatigoriesDiagramLista(),1))
+            .OnPositiveClicked(() -> showDiagram(transgroupID,dateTV.getText().toString(),InfoSpecificLists.getZotikaKatigoriesDiagramLista(),1,this))
             .setNegativeBtnText("ανά 3ωρο")
-            .OnNegativeClicked(() -> showDiagram(transgroupID,dateTV.getText().toString(),InfoSpecificLists.getZotikaKatigoriesDiagramLista(),3))
+            .OnNegativeClicked(() -> showDiagram(transgroupID,dateTV.getText().toString(),InfoSpecificLists.getZotikaKatigoriesDiagramLista(),3,this))
             .setAnimation(Animation.POP)
             .isCancellable(false)
             .setIcon(R.drawable.error_icon, Icon.Visible)

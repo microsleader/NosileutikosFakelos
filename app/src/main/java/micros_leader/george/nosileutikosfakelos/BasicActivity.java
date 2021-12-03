@@ -19,8 +19,6 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.speech.SpeechRecognizer;
 
-import androidx.annotation.NonNull;
-
 import com.github.ag.floatingactionmenu.OptionsFabLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.core.app.ActivityCompat;
@@ -63,8 +61,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskDelete;
@@ -271,7 +267,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public FloatingActionButton fab;
     public OptionsFabLayout fabMenu;
     public CheckBox checkOnceCH;
-    public Activity extendedActivity;
+    public AppCompatActivity extendedAct, activityFromSigxoneusi;
     public String action ,str_query,eggrafiID ;
     public ArrayList<String> medicinesLista;
     public HashMap<String, Integer> medicinesHashMap;
@@ -309,37 +305,50 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
 
-    public void getPatientsList( Activity extendedActivity) {
+    public void getPatientsList( AppCompatActivity extendedActivity) {
 
-        this.extendedActivity = extendedActivity;
+        this.extendedAct = extendedActivity;
         new AsyncTaskGetFloors(this, floorSP, floorAdapter).execute();
 
     }
 
-    public void getPatientsList( Activity extendedActivity, int textviewID, int spinnerID) {
+    public void getPatientsList( AppCompatActivity extendedActivity,  int textviewID, int spinnerID) {
 
-        floorSP = findViewById(spinnerID);
-        patientsTV = findViewById(textviewID);
-        this.extendedActivity = extendedActivity;
-        new AsyncTaskGetFloors(this, floorSP, floorAdapter).execute();
+        if (floorSP == null)
+            floorSP = findViewById(spinnerID);
+
+        if (patientsTV == null)
+            patientsTV = findViewById(textviewID);
+
+        this.extendedAct = extendedActivity;
+        if (activityFromSigxoneusi == null)
+            new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter).execute();
+        else
+            new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter,activityFromSigxoneusi).execute();
+
 
     }
 
-    public void getPatientsList( Activity extendedActivity, Spinner floorSP, TextView patientsTV) {
+
+
+
+
+
+    public void getPatientsList( AppCompatActivity extendedActivity, Spinner floorSP, TextView patientsTV) {
 
         this.floorSP = floorSP;
         this.patientsTV = patientsTV;
-        this.extendedActivity = extendedActivity;
-        new AsyncTaskGetFloors(this, floorSP, floorAdapter).execute();
+        this.extendedAct = extendedActivity;
+        new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter).execute();
 
     }
 
 
 
-        public void getFloors(Spinner floorSP, Activity extendedActivity){
+        public void getFloors(Spinner floorSP, AppCompatActivity extendedActivity){
 
         this.floorSP = floorSP;
-        this.extendedActivity = extendedActivity;
+        this.extendedAct = extendedActivity;
         new AsyncTaskGetFloors(this, this.floorSP, floorAdapter).execute();
 
     }
@@ -367,11 +376,22 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     }
 
+
+    public void setAct(AppCompatActivity act) {
+        extendedAct = act;
+    }
+
+
+    public void setActFromSigxoneusi(AppCompatActivity actFromSigxoneusi) {
+        this.activityFromSigxoneusi = actFromSigxoneusi;
+    }
+
+
     public void thereIsVoiceButton(int buttonID, EditText editText){
 
         voiceBT = findViewById(buttonID);
 
-        sr = SpeechRecognizer.createSpeechRecognizer(extendedActivity);
+        sr = SpeechRecognizer.createSpeechRecognizer(extendedAct);
         sr.setRecognitionListener(new VoiceListener(this, editText));
 
         voiceBT.setOnClickListener(new View.OnClickListener() {
@@ -383,21 +403,21 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         askForVoicePermission(Manifest.permission.RECORD_AUDIO, LOCATION);
                     }
-                    Intent i = new Intent(extendedActivity, MyVoiceService.class);
+                    Intent i = new Intent(extendedAct, MyVoiceService.class);
                     bindService(i, connection, code);
                     startService(i);
                     voiceBT.setText("Σταματημα εγγραφης");
-                    Toast.makeText(extendedActivity, "Μιλήστε", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(extendedAct, "Μιλήστε", Toast.LENGTH_SHORT).show();
 
                     isVoiceOn = true;
                 }
 
                 else{
 
-                    Intent i = new Intent(extendedActivity, MyVoiceService.class);
+                    Intent i = new Intent(extendedAct, MyVoiceService.class);
                     stopService(i);
                     voiceBT.setText("Εγγραφή");
-                    Toast.makeText(extendedActivity, "Τέλος εγγραφής", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(extendedAct, "Τέλος εγγραφής", Toast.LENGTH_SHORT).show();
                     isVoiceOn = false;
                 }
             }
@@ -409,8 +429,8 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     protected void onDestroy() {
         super.onDestroy();
 
-        if (extendedActivity !=null) {
-            Intent i = new Intent(extendedActivity, MyVoiceService.class);
+        if (extendedAct !=null) {
+            Intent i = new Intent(extendedAct, MyVoiceService.class);
             stopService(i);
         }
     }
@@ -441,7 +461,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                new DatePickerDialog(extendedActivity, dateStr, myCalendar
+                new DatePickerDialog(extendedAct, dateStr, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -449,7 +469,8 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
     public void thereIsDatePicker(int dateID) {
-        dateTV = findViewById(dateID);
+        if (dateTV == null)
+            dateTV = findViewById(dateID);
         thereIsDatePicker(dateTV);
 
     }
@@ -470,7 +491,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
                 int minute = mcurrentTime.get(Calendar.MINUTE);
 
                 TimePickerDialog mTimePicker;
-                mTimePicker = new TimePickerDialog(extendedActivity, new TimePickerDialog.OnTimeSetListener() {
+                mTimePicker = new TimePickerDialog(extendedAct, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         timeTV.setText( Utils.chechZeroInTime(selectedHour + ":" + selectedMinute));
@@ -501,9 +522,13 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
             toolbar = findViewById(R.id.toolbar);
         if (toolbar == null)
             return;
-        setSupportActionBar(toolbar);
 
-        updateIMB = new ImageButton(this);
+        extendedAct.setSupportActionBar(toolbar);
+
+
+
+        updateIMB = new ImageButton(extendedAct);
+
         Toolbar.LayoutParams l1=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         l1.gravity= Gravity.START;
         updateIMB.setLayoutParams(l1);
@@ -538,9 +563,10 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
     public void thereIsUpdateButton(int id){
-
-        updateButton = findViewById(id);
-
+        if (extendedAct != null)
+            updateButton = extendedAct.findViewById(id);
+        else
+            updateButton = findViewById(id);
 
     }
 
@@ -654,7 +680,8 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     public void setRecyclerViewgridrLayaout( int id, RecyclerView.Adapter adapter, int spanCount, final int[] theseisTitloi ){
 
-        recyclerView = findViewById(id);
+        if (recyclerView == null)
+            recyclerView = findViewById(id);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(20);
         recyclerView.setDrawingCacheEnabled(true);
@@ -814,7 +841,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         // AN IPARXEI WATCH ID DEN XREIAZETAI NA DILOSOUME PANO TITLOUS
         // τΤΟ ΧΗΡΙΣΜΟΠΟΙΟΥΜΕ ΟΤΑΝ ΘΕΛΟΥΜΕ ΟΙ ΩΡΕΣ ΝΑ ΕΙΝΑΙ ΑΠΟ ΠΑΝΩ
 
-        Intent in = new Intent(extendedActivity , TableActivity.class);
+        Intent in = new Intent(extendedAct, TableActivity.class);
         in.putExtra("str_query",query);
         in.putExtra("transgroupID",transgroupID);
         in.putExtra("panoTitloi",panoTitloi);
@@ -853,16 +880,12 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
                                           String [] plagioiTitloi , ArrayList<TableViewItem> lista,
                                           boolean exeiWatchID, boolean exeiSinolo, boolean editable){
 
-
-
         return   tableView_sigkentrotika( query,  transgroupID, null,
                  plagioiTitloi ,  lista, exeiWatchID ,exeiSinolo ,editable);
 
-        //startActivity(in);
-
-
-
     }
+
+
 
 
 
@@ -873,7 +896,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         // AN IPARXEI WATCH ID DEN XREIAZETAI NA DILOSOUME PANO TITLOUS
         // τΤΟ ΧΗΡΙΣΜΟΠΟΙΟΥΜΕ ΟΤΑΝ ΘΕΛΟΥΜΕ ΟΙ ΩΡΕΣ ΝΑ ΕΙΝΑΙ ΑΠΟ ΠΑΝΩ
 
-        Intent in = new Intent(extendedActivity , TableActivity.class);
+        Intent in = new Intent(extendedAct, TableActivity.class);
         in.putExtra("str_query",query);
 
         ArrayList <TableViewItem> lista = new ArrayList();
@@ -1035,7 +1058,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
 
-    public void showDiagram(String transgroupID, String date,ArrayList<String> katigoriesLista ,int kathe_poses_ores){
+    public static void showDiagram(String transgroupID, String date,ArrayList<String> katigoriesLista ,int kathe_poses_ores , AppCompatActivity act){
 
         BasicDialogFragmentDiagram df =  new BasicDialogFragmentDiagram();
         Bundle putextra = new Bundle();
@@ -1045,19 +1068,19 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         if (kathe_poses_ores != 0)
             putextra.putInt("kathe_poses_ores",kathe_poses_ores);
         df.setArguments(putextra);
-        df.show(getSupportFragmentManager() , "Dialog");
+        df.show(act.getSupportFragmentManager() , "Dialog");
 
     }
 
     public void getJSON_DATA(String str_query ){
 
-        if (Utils.isNetworkAvailable2(this)) {
+        if (Utils.isNetworkAvailable2(extendedAct)) {
             this.str_query = str_query;
 
             if (alertDialog != null)
                 alertDialog.show();
             AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-            task.ctx = getApplicationContext();
+            task.ctx = extendedAct != null ? extendedAct : getApplicationContext();
             task.listener = this;
             task.query = str_query;
             task.execute();
@@ -1068,7 +1091,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
         // ΕΔΩ ΕΙΝΑΙ ΓΙΑ ΝΑ ΜΗ ΓΡΑΦΩ ΤΑ ΠΕΔΙΑ ΑΝ ΕΧΩ ΠΟΛΛΑ ΣΤΟ SELECT
         if (str_query.contains("select"))
-            Toast.makeText(extendedActivity, "to query πρεπει να συνταχθει απο το FROM και μετα", Toast.LENGTH_SHORT).show();
+            Toast.makeText(extendedAct, "to query πρεπει να συνταχθει απο το FROM και μετα", Toast.LENGTH_SHORT).show();
         else {
             // ΕΔΩ ΕΙΝΑΙ ΓΙΑ QUERY ΟΠΟΥ ΠΑΙΡΝΕΙ ΤΑ ΟΝΟΜΑΤΑ ΠΕΔΙΩΝ ΑΠΟ ΤΗ ΛΙΣΤΑ ΠΟΥ ΕΧΟΥΜΕ ΔΗΜΙΟΥΡΓΗΣΕΙ
             // ΓΙΑ ΤΟ RECYCLERVIEW
@@ -1319,7 +1342,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
             updateIMB.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (nurseID.equals(Utils.getUserID(BasicActivity.this))|| nurseID.equals("")) {
+                    if (nurseID.equals(Utils.getUserID(extendedAct))|| nurseID.equals("")) {
 
                           insert_or_update_data(listaAdaptor, names_col);
                 }
@@ -1338,7 +1361,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
             updateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (nurseID.equals(Utils.getUserID(BasicActivity.this)) || nurseID.equals("")) {
+                    if (nurseID.equals(Utils.getUserID(extendedAct)) || nurseID.equals("")) {
 
                     updateButton.startAnimation();
                     insert_or_update_data(editText, textView, names_col);
@@ -1366,7 +1389,8 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     public void insert_or_update_data(final EditText editText [], final TextView textView[], String names_col[]){
 
-        alertDialog.show();
+        if (updateButton == null) //ΓΙΑ ΝΑ ΜΗΝ ΕΧΩ ΔΥΟ LOADING
+            alertDialog.show();
         AsyncTaskUpdate_JSON task;
 
         setValuesTo_valuesJSON(editText, textView);
@@ -1374,9 +1398,9 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
         if (weHaveData)
-            task = new AsyncTaskUpdate_JSON(this, id , transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson), titloi_positions);
+            task = new AsyncTaskUpdate_JSON(extendedAct, id , transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson), titloi_positions);
         else
-            task = new AsyncTaskUpdate_JSON(this,  transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson),titloi_positions);
+            task = new AsyncTaskUpdate_JSON(extendedAct,  transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson),titloi_positions);
 
 
 
@@ -1384,15 +1408,17 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         task.date = date;
         task.period = period;
         task.watchID = watchID;
-        task.listener =  this;
+        task.listener = (AsyncGetUpdate_JSON) extendedAct;
         task.execute();
     }
 
 
 
 
-    public void insert_or_update_data(ArrayList<ItemsRV>  listaAdaptor , String names_col[]){
+    public void insert_or_update_data(ArrayList<ItemsRV>  listaAdaptor , String[] names_col){
 
+        if (alertDialog == null)
+            alertDialog = Utils.setLoadingAlertDialog(extendedAct);
         alertDialog.show();
         AsyncTaskUpdate_JSON task;
 
@@ -1400,9 +1426,9 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         setValuesTo_valuesJSON(titloi_positions, listaAdaptor);
 
         if (weHaveData)
-            task = new AsyncTaskUpdate_JSON(this, id , transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson), titloi_positions);
+            task = new AsyncTaskUpdate_JSON(extendedAct, id , transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson), titloi_positions);
         else
-            task = new AsyncTaskUpdate_JSON(this,  transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson),titloi_positions);
+            task = new AsyncTaskUpdate_JSON(extendedAct,  transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson),titloi_positions);
 
     if (read_only_col != null)
         task.setEkseresiPedion(read_only_col);
@@ -1410,7 +1436,10 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         task.date = date;
         task.period = period;
         task.watchID = watchID;
-        task.listener =  this;
+        if (activityFromSigxoneusi != null)
+            task.listener = (AsyncGetUpdate_JSON) activityFromSigxoneusi;
+        else
+            task.listener = this;
         task.execute();
     }
 
@@ -1664,7 +1693,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
         if (!nameJson.contains("UserID")){
             nameJson.add("UserID");
-            valuesJson.add(Utils.getUserID(this));
+            valuesJson.add(Utils.getUserID(extendedAct));
         }
 
     }
@@ -1823,7 +1852,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     @Override
     public void update_JSON(String str) {
 
-        if (str.equals(getString(R.string.successful_update)))
+        if (str.equals(extendedAct.getString(R.string.successful_update)))
             updateSuccess(str);
 
         else
@@ -1843,21 +1872,33 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public void updateSuccess(String str){
         weHaveData = true; // ΣΕ ΠΕΡΙΠΤΩΣΗ ΠΟΥ ΞΑΝΑΠΑΤΗΣΕΙ ΤΗΝ ΙΔΙΑ ΣΤΙΓΜΗ ΤΟ ΚΟΥΜΠΙ ΓΙΑ ΝΑ ΜΗΝ ΚΑΝΕΙ ΠΑΛΙ ΙΝΣΕΡΤ
 
-        if (updateButton !=null)
-             Utils.timeHandlerDoneButton(updateButton, this);
+        if (updateButton == null && extendedAct != null) {
+            updateButton = extendedAct.findViewById(R.id.updateButton);
+        }
+
+        if (updateButton != null)
+             Utils.timeHandlerDoneButton(updateButton, extendedAct != null ? extendedAct : this);
         if (str_query != null && !str_query.equals(""))
              getJSON_DATA(str_query);  // ΤΟ ΞΑΝΑΤΡΕΧΩ ΕΠΕΙΔΗ ΔΕΝ ΕΧΩ ΤΟ ID
+        else
+            alertDialog.dismiss();
 
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(extendedAct, str, Toast.LENGTH_SHORT).show();
 
     }
 
 
 
     public void updateError(String str){
-        if (updateButton !=null)
-            Utils.timeHandlerErrorButton(updateButton, this);
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+
+        if (updateButton == null && extendedAct != null) {
+            updateButton = extendedAct.findViewById(R.id.updateButton);
+        }
+
+        if (updateButton != null)
+            Utils.timeHandlerErrorButton(updateButton, extendedAct != null ? extendedAct : this);
+        Toast.makeText(extendedAct, str, Toast.LENGTH_SHORT).show();
     }
 
 
@@ -1868,6 +1909,11 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         floorsMap = mapFloor;
        // new AsyncTaskGetPatients(this, patientsTV).execute();
 
+        String x = getClass().getSimpleName();
+
+       // Toast.makeText(this, x, Toast.LENGTH_SHORT).show();
+
+
         if (patientsTV != null) {
 
 
@@ -1876,9 +1922,13 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                         floorID = floorsMap.get(floorSP.getSelectedItem().toString());
-                        Utils.setPosFloorID(extendedActivity, floorSP.getSelectedItemPosition());
+                        Utils.setPosFloorID(extendedAct, floorSP.getSelectedItemPosition());
 
-                        new AsyncTaskGetPlanoKlinonPatients(extendedActivity, patientsTV, floorID).execute();
+                        if (activityFromSigxoneusi == null)
+                            new AsyncTaskGetPlanoKlinonPatients(extendedAct, patientsTV, floorID).execute();
+                        else
+                            new AsyncTaskGetPlanoKlinonPatients(extendedAct, patientsTV, floorID, activityFromSigxoneusi).execute();
+
 
 
                     }
@@ -1899,8 +1949,13 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
         transgroupID = Utils.getSplitSPartString(patientsTV.getText().toString() , "," ,3);
 
-        patientsTV.setOnClickListener(new SearchNosileuomenoListener(this, patientsNosileuomenoi));
-        alertDialog.hide();
+        if(activityFromSigxoneusi == null)
+            patientsTV.setOnClickListener(new SearchNosileuomenoListener(extendedAct, patientsNosileuomenoi));
+        else
+            patientsTV.setOnClickListener(new SearchNosileuomenoListener(extendedAct, activityFromSigxoneusi, patientsNosileuomenoi));
+
+        if (alertDialog != null)
+             alertDialog.hide();
     }
 
 
@@ -1913,7 +1968,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(
-                        extendedActivity);
+                        extendedAct);
 
                 builder.setMultiChoiceItems(ITEMS, ITEMS_VALUES,
                         new DialogInterface.OnMultiChoiceClickListener() {
@@ -1973,17 +2028,17 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
     private void askForVoicePermission(String permission, Integer requestCode) {
-        if (ContextCompat.checkSelfPermission(extendedActivity, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(extendedAct, permission) != PackageManager.PERMISSION_GRANTED) {
 
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(extendedActivity, permission)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(extendedAct, permission)) {
 
                 //This is called if user has denied the permission before
                 //In this case I am just asking the permission again
-                ActivityCompat.requestPermissions(extendedActivity, new String[]{permission}, requestCode);
+                ActivityCompat.requestPermissions(extendedAct, new String[]{permission}, requestCode);
 
             } else {
-                ActivityCompat.requestPermissions(extendedActivity, new String[]{permission}, requestCode);
+                ActivityCompat.requestPermissions(extendedAct, new String[]{permission}, requestCode);
             }
         } else {
             Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
@@ -2051,7 +2106,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public void deleteData(String table, String id){
 
         alertDialog.show();
-        AsyncTaskDelete task = new AsyncTaskDelete(extendedActivity,table ,id);
+        AsyncTaskDelete task = new AsyncTaskDelete(extendedAct,table ,id);
         task.ctx = getApplicationContext();
         task.listener = this;
         task.execute();
@@ -2061,9 +2116,9 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     @Override
     public void deleteResult(String str) {
         if (str.equals(getString(R.string.successful_update)))
-            Toast.makeText(extendedActivity, "Διαγραφή επιτυχής", Toast.LENGTH_SHORT).show();
+            Toast.makeText(extendedAct, "Διαγραφή επιτυχής", Toast.LENGTH_SHORT).show();
         else
-            Toast.makeText(extendedActivity, "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
+            Toast.makeText(extendedAct, "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
 
         alertDialog.dismiss();
     }
@@ -2073,7 +2128,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
         alertDialog.show();
         if (isFirstTime)
-            Toast.makeText(extendedActivity, "Παρακαλώ περιμένετε λόγω πρώτης σύνδεσης θα υπάρξει μία μικρή καθυστέρηση", Toast.LENGTH_LONG).show();
+            Toast.makeText(extendedAct, "Παρακαλώ περιμένετε λόγω πρώτης σύνδεσης θα υπάρξει μία μικρή καθυστέρηση", Toast.LENGTH_LONG).show();
         else
             Toast.makeText(this, "Παρακαλώ περιμένετε ίσως καθυστερήσει λίγο ...", Toast.LENGTH_SHORT).show();
 
@@ -2107,7 +2162,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public void runORupdate_simple_query(String query, Context ctx, AsyncGetUpdateResult listener ){
 
         alertDialog.show();
-        AsyncTaskUpdate task = new AsyncTaskUpdate(extendedActivity, query);
+        AsyncTaskUpdate task = new AsyncTaskUpdate(extendedAct, query);
         task.ctx = ctx;
         task.listener = listener;
         task.execute();

@@ -24,6 +24,7 @@ import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdateResult;
+import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.KalliergiesDialog.KalliergiesDialog;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.ThetikesKalliergies.ThetikesKalliergiesDialog;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -36,7 +37,7 @@ import micros_leader.george.nosileutikosfakelos.Utils;
 public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implements  AsyncGetUpdateResult{
 
 
-    private OptionsFabLayout fabMenu;
+    public OptionsFabLayout fabMenu;
     private TextView nurseTV;
     private ArrayList<Simple_Items> simple_items_lista;
     private Simple_items_rv_adapter adapter;
@@ -47,23 +48,34 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kathetires_kalliergies_meth);
 
-        extendedActivity = this;
         fabMenu = findViewById(R.id.fabMenu);
+        recyclerView = findViewById(R.id.kathetiresRV);
+
+        initialize();
+
+    }
+
+
+    public void initialize(){
+
+        if (extendedAct == null)
+            extendedAct = this;
+
         managefabMenuIcon();
 
-        alertDialog = Utils.setLoadingAlertDialog(this);
-        recyclerView = findViewById(R.id.kathetiresRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        alertDialog = Utils.setLoadingAlertDialog(extendedAct);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(extendedAct, LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(extendedAct, DividerItemDecoration.VERTICAL));
         recyclerView.setItemViewCacheSize(300);
         recyclerView.setHasFixedSize(true);
-        getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
+        getPatientsList(extendedAct,R.id.patientsTV, R.id.floorsSP);
 
         thereIsDatePicker(R.id.dateTV);
         thereIsImageUpdateButton();
 
         updateButtonListener();
-        
+
         date = dateTV.getText().toString();
 
         table = "Nursing_Kathethres_Topos";
@@ -71,8 +83,10 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
         nameJson.add("dateStart");nameJson.add("dateStop");
 
         getSimpleItems();
-
     }
+
+
+
 
     private void updateButtonListener(){
         if (updateIMB != null) {
@@ -85,7 +99,7 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
 
                     ArrayList<Simple_Items> lista = adapter.result;
 
-                    String curUser = Utils.getUserID(Kathetires_kalliergies_Meth_Activity.this);
+                    String curUser = Utils.getUserID(extendedAct);
 
                     for (int i = 0; i < lista.size(); i++) {
 
@@ -108,36 +122,32 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
 
                             valuesJson = new ArrayList<>();
 
-                                valuesJson.add(String.valueOf(itemID));valuesJson.add(value);
-                                valuesJson.add(dateIN.trim().equals("") ? null + "," : Utils.convertDateTomilliseconds(dateIN));
-                                valuesJson.add(dateout.trim().equals("") ? null + "," : Utils.convertDateTomilliseconds(dateout));
+                            valuesJson.add(String.valueOf(itemID));
+                            valuesJson.add(value);
+                            valuesJson.add(dateIN.trim().equals("") ? "" : Utils.convertDateTomilliseconds(dateIN));
+                            valuesJson.add(dateout.trim().equals("") ? ""  : Utils.convertDateTomilliseconds(dateout));
 
 
                             AsyncTaskUpdate_JSON task;
 
-
-
-
                             if (id != 0)
-                                task = new AsyncTaskUpdate_JSON(Kathetires_kalliergies_Meth_Activity.this, String.valueOf(id) , transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson), titloi_positions);
+                                task = new AsyncTaskUpdate_JSON(extendedAct, String.valueOf(id) , transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson), titloi_positions);
                             else
-                                task = new AsyncTaskUpdate_JSON(Kathetires_kalliergies_Meth_Activity.this,  transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson),titloi_positions);
+                                task = new AsyncTaskUpdate_JSON(extendedAct,  transgroupID,table, nameJson,replaceTrueOrFalse(valuesJson),titloi_positions);
 
 
                             task.names_col = new String[]{"ID","TransgroupID"};
                             task.date = dateTV.getText().toString();
                             task.period = period;
                             task.watchID = watchID;
-                            task.listener = Kathetires_kalliergies_Meth_Activity.this;
+                            task.listener = (AsyncGetUpdate_JSON) (activityFromSigxoneusi != null ? activityFromSigxoneusi : extendedAct);
                             task.execute();
 
 
 
                         }
 
-                        else{
-                            Toast.makeText(Kathetires_kalliergies_Meth_Activity.this, R.string.error_user_id, Toast.LENGTH_SHORT).show();
-                        }
+
                     }
 
 
@@ -167,7 +177,7 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
         alertDialog.show();
         
         AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-        task.ctx = getApplicationContext();
+        task.ctx = extendedAct;
         task.query = "select * from Nursing_Kathethres_Meth";
         task.listener = new AsyncCompleteTask2() {
             @Override
@@ -183,7 +193,7 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
 
                     }
                     
-                    adapter = new Simple_items_rv_adapter(Kathetires_kalliergies_Meth_Activity.this,simple_items_lista);
+                    adapter = new Simple_items_rv_adapter(extendedAct,  simple_items_lista);
                     recyclerView.setAdapter(adapter);
                     
                     getValuesForSimpleItems();
@@ -205,19 +215,14 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
 
 
 
-
-
-
-
-
     private void getValuesForSimpleItems() {
 
         alertDialog.show();
         clearLista();
 
         final AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-        task.query = new Str_queries().getKathetiresValues_Meth(transgroupID ,dateTV.getText().toString()) ;
-        task.ctx = this;
+        task.query =  Str_queries.getKathetiresValues_Meth(transgroupID ,dateTV.getText().toString()) ;
+        task.ctx = extendedAct;
         task.listener = new AsyncCompleteTask2() {
             @Override
             public void taskComplete2(JSONArray results) throws JSONException {
@@ -317,46 +322,33 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
             @Override
             public void onMiniFabSelected(MenuItem fabItem) {
 
+                int itemId = fabItem.getItemId();
+
+                if (itemId == R.id.kalliergies) {
+                    KalliergiesDialog df = new KalliergiesDialog();
+                    Bundle putextra = new Bundle();
+                    putextra.putString("transgroupID", transgroupID);
+                    putextra.putString("date", dateTV.getText().toString());
+                    df.setArguments(putextra);
+                    df.show(getSupportFragmentManager(), "Dialog");
+                    fabMenu.closeOptionsMenu();
+
+                    // true to keep the Speed Dial open
+                } else if (itemId == R.id.thetikesKalliergies) {
+                    ThetikesKalliergiesDialog df1 = new ThetikesKalliergiesDialog();
+                    Bundle putextra1 = new Bundle();
+                    putextra1.putString("transgroupID", transgroupID);
+                    putextra1.putString("date", dateTV.getText().toString());
+                    df1.setArguments(putextra1);
+                    df1.show(getSupportFragmentManager(), "Dialog");
+                    fabMenu.closeOptionsMenu();
+
+                    // true to keep the Speed Dial open
+                } else if (itemId == R.id.eidikiFrontida) {
+                    getEidikiFrontida();
 
 
-                switch (fabItem.getItemId()) {
-
-                    case R.id.kalliergies:
-
-                        KalliergiesDialog df =  new KalliergiesDialog();
-                        Bundle putextra = new Bundle();
-                        putextra.putString("transgroupID", transgroupID);
-                        putextra.putString("date",dateTV.getText().toString());
-                        df.setArguments(putextra);
-                        df.show(getSupportFragmentManager() , "Dialog");
-                        fabMenu.closeOptionsMenu();
-
-                        break; // true to keep the Speed Dial open
-
-                    case R.id.thetikesKalliergies:
-
-                        ThetikesKalliergiesDialog df1 =  new ThetikesKalliergiesDialog();
-                        Bundle putextra1 = new Bundle();
-                        putextra1.putString("transgroupID", transgroupID);
-                        putextra1.putString("date",dateTV.getText().toString());
-                        df1.setArguments(putextra1);
-                        df1.show(getSupportFragmentManager() , "Dialog");
-                        fabMenu.closeOptionsMenu();
-
-                        break; // true to keep the Speed Dial open
-
-
-                    case R.id.eidikiFrontida:
-
-
-                        getEidikiFrontida();
-
-
-                    default:
-
-                        break; // true to keep the Speed Dial open
-
-
+                    // true to keep the Speed Dial open
                 }
             }
         });
@@ -404,7 +396,7 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
                     transgroupID ,
                     panoTitloi,plagioiTitloi,tableLista,false, false, true);
             in.putExtra("date",dateTV.getText().toString());
-            startActivity(in);
+            extendedAct.startActivity(in);
         }
 
     }

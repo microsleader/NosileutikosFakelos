@@ -2,6 +2,7 @@ package micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatha
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -18,12 +19,10 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.ag.floatingactionmenu.OptionsFabLayout;
@@ -63,6 +62,7 @@ import micros_leader.george.nosileutikosfakelos.StaticFields;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 import micros_leader.george.nosileutikosfakelos.Utils;
+import micros_leader.george.nosileutikosfakelos.customers.Frontis;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivityMainAim3Binding;
 
 
@@ -168,7 +168,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
         View view = bd.getRoot();
         setContentView(view);
 
-        extendedActivity = this;
+        extendedAct = this;
         alertDialog = Utils.setLoadingAlertDialog(MainActivity_Aim.this);
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
@@ -193,14 +193,14 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
         log_out_iv();
         buttonRefreshPatientsListener();
 
-        //newNotificationListener(); //TODO ΤΟ ΕΣΒΗΣΑ ΓΙΑ ΝΑ ΔΟΚΙΜΑΣΟΥΜΕ ΑΝ ΠΡΟΚΑΛΕΙ ΠΡΒΛΗΜΑ ΣΤΟ ΦΡΟΝΤΙΣ ΣΤΟΝ ΕΠΕΞΕΡΑΣΤΗ
+        newNotificationListener();
         search_TV_listener();
 
         getVardies();
 
         changeColorOfTV();
-//        if (isNurse && Customers.isFrontis(custID)) //TODO ΤΟ ΕΣΒΗΣΑ ΓΙΑ ΝΑ ΔΟΚΙΜΑΣΟΥΜΕ ΑΝ ΠΡΟΚΑΛΕΙ ΠΡΒΛΗΜΑ ΣΤΟ ΦΡΟΝΤΙΣ ΣΤΟΝ ΕΠΕΞΕΡΑΣΤΗ
-//            check_notifications_thread();
+        if (isNurse && Customers.isFrontis(custID))
+            check_notifications_thread();
 
         alertDialog.dismiss();
     }
@@ -355,25 +355,55 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                     case R.id.far_agogi:
 
-/*
-                        intent =   tableView_sigkentrotika( Str_queries.getFarm_agogi(patientID),
-                                transgroupID,
 
-                                null,
-                                InfoSpecificLists.getFarm_agogi_lista(),
-                                false,
-                                false,
-                                false);
+//                        intent = new Intent(MainActivity_Aim.this, Sigkentrotika_Farm_agogis.class);
+//                        intent.putExtra("patientID",patientID);
+//                        intent.putExtra("transgroupID",transgroupID);
+//                        startActivity(intent);
 
-                        startActivity(intent);
+                        AlertDialog ad = new AlertDialog.Builder(MainActivity_Aim.this).create(); //Read Update
+                        ad.setTitle("Επιλέξτε φαρμ. αγωγή");
 
-*/
+                        ad.setMessage("");
+                        ad.setButton( Dialog.BUTTON_POSITIVE, "Μόνιμη φαρμακευτική αγωγή", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                               Intent intent  =    tableView_sigkentrotika( Str_queries.getFarm_agogi(custID,patientID , true),
+                                        null,  //ΤΟ ΚΑΝΩ NULL ΕΠΕΙΔΗ Ο ΠΙΑΝΑΚΣ ΠΟΥ ΘΑ ΚΑΤΑΧΩΡΩ ΔΕΝ ΕΧΕΙ TRANSGROUPID ΑΛΛΑ ΕΧΕΙ patientID
+                                        null,
+                                        Customers.isFrontis(custID) ? Frontis.getFarm_agogi_lista(false ,true) : InfoSpecificLists.getFarm_agogi_lista(true),
+                                        false,
+                                        false,
+                                        isDoctor );
+                                intent.putExtra("toolbar_title","Μόνιμη φαρμακευτική αγωγή");
+                                if (isDoctor)
+                                    intent.putExtra("patientID",patientID);
+
+                                startActivity(intent);
+
+                            }});
+
+                        ad.setButton( Dialog.BUTTON_NEGATIVE, "Προσωρινή φαρμακευτική αγωγή", new DialogInterface.OnClickListener()    {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent in  =    tableView_sigkentrotika( Str_queries.getFarm_agogi(custID,patientID , false),
+                                            null,  //ΤΟ ΚΑΝΩ NULL ΕΠΕΙΔΗ Ο ΠΙΑΝΑΚΣ ΠΟΥ ΘΑ ΚΑΤΑΧΩΡΩ ΔΕΝ ΕΧΕΙ TRANSGROUPID ΑΛΛΑ ΕΧΕΙ patientID
+
+                                            null,
+                                            Customers.isFrontis(custID) ?  Frontis.getFarm_agogi_lista(true,false) : InfoSpecificLists.getFarm_agogi_lista(false),
+                                            false,
+                                            false,
+                                            true);
 
 
-                        intent = new Intent(MainActivity_Aim.this, Sigkentrotika_Farm_agogis.class);
-                        intent.putExtra("patientID",patientID);
-                        intent.putExtra("transgroupID",transgroupID);
-                        startActivity(intent);
+                                    in.putExtra("toolbar_title","Φαρμακευτική αγωγή συνεδρίας");
+                                    in.putExtra("patientID",patientID);
+                                    startActivity(in);
+
+                                }});
+
+                                ad.show();
+
+
+
 
 
 
@@ -457,7 +487,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                                             "dbo.datetostr(tg.datein) + ' , ' +  dbo.timetostr(tg.datein) as datestr \n" +
                                             "from Nursing_Hemodialysis_initial2_MEDIT n \n" +
                                             " join transgroup tg on tg.id = n.TransGroupID\n" +
-                                            " left join nursing_medical_instructions ins on  n.patientID = ins.patientID \n" +
+                                            " left join nursing_medical_instructions ins on  n.patientID = ins.patientID and N.Med_instr_ID = INS.ID\n" +
                                             " where n.transgroupID = " + transgroupID +
                                             "  group by  tg.Datein, n.id \n" +
                                             " order by tg.Datein desc, n.id desc";
@@ -715,7 +745,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "Συχνότητα αιμοκ.\nανά εβδομάδα" ,"Διάρκεια",
                             "Φίλτρο",
 
-                            "Αντιπηκτική αγωγή" ,"Αντιπ.αγ.δόση"  ,
+                            "Αντιπηκτική αγωγή" ,"Αρχική δόση\nαντιπ. αγωγ."  ,
                             "Μέγιστος Ρυθμός\n Αφυδάτωσης", "Ξηρό βάρος",
 
                             "Ροή αίματος" ,"Ροή διαλύματος" ,
@@ -757,6 +787,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "emvolio_ip_b" ,"emvolio_antigrip",
                             "emvolio_pneum_str" ,"embolio_covid1_str",
                              "embolio_covid2_str" ,
+                             "embolio_covid3_str" ,
                             "other_vac" ,
                              "other_meds" ,
                             "genikes_odigies"
@@ -784,6 +815,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "Εμβόλιο πνευμονιόκοκκου" ,
                             "Εμβ. COVID 19 δόση 1" ,
                             "Εμβ. COVID 19 δόση 2" ,
+                            "Εμβ. COVID 19 δόση 3" ,
                             "Άλλα εμβόλια" ,
                             "Λοιπά φάρμακα" ,
                             "Γενικές οδηγίες"

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -23,7 +22,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
-import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivitySettingsBinding;
 
@@ -53,7 +51,7 @@ public class SettingsActivity extends BasicActivity  {
 
 
 
-        extendedActivity = this;
+        extendedAct = this;
         Utils.setLoadingAlertDialog(this);
         alertDialog.show();
         bd.addressText.setText(address);
@@ -173,7 +171,7 @@ public class SettingsActivity extends BasicActivity  {
                     changePassword();
                 }
                 else
-                    Toast.makeText(extendedActivity, "Ο νέος κωδικός δεν ταιριάζει με την επιβεβαίωση κωδικού", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(extendedAct, "Ο νέος κωδικός δεν ταιριάζει με την επιβεβαίωση κωδικού", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -205,10 +203,10 @@ public class SettingsActivity extends BasicActivity  {
                 alertDialog.dismiss();
 
                 if (results != null && !results.getJSONObject(0).has("status") && results.getJSONObject(0).getInt("ID") == 1){
-                        Toast.makeText(extendedActivity, getString(R.string.successful_update) + "\n Συνδεθείτε με τα νέα στοιχεία", Toast.LENGTH_LONG).show();
+                        Toast.makeText(extendedAct, getString(R.string.successful_update) + "\n Συνδεθείτε με τα νέα στοιχεία", Toast.LENGTH_LONG).show();
                 }
                 else
-                    Toast.makeText(extendedActivity, "Δεν βρέθηκε χρήστης με τα στοιχεία που δώσατε", Toast.LENGTH_LONG).show();
+                    Toast.makeText(extendedAct, "Δεν βρέθηκε χρήστης με τα στοιχεία που δώσατε", Toast.LENGTH_LONG).show();
 
                // Toast.makeText(extendedActivity, "xaxaxaxa σατε", Toast.LENGTH_SHORT).show();
 

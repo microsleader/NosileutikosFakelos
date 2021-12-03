@@ -18,7 +18,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +38,6 @@ import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentMedicineCloseListener;
 
-import micros_leader.george.nosileutikosfakelos.OROFOI.f_Zotika_simeia.RV_zotika_ana_ora_adapter;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.StaticFields;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
@@ -50,10 +48,10 @@ import micros_leader.george.nosileutikosfakelos.Utils;
 public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFragmentMedicineCloseListener {
 
 
-    private TextView total_pros,total_apov,total_isozigio ;
+    public TextView total_pros,total_apov,total_isozigio ;
     private BasicRV adapterRV;
-    private Button neaEggrafiBT;
-    private OptionsFabLayout fabMenu;
+    public Button neaEggrafiBT;
+    public OptionsFabLayout fabMenu;
     private boolean firstTimeResume = true;
 
     TextView idView;
@@ -71,24 +69,37 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
         total_isozigio = findViewById(R.id.total_isozigio);
 
         neaEggrafiBT = findViewById(R.id.neaEggrafiBT);
+
+        fabMenu = findViewById(R.id.fabMenu);
+
+        initialize();
+    }
+
+
+
+    public void initialize(){
+
+        if (extendedAct == null)
+            extendedAct = this;
+
         neaEgrafiListener();
 
         titloi_positions   = new int[]{0, 8};
-
-        fabMenu = findViewById(R.id.fabMenu);
         fabListener();
+        alertDialog = Utils.setLoadingAlertDialog(extendedAct);
+
 
         table = "v_Nursing_Isozigio_Meth";
         setRead_only_col("total_medicines","all_hours_meds","systemic_meds","one_time_meds","other_meds","metaggiseis");
 
 
         getAll_col_names(InfoSpecificLists.getIsozigio_Meth_Lista());
-        adapterRV = new MethAdapter(this, InfoSpecificLists.getIsozigio_Meth_Lista(),titloi_positions);
+        adapterRV = new MethAdapter(extendedAct, InfoSpecificLists.getIsozigio_Meth_Lista(),titloi_positions);
 
         setRecyclerViewgridrLayaout( R.id.isozigioRV,adapterRV,2,titloi_positions);
         listaAdaptor = adapterRV.result;
 
-        getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
+        getPatientsList(extendedAct,R.id.patientsTV, R.id.floorsSP);
 
         thereIsImageUpdateButton();
         insertOrUpdateListener(listaAdaptor,new String [] {"ID","TransGroupID","Date"});
@@ -98,19 +109,18 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
 
 
-
     @Override
     public void thereIsImageUpdateButton() {
         super.thereIsImageUpdateButton();
 
-        Button previousIsozigioBT =new Button(this);
-        Toolbar.LayoutParams l1=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        Button previousIsozigioBT = new Button(extendedAct);
+        Toolbar.LayoutParams l1 = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         l1.gravity= Gravity.START;
         previousIsozigioBT.setLayoutParams(l1);
         previousIsozigioBT.setPadding(20,20,20,20);
         previousIsozigioBT.setText("ισοζυγιο προηγ. μερας");
         toolbar.addView(previousIsozigioBT);
-        Toolbar.LayoutParams l3=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        Toolbar.LayoutParams l3 = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         l3.gravity= Gravity.END;
         previousIsozigioBT.setLayoutParams(l3);
         previousIsozigioBT.setBackgroundColor(Color.TRANSPARENT);
@@ -122,7 +132,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
                 alertDialog.show();
 
-                BottomSheetDialog bottomSheerDialog = new BottomSheetDialog(Isozigio_Meth_Activity.this);
+                BottomSheetDialog bottomSheerDialog = new BottomSheetDialog(extendedAct);
                 View parentView = getLayoutInflater().inflate(R.layout.custom_isizigio_meth_proigoumenis_meras_dialog,null);
                 bottomSheerDialog.setContentView(parentView);
 
@@ -138,7 +148,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                         " from v_Nursing_Isozigio_Meth " +
                         "  where TransGroupid= " + transgroupID +
                         "  and  dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + Utils.getYesterdayDateString() +"' , 103))";
-                task.ctx = Isozigio_Meth_Activity.this;
+                task.ctx = extendedAct;
                 task.listener = new AsyncCompleteTask2() {
                     @Override
                     public void taskComplete2(JSONArray results) throws JSONException {
@@ -152,7 +162,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                         }
 
                         else
-                            Toast.makeText(Isozigio_Meth_Activity.this, R.string.no_data, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(extendedAct, R.string.no_data, Toast.LENGTH_SHORT).show();
 
 
                         alertDialog.dismiss();
@@ -253,7 +263,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                                 false,
                                 true);
                          in.putExtra("saveTransgroupID" ,false);
-                        startActivity(in);
+                        extendedAct.startActivity(in);
 
 
                         break; // true to keep the Speed Dial open
@@ -275,7 +285,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                                 false,
                                 false,
                                 false);
-                        startActivity(in);
+                        extendedAct.startActivity(in);
 
                         break;
 
@@ -329,7 +339,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
         //alertDialog.show();
         AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
         task.query = "select * from Nursing_Ergastiriaka_Meth " ;
-        task.ctx = Isozigio_Meth_Activity.this;
+        task.ctx = extendedAct;
         task.listener = new AsyncCompleteTask2() {
             @Override
             public void taskComplete2(JSONArray results) throws JSONException {
@@ -400,7 +410,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                 clearListaAdaptor(listaAdaptor);
                 adapterRV.notifyDataSetChanged();
 
-                Toast.makeText(extendedActivity, "Μπορείτε να κάνετε μία νέα εγγραφη", Toast.LENGTH_SHORT).show();
+                Toast.makeText(extendedAct, "Μπορείτε να κάνετε μία νέα εγγραφη", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -592,7 +602,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                        true);
 
 
-               startActivity(in);
+               extendedAct.startActivity(in);
 
            });
         }

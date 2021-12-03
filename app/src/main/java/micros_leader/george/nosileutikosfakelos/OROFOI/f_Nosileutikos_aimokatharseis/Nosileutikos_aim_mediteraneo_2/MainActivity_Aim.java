@@ -43,8 +43,6 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.DataListener;
 import micros_leader.george.nosileutikosfakelos.LoginActiity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_2.fragments.Iatrikes_odigies_fragment;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_2.ui.main.SectionsPagerAdapter;
-import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.activities.SinexeisMetriseis_All_Activity;
-import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.activities.StatheresMetriseis_All_Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.dialogFragmentsAndAdaptors.DIalogFragmentXreosimaIlika;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
@@ -78,7 +76,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
         setContentView(R.layout.activity_main__aim);
 
         iatr_fragment = new Iatrikes_odigies_fragment();
-        extendedActivity = this;
+        extendedAct = this;
 
         //-------------------------
 

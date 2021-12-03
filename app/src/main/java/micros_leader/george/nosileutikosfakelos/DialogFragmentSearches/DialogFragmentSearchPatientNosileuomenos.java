@@ -1,5 +1,6 @@
 package micros_leader.george.nosileutikosfakelos.DialogFragmentSearches;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -30,6 +31,15 @@ public class DialogFragmentSearchPatientNosileuomenos extends DialogFragment {
     private ArrayList<PatientsOfTheDay> filteredList = new ArrayList<>();
     private Toolbar toolbar;
     private Context ctx;
+    private Activity activityFromSigxoneusi;
+
+
+    public DialogFragmentSearchPatientNosileuomenos(){
+
+    }
+    public DialogFragmentSearchPatientNosileuomenos(Activity activityFromSigxoneusi){
+        this.activityFromSigxoneusi = activityFromSigxoneusi;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +64,11 @@ public class DialogFragmentSearchPatientNosileuomenos extends DialogFragment {
         apotelesmataRecyclerView.setHasFixedSize(true);
 
 
-        SearchPatientNosilAdapter adapter =  new SearchPatientNosilAdapter(getContext(), patientsArraylist, this);
+        SearchPatientNosilAdapter adapter;
+        if (activityFromSigxoneusi == null)
+            adapter =  new SearchPatientNosilAdapter(getContext(), patientsArraylist, this);
+        else
+            adapter =  new SearchPatientNosilAdapter(getContext(), activityFromSigxoneusi, patientsArraylist, this);
         apotelesmataRecyclerView.setAdapter(adapter);
 
 

@@ -24,9 +24,9 @@ import static micros_leader.george.nosileutikosfakelos.Utils.getCurrentDate;
 
 public class Kathimerino_Zigisma_Activity extends BasicActivity {
 
-    private EditText anaf_varosET,varosET,proVarosET,ipsosET,textET;
+    public EditText anaf_varosET,varosET,proVarosET,ipsosET,bmiET,textET;
   //  private Spinner daySP;
-    private String anaf_varos,varos,proVaros,ipsos,text  , dayFromSpinner = "1";
+    private String anaf_varos,varos,proVaros,ipsos,bmi,text  , dayFromSpinner = "1";
     private ArrayAdapter spinnerAdapter;
     private ArrayList<String> columnNames;
     private TextView textViews[];
@@ -44,15 +44,22 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
         varosET = findViewById(R.id.varosET);
         proVarosET = findViewById(R.id.proVarosET);
         ipsosET = findViewById(R.id.ipsosET);
+        bmiET = findViewById(R.id.bmiET);
         textET = findViewById(R.id.textET);
-     //   daySP = findViewById(R.id.daysSP);
         fab = findViewById(R.id.fab);
-        fabListener();
-       // spinnerInitialize();
+        initialize();
 
+
+
+    }
+
+    public void initialize(){
+        if (extendedAct == null)
+            extendedAct = this;
+        fabListener();
 
         textViews = new TextView[] {dateTV};
-        editTexts = new EditText[] {anaf_varosET,varosET,proVarosET,ipsosET,textET};
+        editTexts = new EditText[] {anaf_varosET,varosET,proVarosET,ipsosET,bmiET,textET};
 
         columnNames = new ArrayList<>();
         columnNames.add("date");
@@ -61,13 +68,13 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
         columnNames.add("day_text"); columnNames.add("UserID");
         setAll_col_names(columnNames);
 
-        getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
+        getPatientsList(extendedAct,R.id.patientsTV, R.id.floorsSP);
         thereIsDatePicker(R.id.dateTV);
         date = dateTV.getText().toString();
         thereIsUpdateButton(R.id.updateButton);
 
+        alertDialog = Utils.setLoadingAlertDialog(extendedAct);
         insertOrUpdateListener(editTexts,null,new String [] {"ID","TransGroupID","date","dateS"});
-
 
 
     }
@@ -77,7 +84,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
       fab.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-              startActivity(  tableView_sigkentrotika( Str_queries.getKATHIMERINO_ZIGISMA_SIGKENTROTIKA(transgroupID),
+              extendedAct.startActivity(  tableView_sigkentrotika( Str_queries.getKATHIMERINO_ZIGISMA_SIGKENTROTIKA(transgroupID),
                       transgroupID,
                       new String[]{"Ημ/νία","Ζύγισμα / Κείμενο ημέρας"},
                       null,
@@ -88,37 +95,12 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
           }
       });
     }
-/*
-    private void spinnerInitialize() {
-        spinnerAdapter = new ArrayAdapter<>(this,
-                R.layout.spinner_layout2, InfoSpecificLists.getDays(15));
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        daySP.setAdapter(spinnerAdapter);
-
-        daySP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                if (isFirstTime)
-                    isFirstTime = false;
-                else {
-                    dayFromSpinner = Utils.getfirstPartSplitString(daySP.getSelectedItem().toString()," ");
-                    dayFromSpinner = dayFromSpinner.substring(0 , dayFromSpinner.length()-1);
-                    getkathimerinoZigisma();
-                }
 
 
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
-    }
 
-*/
-    private void getkathimerinoZigisma(){
+    public void getkathimerinoZigisma(){
         getJSON_DATA(Str_queries.getKATHIMERINO_ZIGISMA_PERSON(transgroupID,dateTV.getText().toString()));
     }
 
@@ -126,7 +108,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
     public void taskComplete2(JSONArray results) throws JSONException {
         super.taskComplete2(results);
 
-        alertDialog.show();
+        //alertDialog.show();
 
         if (weHaveData) {
             valuesJson.clear();
@@ -148,7 +130,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
                     varos = convertObjToString(jsonObject.get("varos"));
                     proVaros = convertObjToString(jsonObject.get("pro_varos"));
                     ipsos = convertObjToString(jsonObject.get("ipsos"));
-                 //   dayFromSpinner = convertObjToString(jsonObject.get("day"));
+                    bmi = convertObjToString(jsonObject.get("bmi"));
                     text = convertObjToString(jsonObject.get("day_text"));
 
                     dateTV.setText(date);
@@ -156,7 +138,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
                     varosET.setText(varos);
                     proVarosET.setText(proVaros);
                     ipsosET.setText(ipsos);
-                    //daySP.setSelection(Integer.parseInt(dayFromSpinner) - 1);
+                    bmiET.setText(bmi);
                     textET.setText(text);
 
 
@@ -178,19 +160,15 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
     @Override
     public void setValuesTo_valuesJSON(EditText[] editText, TextView[] textView) {
 
-//        if (dayFromSpinner == null || dayFromSpinner.equals("") ) {
-//            dayFromSpinner = Utils.getfirstPartSplitString(daySP.getSelectedItem().toString(), " ");
-//            dayFromSpinner = dayFromSpinner.substring(0, dayFromSpinner.length() - 1);
-//        }
+
         if (date.equals(""))
             date = getCurrentDate();
         else
             date = dateTV.getText().toString();
 
-      //  valuesJson.add(dayFromSpinner);
 
         super.setValuesTo_valuesJSON(editText, textView);
-        valuesJson.add(Utils.getUserID(this));
+        valuesJson.add(Utils.getUserID(extendedAct));
 
 
 

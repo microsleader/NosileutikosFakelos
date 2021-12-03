@@ -91,6 +91,7 @@ public class Frontis {
             lista.add(new ItemsRV("Αντιγριπ. εμβόλιο", "embolio_antiFlu", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 1", "embolio_covid", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 2", "embolio_covid2", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 3", "embolio_covid3", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβόλιο πνευμονιόκοκου", "embolio_pneum", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Άλλα εμβόλια", "other_vac", "", EDITTEXT_ITEM,KEIMENO));
 
@@ -150,6 +151,7 @@ public class Frontis {
             lista.add(new ItemsRV("Αντιγριπ. εμβόλιο", "embolio_antiFlu", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 1", "embolio_covid", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 2", "embolio_covid2", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 3", "embolio_covid3", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβόλιο πνευμονιόκοκου", "embolio_pneum", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Άλλα εμβόλια", "other_vac", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
@@ -266,10 +268,6 @@ public class Frontis {
     public static ArrayList<TableViewItem> getSigkentrotikaStatheresMetriseis() {
 
 
-
-
-
-
         BasicList lista = new BasicList();
 
         lista.add(new TableViewItem("ID","ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
@@ -288,12 +286,6 @@ public class Frontis {
         lista.add(new TableViewItem("Ξηρό βάρος",  "ksiro_varos", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Διαφορά βάρους","diafora_varous", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Πρόσθετο βάρος ", "additional_weight", EDIT_TEXT_TYPE, DEKADIKOS));
-
-
-
-
-
-
 
                 //"fistula", "Μόσχευμα",
 

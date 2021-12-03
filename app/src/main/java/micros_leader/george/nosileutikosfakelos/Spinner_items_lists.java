@@ -332,7 +332,7 @@ public class Spinner_items_lists {
 
         lista.add(new Spinner_item(0,""));
         lista.add(new Spinner_item(1,"Πολυανθεκτικά"));
-        lista.add(new Spinner_item(2,"ουδετεροπερονικου και ανοσοκατεσταλμένου"));
+        lista.add(new Spinner_item(2,"ουδετεροπενικου και ανοσοκατασταλμένου"));
         lista.add(new Spinner_item(3,"Ουδετεροπεπτικού"));
         lista.add(new Spinner_item(4,"Μέτρα επαφής"));
         lista.add(new Spinner_item(5,"Σταγονιδίων"));
@@ -429,6 +429,7 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(6,"CRAP"));
         lista.add(new Spinner_item(7,"T-Tube"));
         lista.add(new Spinner_item(8,"B.O."));
+        lista.add(new Spinner_item(9,"Μέσος όρος"));
 
 
         return lista;

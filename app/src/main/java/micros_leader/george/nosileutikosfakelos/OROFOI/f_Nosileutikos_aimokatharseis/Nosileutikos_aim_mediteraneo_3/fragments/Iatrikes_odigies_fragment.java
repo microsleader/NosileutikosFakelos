@@ -177,11 +177,28 @@ public class Iatrikes_odigies_fragment extends Fragment  {
                 String yearName = results.getJSONObject(0).getString("yearName");
                 main.id = results.getJSONObject(0).getString("ID");
 
+
+
                 main.setValuesTolistaAdaptor(null, newList);
+
+
+                if (results.getJSONObject(0).has("agg_prospelasi")) {
+                    String ag_prosID = results.getJSONObject(0).getString("agg_prospelasi");
+                    if (!ag_prosID.isEmpty()) {
+
+                        for (int i = 0; i < listaAdaptor.size(); i++) {
+                            if (listaAdaptor.get(i).col_name.equals("agg_prospelasi")) {
+                                newList.get(i).setValue(getAggiakiProspelasi(Integer.parseInt(ag_prosID)));
+                                break;
+                            }
+                        }
+                    }
+                }
 
                 if (main.isNurse) {
                     newList.get(0).setValue(month + " / " + yearName);
                     newList.get(1).setValue(doctorName);
+
                 }
                 else if (main.isDoctor){
                     newList.get(2).setValue(doctorName);
@@ -202,7 +219,41 @@ public class Iatrikes_odigies_fragment extends Fragment  {
 
         catch (Exception e){
 
+            e.printStackTrace();
         }
+    }
+
+
+
+
+    String getAggiakiProspelasi(int id){
+        switch (id) {
+            case 1: return "AVF";
+            case 2: return  "AVF ΑΡ";
+            case 3: return  "AVF ΔΕ";
+            case 4: return  "AVG";
+            case 5: return  "AVG ΑΡ";
+            case 6: return  "AVG ΔΕ";
+            case 7: return  "ΚΑΘΕΤΗΡΑΣ";
+            case 8: return  "ΚΕΝΤΙΚΟΣ ΣΦΑΓΙΤΙΔΙΚΟΣ ΜΟΝΙΜΟΣ";
+            case 9: return  "ΚΕΝΤΡΙΚΟΣ ΚΑΘΕΤΗΡΑΣ ΔΕ";
+            case 10: return  "ΚΕΝΤΡΙΚΟΣ ΚΑΘΕΤΗΡΑΣ ΥΠΟΚΛΕΙΔΙΟΣ ΔΕ";
+            case 11: return  "ΜOΣΧΕΥΜΑ";
+            case 12: return  "ΜOΣΧΕΥΜΑ ΑΡ";
+            case 13: return  "ΜΟΝΙΜΟΣ ΚΑΘΕΤΗΡΑΣ";
+            case 14: return  "ΜΟΝΙΜΟΣ ΚΑΘΕΤΗΡΑΣ ΣΦΑΓΙΤΙΚΟΣ ΔΕ";
+            case 15: return  "ΜΟΝΙΜΟΣ ΣΦΑΓΙΤΙΔΙΚΟΣ";
+            case 16: return  "ΜΟΝΙΜΟΣ ΣΦΑΓΙΤΙΔΙΚΟΣ ΑΡ";
+            case 17: return  "ΜΟΝΙΜΟΣ ΣΦΑΓΙΤΙΔΙΚΟΣ ΔΕ";
+            case 18: return  "ΜΟΣΧΕΥΜΑ ΔΕ";
+            case 19: return  "ΠΡΟΣΩΡΙΝΟΣ ΚΑΘΕΤΗΡΑΣ";
+            case 20: return  "ΠΡΟΣΩΡΙΝΟΣ ΣΦΑΓΙΤΙΔΙΚΟΣ ΔΕ";
+            case 21: return  "ΦΙΣΤΟΥΛΑ";
+
+            default: return "";
+
+        }
+
     }
 
 
@@ -213,6 +264,8 @@ public class Iatrikes_odigies_fragment extends Fragment  {
             Toast.makeText(main, "Μόνο οι ιατροί έχουν δικαίωμα για καταχώρηση και αλλαγή", Toast.LENGTH_SHORT).show();
             return;
         }
+
+
 
         main.alertDialog.show();
 

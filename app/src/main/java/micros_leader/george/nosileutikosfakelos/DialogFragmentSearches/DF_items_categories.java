@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,10 +50,10 @@ import micros_leader.george.nosileutikosfakelos.OROFOI.f_Diaitologio.Diaitologio
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.TableView.Table;
 import micros_leader.george.nosileutikosfakelos.TableView.TableFragment;
+import micros_leader.george.nosileutikosfakelos.Utils;
 
 public class DF_items_categories   extends DialogFragment implements AsyncCompleteTask2 {
 
-    private Toolbar toolbar;
     private ExpandableListView rv;
     private Activity act;
     private String lookupTable;
@@ -80,7 +81,7 @@ public class DF_items_categories   extends DialogFragment implements AsyncComple
 
         View view = inflater.inflate(R.layout.custom_df_items_categories, container, false);
 
-        toolbar = view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         expListView = view.findViewById(R.id.rv);
         act = getActivity();
         dataSendListener = (DataSended_str) df;
@@ -113,7 +114,7 @@ public class DF_items_categories   extends DialogFragment implements AsyncComple
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(act, listDataHeader.get(groupPosition) + " Expanded", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(act, listDataHeader.get(groupPosition) + " Expanded", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -122,7 +123,7 @@ public class DF_items_categories   extends DialogFragment implements AsyncComple
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(act, listDataHeader.get(groupPosition) + " Collapsed", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(act, listDataHeader.get(groupPosition) + " Collapsed", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -134,8 +135,7 @@ public class DF_items_categories   extends DialogFragment implements AsyncComple
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
-                Toast.makeText(act, listDataHeader.get(groupPosition) + " : " +
-                        listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(act, listDataHeader.get(groupPosition) + " : " + listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
@@ -289,16 +289,25 @@ public class DF_items_categories   extends DialogFragment implements AsyncComple
             TextView periektikotitaTV = (TextView) convertView.findViewById(R.id.info2TV);
             TextView xrisi_odigiesTV = (TextView) convertView.findViewById(R.id.info3TV);
 
-            diaitaTV.setText(childText.getName().replace("\n", " ").trim());
+            String diaitaText = childText.getName().replace("\n", " ").trim();
+            if (diaitaText.startsWith("ΠΡΟΣΟΧΗ!!!"))
+                diaitaTV.setText(Html.fromHtml(Utils.getColorTextRed("ΠΡΟΣΟΧΗ!!!")  + diaitaText.substring(10)));
+            else
+                diaitaTV.setText(diaitaText);
+
 
             CheckBox selectedCH = convertView.findViewById(R.id.selectedCH);
             selectedCH.setChecked(childText.isSelected());
 
             if (childText.getPeriektikotita() != null && !childText.getPeriektikotita().isEmpty() )
                 periektikotitaTV.setText("ΠΕΡΙΕΚΤΙΚΟΤΗΤΑ: \n" + childText.getPeriektikotita());
+            else
+                periektikotitaTV.setText("");
 
             if (childText.getXrisi_odigies() != null && !childText.getXrisi_odigies().isEmpty())
                 xrisi_odigiesTV.setText("ΠΙΘΑΝΗ ΧΡΗΣΗ: \n" + childText.getXrisi_odigies());
+            else
+                xrisi_odigiesTV.setText("");
 
             selectedCH.setOnClickListener(view -> childText.setSelected(selectedCH.isChecked()));
 

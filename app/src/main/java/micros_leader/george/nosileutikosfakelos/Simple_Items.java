@@ -4,6 +4,7 @@ public class Simple_Items {
 
     public int id, transgroupID , itemID;
     public String title, datein = "" ,dateout = "", value = "" , userID = "";
+    public boolean hasDateoutFromServer;
 
     public Simple_Items(int itemID, String title) {
         this.itemID = itemID;

@@ -298,7 +298,7 @@ public class Nephroxenia_Main_Activity extends AppCompatActivity implements   Na
                                 " where patientID = " + patientID + " and x.efapax = 1";
                          panoTitloi = new String[]{"Φάρμακο","Δοσολογία","Μονάδα","Δόση","Συχνότητα\nημέρας" , "Συχνότητα\nώρας"};
                          colNames = new String[]{"name","dosologia","monada","dosi","sixnotita_imeras","sixnotita_oras"};x = new BasicActivity();
-                        x.extendedActivity = Nephroxenia_Main_Activity.this;
+                        x.extendedAct = Nephroxenia_Main_Activity.this;
                        intent = x.tableView_sigkentrotika(query,null,panoTitloi,null,colNames,
                                false,false,false);
                        startActivity(intent);
@@ -314,7 +314,7 @@ public class Nephroxenia_Main_Activity extends AppCompatActivity implements   Na
                                 " where x.transgroupid = " + transgroupID ;
                         panoTitloi = new String[]{"Κωδικός","Φάρμακο","Δοσολογία","Μονάδα","Δόση","Συχνότητα\nημέρας" , "Συχνότητα\nώρας"};
                         x = new BasicActivity();
-                        x.extendedActivity = Nephroxenia_Main_Activity.this;
+                        x.extendedAct = Nephroxenia_Main_Activity.this;
                         intent = x.tableView_sigkentrotika(query,null,panoTitloi,null,
                                 InfoSpecificLists.getSigkentrotikaFarmakaSinedrias_Nephroxenia(),
                                 false,false,true);

@@ -198,7 +198,7 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
                                 "linkdoctorID , " +
                                 "companyID " +
                                 "FROM USERS " +
-                                "WHERE LoginName = '" + username.getText().toString() + "'" + " AND WebPassword = '" + password.getText().toString() + "'" ;
+                                "WHERE LoginName = '" + username.getText().toString().trim() + "'" + " AND WebPassword = '" + password.getText().toString().trim() + "'" ;
 
                         AsyncTaskGetJSON task = new AsyncTaskGetJSON();
                         task.ctx = getApplicationContext();
@@ -241,7 +241,7 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
                     boolean isNurse = Utils.convertObjToString(jsonObject.get("isNurse")).equals("1");
                     linkdoctorID = Utils.convertObjToString(jsonObject.get("linkdoctorID"));
 
-                    if (isNurse || !linkdoctorID.equals("") ){
+                    if (isNurse || !linkdoctorID.equals("") ) {
 
 
                         id = String.valueOf(jsonObject.getInt("ID"));
@@ -250,34 +250,35 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
                         custID = jsonObject.optInt("custID");
 
                         //GIA NA MIN KSANAKANEI LOGIN
-                        editorForLogin.putInt("custID",custID);
+                        editorForLogin.putInt("custID", custID);
                         editorForLogin.putBoolean("login", true);
-                        editorForLogin.putString("id",id);
-                        editorForLogin.putString("name",name);
+                        editorForLogin.putString("id", id);
+                        editorForLogin.putString("name", name);
                         editorForLogin.putString("companyID", companyID);
-                        editorForLogin.putString("linkdoctorID",linkdoctorID);
-                        editorForLogin.putBoolean("isNurse",isNurse);
+                        editorForLogin.putString("linkdoctorID", linkdoctorID);
+                        editorForLogin.putBoolean("isNurse", isNurse);
 
-                        editorForLogin.commit();
+                        if (editorForLogin.commit()) {
 
 
-                       // MyApplication.setCustID(Customers.CUSTID_FRONTIS); //  // ΓΙΑ ΤΕΣΤΑΡΙΣΜΑ
+                            // MyApplication.setCustID(Customers.CUSTID_FRONTIS); //  // ΓΙΑ ΤΕΣΤΑΡΙΣΜΑ
 
-                        Intent intent;
+                            Intent intent;
 
-                        if (custID == Customers.CUSTID_NEPHROXENIA )
-                             intent =  new Intent(LoginActiity.this, Nephroxenia_Main_Activity.class);
-                        else if (custID == Customers.CUSTID_FRONTIS || custID == Customers.CUSTID_FRONTIS_2)
-                            intent =  new Intent(LoginActiity.this, MainActivity_Aim.class);
-                        else
-                            intent =  new Intent(LoginActiity.this, Menu_generalActivity_NEW.class);
+                            if (custID == Customers.CUSTID_NEPHROXENIA)
+                                intent = new Intent(LoginActiity.this, Nephroxenia_Main_Activity.class);
+                            else if (custID == Customers.CUSTID_FRONTIS || custID == Customers.CUSTID_FRONTIS_2)
+                                intent = new Intent(LoginActiity.this, MainActivity_Aim.class);
+                            else
+                                intent = new Intent(LoginActiity.this, Menu_generalActivity_NEW.class);
 
-                        intent.putExtra("id", id);
-                        intent.putExtra("name", name);
-                        intent.putExtra("companyID",companyID);
-                        startActivity(intent);
+                            intent.putExtra("id", id);
+                            intent.putExtra("name", name);
+                            intent.putExtra("companyID", companyID);
+                            startActivity(intent);
 
-                        finish();
+                            finish();
+                        }
                     }
 
                     else {

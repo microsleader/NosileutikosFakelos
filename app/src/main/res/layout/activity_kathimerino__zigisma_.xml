@@ -57,7 +57,7 @@
                 android:background="@drawable/edittext_shape"
 
                 android:gravity="center"
-                android:paddingLeft="1dp"
+                android:paddingStart="1dp"
                 android:text="patients" />
 
             <LinearLayout
@@ -84,7 +84,7 @@
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/edittext_shape"
                         android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:paddingStart="2dp"
                         android:text="Αναφερόμενο βάρος ασθενούς που δεν κινητοποιείται (τελεύταιο ζύγισμα προ  εισαγωγής)"
                         android:textSize="12sp" />
 
@@ -96,7 +96,7 @@
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/edittext_shape"
                         android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:paddingStart="2dp"
                         android:text="Βάρος σώματος την ημέρα εισαγωγής" />
 
                     <TextView
@@ -107,7 +107,7 @@
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/edittext_shape"
                         android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:paddingStart="2dp"
                         android:text="Προεγχειρητικό βάρος:" />
 
                     <TextView
@@ -118,30 +118,29 @@
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/edittext_shape"
                         android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:paddingStart="2dp"
                         android:text="Ημ/νία" />
 
                     <TextView
-                        android:id="@+id/textView54"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/edittext_shape"
                         android:gravity="center"
-                        android:paddingLeft="2dp"
-                        android:text="Επιλογή μέρας:"
-                        android:visibility="gone" />
+                        android:paddingStart="2dp"
+                        android:text="Ύψος" />
 
                     <TextView
+                        android:id="@+id/textView42"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="22dp"
                         android:layout_marginEnd="22dp"
                         android:background="@drawable/edittext_shape"
                         android:gravity="center"
-                        android:paddingLeft="2dp"
-                        android:text="Ύψος" />
+                        android:paddingStart="2dp"
+                        android:text="BMI Kg/m2" />
 
                     <TextView
                         android:id="@+id/textView53"
@@ -152,7 +151,7 @@
                         android:layout_marginBottom="22dp"
                         android:background="@drawable/edittext_shape"
                         android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:paddingStart="2dp"
                         android:text="Ζυγισμα κείμενο ημέρας" />
                 </LinearLayout>
 
@@ -171,7 +170,8 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="textMultiLine|numberDecimal"
-                        android:paddingLeft="1dp" />
+                        android:paddingStart="1dp"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <EditText
                         android:id="@+id/varosET"
@@ -182,7 +182,8 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="textMultiLine|numberDecimal"
-                        android:paddingLeft="1dp" />
+                        android:paddingStart="1dp"
+                        tools:ignore="SpeakableTextPresentCheck" />
 
                     <EditText
                         android:id="@+id/proVarosET"
@@ -193,7 +194,7 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="textMultiLine|numberDecimal"
-                        android:paddingLeft="1dp" />
+                        android:paddingStart="1dp" />
 
                     <TextView
                         android:id="@+id/dateTV"
@@ -203,15 +204,7 @@
                         android:background="@drawable/edittext_shape"
                         android:ems="10"
                         android:gravity="center"
-                        android:paddingLeft="1dp" />
-
-                    <Spinner
-                        android:id="@+id/daysSP"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:background="@drawable/spinner_layout"
-                        android:visibility="gone" />
+                        android:paddingStart="1dp" />
 
                     <EditText
                         android:id="@+id/ipsosET"
@@ -222,7 +215,17 @@
                         android:ems="10"
                         android:gravity="center"
                         android:inputType="numberDecimal"
-                        android:paddingLeft="1dp" />
+                        android:paddingStart="1dp" />
+
+                    <EditText
+                        android:id="@+id/bmiET"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="22dp"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:paddingStart="1dp" />
 
                     <EditText
                         android:id="@+id/textET"
@@ -232,7 +235,7 @@
                         android:background="@drawable/edittext_shape"
                         android:ems="10"
                         android:gravity="center"
-                        android:paddingLeft="1dp" />
+                        android:paddingStart="1dp" />
 
                 </LinearLayout>
             </LinearLayout>

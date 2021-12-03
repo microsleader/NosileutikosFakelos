@@ -58,7 +58,7 @@ import micros_leader.george.nosileutikosfakelos.SettingsActivity;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
-public class Menu_generalActivity extends BasicActivity implements View.OnClickListener , AsyncCompleteTask2   , AsyncCompleteTask {
+public class Menu_generalActivity_old extends BasicActivity implements View.OnClickListener , AsyncCompleteTask2   , AsyncCompleteTask {
 
     private String name, id,companyID;
     private LinearLayout layoutButton1,layoutButton2,layoutButton3,
@@ -77,7 +77,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
             "insurance1","insurance2","insurance3","insurance4","patient_age","tg_clinic", "DiagnosisIn",
             "treatment1","treatment2","treatment3","treatment4","remarks",};
 
-    private Button planoKlinonBt;
+    private Button planoKlinonBt , sigxoneusiBT;
     private Toolbar toolbar;
     private int customerID = 0;
     private SharedPreferences sp1 ;
@@ -94,7 +94,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
         name = getIntent().getStringExtra("name");
         id = getIntent().getStringExtra("id");
         companyID = getIntent().getStringExtra("companyID");
-        extendedActivity = this;
+        extendedAct = this;
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         filladiaLayout = findViewById(R.id.filadiaLayout);
@@ -213,7 +213,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Menu_generalActivity.this, Nosil_elegxos_Meth.class);
+                Intent intent = new Intent(Menu_generalActivity_old.this, Nosil_elegxos_Meth.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
             }
@@ -223,7 +223,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Menu_generalActivity.this, Zotika_Activity_Meth.class);
+                Intent intent = new Intent(Menu_generalActivity_old.this, Zotika_Activity_Meth.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
             }
@@ -233,7 +233,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Menu_generalActivity.this, Nosil_IstorikoActivity_NEW.class);
+                Intent intent = new Intent(Menu_generalActivity_old.this, Nosil_IstorikoActivity_NEW.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
             }
@@ -244,7 +244,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Menu_generalActivity.this, Kathetires_kalliergies_Meth_Activity.class);
+                Intent intent = new Intent(Menu_generalActivity_old.this, Kathetires_kalliergies_Meth_Activity.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
             }
@@ -254,7 +254,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Menu_generalActivity.this, Isozigio_Meth_Activity.class);
+                Intent intent = new Intent(Menu_generalActivity_old.this, Isozigio_Meth_Activity.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
 
@@ -274,7 +274,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
 
         private void checkFirstTimeLogin() {
         //ΕΑΝ ΕΙΝΑΙ Η ΠΡΩΤΗ ΦΟΡΑ ΠΟΥ ΚΑΝΕΙ ΛΟΓΚΙΝ ΘΑ ΚΑΤΕΒΑΣΕΙ ΤΗ ΛΙΣΤΑ ΜΕ ΤΑ ΦΑΡΜΑΚΑ
-        boolean x = Utils.getIsFirstTimeLogin(Menu_generalActivity.this);
+        boolean x = Utils.getIsFirstTimeLogin(Menu_generalActivity_old.this);
         if (x)
             getAllMedicines(true);
         else
@@ -298,13 +298,13 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.settings:
-               startActivity(new Intent(Menu_generalActivity.this, SettingsActivity.class));
+               startActivity(new Intent(Menu_generalActivity_old.this, SettingsActivity.class));
 
                 return true;
             case R.id.log_out:
 
-                Utils.logout(Menu_generalActivity.this);
-                startActivity(new Intent(Menu_generalActivity.this, LoginActiity.class));
+                Utils.logout(Menu_generalActivity_old.this);
+                startActivity(new Intent(Menu_generalActivity_old.this, LoginActiity.class));
                 finish();
 
                 return true;
@@ -324,13 +324,13 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
 
             case R.id.layoutButton1:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, Isozigio_p_a_Activity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, Isozigio_p_a_Activity.class));
                 break;
 
             case R.id.layoutButton2:
                 // do your code
 
-                intent = new Intent(Menu_generalActivity.this, MainActivity_Aim.class);
+                intent = new Intent(Menu_generalActivity_old.this, MainActivity_Aim.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
                 break;
@@ -338,7 +338,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
             case R.id.layoutButton3:
                 // do your code
 
-                intent = new Intent(Menu_generalActivity.this, NeurikiAksiologisi3Activity.class);
+                intent = new Intent(Menu_generalActivity_old.this, NeurikiAksiologisi3Activity.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
                 break;
@@ -351,59 +351,59 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
 
             case R.id.layoutButton5:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, Diagnoseis_Istoriko_Activity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, Diagnoseis_Istoriko_Activity.class));
 
                 break;
 
             case R.id.layoutButton6:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, DiaitologioActivity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, DiaitologioActivity.class));
                 break;
 
 
             case R.id.layoutButton7:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, EktimisiEpigontonActivity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, EktimisiEpigontonActivity.class));
 
                 break;
 
             case R.id.layoutButton8:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, EksitirioActivity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, EksitirioActivity.class));
 
                 break;
 
 
             case R.id.layoutButton9:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, Nosil_IstorikoActivity_NEW.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, Nosil_IstorikoActivity_NEW.class));
 
                 break;
 
 
             case R.id.layoutButton10:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, SnelActivity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, SnelActivity.class));
 
                 break;
 
             case R.id.layoutButton11:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, FarmakaListActivity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, FarmakaListActivity.class));
 
                 break;
 
 
             case R.id.layoutButton12:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, Zotika_simeia_Activity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, Zotika_simeia_Activity.class));
 
 
                 break;
 
             case R.id.layoutButton13:
                 // do your code
-                startActivity(new Intent(Menu_generalActivity.this, Kathimerino_Zigisma_Activity.class));
+                startActivity(new Intent(Menu_generalActivity_old.this, Kathimerino_Zigisma_Activity.class));
 
                 break;
 
@@ -623,7 +623,7 @@ public class Menu_generalActivity extends BasicActivity implements View.OnClickL
 
 
                     startActivity(  tableView_sigkentrotika(Str_queries.getNosileuomenousFloors(date,hour,
-                            id,Utils.getcompanyID(Menu_generalActivity.this)),
+                            id,Utils.getcompanyID(Menu_generalActivity_old.this)),
                             transgroupID,
                             pano_titloi,
                             null,

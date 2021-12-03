@@ -1038,39 +1038,6 @@ public  class Server {
 
 
 
-//
-//
-//    public static class ServerLists{
-//        public static ArrayList<String> nameslist, valuesList;
-//
-//        public static ServerLists getLists(String...names, String...values){
-//            nameslist = new ArrayList<>();
-//            valuesList = new ArrayList<>();
-//
-//
-//        }
-//
-//        public ArrayList<String> getNameslist() {
-//            return nameslist;
-//        }
-//
-//        public void setNameslist(ArrayList<String> nameslist) {
-//            this.nameslist = nameslist;
-//        }
-//
-//        public ArrayList<String> getValuesList() {
-//            return valuesList;
-//        }
-//
-//        public void setValuesList(ArrayList<String> valuesList) {
-//            this.valuesList = valuesList;
-//        }
-//
-//        public static ArrayList<String>
-//    }
-//
-
-
 
 
 

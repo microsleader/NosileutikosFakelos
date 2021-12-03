@@ -47,7 +47,7 @@ public class Prosthiki_Farmakou_Activity extends BasicActivity implements MyDial
 
         table = "Nursing_xorigisi_farmakon";
         med = new Medicines();
-        extendedActivity = this;
+        extendedAct = this;
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         oresXorigisisTV = findViewById(R.id.oresXorigisisTV);
