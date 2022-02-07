@@ -1326,6 +1326,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                      infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
                                      row.addView(infoET);
                                  }
+
+
+
                                  else if (typeElement == SPINNER_TYPE_NEW && spList != null){
                                      if (!value.isEmpty())
                                         value =  spList.get(Integer.parseInt(value)).name;
