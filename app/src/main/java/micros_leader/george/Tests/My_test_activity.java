@@ -49,7 +49,7 @@ public class My_test_activity extends MainGraphicsActivity {
         getAll_col_names_and_set_adapter(this, InfoSpecificLists.getNosil_Istoriko_lista_new() ,titloi_positions);
 
 
-        setRecyclerViewgridrLayaout( adapter, 2,titloi_positions );
+        //setRecyclerViewgridrLayaout( adapter, 2,titloi_positions );
         getPatientsList(this);
 
         thereIsImageUpdateButton();

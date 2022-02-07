@@ -62,7 +62,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
     protected void onPreExecute() {
         super.onPreExecute();
         if (Utils.isNetworkAvailable(ctx)) {
-            base_URL = Utils.getAddress(ctx.getApplicationContext()) + ":" + Utils.getPort(ctx.getApplicationContext()) + "/rquery?cquery=";
+            base_URL = Utils.getAddress(ctx) + ":" + Utils.getPort(ctx) + "/rquery?cquery=";
 
             URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query));
             try {
@@ -133,7 +133,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
 
 //        Log.e("results", result.toString());
 
-        if (!(result == null)) {
+        if (result != null) {
 
 
             try {

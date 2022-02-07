@@ -67,6 +67,7 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended;
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended_str;
 import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentMedicineCloseListener;
 import micros_leader.george.nosileutikosfakelos.Listeners.SearchMedicineListener_Base;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Diaitologio.DiaitologioActivity;
 import micros_leader.george.nosileutikosfakelos.Permissions;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -128,6 +129,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     private HashMap <Integer,ArrayList<String>>  valuesMap ;
     private ArrayList<TableViewItem> tableViewArraylist;
     private boolean isPinakas = false , saveTransgroupID = true , setOnlyFirstRowAvalaible = false;
+    private boolean watchID_as_simpleSpinner;
     private ArrayList<String> col_namesFromViesLista;
     private TextView currentTextView;
     private final Toolbar t;
@@ -285,6 +287,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         if (bundle.containsKey("date"))
             date = bundle.getString("date");
 
+        if (bundle.containsKey("watchID_as_simpleSpinner"))
+            watchID_as_simpleSpinner = bundle.getBoolean("watchID_as_simpleSpinner");
+
 
         if (bundle.containsKey("transgroupID"))
             transgroupID = bundle.getString("transgroupID");
@@ -362,6 +367,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         }
         if (in.hasExtra("date"))
             date = in.getStringExtra("date");
+
+        if (in.hasExtra("watchID_as_simpleSpinner"))
+            watchID_as_simpleSpinner = in.getBooleanExtra("watchID_as_simpleSpinner",false);
 
 
         if (in.hasExtra("transgroupID"))
@@ -992,7 +1000,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
             for (int colIndex = 0; colIndex < results.length(); colIndex++) {
 
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
 
                 try {
                     jsonObject = results.getJSONObject(colIndex);
@@ -1334,7 +1342,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         if (typeElement == TEXTVIEW_CLOCK_TYPE)
                             value = Utils.convertHourTomillisecondsGR(value);
                         else if (typeElement == TEXTVIEW_DATE_TYPE)
-                            value = Utils.convertDateTomilliseconds(value);
+                            value = Utils.convertDateTomillisecondsTable(value);
 
 
 
@@ -1392,8 +1400,8 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                            String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser) {
 
 
-            if (rowIndex >= tableViewArraylist.size() && plagioiTitloi == null)
-                return;
+//            if (rowIndex >= tableViewArraylist.size() && plagioiTitloi == null)
+//                return;
 
 
 
@@ -2406,9 +2414,21 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
 
+
+            String forceValue = null;
+            if (tableViewArraylist.size() > indexOfColumn)
+                forceValue = tableViewArraylist.get(indexOfColumn).force_value;
             //TΟ ΑΝΑΛΟΓΟ ID ΕΙΝΑΙ ΚΑΙ Η ΘΕΣΗ ΤΟΥ ΣΠΙΝΝΕΡ  (ΒΟΛΕΥΕΙ ΑΡΚΕΤΑ)
             if (value == null || value.equals(""))
                 value = "0";
+
+
+            if (forceValue != null && !forceValue.isEmpty()) {
+                value = forceValue;
+            }
+
+
+
 
             spinner.setSelection(Integer.parseInt(value));
 
@@ -2580,6 +2600,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
     private String checkEksereseis(String column,String value) {
+
+        if (watchID_as_simpleSpinner)
+            return value;
 
         if (value == null || value.equals(""))
             return "";

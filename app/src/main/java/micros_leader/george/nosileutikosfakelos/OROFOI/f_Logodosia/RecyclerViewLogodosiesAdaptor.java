@@ -184,7 +184,7 @@ public class RecyclerViewLogodosiesAdaptor extends RecyclerView.Adapter<Recycler
         builder.setTitle("Ενημέρωση κειμένου");
 
         final EditText input = new EditText(ctx);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setSingleLine(false);  //add this
         input.setLines(4);
         input.setMaxLines(5);

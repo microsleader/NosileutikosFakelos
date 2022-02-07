@@ -1,5 +1,6 @@
 package micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,9 +10,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +49,9 @@ import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
 
-public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFragmentMedicineCloseListener {
+public class Isozigio_Meth_Activity extends BasicActivity
+       // implements MyDialogFragmentMedicineCloseListener
+{
 
 
     public TextView total_pros,total_apov,total_isozigio ;
@@ -97,6 +103,25 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
         adapterRV = new MethAdapter(extendedAct, InfoSpecificLists.getIsozigio_Meth_Lista(),titloi_positions);
 
         setRecyclerViewgridrLayaout( R.id.isozigioRV,adapterRV,2,titloi_positions);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                boolean isHeader = isHeader(position,titloi_positions);
+                String colName = listaAdaptor.get(position).getCol_name();
+
+                if (isHeader
+                      //  || (colName != null && colName.equals("levin"))
+                )
+                    return  2;
+                else
+                    return  1;
+
+
+
+            }
+        });
+
+
         listaAdaptor = adapterRV.result;
 
         getPatientsList(extendedAct,R.id.patientsTV, R.id.floorsSP);
@@ -105,6 +130,8 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
         insertOrUpdateListener(listaAdaptor,new String [] {"ID","TransGroupID","Date"});
 
         recyclerviewAddTouchListener();
+
+        //getTotalIsozigioTisImeras();
     }
 
 
@@ -133,7 +160,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                 alertDialog.show();
 
                 BottomSheetDialog bottomSheerDialog = new BottomSheetDialog(extendedAct);
-                View parentView = getLayoutInflater().inflate(R.layout.custom_isizigio_meth_proigoumenis_meras_dialog,null);
+                View parentView = extendedAct.getLayoutInflater().inflate(R.layout.custom_isizigio_meth_proigoumenis_meras_dialog,null);
                 bottomSheerDialog.setContentView(parentView);
 
                 final TextView prosTV = parentView.findViewById(R.id.prosTV);
@@ -141,7 +168,9 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                 final TextView isozigioTV = parentView.findViewById(R.id.isozigioTV);
 
                 AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-                task.query = "select " +
+                task.query =
+                        Str_queries.setglobals(Utils.getUserID(extendedAct) , "2" , Utils.getcompanyID(extendedAct)) + "\n" +
+                        " select " +
                         " isnull(sum(total_pros),0)  as total_pros, " +
                         " isnull(sum(total_apov),0) as total_apov,  " +
                         " isnull(sum(total_isozigio),0) as total_isozigio " +
@@ -179,7 +208,8 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
 
     private void getTotalIsozigioTisImeras(){
-        getJSON_DATA(Str_queries.getTotalIsozigioMeth(transgroupID, dateTV.getText().toString()));
+        getJSON_DATA(Str_queries.setglobals(Utils.getUserID(extendedAct),"2",Utils.getcompanyID(extendedAct)) +
+                Str_queries.getTotalIsozigioMeth(transgroupID, dateTV.getText().toString()));
     }
 
 
@@ -194,12 +224,24 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
             total_apov.setText(Utils.convertObjToString(metriseis.get("total_apov")));
             total_isozigio.setText(Utils.convertObjToString(metriseis.get("total_isozigio")));
 
-           //ArrayList cloneList = (ArrayList ArrayList<ItemsRV>) adapterRV.result.clone();
             for (int i=0; i<adapterRV.result.size(); i++){
-                if (adapterRV.result.get(i).getCol_name() !=null && adapterRV.result.get(i).getCol_name().equals("total_medicines")) {
-                    adapterRV.result.get(i).setValue(String.valueOf(metriseis.getInt("total_medicines")));
+                String colname = adapterRV.result.get(i).getCol_name();
+                if (colname != null && metriseis.has(colname) ) {
+                    adapterRV.result.get(i).setValue(metriseis.optString(colname));
                     adapterRV.notifyItemChanged(i);
-                    break;
+
+
+
+//                    if (colname.equals("all_hours_meds") || colname.equals("systemic_meds") ||
+//                            colname.equals("one_time_meds") || colname.equals("other_meds")  ||
+//                            colname.equals("metaggiseis")) {
+//                        adapterRV.result.get(i).setValue(String.valueOf(metriseis.getInt(colname)));
+//                        adapterRV.notifyItemChanged(i);
+//
+//
+//                        if (colname.equals("metaggiseis")) //ΕΠΕΙΔΗ ΘΑ ΕΙΝΙΑ ΤΕΛΕΥΤΑΙΟ ΟΠΟΤΕ ΔΕΝ ΕΧΕΙ ΝΟΗΜΑ ΝΑ ΨΑΞΕΙ ΑΛΛΟ
+//                            break;
+//                    }
                 }
 
             }
@@ -241,6 +283,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
         //  LISTENER  GIA TA ITEMS TOY
         fabMenu.setMiniFabSelectedListener(new OptionsFabLayout.OnMiniFabSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
             public void onMiniFabSelected(MenuItem fabItem) {
 
@@ -311,7 +354,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                                 false,
                                 true);
 
-                        startActivity(in);
+                        extendedAct.startActivity(in);
 
 
                         break;
@@ -330,7 +373,6 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
 
     }
-
 
 
 
@@ -373,7 +415,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                             panoTitloi,plagioiTitloi,tableLista,false, false, true);
                     in.putExtra("date",dateTV.getText().toString());
                     in.putExtra("plagioiTitlesAreItemIDs",true);
-                    startActivity(in);
+                    extendedAct.startActivity(in);
                 }
 
                 alertDialog.dismiss();
@@ -389,7 +431,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
     public void update_JSON(String str) {
         super.update_JSON(str);
 
-        if (str.equals(getString(R.string.successful_update))) {
+        if (str.equals(extendedAct.getString(R.string.successful_update))) {
             id = eggrafiID;
             weHaveData = true;
         }
@@ -407,8 +449,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
             public void onClick(View v) {
                 weHaveData = false;
                 id = "";
-                clearListaAdaptor(listaAdaptor);
-                adapterRV.notifyDataSetChanged();
+                adapterRV.updateLista(InfoSpecificLists.getIsozigio_Meth_Lista());
 
                 Toast.makeText(extendedAct, "Μπορείτε να κάνετε μία νέα εγγραφη", Toast.LENGTH_SHORT).show();
             }
@@ -482,7 +523,7 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
         });
     }
 
-
+/*
 
     @Override
     public void dialogMedicineClose(String id_name) {
@@ -509,6 +550,8 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
     }
 
+ */
+
 
 
 
@@ -531,33 +574,38 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
 
 
-    class MethAdapter extends BasicRV {
+    class MethAdapter extends BasicRV  {
+
+
 
         public MethAdapter(Activity act, ArrayList<ItemsRV> result, int[] titloi_positions) {
             super(act, result, titloi_positions);
         }
+
+
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             super.onBindViewHolder(holder, position);
 
             String col = result.get(position).getCol_name();
+
             if (col != null)
                 switch (col) {
                     case "all_hours_meds":
-                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.MEDS_24_HOURS);
+                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.MEDS_SISTIMIKI_FARM_AGOGI ,position);
                         break;
 
                     case "systemic_meds":
-                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.STABLE_CONTINIOUSLY_MEDS);
+                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.MEDS_OROS,position);
                         break;
 
                     case "one_time_meds":
-                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.ONE_TIME_MEDS);
+                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.ONE_TIME_MEDS,position);
                         break;
 
                     case "other_meds":
-                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.OTHER_MEDS);
+                        showSigkentrotikaTypeMeds(holder.titleTV, StaticFields.Type_meds.OTHER_MEDS,position);
                         break;
 
                     case "metaggiseis":
@@ -577,12 +625,14 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
                                         false,
                                         true);
 
-                                startActivity(in);
+                                extendedAct.startActivity(in);
 
                             }
                         });
                         break;
 
+                    default:
+                        holder.titleTV.setOnClickListener(null);
 
                 }
         }
@@ -590,13 +640,18 @@ public class Isozigio_Meth_Activity extends BasicActivity implements MyDialogFra
 
 
 
-       public void showSigkentrotikaTypeMeds(  TextView tv , String type_medID){
+       public void showSigkentrotikaTypeMeds(  TextView tv , String type_medID,int pos){
+           Log.e("eleos",tv.getText().toString() + " " + tv.hasOnClickListeners());
+
+           //tv.hasOnClickListeners()
            tv.setTypeface(null, Typeface.BOLD);
            tv.setOnClickListener(v -> {
-               String query = Str_queries.getSigkentrotika_meds_meth_types(transgroupID, type_medID);
+               //String query = Str_queries.getSigkentrotika_meds_meth_types(transgroupID, type_medID);
+               String query = Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID, type_medID);
                Intent in = tableView_sigkentrotika(query, transgroupID,
                        null,
-                       InfoSpecificLists.getFarmaka_isozigeio_meth(type_medID),
+                      // InfoSpecificLists.getFarmaka_isozigeio_meth(type_medID),
+                       InfoSpecificLists.getKartaXorigisisFarmakwn(false),
                        false,
                        false,
                        true);

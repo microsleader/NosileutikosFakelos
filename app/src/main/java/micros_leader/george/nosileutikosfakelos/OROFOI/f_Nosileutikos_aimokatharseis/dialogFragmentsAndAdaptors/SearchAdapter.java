@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import micros_leader.george.nosileutikosfakelos.Customers;
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataListener;
+import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended_str;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.activities.Nephroxenia_Main_Activity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -28,6 +29,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     private micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim main_aim_test3;
 
     private DataListener dataListener;
+    private DataSended_str dataSendedStr;
     private DialogFragmentSearchPat dialog;
     private boolean isFrontis;
 
@@ -45,8 +47,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         else if (context instanceof micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim)
             main_aim_test3 = (micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim) context;
 
-        this.dialog = dialog;
+        else
+            dataSendedStr = (DataSended_str) context;
 
+
+        this.dialog = dialog;
         isFrontis  = Customers.isFrontis(Utils.getCustomerID(context));
 
 
@@ -71,6 +76,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
 
         final String namePat = apotelesmata.getLastName() + " " + apotelesmata.getFirstName();
+        final int patID = apotelesmata.getPatientID();
         final String code = apotelesmata.getCode();
         final String amka = apotelesmata.getAmka();
 
@@ -78,7 +84,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         final String height = apotelesmata.getHeight();
         final String patCode = apotelesmata.getPatCode();
 
-        final String info = code + " , " + namePat + " , " + amka +
+        final String info = (code != null ? code + " , " : "") +
+                namePat + " , " + amka +
                 (isFrontis ? "\n,"  +
                 "Κωδ: " + patCode + " , " +
                 "Ηλικία: " + age + " , " +
@@ -88,7 +95,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         final String isEmergency = apotelesmata.getIsEmergency();
 
 
-        if (isEmergency.equals("true") || isEmergency.equals("1")){
+        if (isEmergency != null && (isEmergency.equals("true") || isEmergency.equals("1"))){
             holder.name.setTextColor(Color.RED);
         }
 
@@ -101,7 +108,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                 if (context instanceof Nephroxenia_Main_Activity) {
 
                     main.search_TV.setText(info);
-                    if (isEmergency.equals("true") || isEmergency.equals("1"))
+                    if (isEmergency != null && (isEmergency.equals("true") || isEmergency.equals("1")))
                         main.search_TV.setTextColor(Color.RED);
                     else
                         main.search_TV.setTextColor(Color.BLACK);
@@ -111,7 +118,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
 
                 else if (context instanceof micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim){
                     main_aim_test3.bd.patientsTV.setText(info);
-                    if (isEmergency.equals("true") || isEmergency.equals("1"))
+                    if (isEmergency != null && (isEmergency.equals("true") || isEmergency.equals("1")))
                         main_aim_test3.bd.patientsTV.setTextColor(Color.RED);
                     else
                         main_aim_test3.bd.patientsTV.setTextColor(Color.BLACK);
@@ -121,18 +128,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
                     dataListener.dataHasArrived(true);
                 }
 
-                // NEO ACTIVITY
-//                else {
-//                    main_aim.search_TV.setText(code + " , " + namePat);
-//                    if (isEmergency.equals("true") || isEmergency.equals("1"))
-//                        main_aim.search_TV.setTextColor(Color.RED);
-//                    else
-//                        main_aim.search_TV.setTextColor(Color.BLACK);
-//
-//                    main_aim.addFragments();  //gia na ksanavalei ta dedomena me to neo epilegmeno astheni
-//
-//                    dataListener.dataHasArrived(true);
-//                }
+                else
+                    dataSendedStr.hereIsYourStr_Data(patID + " , " + info);
+
+
 
 
                 dialog.dismiss();
@@ -168,7 +167,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name ;
 
 

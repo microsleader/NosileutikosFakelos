@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.PrintReport;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
@@ -28,13 +29,14 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.KalliergiesDialog.KalliergiesDialog;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.ThetikesKalliergies.ThetikesKalliergiesDialog;
 import micros_leader.george.nosileutikosfakelos.R;
+import micros_leader.george.nosileutikosfakelos.ReportIDs;
 import micros_leader.george.nosileutikosfakelos.Simple_Items;
 import micros_leader.george.nosileutikosfakelos.Simple_items_rv_adapter;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
-public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implements  AsyncGetUpdateResult{
+public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements  AsyncGetUpdateResult{
 
 
     public OptionsFabLayout fabMenu;
@@ -73,6 +75,7 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
 
         thereIsDatePicker(R.id.dateTV);
         thereIsImageUpdateButton();
+        thereIsImagePrinterButton(ReportIDs.KATHETIRES_METH , PrintReport.ReportParams.TRANSGROUP_ID_ONLY);
 
         updateButtonListener();
 
@@ -178,7 +181,7 @@ public class Kathetires_kalliergies_Meth_Activity extends BasicActivity implemen
         
         AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
         task.ctx = extendedAct;
-        task.query = "select * from Nursing_Kathethres_Meth";
+        task.query = "select * from  Nursing_Kathethres_Meth ";
         task.listener = new AsyncCompleteTask2() {
             @Override
             public void taskComplete2(JSONArray results) throws JSONException {

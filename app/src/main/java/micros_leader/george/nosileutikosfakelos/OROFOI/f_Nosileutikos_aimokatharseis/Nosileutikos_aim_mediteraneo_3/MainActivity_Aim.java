@@ -80,6 +80,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
     private         OptionsFabLayout fabMain ;
     private boolean timerstate = false;
     private boolean notificationState = true;
+    private boolean isIconPressed;
     public int id_not;
     public int custID ;
     public HashMap<String ,String> docNurseValues ;
@@ -264,9 +265,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
     private void newNotificationListener(){
 
 
-
         bd.newNotificationsTV.setOnClickListener(view -> {
-
+            isIconPressed = false;
             if (id_not == DF_Notifications.NOTIFICATIONS_BOTH_CATEGORIES){
 
                 transgroupID = getTransgroupID();
@@ -308,6 +308,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
         if (Customers.isFrontis(custID)){
             fabMain.setMiniFabsColors(
+                    R.color.green,
                     R.color.yellow,
                     R.color.colorPrimary,
                     R.color.blue,
@@ -318,6 +319,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
         else {
 
             fabMain.setMiniFabsColors(
+                    R.color.green,
                     R.color.yellow,
                     R.color.colorPrimary,
                     R.color.grey,
@@ -645,6 +647,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
 
                     case R.id.notifications:
+
+                        isIconPressed = true;
                         if (patientID == null) {
                             Toast.makeText(MainActivity_Aim.this, "Δεν υπάρχει επιλεγμένος ασθενής", Toast.LENGTH_SHORT).show();
                             break;
@@ -665,6 +669,11 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                         break;
 
+
+                    case R.id.prepairPatients:
+                        startActivity(new Intent(MainActivity_Aim.this, PrepairPatientActivity.class));
+
+                        break;
 
                     default:
 
@@ -780,7 +789,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "ksiro_varos","max_uf",
 
                             "Darbepoetin",
-                            "Fe" ,"Carnitine" ,"VitB",
+                            "feName" ,"carnName" ,"vitName","epoName" ,
                             "Paracalcitol" ,
                              "Alfacalcidol" ,
                             "etelalcetide",
@@ -807,7 +816,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "Διττανθρακικά (meq/l)" ,"Θερμοκρασία", "Μέγιστος Ρυθμός\n Αφυδάτωσης",
                             "Ξηρό βάρος","Max UF/Rate",
                             "Darbepoetin",
-                            "Fe" ,"L-Carnitine" ,"Vit B",
+                            "Fe" ,"L-Carnitine" ,"Vit B", "Epoetin" ,
                              "Paracalcitol" ,
                              "Alfacalcidol" ,
                             "Etelalcetide",
@@ -1018,22 +1027,28 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                 String query = "" +
                         Str_queries.CUR_DATE +
 
-                        " select " +
+                        " select \n" +
                         "tg.id as transgroupID, p.FirstName, p.LastName, \n" +
-                        "p.amka, " +
-                        "tg.PatientID, " +
-                        " dbo.datetostr(tg.DateIn) as datein, " +
-                        " tg.isEmergency, " +
+                        "p.amka, \n " +
+                        "tg.PatientID, \n" +
+                        " dbo.datetostr(tg.DateIn) as datein, \n" +
+                        " tg.isEmergency,\n " +
                         " tg.code, \n" +
                         (Customers.isFrontis(custID) ? " p.code as patCode,p.height,dbo.CALCULATEAGE(P.DATEBIRTH, TG.DATEOUT) as age," : "") +
-                        " tg.MTNWatchID " +
-                        " from TransGroup tg " +
-                        " left join Person p on p.id = tg.PatientID " +
-                        " where " +
-                        " tg.Category = 3  " +
-                        " AND tg.datein >= @curDate and tg.datein < @curDate + 86400000 " +
-                        " and tg.companyid = " + companyID +
-                        " and tg.MTNWatchID = " + vardiaID;
+                        " tg.MTNWatchID \n" +
+                        " from TransGroup tg \n" +
+                        " left join Person p on p.id = tg.PatientID \n " +
+                        (Customers.isFrontis(custID) ? " left join transitem ti on ti.transgroupID = tg.id \n" : "" ) +
+                        " where \n" +
+                        " tg.Category = 3  \n" +
+                        " AND tg.datein >= @curDate and tg.datein < @curDate + 86400000 \n" +
+                        " and tg.companyid = " + companyID + "\n" +
+                        " and tg.MTNWatchID = " + vardiaID + "\n" +
+                        (Customers.isFrontis(custID) ?
+                                " group by tg.id,p.FirstName, p.LastName, p.amka, tg.PatientID, dbo.datetostr(tg.DateIn) , tg.isEmergency, tg.code, \n" +
+                                " p.code ,p.height,dbo.CALCULATEAGE(P.DATEBIRTH, TG.DATEOUT) , tg.MTNWatchID \n" +
+                                        " HAVING count(distinct ti.ID) > 2" : "" )
+                        ;
 
                 AsyncTaskGetJSON task = new AsyncTaskGetJSON();
                 task.ctx = getApplicationContext();
@@ -1212,6 +1227,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
         DF_Notifications df = new DF_Notifications();
         Bundle putextra = new Bundle();
+        putextra.putBoolean("iconPressed",isIconPressed);
         putextra.putInt(DF_Notifications.TYPE_OF_NOTIFICATION, typeOfNotification);
         if (patientID != null)
             putextra.putString("patientID", patientID);
@@ -1277,11 +1293,11 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                                             bd.newNotificationsTV.setText(msg);
                                         }
                                         else if (id_not == DF_Notifications.NOTIFICATIONS_TO_CONFIRM) {
-                                            msg = "Νέες ειδοποιήσεις \n προς έγκριση ";
+                                            msg = "Eιδοποιήσεις έγκρισης ";
                                             bd.newNotificationsTV.setText(msg);
                                         }
                                         else if (id_not == DF_Notifications.MEDICAL_INS_NOTIFICATIONS) {
-                                            msg = "Νέες ειδοποιήσεις \n ιατρικές εντολές ";
+                                            msg = "Eιδοποιήσεις \n ιατρ.εντολών ";
                                             bd.newNotificationsTV.setText(msg);
                                         }
 

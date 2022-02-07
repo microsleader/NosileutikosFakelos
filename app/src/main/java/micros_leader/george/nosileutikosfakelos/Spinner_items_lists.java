@@ -345,6 +345,40 @@ public class Spinner_items_lists {
 
 
 
+    public static ArrayList <Spinner_item> getZotikaVardies(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0, ""));
+        lista.add(new Spinner_item(1, "01:00"));
+        lista.add(new Spinner_item(2, "02:00"));
+        lista.add(new Spinner_item(3, "03:00"));
+        lista.add(new Spinner_item(4, "04:00"));
+        lista.add(new Spinner_item(5, "05:00"));
+        lista.add(new Spinner_item(6, "06:00"));
+        lista.add(new Spinner_item(7, "07:00"));
+        lista.add(new Spinner_item(8, "08:00"));
+        lista.add(new Spinner_item(9, "09:00"));
+        lista.add(new Spinner_item(10, "10:00"));
+        lista.add(new Spinner_item(11, "11:00"));
+        lista.add(new Spinner_item(12, "12:00"));
+        lista.add(new Spinner_item(13, "13:00"));
+        lista.add(new Spinner_item(14, "14:00"));
+        lista.add(new Spinner_item(15, "15:00"));
+        lista.add(new Spinner_item(16, "16:00"));
+        lista.add(new Spinner_item(17, "17:00"));
+        lista.add(new Spinner_item(18, "18:00"));
+        lista.add(new Spinner_item(19, "19:00"));
+        lista.add(new Spinner_item(20, "20:00"));
+        lista.add(new Spinner_item(21, "21:00"));
+        lista.add(new Spinner_item(22, "22:00"));
+        lista.add(new Spinner_item(22, "23:00"));
+        lista.add(new Spinner_item(24, "00:00"));
+
+
+        return lista;
+    }
+
     public static ArrayList <Spinner_item> getVathmousMeSin(){
 
         ArrayList <Spinner_item> lista = new ArrayList<>();
@@ -426,10 +460,11 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(3,"M.V."));
         lista.add(new Spinner_item(4,"Μ.Τραχ"));
         lista.add(new Spinner_item(5,"BIPAP"));
-        lista.add(new Spinner_item(6,"CRAP"));
+        lista.add(new Spinner_item(6,"CPAP"));
         lista.add(new Spinner_item(7,"T-Tube"));
         lista.add(new Spinner_item(8,"B.O."));
         lista.add(new Spinner_item(9,"Μέσος όρος"));
+        lista.add(new Spinner_item(10,"HIGH FLOW"));
 
 
         return lista;
@@ -495,13 +530,30 @@ public class Spinner_items_lists {
         ArrayList <Spinner_item> lista = new ArrayList<>();
 
         lista.add(new Spinner_item(0,""));
-        lista.add(new Spinner_item(1,"Φάρμακο"));
+        lista.add(new Spinner_item(1,"Συστημ. φαρμ. αγωγή"));
         lista.add(new Spinner_item(2,"Ορός"));
         lista.add(new Spinner_item(3,"Εφάπαξ φάρμακο"));
+        lista.add(new Spinner_item(4,"Άλλο φάρμακο"));
 
 
         return lista;
     }
+
+
+    public static ArrayList <Spinner_item> getAntlia(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"Αντλία έγχυσης φαρμάκων"));
+        lista.add(new Spinner_item(2,"Αντλία σίτισης"));
+        lista.add(new Spinner_item(3,"Αντλία πόνου"));
+
+
+        return lista;
+    }
+
+
 
 
     public static ArrayList <Spinner_item> getVardiesForProgrammatismo_p_a(){

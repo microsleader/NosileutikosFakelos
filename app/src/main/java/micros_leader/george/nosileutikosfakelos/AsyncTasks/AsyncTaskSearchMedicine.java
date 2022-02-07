@@ -53,6 +53,7 @@ public class AsyncTaskSearchMedicine extends AsyncTask<String, Void, JSONArray> 
             String base_URL = Utils.getAddress(ctx) + ":" + Utils.getPort(ctx) + "/rquery?cquery=";
             String query = Str_queries.SEARCH_MEDICINES(MED_TEXT,Utils.getcompanyID(ctx)).replace("%","%25");
 
+           // URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query));
             URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query));
 
              Log.e("url", URL);

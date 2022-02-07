@@ -4,24 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import micros_leader.george.Tests.TestActivity;
-import micros_leader.george.nosileutikosfakelos.BaseAct.TestBaseAct;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.BasicList;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.CheckBoxesForRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ClassItemsCheckboxesForRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ClassItemsForRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.EditTextForRV;
-import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
 import micros_leader.george.nosileutikosfakelos.EKSOTERIKA.Enimerotiko_simeioma_eksetasis_activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.Ektimisi_kind_ptoseos.Ektimisi_kind_ptoseos_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity;
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Med_instr_transfer_cardio.Med_instr_tr_cardio_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Nosil_Elegxos.Nosil_elegxos_Meth;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Nursing_katagrafi_efarmogis_metron_elegxou_loimokseon.Katagrafi_efarmogis_metron_elegxou_loimokseon_Act;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_imerologio_katragrafis_diatrofis.Imer_katagr_diatrofis_Activity;
 import micros_leader.george.nosileutikosfakelos.Main_menu.Menu_general_Item;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Diagnoseis_Istoriko.Diagnoseis_Istoriko_Activity;
@@ -43,7 +39,6 @@ import micros_leader.george.nosileutikosfakelos.ClassesForRV.TitlesForRV;
 
 import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.CHECKBOX_TYPE;
 import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.EDIT_TEXT_TYPE;
-import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.MULTI_TYPE;
 import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.SPINNER_TYPE;
 import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.SPINNER_TYPE_NEW;
 import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.TEXTVIEW_TYPE;
@@ -105,7 +100,7 @@ public class InfoSpecificLists extends StaticFields{
             lista.add(new Menu_general_Item("Καθημερινό ζύγισμα\nασθενούς", R.drawable.search , R.color.grey, new Kathimerino_Zigisma_Activity()));
             lista.add(new Menu_general_Item("Ισοζύγιο ΜΕΘ", R.drawable.search , R.color.dark_blue, new Isozigio_Meth_Activity()));
             lista.add(new Menu_general_Item("3ωρη νευρολογική\nαξιολόγηση", R.drawable.search , R.color.mov, new NeurikiAksiologisi3Activity()));
-            lista.add(new Menu_general_Item("Καθετήρες - Καλλιεργιες", R.drawable.search , R.color.grey, new Kathetires_kalliergies_Meth_Activity()));
+            lista.add(new Menu_general_Item("Καθετήρες - Καλλιεργιες", R.drawable.search , R.color.grey, new Kathetires_paroxeteuseis_Activity()));
 
 
 
@@ -149,7 +144,7 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new Menu_general_Item("Νοσηλ. έλεγχος \n Νοσηλ. λογοδοσία", R.drawable.search ,  R.color.ladi, new Nosil_elegxos_Meth()));
         lista.add(new Menu_general_Item("Ζωτικά σημεία / Ώρα", R.drawable.search , R.color.mpornto, new Zotika_Activity_Meth()));
         lista.add(new Menu_general_Item("Νοσηλευτική αναφορά", R.drawable.search , R.color.mov, new Nosil_IstorikoActivity_NEW()));
-        lista.add(new Menu_general_Item("Καθετήρες - Καλλιεργιες", R.drawable.search , R.color.grey, new Kathetires_kalliergies_Meth_Activity()));
+        lista.add(new Menu_general_Item("Καθετήρες - Καλλιεργιες", R.drawable.search , R.color.grey, new Kathetires_paroxeteuseis_Activity()));
         lista.add(new Menu_general_Item("Ισοζύγιο ΜΕΘ", R.drawable.search , R.color.dark_blue, new Isozigio_Meth_Activity()));
         lista.add(new Menu_general_Item("Ιατρικές οδηγίες \n μεταφορας " +
                 "καρδιολογικού / καρδιοχειρουγικού ασθενούς \n απο την ΜΕΘ/ΜΑΦ", R.drawable.search , R.color.cyan2, new Med_instr_tr_cardio_Activity()));
@@ -1355,16 +1350,33 @@ public class InfoSpecificLists extends StaticFields{
        // lista.add(new ItemsRV("Αιμοκάθαρση/Αιμοδιήθηση", "aimokatharsi_aimodihthisi", SPINNER_TYPE_NEW , Spinner_items_lists.getAimokatharsi_aimodiathisi()));
         //lista.add(new ItemsRV("Διαλύματα Α/Δ", "dialumata", "", EDITTEXT_ITEM, DEKADIKOS));
 
+        lista.add(new ItemsRV("Εφιδρώσεις", "out_efidroseis", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Εμετοί", "out_emetoi",  "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Κενώσεις", "out_kenoseis", "", EDITTEXT_ITEM, DEKADIKOS));
+
         lista.add(new ItemsRV("levin", "levin", "", EDITTEXT_ITEM, DEKADIKOS));
-        lista.add(new ItemsRV("Παροχέτευση 1", "paroxeteush1", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Παροχέτευση 1", "v_paroxeteush1", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
         lista.add(new ItemsRV("Παροχέτευση 1\nΠοσότητα", "paroxeteush1_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
-        lista.add(new ItemsRV("Παροχέτευση 2", "paroxeteush2", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Παροχέτευση 2", "v_paroxeteush2", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
         lista.add(new ItemsRV("Παροχέτευση 2\nΠοσότητα", "paroxeteush2_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
-        lista.add(new ItemsRV("Παροχέτευση 3", "paroxeteush3", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Παροχέτευση 3", "v_paroxeteush3", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
         lista.add(new ItemsRV("Παροχέτευση 3\nΠοσότητα", "paroxeteush3_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
-        lista.add(new ItemsRV("Παροχέτευση 4", "paroxeteush4", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Παροχέτευση 4", "v_paroxeteush4", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
         lista.add(new ItemsRV("Παροχέτευση 4\nΠοσότητα", "paroxeteush4_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
-      //  lista.add(new ItemsRV("Εφιδρώσεις", "efidroseis",  SPINNER_TYPE_NEW, Spinner_items_lists.getVathmousMeSin()));
+        lista.add(new ItemsRV("Παροχέτευση 5", "v_paroxeteush5", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+        lista.add(new ItemsRV("Παροχέτευση 5\nΠοσότητα", "paroxeteush5_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
+
+        lista.add(new ItemsRV("Παροχέτευση 6", "v_paroxeteush6", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+        lista.add(new ItemsRV("Παροχέτευση 6\nΠοσότητα", "paroxeteush6_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Παροχέτευση 7", "v_paroxeteush7", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+        lista.add(new ItemsRV("Παροχέτευση 7\nΠοσότητα", "paroxeteush7_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Παροχέτευση 8", "v_paroxeteush8", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+        lista.add(new ItemsRV("Παροχέτευση 8\nΠοσότητα", "paroxeteush8_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Παροχέτευση 9", "v_paroxeteush9", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+        lista.add(new ItemsRV("Παροχέτευση 9\nΠοσότητα", "paroxeteush9_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Παροχέτευση 10", "v_paroxeteush10", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+        lista.add(new ItemsRV("Παροχέτευση 10\nΠοσότητα", "paroxeteush10_posotita", "", EDITTEXT_ITEM, DEKADIKOS));
+
        // lista.add(new ItemsRV("κολοστομία/κένωση(:|)\n+++:διαρροϊκή", "kolostomia_kenwsh", "", EDITTEXT_ITEM, DEKADIKOS));
 
         return lista;
@@ -2827,14 +2839,14 @@ public class InfoSpecificLists extends StaticFields{
             lista.add(new ItemsRV("UserID","UserID", "", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
             lista.add(new ItemsRV("ΗΜ/ΝΙΑ / ΩΡΑ","Date", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
             lista.add(new ItemsRV("Νοσηλευτής","username", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new ItemsRV("Βάρδια","Watch",  SPINNER_TYPE_NEW, Spinner_items_lists.getZotikaVardies()));
         }
 
         lista.add(new ItemsRV("V Συστολική\n Αρτ. Πίεση (mmHg)", "sistoliki_artiriaki_piesi", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("Λ Διαστολική\n Αρτ. Πίεση (mmHg)", "diastoliki_artiriaki_piesi", "", EDITTEXT_ITEM, DEKADIKOS));
-        //lista.add(new ItemsRV("X  Μέση Αρτηριακή Πίεση", "mesi_artiriaki_piesi", "", EDITTEXT_ITEM, DEKADIKOS));
-
 
         lista.add(new ItemsRV("Σφύξεις (bpm)", "sfiksis", "", EDITTEXT_ITEM, AKERAIOS));
+
         lista.add(new ItemsRV("ΘΕΡΜΟΚΡΑΣΙΑ (°C)", "thermokrasia", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("ΠΟΝΟΣ", "ponos",  SPINNER_TYPE_NEW, Spinner_items_lists.getVathmoiPonou()));
         lista.add(new ItemsRV("Καρδ.Ρυθμός \n(συχνότητα)", "rithmos_bimatodotis", SPINNER_TYPE_NEW, Spinner_items_lists.getKardiakosRithmos()));
@@ -2857,10 +2869,6 @@ public class InfoSpecificLists extends StaticFields{
 
         lista.add(new ItemsRV("ACT", "act", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("PCW", "pcw", "", EDITTEXT_ITEM, DEKADIKOS));
-
-
-        // lista.add(new ItemsRV("Κόρες(μέγεθος/αντίδραση)", "kores",  SPINNER_TYPE_NEW, Spinner_items_lists.getRightLeft()));
-        //lista.add(new ItemsRV("ΙΑΒΡ-Σφυγμός Άκρου", "sfigmos_akrou",  SPINNER_TYPE_NEW, Spinner_items_lists.getSfigmoAkrou()));
 
         lista.add(new ItemsRV("PAS-PAD", "pas", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("ICP-CPP", "icp", "", EDITTEXT_ITEM, AKERAIOS));
@@ -2888,13 +2896,11 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new ItemsRV("ΘΕΣΗ ΚΡΕΒΑΤΙΟΥ", "thesi_krebatiou", SPINNER_TYPE_NEW, Spinner_items_lists.getRightLeft()));
         lista.add(new ItemsRV("ΘΕΣΗ ΣΩΜΑΤΟΣ", "thesi_somatos", SPINNER_TYPE_NEW, Spinner_items_lists.getThesiSomatos()));
 
-        //lista.add(new ItemsRV("ΡΥΘΜΙΣΗ ΣΑΚΧΑΡΟΥ", "rithmisi_sakxarou", "", EDITTEXT_ITEM, KEIMENO));
         lista.add(new ItemsRV("ΕΝΔΟΦΛΕΒΙΑ \nΡΥΘΜΙΣΗ ΣΑΚΧΑΡΟΥ", "endoflevia_sakxarou", "", EDITTEXT_ITEM, KEIMENO).setInfo_image(R.drawable.endoflevia_insoulini));
         lista.add(new ItemsRV("ΥΠΟΔΟΡΙΑ \nΡΥΘΜΙΣΗ ΣΑΚΧΑΡΟΥ", "ipodoria_sakxarou", "", EDITTEXT_ITEM, KEIMENO).setInfo_image(R.drawable.ipodoria_insoulini));
         lista.add(new ItemsRV("ΑΝΑΡΡΟΦΗΣΗ", "anarrofisi", false, CHECKBOX_ITEM));
 
-        //lista.add(new ItemsRV("Ινσουλίνη", "insoulini", "", EDITTEXT_ITEM, KEIMENO));
-        //lista.add(new ItemsRV("ΙΑΒΡ-MODE", "iabp",   SPINNER_TYPE_NEW, Spinner_items_lists.getIABP_mode()));
+
 
         if (forRV)
             return lista.getList();
@@ -3300,12 +3306,12 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new TableViewItem("Νοσηλευτής","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
 
         lista.add(new TableViewItem("Φάρμακα συνεχούς έγχυσης","all_hours_meds", TEXTVIEW_LISTENER, TABLE_TYPE_LISTENER)
-                .setTextViewTableListener(Str_queries.getSigkentrotika_meds_meth_types(transgroupID, StaticFields.Type_meds.MEDS_24_HOURS),null,
-                        InfoSpecificLists.getFarmaka_isozigeio_meth(StaticFields.Type_meds.MEDS_24_HOURS), false, false, true));
+                .setTextViewTableListener(Str_queries.getSigkentrotika_meds_meth_types(transgroupID, Type_meds.MEDS_SISTIMIKI_FARM_AGOGI),null,
+                        InfoSpecificLists.getFarmaka_isozigeio_meth(StaticFields.Type_meds.MEDS_SISTIMIKI_FARM_AGOGI), false, false, true));
 
         lista.add(new TableViewItem("Συστημική φαρμ. αγωγή","systemic_meds", TEXTVIEW_LISTENER, TABLE_TYPE_LISTENER)
-                .setTextViewTableListener(Str_queries.getSigkentrotika_meds_meth_types(transgroupID, StaticFields.Type_meds.STABLE_CONTINIOUSLY_MEDS),null,
-                        InfoSpecificLists.getFarmaka_isozigeio_meth(StaticFields.Type_meds.STABLE_CONTINIOUSLY_MEDS), false, false, true));
+                .setTextViewTableListener(Str_queries.getSigkentrotika_meds_meth_types(transgroupID, Type_meds.MEDS_OROS),null,
+                        InfoSpecificLists.getFarmaka_isozigeio_meth(StaticFields.Type_meds.MEDS_OROS), false, false, true));
 
         lista.add(new TableViewItem("Χορήγηση εφάπαξ φαρμάκων","one_time_meds", TEXTVIEW_LISTENER, TABLE_TYPE_LISTENER)
                 .setTextViewTableListener(Str_queries.getSigkentrotika_meds_meth_types(transgroupID, StaticFields.Type_meds.ONE_TIME_MEDS),null,
@@ -3338,6 +3344,19 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new TableViewItem("Παροχέτευση 3\nΠοσότητα","paroxeteush3_posotita", EDIT_TEXT_TYPE, DEKADIKOS));
         lista.add(new TableViewItem("Παροχέτευση 4","paroxeteush4", EDIT_TEXT_TYPE, KEIMENO));
         lista.add(new TableViewItem("Παροχέτευση 4\nΠοσότητα","paroxeteush4_posotita", EDIT_TEXT_TYPE, DEKADIKOS));
+        lista.add(new TableViewItem("Παροχέτευση 5", "paroxeteush5",  EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Παροχέτευση 5\nΠοσότητα", "paroxeteush5_posotita",  EDIT_TEXT_TYPE, DEKADIKOS));
+
+        lista.add(new TableViewItem("Παροχέτευση 6", "paroxeteush6",  EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Παροχέτευση 6\nΠοσότητα", "paroxeteush6_posotita",  EDIT_TEXT_TYPE, DEKADIKOS));
+        lista.add(new TableViewItem("Παροχέτευση 7", "paroxeteush7",  EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Παροχέτευση 7\nΠοσότητα", "paroxeteush7_posotita",  EDIT_TEXT_TYPE, DEKADIKOS));
+        lista.add(new TableViewItem("Παροχέτευση 8", "paroxeteush8",  EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Παροχέτευση 8\nΠοσότητα", "paroxeteush8_posotita",  EDIT_TEXT_TYPE, DEKADIKOS));
+        lista.add(new TableViewItem("Παροχέτευση 9", "paroxeteush9",  EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Παροχέτευση 9\nΠοσότητα", "paroxeteush9_posotita",  EDIT_TEXT_TYPE, DEKADIKOS));
+        lista.add(new TableViewItem("Παροχέτευση 10", "paroxeteush10",  EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Παροχέτευση 10\nΠοσότητα", "paroxeteush10_posotita",  EDIT_TEXT_TYPE, DEKADIKOS));
 
       //  lista.add(new TableViewItem("total_pros", TEXTVIEW_VALUE_FROM_VIEW, TABLE_NO_TYPE));
         lista.add(new TableViewItem("ΣΥΝΟΛΟ ΠΡΟΣ","total_pros_sum_str", TEXTVIEW_VALUE_FROM_VIEW, TABLE_NO_TYPE));
@@ -3530,22 +3549,28 @@ public class InfoSpecificLists extends StaticFields{
         return lista;
     }
 
-    public static ArrayList<TableViewItem> getKartaXorigisisFarmakwn() {
+    public static ArrayList<TableViewItem> getKartaXorigisisFarmakwn(boolean isOroi) {
 
         ArrayList<TableViewItem> lista = new ArrayList<>();
-        // lista.add(new TableViewItem("ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
         lista.add(new TableViewItem("ID","ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
         lista.add(new TableViewItem("UserID","UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Χρήστης","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Ημ/νία Εναρξης","dateStart", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Φάρμακα","itemID", TEXTVIEW_MEDICINE_TYPE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Κατηγορία","category", SPINNER_TYPE_NEW, Spinner_items_lists.getTypeMedicine()));
+        if (!isOroi)
+            lista.add(new TableViewItem("Κατηγορία","category", SPINNER_TYPE_NEW, Spinner_items_lists.getTypeMedicine()));
         lista.add(new TableViewItem("ML/ώρα","ml_hour", EDIT_TEXT_TYPE, KEIMENO));
         lista.add(new TableViewItem("Δόση","dosi", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("Δοσολογία","dosologia", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("Διακόπηκε","diakopike", CHECKBOX_TYPE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Ημ/νία διακοπής","dateStop", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE));
 
+        lista.add(new TableViewItem("Οδος χορήγησης","odos_xorigisisID", SPINNER_TYPE_NEW, "Nursing_odoi_xorigisis"));
+        lista.add(new TableViewItem("Αντλία","antlia", SPINNER_TYPE_NEW, Spinner_items_lists.getAntlia()));
+        lista.add(new TableViewItem("Δοσολογία","dosologia", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Όγκος","ogkos", EDIT_TEXT_TYPE, DEKADIKOS));
+        lista.add(new TableViewItem("Διακόπηκε","diakopike", CHECKBOX_TYPE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Ημ/νία διακοπής","dateStop", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        if (isOroi)
+            lista.add(new TableViewItem("Κατηγορία","category", SPINNER_TYPE_NEW, Spinner_items_lists.getTypeMedicine()).setValue("2"));
 
         return lista;
     }
@@ -3580,8 +3605,16 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new TableViewItem("UserID","UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Χρήστης","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Είδος","item", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+        lista.add(new TableViewItem("ML/ώρα","ml_hour", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("οδοί χορήγησης","odos_xorigisis", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        //lista.add(new TableViewItem("διαλύτης","dosi", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Όγκος","ogkos", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Δοσολογία","dosologia", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
         lista.add(new TableViewItem("Ωρα χορήγησης","hourstr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Χορηγήθηκε","xorigithike", CHECKBOX_TYPE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Παρατηρήσεις","remarks", EDIT_TEXT_TYPE, KEIMENO));
 
 
         return lista;

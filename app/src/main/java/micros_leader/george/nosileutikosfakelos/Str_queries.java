@@ -55,7 +55,7 @@ public class Str_queries {
                 "FROM Item a " +
                 "WHERE " +
                 "((a.ID IN (SELECT j.RowID FROM CompanyJoins j WHERE j.companyid= " + companyID + " AND j.TableID=3242771 AND j.RowID=a.id))) " +
-                 "AND (NULLIF(cancelled,0) IS NULL)\n" +
+                 "AND (NULLIF(cancelled,0) IS NULL) " +
                  "AND a.id IN (SELECT id FROM Item WHERE CONTAINS(tags, @MED)) " +
                  "AND a.category = 2";
     }
@@ -377,28 +377,38 @@ public class Str_queries {
     }
 
 
-    public static String getOldteleytaiesStatheresMetriseis(String patientID, int custID){
+    public static String getOldteleytaiesStatheresMetriseis(String patientID, String transgroupID, int custID){
         return "select top 1 n.* , dbo.namedoctor(n.ipefthinos_iatros_vardias) as docName, dbo.timeTostr(n.duration) as Duration," +
                 " dbo.timeToStr(n.schedule_time_start) as schtimeStart, " +
                 " dbo.timeToStr(n.time_start) as timeStart, " +
                 " dbo.timeToStr(n.time_finish) as timeFinish, " +
                 " dbo.timeToStr(n.duration) as dur, " +
-                " isnull(arxiko_varos,0) - isnull(xiro_varos,0) as diafora_varous, " +
+                ( Customers.isFrontis(custID)  ?
+                " isnull(arxiko_varos,0) - isnull(imatismos,0) - isnull(ks.ksiro_varos,0) as diafora_varous, "
+                        :
+                " isnull(arxiko_varos,0) - isnull(ks.ksiro_varos,0) as diafora_varous, "  )
+                +
                 ( Customers.isFrontis(custID)  ? " isnull(arxiko_varos,0) - isnull(imatismos,0) as teliko_arxiko_varos, " : "" ) +
                 ( Customers.isFrontis(custID) ? " isnull(varos_exodou,0) - isnull(imatismos_exit,0) as teliko_varos_exodou, " : "" ) +
                 ( Customers.isFrontis(custID) ?
-                    " (select top 1 isnull(n.arxiko_varos,0) -  isnull(n.xiro_varos,0) +  isnull(b.additional_weight,0) " +
+                    " (select top 1 isnull(n.arxiko_varos,0) -  isnull(ks.ksiro_varos,0) +  isnull(b.additional_weight,0) " +
                     " from nursing_medical_instructions b where b.patientid = " + patientID + " order by b.Year desc,b.Month desc) as target_UF ," : "") +
 
                 //"  (select top 1 additional_weight from nursing_medical_instructions b where b.patientid = " + patientID + " order by b.Year desc,b.Month desc) as additional_weight, "  +
-                "  (select top 1 ksiro_varos from nursing_medical_instructions b where b.patientid = " + patientID + " order by b.Year desc,b.Month desc) as ksiro_varos "  +
+                " ks.ksiro_varos "  +
                 // " dbo.dateToStr(n.date) as datestr " +
                 // " m.Filter, m.online ,m.dialima as dial, m.ksiro_varos " +
 
                 " from Nursing_Hemodialysis_initial2_MEDIT n " +
                 //" left join Nursing_Medical_Instructions m on m.PatientID = n.PatientID " +
-                " left join doctor doc on doc.id = n.ipefthinos_iatros_vardias" +
-                " where n.patientid =  " + patientID
+                " left join doctor doc on doc.id = n.ipefthinos_iatros_vardias \n" +
+                " left join \n" +
+                "   (select top 1  id,ksiro_varos from nursing_medical_instructions b \n" +
+                "where b.patientid = 682 \n" +
+                "order by b.Year desc,b.Month desc\n" +
+                "   ) ks on ks.ID = n.Med_instr_ID " +
+                " where n.patientid =  " + patientID +
+                " and n.transgroupID < " + transgroupID
                 + " order by TransGroupid desc ";
         //" order by n.date desc";
     }
@@ -452,7 +462,8 @@ public class Str_queries {
                 "  m.dialima as dialimaaa,\n" +
                 "  m.ksiro_varos, \n" +
                 "  m.additional_weight as med_instr_additional_weight,\n " +
-                "  dbo.nameuser(n.userID) +  CHAR(10) + dbo.nameuser(n.userID2) as username,\n " +
+                "  dbo.nameuser(n.userID) +  CHAR(10) + dbo.nameuser(n.userID2) +  CHAR(10) + " +
+                "  dbo.nameuser(n.userID3) +  CHAR(10) +  dbo.nameuser(n.userID4) as username,\n " +
                 "  n.therapon_iatros \n" +
 
                 "from v_Nursing_Hemodialysis_initial2_MEDIT n \n" +
@@ -471,7 +482,9 @@ public class Str_queries {
             return  " select distinct top  32 n.* ," +
                     " dbo.timeToStr(n.schedule_time_start) as schtimeStart, " +
                     " dbo.namedoctor(n.ipefthinos_iatros_vardias) as ipefthinos_iatros_vardias, " +
-                    " dbo.nameuser(n.userID) +  CHAR(10) +  dbo.nameuser(n.userID2) as username, " +
+                    " dbo.nameuser(n.userID) +  CHAR(10) +  dbo.nameuser(n.userID2) +  CHAR(10) +  " +
+                    "  dbo.nameuser(n.userID3) +  CHAR(10) +  dbo.nameuser(n.userID4) as username, " +
+
                     " dbo.timeToStr(n.time_start) as timeS," +
                     " dbo.timeToStr(n.time_finish) as timeF," +
                     ( Customers.isFrontis(custID) ? " ISNULL(n.arxiko_varos,0) - isnull(n.imatismos,0) - ISNULL(ins.ksiro_varos,0) + ISNULL(n.additional_weight,0) as target_UF , " : "" )+
@@ -1014,10 +1027,13 @@ public class Str_queries {
 
     public static String getZOTIKA_DIAGRAM_INFO_ANA_HOUR(String transgroupID ,String katigoria, String date){
 
-        return "select " + katigoria + ", watch " + "  from Nursing_Zotika_Simeia where TransGroupid = " + transgroupID +
-                " and date = dbo.timeToNum(CONVERT(datetime, '" + date +"',103)) " +
-                " and LEN(watch) < 3 " +
-                " order by watch";
+        return "select s." + katigoria + ", watch \n " +
+                " from Nursing_Zotika_Simeia s \n" +
+                " join transgroup tg on tg.id = s.TransGroupID\n" +
+                " where tg.FirstTransGroupID = " + transgroupID +
+               // " and date = dbo.timeToNum(CONVERT(datetime, '" + date +"',103)) " +
+                " and LEN(watch) < 3 \n" +
+                " order by watch ";
     }
 
     public static String getZOTIKA_DIAGRAM_INFO_ANA_3ORO(String transgroupID ,String katigoria, String date){
@@ -1638,7 +1654,7 @@ public class Str_queries {
                 " and vardiaID = " + vardiaID;
     }
 
-    public static  String getZotikaMeth(String transgroupID,String date ){
+    public static  String getZotikaMeth(String transgroupID, String date ){
 
         return  "select  * , dbo.NAMEUSER(userid) as username " +
                 "from Nursing_Zotika_Simeia_Meth " +
@@ -1660,13 +1676,22 @@ public class Str_queries {
 
     public static String getTotalIsozigioMeth(String transgroupID,String date){
 
-        return " select  sum(total_pros) as total_pros, " +
+        return " select  " +
+                "(select isnull(sum(ogkos),0) from Nursing_xorigisi_farmakon where transgroupID = " + transgroupID + " and category = 1 and datestop is null) as all_hours_meds,\n" +
+                "(select isnull(sum(ogkos),0) from Nursing_xorigisi_farmakon where transgroupID = " + transgroupID + " and category = 2 and datestop is null) as systemic_meds,\n" +
+                "(select isnull(sum(ogkos),0) from Nursing_xorigisi_farmakon where transgroupID = " + transgroupID + " and category = 3 and datestop is null) as one_time_meds , \n" +
+                "(select isnull(sum(ogkos),0) from Nursing_xorigisi_farmakon where transgroupID = " + transgroupID + " and category = 4 and datestop is null) as other_meds , \n" +
+                "(select isnull(sum(ogkos),0) from Nursing_metaggiseis where transgroupID = " + transgroupID + "  ) as metaggiseis, \n" +
+                " sum(total_pros) as total_pros, " +
                 " sum(total_apov) as total_apov, " +
-                " sum(total_isozigio) as total_isozigio," +
-                " (select count(*) from  Nursing_xorigisi_farmakon_isozigio_meth where transgroupID = " + transgroupID + "" +
-                " and  dbo.datetostr(date) = dbo.datetostr(dbo.timeToNum(CONVERT(datetime, '" + date + "' , 103))))  as total_medicines " +
+                " sum(total_isozigio) as total_isozigio, \n" +
+                " v_paroxeteush1,v_paroxeteush2, v_paroxeteush3 ,v_paroxeteush4,v_paroxeteush5, v_paroxeteush6,\n" +
+                "  v_paroxeteush7,v_paroxeteush8, v_paroxeteush9 ,v_paroxeteush10 \n" +
+
                 " from v_Nursing_Isozigio_Meth where transgroupID = "  + transgroupID +
-                " and dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) ";
+                " and dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) \n" +
+                " group by v_paroxeteush1,v_paroxeteush2, v_paroxeteush3 ,v_paroxeteush4,v_paroxeteush5, v_paroxeteush6,v_paroxeteush7,v_paroxeteush8," +
+                "  v_paroxeteush9 ,v_paroxeteush10  ";
     }
 
 
@@ -1757,6 +1782,14 @@ public class Str_queries {
                 " ag.Name as agogName,\n" +
                 " dial.Name as dial,\n" +
                 " dos.Name as agogiDosiName,\n" +
+                (Customers.isFrontis(custID) ?
+                        "fe.Name as feName, \n" +
+                        " carn.Name as carnName,\n" +
+                        " vitB.Name as vitName,\n" +
+                        " epoet.Name as epoName,\n"
+                        :
+                        "" ) +
+
                 " n.*  " +
                 "from Nursing_Medical_Instructions  n \n" +
                 "left join years y on y.ID = n.Year \n" +
@@ -1774,6 +1807,13 @@ public class Str_queries {
                 " left join  Nursing_hemo_meds_periods fr4 on fr4.id =  n.vitD_period \n" +
                 " left join  Nursing_hemo_meds_periods fr5 on fr5.id =  n.fe_period \n" +
                 " left join  Nursing_hemo_meds_periods fr6 on fr6.id =  n.etel_period\n" +
+
+                (Customers.isFrontis(custID) ? "  left join  Nursing_items_med_Fe_types fe on fe.id = n.Fe_ID \n" +
+                "  left join  Nursing_items_med_L_carnitine carn on carn.id = n.Carnitine_ID \n" +
+                "  left join  Nursing_items_med_Vit_B vitB on vitB.id = n.vit_B_ID  \n" +
+                "  left join  Nursing_items_med_instr_epoetin epoet on epoet.id = n.epoetinID\n"
+                : "" ) +
+
                 " where patientid =  " + patientID +
                 " order by n.year desc , n.Month desc , n.id desc ";
 
@@ -1803,8 +1843,15 @@ public class Str_queries {
                 " order by id ";
     }
 
-    public static String getSigkentrotika_karta_xorigisis_farmakon(String transgroupID){
-        return "select * , dbo.NAMEUSER(userid) as username from Nursing_xorigisi_farmakon where transgroupID = " + transgroupID;
+    public static String getSigkentrotika_karta_xorigisis_farmakon(String transgroupID, boolean isOroi){
+        return "select * , dbo.NAMEUSER(userid) as username from Nursing_xorigisi_farmakon where transgroupID = " + transgroupID +
+                (isOroi ? " and category = 2" : " and category <> 2");
+    }
+
+    public static String getSigkentrotika_karta_xorigisis_farmakon(String transgroupID, String categoryID){
+        return "select * , dbo.NAMEUSER(userid) as username from Nursing_xorigisi_farmakon" +
+                " where transgroupID = " + transgroupID +
+                " and category = " + categoryID;
     }
 
     public static String getSigkentrotika_karta_xorigisis_farmakon_general(String transgroupID, String tableID){
@@ -1813,7 +1860,8 @@ public class Str_queries {
                 " and tableID = " + tableID;
     }
 
-    public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, String medicineIDs){
+    //public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, String medicineIDs){
+    public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, int fromhour, int tohour){
 
         // ΚΟΙΤΑΖΕΙ ΑΝ ΥΠΑΡΧΟΥΝ ΕΓΓΡΑΦΕΣ ΜΕ ΤΙς ΣΗΜΕΡΙΝΕΣ ΩΡΕΣ ΓΙΑ ΤΑ ΦΑΡΜΑΚΑ ΠΟΥ ΔΕΝ ΕΧΟΥΝ ΔΙΑΚΟΠΕΙ
         // ΑΝ ΔΕΝ ΥΠΑΡΧΟΥΝ ΚΑΝΕΙ ΑΝΤΙΓΡΑΦΗ ΤΙΣ ΩΡΕς ΤΩΝ ΦΑΡΜΑΚΩΝ ΠΟΥ ΔΕΝ ΕΧΟΥΝ ΔΙΑΚΟΠΕΙ ΓΙΑ ΤΗ ΣΗΜΕΙΡΝΗ ΜΕΡΑ ΩΣΤΕ
@@ -1821,29 +1869,32 @@ public class Str_queries {
 
 
         return "if  not  exists( " +
-                "select top 1 x.id" +
-                " from Nursing_ores_xorigisis x " +
-                " left join Nursing_xorigisi_farmakon n on n.ID = x.xorigisiID " +
-                " where dbo.datetostr(x.date) = dbo.datetostr(dbo.timeToNum(CONVERT(datetime, GETDATE() , 103))) " +
+                "select top 1 x.id\n" +
+                " from Nursing_ores_xorigisis x \n" +
+                " left join Nursing_xorigisi_farmakon n on n.ID = x.xorigisiID \n" +
+                " where dbo.datetostr(x.date) = dbo.datetostr(dbo.timeToNum(CONVERT(datetime, GETDATE() , 103)))\n " +
                 " and n.transgroupID = " + transgroupID +
                 ") " +
-                "INSERT INTO Nursing_ores_xorigisis (date,xorigisiid,hour)  " +
-                " SELECT (dbo.timeToNum(CONVERT(datetime, GETDATE() , 103))) , xorigisiid,hour " +
-                " from Nursing_ores_xorigisis n     " +
-                " left join Nursing_xorigisi_farmakon f on f.ID = n.xorigisiID     " +
-                " where f.diakopike is null  " +
+                "INSERT INTO Nursing_ores_xorigisis (date,xorigisiid,hour) \n " +
+                " SELECT (dbo.timeToNum(CONVERT(datetime, GETDATE() , 103))) , xorigisiid,hour \n" +
+                " from Nursing_ores_xorigisis n    \n " +
+                " left join Nursing_xorigisi_farmakon f on f.ID = n.xorigisiID   \n  " +
+                " where f.diakopike is null  \n" +
                 " and transgroupid =   " + transgroupID +
 
-                " select x.ID, dbo.timetostr(x.hour) as hourstr, " +
-                " x.UserID, dbo.NAMEUSER(x.userid) as username ," +
-                " x.xorigithike, " +
-                " dbo.nameitem(n.itemid) as item" +
-                " from Nursing_ores_xorigisis x " +
-                " left join Nursing_xorigisi_farmakon n on n.ID = x.xorigisiID " +
+                " select x.ID, dbo.timetostr(x.hour) as hourstr,\n " +
+                " x.UserID, dbo.NAMEUSER(x.userid) as username ,\n" +
+                " n.ml_hour, n.odos_xorigisis, n.ogkos, n.dosologia,\n" +
+                " x.xorigithike, x.remarks, \n" +
+                " dbo.nameitem(n.itemid) as item\n" +
+                " from Nursing_ores_xorigisis x \n" +
+                " left join Nursing_xorigisi_farmakon n on n.ID = x.xorigisiID \n" +
                 " where n.TransGroupID = "  +  transgroupID +
-                " and x.xorigisiID in (" + medicineIDs + ") " +
-                " and dbo.datetostr(x.date) =  dbo.datetostr(dbo.timeToNum(CONVERT(datetime,GETDATE() , 103))) " +
-                " order by x.xorigisiID , hour " ;
+                " and hour >= " + Utils.convertHourTomillisecondsGR(fromhour) +
+                " and hour <= " + Utils.convertHourTomillisecondsGR(tohour) +
+                //" and x.xorigisiID in (" + medicineIDs + ") \n" +
+                " and dbo.datetostr(x.date) =  dbo.datetostr(dbo.timeToNum(CONVERT(datetime,GETDATE() , 103)))\n " +
+                " order by x.xorigisiID , hour \n" ;
 
 
     }

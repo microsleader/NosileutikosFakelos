@@ -69,10 +69,10 @@ public class Nosil_IstorikoActivity_NEW extends BasicActivity   {
 //                df.setArguments(putextra);
 //                df.show(getSupportFragmentManager() , "Dialog");
 
-                Intent in  =   tableView_sigkentrotika( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID),
+                Intent in  =   tableView_sigkentrotika( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID,false) ,
                         transgroupID,
                         null,
-                        InfoSpecificLists.getKartaXorigisisFarmakwn(),
+                        InfoSpecificLists.getKartaXorigisisFarmakwn(false),
                         false,
                         false,
                         true);

@@ -59,8 +59,8 @@ public class StaticFields {
 
 
    public static class Type_meds{
-       public static String MEDS_24_HOURS = "1";
-       public static String ADDITIONAL_MEDS = "2";
+       public static String MEDS_SISTIMIKI_FARM_AGOGI = "1";
+       public static String MEDS_OROS = "2";
        public static String ONE_TIME_MEDS = "3";
        public static String OTHER_MEDS = "4";
        public static String STABLE_CONTINIOUSLY_MEDS = "5";

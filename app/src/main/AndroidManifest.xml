@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="micros_leader.george.nosileutikosfakelos" >
+    package="micros_leader.george.nosileutikosfakelos">
 
     <uses-sdk tools:overrideLibrary="com.shashank.sony.fancydialoglib" />
 
@@ -23,7 +23,10 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateAlwaysHidden"
-        tools:replace="android:appComponentFactory" >
+        tools:replace="android:appComponentFactory">
+        <activity
+            android:name=".OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.PrepairPatientActivity"
+            android:exported="true" />
         <activity
             android:name=".Main_menu.SigxoneusiFiladiwnActivity"
             android:exported="true" />
@@ -41,7 +44,7 @@
         <activity android:name=".EKSOTERIKA.Enimerotiko_simeioma_eksetasis_activity" />
         <activity android:name=".Main_menu.Menu_generalActivity_NEW" />
         <activity android:name=".METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity" />
-        <activity android:name=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity" />
+        <activity android:name=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity" />
         <activity android:name=".METH.METH_MAP.f_Nosil_logodosia.Logodosia_Meth_Activity" />
         <activity android:name=".METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth" />
         <activity android:name=".METH.METH_MAP.f_Nosil_Elegxos.Nosil_elegxos_Meth" />
@@ -73,7 +76,7 @@
         <activity
             android:name=".OROFOI.f_karta_xorigisis_farmakon.FarmakaDetailActivity"
             android:label="@string/title_item_detail"
-            android:theme="@style/AppTheme.NoActionBar.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="micros_leader.george.nosileutikosfakelos.OROFOI.f_karta_xorigisis_farmakon.FarmakaListActivity" />
@@ -139,7 +142,7 @@
             android:name=".OROFOI.f_Nosileutikos_aimokatharseis.activities.Nephroxenia_Main_Activity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SplashScreenActivity" >
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -158,7 +161,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="micros_leader.george.nosileutikosfakelos.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true" >
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

@@ -29,6 +29,7 @@ import java.util.List;
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetCurrentMetrisi;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate;
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.PrintReport;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
@@ -37,6 +38,7 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetCurrentMetris
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdateResult;
 import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentCloseListener;
 import micros_leader.george.nosileutikosfakelos.R;
+import micros_leader.george.nosileutikosfakelos.ReportIDs;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivityNeurikiAksiologisi3Binding;
@@ -53,7 +55,7 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
     public CircularProgressButton buttonEnimerosi;
     public ImageView infoimage1 ,infoimage2 ,infoimage3 ,infoimage4, infoimage5, infoimage6, infoimage8, infoimage9, infoimage10, infoimage11, infoimage12, infoimage13, infoimage14, infoimage15, infoimage16, infoimage17, infoimage18;
     private ArrayList<String> watchList;
-    private Boolean isThereTransgroupID;
+    private Boolean isThereTransgroupID , hasProtokollo;
     private String   date,
             epipedo_sinidisis , kinitikotita_ano_aristerou_akrou, kinitikotita_kato_aristerou_akrou, kinitikotita_ano_dexiou_akrou, kinitikotita_kato_dexiou_akrou, afasia,
             egrigorsi, minas_ilikia, matia_xeria, ofthalmokinitikotita, imianopsia, paresi_proswpou,
@@ -138,6 +140,9 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         if (extendedAct == null)
             extendedAct = this;
 
+        userID = Utils.getUserID(extendedAct);
+
+
         alertDialog = Utils.setLoadingAlertDialog(extendedAct);
 
         thereIsDatePicker(R.id.dateTV);
@@ -195,18 +200,19 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         Utils.timeListener(extendedAct, wraProtokollouTV);
         Utils.timeListener(extendedAct, wraThromvolisisTV);
 
+        thereIsImagePrinterButton(ReportIDs.NEUROLOGIKI_AKSIOLOGISI_ANA_ORA , PrintReport.ReportParams.TRANSGROUP_ID_AND_DATE_STR);
 
+    }
 
+    @Override
+    public void printerListener(int reportID, PrintReport.ReportParams repParam) {
+        dateStr = dateTV.getText().toString();
+        if (timeCH.isChecked())
+            reportID = ReportIDs.NEUROLOGIKI_AKSIOLOGISI_ANA_ORA;
+        else
+            reportID = ReportIDs.NEUROLOGIKI_AKSIOLOGISI_ANA_TRIORO;
 
-
-
-
-
-
-
-
-
-
+        super.printerListener(reportID, repParam);
     }
 
     private void fabInitialize() {
@@ -257,7 +263,7 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
     private void showSigkentrotika_ana_ora(){
 
-        startActivity(    tableView_sigkentrotika(Str_queries.getNEURIKI_AKSIOLOGISI_SIGKENTROTIKA(transgroupID,dateTV.getText().toString() , true),
+        extendedAct.startActivity(    tableView_sigkentrotika(Str_queries.getNEURIKI_AKSIOLOGISI_SIGKENTROTIKA(transgroupID,dateTV.getText().toString() , true),
                 transgroupID,
                 null,
                 new String[]{"Επίπεδο συνείδησης", "Κινητηκότητα άνω άκρου", "Κινητηκότητα κάτω άκρου", "Αφασία",
@@ -275,7 +281,7 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
     private void showSigkentrotika_ana_3oro(){
 
 
-        startActivity(    tableView_sigkentrotika(Str_queries.getNEURIKI_AKSIOLOGISI_SIGKENTROTIKA(transgroupID,dateTV.getText().toString() ,false),
+        extendedAct.startActivity(    tableView_sigkentrotika(Str_queries.getNEURIKI_AKSIOLOGISI_SIGKENTROTIKA(transgroupID,dateTV.getText().toString() ,false),
                 transgroupID,
                 null,
                 new String[]{"Επίπεδο συνείδησης","Κινητηκότητα άνω άκρου","Κινητηκότητα κάτω άκρου","Αφασία",
@@ -339,7 +345,8 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
         if (Utils.isNetworkAvailable(extendedAct)) {
             alertDialog.show();
-            String query = "select * from Nursing_Parakolouthisi_Neurologiki " +
+            String query = "select * " +
+                    " from Nursing_Parakolouthisi_Neurologiki " +
                     " where transGroupID = " + transgroupid +
                     " and  date = " + " dbo.timeToNum(CONVERT(datetime, " + "'" + dateTV.getText().toString() + "' , 103)) " +
                     " and watch = " + watchID;
@@ -347,6 +354,16 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
             task.ctx = extendedAct;
             task.listener = (AsyncGetCurrentMetrisi) (activityFromSigxoneusi != null ? activityFromSigxoneusi : extendedAct);
             task.query = query;
+            task.execute();
+
+
+            task = new AsyncTaskGetCurrentMetrisi();
+            task.ctx = extendedAct;
+            task.listener = (AsyncGetCurrentMetrisi) (activityFromSigxoneusi != null ? activityFromSigxoneusi : extendedAct);
+            task.query = "select wraProseleusis as pros, wraProtokollou as prot , wraThromvolisis as thr \n" +
+                    "from Nursing_Parakolouthisi_Neurologiki_protokolo \n" +
+                    "where transGroupID = " + transgroupid;
+
             task.execute();
 
         }
@@ -379,13 +396,14 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
             afasiaNihssET.setText(Utils.convertObjToString(jsonObject.getString("afasia_nihss")));
             disarthriaET.setText(Utils.convertObjToString(jsonObject.getString("disarthria")));
             neglectET.setText(Utils.convertObjToString(jsonObject.getString("neglect")));
-            wraThromvolisisTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("wraThromvolisis"))));
-            wraProtokollouTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("wraProtokollou"))));
-            wraProseleusisNewTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("wraProseleusis"))));
+
+
             synoloTV.setText(calculateNIHSSscore(editTextList));
 
-            alertDialog.dismiss();
-        } else {
+        }
+
+
+        else if (results != null && !results.getJSONObject(0).has("pros")){
             isThereTransgroupID = false;
             Utils.edittextSetText(editTextList, "");
             wraProseleusisNewTV.setText("");
@@ -400,6 +418,21 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
             synoloTV.setText("");
             alertDialog.dismiss();
         }
+
+
+        if (results != null && results.getJSONObject(0).has("pros")){
+
+            hasProtokollo = true;
+            JSONObject jsonObject = results.getJSONObject(0);
+            wraThromvolisisTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("thr"))));
+            wraProtokollouTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("prot"))));
+            wraProseleusisNewTV.setText(Utils.convertMilliSecondsToTime(Utils.convertObjToString(jsonObject.getString("pros"))));
+        }
+        else
+            hasProtokollo = false;
+
+        alertDialog.dismiss();
+
     }
 
 
@@ -464,8 +497,8 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
     private void insertUpdateButtonListener() {
 
         InputMethodManager imm = (InputMethodManager) extendedAct.getSystemService(INPUT_METHOD_SERVICE);
-        if (getCurrentFocus() != null)
-            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        if (extendedAct.getCurrentFocus() != null)
+            imm.hideSoftInputFromWindow(extendedAct.getCurrentFocus().getWindowToken(), 0);
 
         if (Utils.isNetworkAvailable2(extendedAct ) &&
                 !Utils.isEmpty(patientsTV, extendedAct)) {
@@ -482,15 +515,20 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
     }
 
+
+
     private void insertInfo(){
 
-        Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString());
-        Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString());
-        Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString());
-        String query = "INSERT INTO Nursing_Parakolouthisi_Neurologiki (TransGroupID, Date, Watch, epipedo_sinidisis, " +
+
+
+        String query = Str_queries.setglobals(Utils.getUserID(extendedAct) , "2", Utils.getcompanyID(extendedAct)) + " \n " +
+                getqueryProtokollo() +
+
+
+                "INSERT INTO Nursing_Parakolouthisi_Neurologiki (TransGroupID, Date, Watch, epipedo_sinidisis, " +
                 "kinitikotita_ano_aristerou_akrou,kinitikotita_kato_aristerou_akrou,kinitikotita_ano_dexiou_akrou,kinitikotita_kato_dexiou_akrou , afasia ," +
                 "egrigorsi, minas_ilikia, matia_xeria, ofthalmokinitikotita, imianopsia, paresi_proswpou, ptwsi_anw_akrou, ptwsi_katw_akrou, ataxia, aisthitikotita," +
-                "afasia_nihss, disarthria, neglect, wraProseleusis, wraThromvolisis, wraProtokollou, userID) "
+                "afasia_nihss, disarthria, neglect, userID) "
                 + "VALUES (" + transgroupID + " , " +
                 " dbo.timeToNum(CONVERT(datetime, " + "'" + date + " " + Utils.getCurrentTime() + "' , 103)), " +
                 watchID + ", " + epipedo_sinidisis + ", " +
@@ -499,13 +537,8 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
                 egrigorsi + ", " + minas_ilikia + ", " + matia_xeria + ", " + ofthalmokinitikotita + ", " +
                 imianopsia + ", " + paresi_proswpou + ", " + ptwsi_anw_akrou + ", " + ptwsi_katw_akrou + ", " +
                 ataxia + ", " + aisthitikotita + ", " + afasia_nihss + ", " + disarthria + ", " + neglect + " , " +
-                (Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString()).isEmpty() ? "null"
-                        : Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString())) +" , " +
-                (Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString()).isEmpty()  ? "null"
-                        : Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString())) +" , " +
-                (Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString()).isEmpty()  ? "null"
-                        : Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString())) +" , " +
-                Utils.getUserID(extendedAct) + " );";
+
+                userID + " );";
 
         AsyncTaskUpdate task = new AsyncTaskUpdate(extendedAct, query);
         task.listener = (AsyncGetUpdateResult) (activityFromSigxoneusi != null ? activityFromSigxoneusi : extendedAct);
@@ -519,7 +552,9 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
 
     private void updateInfo(){
 
-        String query = "update Nursing_Parakolouthisi_Neurologiki " +
+        String query = "" +
+                getqueryProtokollo() +
+                "update Nursing_Parakolouthisi_Neurologiki " +
                 " set Watch =" + watchID + " , epipedo_sinidisis = " + epipedo_sinidisis +
                 " , kinitikotita_ano_aristerou_akrou = " + kinitikotita_ano_aristerou_akrou +
                 " ,kinitikotita_kato_aristerou_akrou = " + kinitikotita_kato_aristerou_akrou +
@@ -539,19 +574,8 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
                 " ,afasia_nihss = " + afasia_nihss +
                 " ,disarthria = " + disarthria +
                 " ,neglect = " + neglect +
-                " ,wraProseleusis = "
-                + (Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString()) == null ||
-                Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString()) == "" ? "null"
-                : Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString())) +
-                " ,wraProtokollou = "
-                +  (Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString()) == null ||
-                Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString()) == "" ? "null"
-                : Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString())) +
-                " ,wraThromvolisis = "
-                + (Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString()) == null ||
-                Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString()) == "" ? "null"
-                : Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString())) +
-                " , userID = " + Utils.getUserID(extendedAct) +
+                " , userID = " + userID +
+
                 " where transgroupid = " + transgroupID +
                 " and watch = " + watchID;
         AsyncTaskUpdate task = new AsyncTaskUpdate(extendedAct, query);
@@ -563,6 +587,48 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
     }
 
 
+
+
+    private String getqueryProtokollo (){
+        String q = "";
+        if (!hasProtokollo) {
+            q = "INSERT INTO Nursing_Parakolouthisi_Neurologiki_protokolo (TransGroupID, date, wraProseleusis, wraThromvolisis, wraProtokollou, userID)\n" +
+                    "VALUES(\n" +
+                    transgroupID + " , " +
+                    " dbo.localtime() , " +
+                    (wraProseleusisNewTV.getText().toString().isEmpty() ? "null"
+                            : Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString())) + " , " +
+                    (wraThromvolisisTV.getText().toString().isEmpty() ? "null"
+                            : Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString())) + " , " +
+                    (wraProtokollouTV.getText().toString().isEmpty() ? "null"
+                            : Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString())) + " , " +
+                    userID + ") " +
+                    "\n" +
+                    "\n" ;
+        }
+
+        else {
+
+          q =  "update Nursing_Parakolouthisi_Neurologiki_protokolo " +
+                    " set" +
+                    " wraProseleusis = "
+                    + (wraProseleusisNewTV.getText().toString().isEmpty() ? "null"
+                    : Utils.convertHourTomillisecondsGR(wraProseleusisNewTV.getText().toString())) +
+                    " ,wraProtokollou = "
+                    + (wraProtokollouTV.getText().toString().isEmpty() ? "null"
+                    : Utils.convertHourTomillisecondsGR(wraProtokollouTV.getText().toString())) +
+                    " ,wraThromvolisis = "
+                    + (wraThromvolisisTV.getText().toString().isEmpty() ? "null"
+                    : Utils.convertHourTomillisecondsGR(wraThromvolisisTV.getText().toString())) +
+                    ", userID = " + userID +
+                    " where transgroupid = " + transgroupID +
+                    "\n" +
+                    "\n" +
+                    "\n";
+        }
+
+        return q;
+    }
 
 
     private void getSetTexts(){

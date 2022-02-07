@@ -40,6 +40,7 @@ public class DF_Notifications extends DialogFragment {
     public  final static String TYPE_OF_NOTIFICATION = "typeOfNotification";
     private ArrayList <Notifications_objects> lista =  new ArrayList<>();
     private ArrayList<Notifications_objects> filteredList = new ArrayList<>();
+    private boolean isIconPressed;
 
     public final static int NOTIFICATIONS_BOTH_CATEGORIES = 1;
     public final static int NOTIFICATIONS_TO_CONFIRM = 2;
@@ -69,6 +70,7 @@ public class DF_Notifications extends DialogFragment {
         if (getArguments() != null) {
             transgroupID = getArguments().getString("transgroupID");
             patientID = getArguments().getString("patientID");
+            isIconPressed = getArguments().getBoolean("iconPressed");
             typeOfNotification = getArguments().getInt(TYPE_OF_NOTIFICATION);
 
         }
@@ -202,7 +204,7 @@ public class DF_Notifications extends DialogFragment {
                 query = "select top 100 * , dbo.DateTimeToString(confirmation_date) as confirmDate , dbo.NAMEUSER(Conifrmed_userID) as username ,dbo.nameperson(patientID) as patient " +
                         "from Nursing_iatrikes_entoles " +
                         " where companyid = " + companyID +
-                        (patientID != null ? " and  patientID = " + patientID : "" ) +
+                        (patientID != null && isIconPressed ? " and  patientID = " + patientID : "" ) +
                         " order by id desc";
                 toolbar.setTitle("Ιατρικές εντολές προς επιβεβαίωση");
                 break;

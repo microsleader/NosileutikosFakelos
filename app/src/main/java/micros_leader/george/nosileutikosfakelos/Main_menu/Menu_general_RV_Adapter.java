@@ -2,12 +2,8 @@ package micros_leader.george.nosileutikosfakelos.Main_menu;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,9 +19,9 @@ import java.util.ArrayList;
 
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity;
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
-import micros_leader.george.nosileutikosfakelos.MainFragment;
+import micros_leader.george.nosileutikosfakelos.SigxoneusiFragment;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Kathimerino_zigisma.Kathimerino_Zigisma_Activity;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -136,7 +132,7 @@ public class Menu_general_RV_Adapter extends RecyclerView.Adapter<Menu_general_R
 
                 actFr.removeAllViews();
                 actFr.clearChildFocus(actFr);
-                MainFragment myf = new MainFragment();
+                SigxoneusiFragment myf = new SigxoneusiFragment();
                 Bundle bundle = new Bundle();
 
 
@@ -149,8 +145,8 @@ public class Menu_general_RV_Adapter extends RecyclerView.Adapter<Menu_general_R
                     filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ISOZIGIO_METH;
                 else if (activity instanceof NeurikiAksiologisi3Activity)
                     filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.NEURIKI_AKSIOLOGISI;
-                else if (activity instanceof Kathetires_kalliergies_Meth_Activity)
-                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_KALLIERGIES;
+                else if (activity instanceof Kathetires_paroxeteuseis_Activity)
+                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_PAROXETEUSEIS;
 
                 bundle.putSerializable(SigxoneusiFiladiwnActivity.FILLADIO_KEY, filladio_sigxoneusis);
                 myf.setArguments(bundle);

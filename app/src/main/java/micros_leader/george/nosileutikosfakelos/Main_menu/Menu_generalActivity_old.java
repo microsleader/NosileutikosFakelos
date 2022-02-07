@@ -37,7 +37,7 @@ import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask;
 import micros_leader.george.nosileutikosfakelos.LoginActiity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity;
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Nosil_Elegxos.Nosil_elegxos_Meth;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
@@ -244,7 +244,7 @@ public class Menu_generalActivity_old extends BasicActivity implements View.OnCl
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(Menu_generalActivity_old.this, Kathetires_kalliergies_Meth_Activity.class);
+                Intent intent = new Intent(Menu_generalActivity_old.this, Kathetires_paroxeteuseis_Activity.class);
                 intent.putExtra("companyID",companyID);
                 startActivity(intent);
             }

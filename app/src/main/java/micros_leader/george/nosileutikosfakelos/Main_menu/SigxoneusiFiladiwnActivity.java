@@ -41,7 +41,7 @@ public class SigxoneusiFiladiwnActivity extends BasicActivity {
         KATHIMERINO_ZIGISMA,
         ISOZIGIO_METH,
         NEURIKI_AKSIOLOGISI,
-        KATHETIRES_KALLIERGIES
+        KATHETIRES_PAROXETEUSEIS
     }
 
 

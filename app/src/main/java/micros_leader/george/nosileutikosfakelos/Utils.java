@@ -1322,9 +1322,16 @@ public class Utils  {
             return false;
         }
 
-
-
     }
+
+    //ΚΑΝΩ ΚΑΠΟΙΕΣ ΦΟΡΕΣ ΚΑΤΙ ΔΟΚΙΜΕΣ ΜΟΝΟ ΓΙΑ ΤΟ TABLE
+    public static String convertDateTomillisecondsTable(String date){
+        if (!date.isEmpty())
+           return convertDateTomilliseconds(date);
+        return "";
+    }
+
+
     public static String convertDateTomilliseconds(String date){
 
         Locale locale = new Locale("el", "GR");
@@ -1345,7 +1352,7 @@ public class Utils  {
         try {
             oldDate = formatter.parse(oldTime);
         } catch (ParseException e) {
-            e.printStackTrace();
+            //ΑΔΜΙΝe.printStackTrace();
         }
 
         if (oldDate == null ) {
@@ -1361,7 +1368,7 @@ public class Utils  {
         }
 
         long xaxa = oldDate.getTime();
-        oldMillis = oldDate.getTime() + 7200000L + 3600000L;
+        oldMillis = oldDate.getTime() + 7200000L;// + 3600000L;
         return String.valueOf(oldMillis);
     }
 
@@ -1452,9 +1459,15 @@ public class Utils  {
         return String.valueOf(oldMillis);
     }
 
+    public static String convertHourTomillisecondsGR(int oldTime) {
+        if (oldTime >24)
+            return "Η ώρα δεν μπορεί να είναι μεγαλύτερη του 24";
+
+        return convertHourTomillisecondsGR(oldTime + ":00");
+    }
 
 
-    public static boolean containsCaseInsensitive(String strToCompare, ArrayList<String>list)
+        public static boolean containsCaseInsensitive(String strToCompare, ArrayList<String>list)
     {
         for(String str:list)
         {

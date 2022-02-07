@@ -21,10 +21,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
 import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.TableView.Table;
-import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 
 
 public class Simple_items_rv_adapter extends RecyclerView.Adapter<Simple_items_rv_adapter.MyViewHolder>{
@@ -253,12 +252,12 @@ public class Simple_items_rv_adapter extends RecyclerView.Adapter<Simple_items_r
 
 
                     String transgroupID = "";
-                    Kathetires_kalliergies_Meth_Activity x = null;
+                    Kathetires_paroxeteuseis_Activity x = null;
                     try{
                         //Αυτο γινεται για να παρει  το transgroupID οταν καλειται απο την οθονη των συγχωνευσεων φυλλαδιων
 
                         SigxoneusiFiladiwnActivity s  = (SigxoneusiFiladiwnActivity) act;
-                        x = (Kathetires_kalliergies_Meth_Activity) s.activityFromSigxoneusi;
+                        x = (Kathetires_paroxeteuseis_Activity) s.activityFromSigxoneusi;
                         transgroupID = x.transgroupID;
                     }
                     catch (Exception ignored){

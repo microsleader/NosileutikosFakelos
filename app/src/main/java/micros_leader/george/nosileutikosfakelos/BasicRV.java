@@ -325,6 +325,11 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
             } else {
                 Bundle o = (Bundle) payloads.get(0);
                 for (String key : o.keySet()) {
+                    String compCol = result.get(position).getcompareColValue();
+                    boolean isCompValueSame = result.get(position).isCompValueSame;
+
+
+
                     if (key.equals("value")) {
                         String val = o.getString("value");
                         // String val  = result.get(position).getValue();
@@ -344,21 +349,29 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
                             else if (type == TEXTVIEW_DATETIME_TYPE)
                                 holder.valueTV.setText(Utils.convertMillisecondsToDateTime(val));
 
+
+
                             else if (type == MULTI_TYPE) {
+                                compareValuesColor(compCol,isCompValueSame,holder.valueTV);
+
                                 ArrayList ar = result.get(position).getLista();
                                 ArrayList<Spinner_item> multiList = ar;
                                 holder.valueTV.setText(Utils.getTextFromMultiType(val, multiList));
                             } else
                                 holder.valueTV.setText(val);
-                        } else if (holder.valueET != null)
+                        } else if (holder.valueET != null) {
                             holder.valueET.setText(val);
+                            compareValuesColor(compCol,isCompValueSame,holder.valueET);
+                        }
 
                         else if (holder.valueSP != null) {
                             if (val == null || val.equals(""))
                                 val = "0";
 
+
                             if (holder.valueSP.getAdapter() != null) {
                                 SpinnerAdapter adapter = holder.valueSP.getAdapter();
+                                compareValuesColor(compCol,isCompValueSame,holder.valueSP);
 
                                 // το Spinner_new_Image_Adapter ειναι instance του ArrayAdapter επειδη κανει extends
                                 if (adapter instanceof ArrayAdapter && !(adapter instanceof Spinner_new_Image_Adapter)) {
@@ -396,7 +409,7 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
 
     @Override
-    public void onBindViewHolder(final BasicRV.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final BasicRV.MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         // set the data in items
 
         try {
@@ -861,6 +874,14 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
 
     }
 
+    private void compareValuesColor(String compCol, boolean isCompValueSame, View v){
+
+        if (compCol != null && !isCompValueSame)
+            setStrokeColor(v, 3, Color.RED);
+        else
+            setStrokeColor(v, 3, Color.parseColor("#038768"));
+
+    }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

@@ -91,8 +91,6 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
 
             URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query));
 
-            //Log.e("urlFloors",URL);
-
         }
 
     }

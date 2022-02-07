@@ -23,6 +23,7 @@ import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.Customers;
+import micros_leader.george.nosileutikosfakelos.GridLayoutManagerWrapper;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
@@ -85,7 +86,7 @@ public class SinexeisFragment extends Fragment {
         bd.sinexeisMetriseisRV.setDrawingCacheEnabled(true);
         bd.sinexeisMetriseisRV.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
 
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
+        GridLayoutManagerWrapper manager = new GridLayoutManagerWrapper(getContext(), 1);
         bd.sinexeisMetriseisRV.setLayoutManager(manager);
         bd.sinexeisMetriseisRV.setAdapter(adapter);
 
@@ -392,7 +393,6 @@ public class SinexeisFragment extends Fragment {
                         "\n";
 
 
-                System.out.println(query);
             }
 
 

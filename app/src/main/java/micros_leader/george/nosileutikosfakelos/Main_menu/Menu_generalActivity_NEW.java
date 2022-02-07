@@ -125,6 +125,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
 
 
         planoKlinonBt = findViewById(R.id.planoKlinonBT);
+        planoKlinonBt.setOnClickListener(this);
         sigxoneusiBT = findViewById(R.id.sigxoneusiBT);
         sigxoneusiBT.setOnClickListener(this);
 
@@ -261,7 +262,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
     public void onClick(View v) {
 
         if (v.getId() == R.id.planoKlinonBT)
-            planoKlinonBT_listener();
+            methodKlinesDialog();
         else if (v.getId() == R.id.sigxoneusiBT)
             startActivity(new Intent(this, SigxoneusiFiladiwnActivity.class));
 

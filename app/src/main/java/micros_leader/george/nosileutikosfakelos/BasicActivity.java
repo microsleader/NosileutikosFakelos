@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.printservice.PrintService;
 import android.speech.SpeechRecognizer;
 
 import com.github.ag.floatingactionmenu.OptionsFabLayout;
@@ -71,6 +72,7 @@ import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetPatients;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetPlanoKlinonPatients;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.PrintReport;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 
@@ -78,6 +80,7 @@ import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetDelete;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdateResult;
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended;
+import micros_leader.george.nosileutikosfakelos.Interfaces.DataSendedList;
 import micros_leader.george.nosileutikosfakelos.Interfaces.IData;
 import micros_leader.george.nosileutikosfakelos.Listeners.SearchNosileuomenoListener;
 import micros_leader.george.nosileutikosfakelos.Listeners.VoiceListener;
@@ -225,7 +228,7 @@ import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_ITE
 
 
 public class BasicActivity  extends AppCompatActivity implements IData, AsyncCompleteTask2,
-        AsyncGetUpdate_JSON, MyDialogFragmentCloseListener  ,  DataSended, AsyncGetDelete ,
+        AsyncGetUpdate_JSON, MyDialogFragmentCloseListener  ,  DataSended, DataSendedList, AsyncGetDelete ,
          AsyncGetUpdateResult  {
 
     public TextView dateTV,patientsTV, nurseTV;
@@ -236,6 +239,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public String nurseID = "";
     public String table;
     public String date;
+    public String dateStr;
     public String period;
     public String watchID;
     public String vardiaID;
@@ -254,7 +258,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public boolean weHaveData,  isVoiceOn = false;
     public ArrayAdapter arrayAdapter;
     public CircularProgressButton updateButton;
-    public ImageButton updateIMB;
+    public ImageButton printerIMB,updateIMB;
     public Spinner floorSP;
     public BasicRV adapter;
     public ArrayAdapter floorAdapter;
@@ -274,6 +278,10 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public Spinner vardiaSP;
     public NpaGridLayoutManager manager;
     public boolean loading = true;
+    public boolean isDoctor;
+    public boolean isNurse;
+    public String companyID;
+    public int custID;
     public int pastVisiblesItems, visibleItemCount, totalItemCount;
 
 
@@ -300,7 +308,12 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         alertDialog = Utils.setLoadingAlertDialog(this);
         alertDialog.setCancelable(true);
 
+        custID = Utils.getCustomerID(this);
         userID = Utils.getUserID(this);
+        isDoctor = Utils.getIsDoctor(this);
+        isNurse = Utils.getIsNurse(this);
+        companyID = Utils.getcompanyID(this);
+
 
     }
 
@@ -477,8 +490,8 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
     public void thereIsTimePicker(int timeID){
-
-        timeTV = findViewById(timeID);
+        if (timeTV == null)
+            timeTV = findViewById(timeID);
         timeTV.setText(Utils.getCurrentTime2());
 
         timeTV.setOnClickListener(new View.OnClickListener() {
@@ -545,6 +558,58 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
 
+    public void thereIsImagePrinterButton(int reportID, PrintReport.ReportParams repParam){
+
+        if (toolbar == null)
+            toolbar = findViewById(R.id.toolbar);
+        if (toolbar == null)
+            return;
+
+        extendedAct.setSupportActionBar(toolbar);
+
+        printerIMB = new ImageButton(extendedAct);
+
+        Toolbar.LayoutParams l1=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l1.gravity= Gravity.START;
+        printerIMB.setLayoutParams(l1);
+        printerIMB.setBackgroundResource(R.drawable.printer_48px);
+        printerIMB.setPadding(20,20,20,20);
+        printerIMB.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+        toolbar.addView(printerIMB);
+        Toolbar.LayoutParams l3=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l3.gravity= Gravity.END;
+        printerIMB.setLayoutParams(l3);
+
+        printerIMB.setOnClickListener(view -> printerListener(reportID,repParam));
+
+
+    }
+
+    public void printerListener(int reportID, PrintReport.ReportParams repParam){
+        new PrintReport(extendedAct,patientID,transgroupID ,dateStr, reportID ,repParam).execute();
+    }
+
+
+
+    @Override
+    public void hereIsYourList(ArrayList<String> list) {
+//        if (list != null && !list.isEmpty())
+//            showSimpleDialogList(extendedAct, list);
+//        else
+//            Toast.makeText(extendedAct, "Η λίστα είναι κενή", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     public void thereIsCheckBox_toolbar(String text){
 
         Toolbar t= findViewById(R.id.toolbar);
@@ -570,6 +635,10 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     }
 
+
+
+
+
     public void thereIsVardiesSpinner(int id, ArrayList<Spinner_item> lista ){
 
         vardiaSP = findViewById(id);
@@ -594,16 +663,6 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
 
-    public static void setRecyclerViewLinearLayout(RecyclerView recyclerView, Context ctx){
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(ctx, LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new DividerItemDecoration(ctx, LinearLayout.VERTICAL));
-        recyclerView.setItemViewCacheSize(20);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);
-
-
-    }
 
 
 
@@ -652,30 +711,6 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     }
 
-    public void setRecyclerViewgridrLayaout(  RecyclerView.Adapter adapter, int spanCount, final int[] theseisTitloi ){
-
-        recyclerView.setItemViewCacheSize(20);
-        recyclerView.setDrawingCacheEnabled(true);
-        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setHasFixedSize(true);
-        manager = new NpaGridLayoutManager(this, spanCount);
-        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-
-                boolean isHeader = isHeader(position,theseisTitloi);
-                if (isHeader)
-                    return  2;
-                else
-                    return  1;
-
-            }
-        });
-        recyclerView.setLayoutManager(manager);
-        if (adapter != null)
-            recyclerView.setAdapter(adapter);
-    }
 
 
     public void setRecyclerViewgridrLayaout( int id, RecyclerView.Adapter adapter, int spanCount, final int[] theseisTitloi ){
@@ -719,7 +754,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
       //  recyclerView.setNestedScrollingEnabled(false);
 
-        GridLayoutManager manager = new GridLayoutManager(this, spanCount);
+        GridLayoutManagerWrapper manager = new GridLayoutManagerWrapper(this, spanCount);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -1829,6 +1864,8 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         StringBuilder sb = new StringBuilder();
 
         for (int i=0; i<namejson.size(); i++){
+            if (namejson.get(i).isEmpty())
+                continue;
             if (i+1 == namejson.size())
                 sb.append(arthroPinaka).append(namejson.get(i)).append(" ");
             else
@@ -2178,4 +2215,6 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public void hereIsYourData(int pos ) {
 
     }
+
+
 }

@@ -12,9 +12,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.PrintReport;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.R;
+import micros_leader.george.nosileutikosfakelos.ReportIDs;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
@@ -29,8 +31,8 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
     private String anaf_varos,varos,proVaros,ipsos,bmi,text  , dayFromSpinner = "1";
     private ArrayAdapter spinnerAdapter;
     private ArrayList<String> columnNames;
-    private TextView textViews[];
-    private EditText editTexts[];
+    private TextView[] textViews;
+    private EditText [] editTexts;
     private boolean isFirstTime = true;
 
     @Override
@@ -54,8 +56,13 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
     }
 
     public void initialize(){
+
+
         if (extendedAct == null)
             extendedAct = this;
+
+
+        thereIsImagePrinterButton(ReportIDs.KATHIMERINO_ZIGISMA_ASTHENI , PrintReport.ReportParams.TRANSGROUP_ID_ONLY);
         fabListener();
 
         textViews = new TextView[] {dateTV};
@@ -65,6 +72,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
         columnNames.add("date");
         columnNames.add("anaf_varos");columnNames.add("varos");
         columnNames.add("pro_varos"); columnNames.add("ipsos");
+        columnNames.add("bmi");
         columnNames.add("day_text"); columnNames.add("UserID");
         setAll_col_names(columnNames);
 
@@ -81,6 +89,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
 
 
     private void fabListener() {
+
       fab.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
@@ -94,6 +103,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
                       false));
           }
       });
+
     }
 
 

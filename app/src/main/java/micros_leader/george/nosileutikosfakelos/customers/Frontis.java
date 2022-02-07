@@ -52,7 +52,7 @@ public class Frontis {
             lista.add(new ItemsRV("Διάρκεια", "duration_aim_ID", SPINNER_ITEM_NEW, Spinner_items_lists.getDuration_aim()));
 
             lista.add(new ItemsRV("Φίλτρο", "Filter",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_filter"));
-            lista.add(new ItemsRV("LOT Φίλτρου", "lot_filter", "",  EDITTEXT_ITEM,KEIMENO));
+            lista.add(new ItemsRV("Αιματοκρίτης", "lot_filter", "",  EDITTEXT_ITEM,KEIMENO));
 
             lista.add(new ItemsRV("Αντιπηκτική αγωγή", "agogi",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_agogi"));
             lista.add(new ItemsRV("Αντιπηκτική αγωγή 0", "agogi_zero", "",  EDITTEXT_ITEM,DEKADIKOS));
@@ -111,7 +111,7 @@ public class Frontis {
             lista.add(new ItemsRV("Συχνότητα αιμοκ.\nανά εβδομάδα", "sixnotita_aim", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Διάρκεια", "durationName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Φίλτρο", "filName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-            lista.add(new ItemsRV("LOT Φίλτρου", "lot_filter", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Αιματοκρίτης", "lot_filter", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
             lista.add(new ItemsRV("Αντιπηκτική αγωγή", "agogiName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Αντιπηκτική αγωγή 0", "agogi_zero", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
@@ -335,12 +335,6 @@ public class Frontis {
         BasicList lista = new BasicList();
 
 
-
-
-
-
-
-
         lista.add(new TableViewItem( "ID","ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
 
         lista.add(new TableViewItem( "ΗΜ/ΝΙΑ / ΩΡΑ","Date", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
@@ -350,21 +344,19 @@ public class Frontis {
 
         lista.add(new TableViewItem(  "Σφύξεις:","sfikseis", EDIT_TEXT_TYPE, DEKADIKOS));
         lista.add(new TableViewItem("Θερμοκρασία (°C)","thermokrasia", EDIT_TEXT_TYPE, DEKADIKOS));
-        lista.add(new TableViewItem( "Ρυθμός ροή αντλίας (ml/min)", "roi", EDIT_TEXT_TYPE, DEKADIKOS));
-        lista.add(new TableViewItem("Πίεση φλεβ. γραμμής","piesi_flev", EDIT_TEXT_TYPE, DEKADIKOS_WITH_NEGATIVE));
-
-        lista.add(new TableViewItem("Πίεση αρτ. γραμμής:","piesi_art", EDIT_TEXT_TYPE, DEKADIKOS_WITH_NEGATIVE));
         lista.add(new TableViewItem("Ρυθμός υπερδιηθησης \n ανά ώρα(U.F.) (l/h)", "iperd", EDIT_TEXT_TYPE, DEKADIKOS));
         lista.add(new TableViewItem("Απώλεια \n βάρους","apoleia_varous", EDIT_TEXT_TYPE, DEKADIKOS));
+        lista.add(new TableViewItem("Πίεση αρτ. γραμμής:","piesi_art", EDIT_TEXT_TYPE, DEKADIKOS_WITH_NEGATIVE));
+        lista.add(new TableViewItem("Πίεση φλεβ. γραμμής","piesi_flev", EDIT_TEXT_TYPE, DEKADIKOS_WITH_NEGATIVE));
+
         lista.add(new TableViewItem("TMP","TMP", EDIT_TEXT_TYPE, DEKADIKOS));
-
+        lista.add(new TableViewItem( "Ρυθμός ροή αντλίας (ml/min)", "roi", EDIT_TEXT_TYPE, DEKADIKOS));
         lista.add(new TableViewItem("Αγωγιμότητα (ms/cm)","agogimotita", EDIT_TEXT_TYPE, DEKADIKOS));
-
         lista.add(new TableViewItem("Μετρήσεις-Παραμβάσεις","paremvaseis", EDIT_TEXT_TYPE, KEIMENO));
         lista.add(new TableViewItem("Παρατηρήσεις","paratiriseis", EDIT_TEXT_TYPE, KEIMENO));
         lista.add(new TableViewItem("Εγχύσεις - Φάρμακα","egxiseis", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("Vit - B","vit_b", CHECKBOX_ITEM, TABLE_NO_TYPE));
 
+        lista.add(new TableViewItem("Vit - B","vit_b", CHECKBOX_ITEM, TABLE_NO_TYPE));
         lista.add(new TableViewItem("L - carnittine", "carnitine", CHECKBOX_ITEM, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Alphacalcidol","alphacalcidol", CHECKBOX_ITEM, TABLE_NO_TYPE));
         lista.add(new TableViewItem("EPO","epo", CHECKBOX_ITEM, TABLE_NO_TYPE));
@@ -427,7 +419,7 @@ public class Frontis {
         }
         else{
             lista.add(new TableViewItem("Ημ/νία διακοπής", "DateStop", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE).editWithNoSameUserID(true));
-            lista.add(new TableViewItem("Ημ/νία επομ.\n χορήγησης", "nextDate", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("Ημ/νία επομ.\n χορήγησης", "nextDate", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE).editWithNoSameUserID(true));
 
         }
 

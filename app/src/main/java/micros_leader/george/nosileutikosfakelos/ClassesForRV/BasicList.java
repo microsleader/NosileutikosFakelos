@@ -74,7 +74,7 @@ public class BasicList {
 
             x.title = lista.get(i).getTitleID();
             x.column = lista.get(i).col_name;
-            if (!x.column.equalsIgnoreCase("id"))
+            if (!x.column.equalsIgnoreCase("id") && lista.get(i).value != null && !lista.get(i).value.isEmpty())
                 x.force_value = lista.get(i).value;
 
             x.textType = lista.get(i).texttype;

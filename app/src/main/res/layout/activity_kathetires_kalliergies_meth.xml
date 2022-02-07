@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity">
+    tools:context=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="Καθετήρες - Καλλιεργιες" />
+            app:title="Καθετήρες - Παροχετεύσεις" />
 
         <LinearLayout
             android:id="@+id/linearLayout16"

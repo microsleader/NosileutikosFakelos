@@ -1,13 +1,21 @@
 package micros_leader.george.nosileutikosfakelos.OROFOI.f_karta_xorigisis_farmakon;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,16 +47,17 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
     private TableFragment tf1 ;
 
     private ActivityItemListBinding bd;
-    private boolean[] ITEMS_HOURS_VALUES = { false, false, false, false, false,false, false, false, false, false,
+    private final boolean[] ITEMS_HOURS_VALUES = { false, false, false, false, false,false, false, false, false, false,
             false, false, false, false, false,false, false, false, false, false,false, false, false, false};
 
-    private  CharSequence[] ITEMS_HOURS = { "00:00", "01:00","02:00", "03:00","04:00", "05:00","06:00", "07:00",
+    private final CharSequence[] ITEMS_HOURS = { "00:00", "01:00","02:00", "03:00","04:00", "05:00","06:00", "07:00",
             "08:00", "09:00","10:00", "11:00","12:00", "13:00", "14:00", "15:00","16:00", "17:00","18:00", "19:00","20:00", "21:00",
             "22:00", "23:00"};
     private CharSequence[] ITEMS;
     private boolean[] ITEMS_VALUES;
     private boolean isForSetHours ;
     private String ITEM_ID;
+    private int FROM_HOUR, TO_HOUR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
         getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
         medicinesBTListener();
+        oroiBTListener();
         medicinesBTSetHoursListener();
         medicinesBTDisplayHoursListener();
         alertDialog.dismiss();
@@ -67,6 +77,10 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
     private void medicinesBTListener() {
         bd.medicinesBT.setOnClickListener(v -> medicines());
+    }
+
+    private void oroiBTListener() {
+        bd.oroiBT.setOnClickListener(v -> oroi());
     }
 
 
@@ -91,10 +105,10 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
 
     private void medicines (){
-        bundle1  =   tableView_sigkentrotika_dialogFragment( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID),
+        bundle1  =   tableView_sigkentrotika_dialogFragment( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID ,false),
                 transgroupID,
                 null,
-                InfoSpecificLists.getKartaXorigisisFarmakwn(),
+                InfoSpecificLists.getKartaXorigisisFarmakwn(false),
                 false,
                 false,
                 true);
@@ -103,6 +117,25 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
         showFragment();
 
     }
+
+
+
+    private void oroi (){
+        bundle1  =   tableView_sigkentrotika_dialogFragment( Str_queries.getSigkentrotika_karta_xorigisis_farmakon(transgroupID, true),
+                transgroupID,
+                null,
+                InfoSpecificLists.getKartaXorigisisFarmakwn(true),
+                false,
+                false,
+                true);
+
+
+        bundle1.putString("toolbar_title","Συγκεντρωτικά ορών");
+       // bundle1.putString("toolbar_title","Συγκεντρωτικά ορών");
+        showFragment();
+
+    }
+
 
 
     private void getMedicinesForPatientAndSelectOrViewHours(){
@@ -208,7 +241,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
     private void setHoursToDatabase(String itemID, ArrayList<String> medsHours){
 
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         sb.append("exec dbo.disable_triggers " );
 
         for (String hour: medsHours) {
@@ -226,11 +259,12 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
     }
 
 
-    private void medicines_display_hours (String medicineIDS){
+    //private void medicines_display_hours (String medicineIDS){
+    private void medicines_display_hours (){
 
-        bundle1  = tableView_sigkentrotika_dialogFragment(Str_queries.getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, medicineIDS),
+        bundle1  = tableView_sigkentrotika_dialogFragment(Str_queries.getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, FROM_HOUR,TO_HOUR),
                 null,
-                new String[]{"ID","Χρήστης","Είδος","Ωρα χορήγησης","Χορηγήθηκε"},
+               // new String[]{"ID","Χρήστης","Είδος","Ωρα χορήγησης","Χορηγήθηκε"},
                 null,
                 InfoSpecificLists.getKartaXorigisisFarmakwn_provoli_hours(),
                 false,
@@ -288,32 +322,116 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
 
 
+//
+//    private void showCheckboxDialog(){
+//        //ΕΔΩ ΕΙΝΑΙ ΓΙΑ ΕΠΙΛΟΓΗ ΦΑΡΜΑΚΩΝ
+//        AlertDialog.Builder builder = Utils.getAlertMultipleChoice(this, ITEMS, ITEMS_VALUES);
+//        builder.setTitle(R.string.choose_item);
+//        builder.setPositiveButton("OK",
+//                (dialog, which) -> {
+//
+//                    StringBuilder sb = new StringBuilder();
+//                    String medicinesIDS = "";
+//
+//                    for (int i=0; i< ITEMS_VALUES.length; i  ++){
+//                        if (ITEMS_VALUES[i])
+//                            sb.append(Utils.getSplitSPartString((String) ITEMS[i], ",", 0)).append(",");
+//                    }
+//
+//                    if (sb.length() > 1)
+//                        medicinesIDS = sb.substring(0,sb.length() - 1);
+//
+//
+//                    medicines_display_hours(medicinesIDS);
+//                });
+//
+//        builder.setNegativeButton("Ακύρωση", (dialog, which) -> {});
+//
+//
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
+//
+//    }
+//
 
     private void showCheckboxDialog(){
+        //ΕΔΩ ΕΙΝΑΙ ΓΙΑ ΕΠΙΛΟΓΗ ΩΡΑΝ
 
-        AlertDialog.Builder builder = Utils.getAlertMultipleChoice(this, ITEMS, ITEMS_VALUES);
-        builder.setTitle(R.string.choose_item);
-        builder.setPositiveButton("OK",
-                (dialog, which) -> {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Επιλέχτε ώρες");
+        final EditText fromHour = new EditText(this);
+        final EditText toHour = new EditText(this);
 
-                    StringBuilder sb = new StringBuilder();
-                    String medicinesIDS = "";
+        fromHour.setInputType(InputType.TYPE_CLASS_NUMBER );
+        fromHour.setFilters(new InputFilter[] { new InputFilter.LengthFilter(2) });
+        fromHour.setHint("Από...");
+        fromHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                    for (int i=0; i< ITEMS_VALUES.length; i  ++){
-                        if (ITEMS_VALUES[i])
-                            sb.append(Utils.getSplitSPartString((String) ITEMS[i],",",0) + ",");
-                    }
+            }
 
-                    if (sb.length() > 1)
-                        medicinesIDS = sb.substring(0,sb.length() - 1);
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int num = s.toString().isEmpty() ? 0 : Integer.parseInt(s.toString());
+                int length = s.toString().length();
+                if (num >24)
+                    s.delete(length - 1, length);
+            }
+        });
+
+        toHour.setInputType(InputType.TYPE_CLASS_NUMBER );
+        toHour.setFilters(new InputFilter[] { new InputFilter.LengthFilter(2) });
+        toHour.setHint("Έως...");
+        toHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int num = s.toString().isEmpty() ? 0 : Integer.parseInt(s.toString());
+                int length = s.toString().length();
+                if (num >24)
+                    s.delete(length - 1, length);
+            }
+        });
 
 
-                    medicines_display_hours(medicinesIDS);
-                });
+
+        LinearLayout ll=new LinearLayout(this);
+        ll.setOrientation(LinearLayout.VERTICAL);
+        ll.addView(fromHour);
+        ll.addView(toHour);
+        builder.setView(ll);
+
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                int from = fromHour.toString().isEmpty() ? 0 : Integer.parseInt(fromHour.getText().toString());
+                int to = toHour.toString().isEmpty() ? 0 : Integer.parseInt(toHour.getText().toString());
+                if (from > to)
+                    Toast.makeText(FarmakaListActivity.this, "Η ώρα 'Από' πρέπει να είναι μικρότερη ή ίση της 'Έως'", Toast.LENGTH_SHORT).show();
+                else {
+                    FROM_HOUR = from;
+                    TO_HOUR = to;
+                    medicines_display_hours();
+                }
+            }
+        });
 
         builder.setNegativeButton("Ακύρωση", (dialog, which) -> {});
-
-
         AlertDialog dialog = builder.create();
         dialog.show();
 
@@ -349,7 +467,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
 
         if (str.equals(getString(R.string.successful_update)) && isForSetHours)
-            medicines_display_hours(ITEM_ID);
+            medicines_display_hours();
         alertDialog.dismiss();
 
 

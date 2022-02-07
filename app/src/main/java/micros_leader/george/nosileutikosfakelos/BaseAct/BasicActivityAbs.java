@@ -18,16 +18,16 @@ import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
-public abstract  class BasicActivityAbs extends BasicActivity {
+public abstract class BasicActivityAbs extends BasicActivity {
 
     public ArrayList <ItemsRV>  copyOF_info_RV_list;
-    private int patientsTV, floorSP , layoutID;
-    private int rv_id ;
+    private int patientsTV;
+    private int floorSP;
     private String main_query ;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        layoutID = getLayoutResourceId();
+        int layoutID = getLayoutResourceId();
         setContentView(layoutID);
 
         if (isThereFloorAndPatientTVs())
@@ -55,8 +55,8 @@ public abstract  class BasicActivityAbs extends BasicActivity {
         if (colNames_not_in_RV() == null || colNames_not_in_RV().length == 0)
              insertOrUpdateListener(listaAdaptor,new String [] {"ID","TransGroupID"});
 
-        rv_id = rv_ID();
-        setRecyclerViewgridrLayaout( rv_id,  adapter, 2,titloi_positions );
+        int rv_id = rv_ID();
+        setRecyclerViewgridrLayaout(rv_id,  adapter, 2,titloi_positions );
 
 
     }

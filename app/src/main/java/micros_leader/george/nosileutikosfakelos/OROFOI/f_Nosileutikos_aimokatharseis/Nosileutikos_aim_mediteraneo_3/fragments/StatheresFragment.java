@@ -30,6 +30,7 @@ import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.Customers;
+import micros_leader.george.nosileutikosfakelos.GridLayoutManagerWrapper;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
@@ -77,50 +78,57 @@ public class StatheresFragment extends Fragment {
         view = bd.getRoot();
         main = (MainActivity_Aim) getActivity();
 
-        if (main != null) {
+        try {
 
-            companyID = Utils.getcompanyID(main);
-            if (!main.isNurse)
-                bd.updateButton.setVisibility(View.INVISIBLE);
 
-            if (Customers.isFrontis(main.custID)) {
-                bd.loggedInUserTV.setVisibility(View.VISIBLE);
-                bd.loggedInUserTV.setText("Συνδεδεμένος χρήστης: \n" + Utils.getUserName(main));
+          if (main != null) {
+
+                companyID = Utils.getcompanyID(main);
+                if (!main.isNurse)
+                    bd.updateButton.setVisibility(View.INVISIBLE);
+
+                if (Customers.isFrontis(main.custID)) {
+                    bd.loggedInUserTV.setVisibility(View.VISIBLE);
+                    bd.loggedInUserTV.setText("Συνδεδεμένος χρήστης: \n" + Utils.getUserName(main));
+                }
+                else
+                    bd.loggedInUserTV.setVisibility(View.GONE);
+
+
+
+                oldValuesLista = new ArrayList<>();
+
+                for (int i = 0; i<statheresLista().size(); i++ )
+                    oldValuesLista.add("");
+
+                adapter = new MetriseisStatheresRecyclerView(main,statheresLista(),oldValuesLista,true);
+                listaAdaptor = adapter.result;
+                namesGiaApothikeusi = new ArrayList<>();
+                valuesGiaApothikeusi = new ArrayList<>();
+                main.getAll_col_names(statheresLista(),namesGiaApothikeusi);
+
+                docSP = view.findViewById(R.id.valueTV);
+                docSP.setTitle("Επιλογή νεφρολόγου");
+                docSP.setPositiveButton("OK");
+
+
+                bd.statheresMetriseisRV.setItemViewCacheSize(30);
+                bd.statheresMetriseisRV.setHasFixedSize(true);
+                bd.statheresMetriseisRV.setNestedScrollingEnabled(false);
+                bd.statheresMetriseisRV.setAdapter(adapter);
+
+                GridLayoutManagerWrapper manager = new GridLayoutManagerWrapper(getContext(), 1);
+                bd.statheresMetriseisRV.setLayoutManager(manager);
+                bd.updateButton.setOnClickListener(v -> update());
+
+                getOldTeleutaiesMetriseis();
+
+                allergiesListener();
+
             }
-            else
-                bd.loggedInUserTV.setVisibility(View.GONE);
-
-
-
-            oldValuesLista = new ArrayList<>();
-
-            for (int i = 0; i<statheresLista().size(); i++ )
-                oldValuesLista.add("");
-
-            adapter = new MetriseisStatheresRecyclerView(main,statheresLista(),oldValuesLista,true);
-            listaAdaptor = adapter.result;
-            namesGiaApothikeusi = new ArrayList<>();
-            valuesGiaApothikeusi = new ArrayList<>();
-            main.getAll_col_names(statheresLista(),namesGiaApothikeusi);
-
-            docSP = view.findViewById(R.id.valueTV);
-            docSP.setTitle("Επιλογή νεφρολόγου");
-            docSP.setPositiveButton("OK");
-
-
-            bd.statheresMetriseisRV.setItemViewCacheSize(30);
-            bd.statheresMetriseisRV.setHasFixedSize(true);
-            bd.statheresMetriseisRV.setNestedScrollingEnabled(false);
-            bd.statheresMetriseisRV.setAdapter(adapter);
-
-            GridLayoutManager manager = new GridLayoutManager(getContext(), 1);
-            bd.statheresMetriseisRV.setLayoutManager(manager);
-            bd.updateButton.setOnClickListener(v -> update());
-
-            getOldTeleutaiesMetriseis();
-
-            allergiesListener();
-
+        }
+        catch (Exception e){
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         return view;
@@ -264,8 +272,9 @@ public class StatheresFragment extends Fragment {
 
             String code = Utils.getfirstPartSplitCommaString(main.bd.patientsTV.getText().toString());
             String patientID = main.getPatientIDUsingCode.get(code);
+            main.transgroupID =  main.getTransgroupIDUsingCode.get(code);
 
-            String query = Str_queries.getOldteleytaiesStatheresMetriseis(patientID,main.custID);
+            String query = Str_queries.getOldteleytaiesStatheresMetriseis(patientID,main.transgroupID, main.custID);
 
             AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
             task.ctx = main;
@@ -275,35 +284,40 @@ public class StatheresFragment extends Fragment {
                 public void taskComplete2(JSONArray results) throws JSONException {
                     newList_oldValues = new ArrayList<>();
 
-                    if (results != null) {
+                    try {
 
-                        if (!results.getJSONObject(0).has("status")) {
 
-                            if (!main.isFinishing() && main.alertDialog != null)
-                                main.alertDialog.show();
+                        if (results != null) {
 
-                            JSONObject tel_metr = results.getJSONObject(0);
+                            if (!results.getJSONObject(0).has("status")) {
 
-                            for (int i = 0; i < namesGiaApothikeusi.size(); i++)
-                                newList_oldValues.add(Utils.convertObjToString(tel_metr.get(namesGiaApothikeusi.get(i))));
+                                if (!main.isFinishing() && main.alertDialog != null)
+                                    main.alertDialog.show();
 
-                            if (bd.oldDocTV != null && tel_metr != null && tel_metr.has("docName"))
-                                bd.oldDocTV.setText(convertObjToString(tel_metr.get("docName")));
+                                JSONObject tel_metr = results.getJSONObject(0);
+
+                                for (int i = 0; i < namesGiaApothikeusi.size(); i++)
+                                    newList_oldValues.add(Utils.convertObjToString(tel_metr.get(namesGiaApothikeusi.get(i))));
+
+                                if (bd.oldDocTV != null && tel_metr != null && tel_metr.has("docName"))
+                                    bd.oldDocTV.setText(convertObjToString(tel_metr.get("docName")));
+
+                            } else {
+                                for (int i = 0; i < namesGiaApothikeusi.size(); i++)
+                                    newList_oldValues.add("");
+
+                            }
 
                         }
-
-                        else{
-                            for (int i = 0; i < namesGiaApothikeusi.size(); i++)
-                                newList_oldValues.add("");
-
-                        }
+                        //   adapter.updateOldLista(newList);
+                        getCurrentStableMeasurement();
+                        //  adapter.notifyDataSetChanged();
+                        if (!main.isFinishing() && main.alertDialog != null)
+                            main.alertDialog.dismiss();
+                    }
+                    catch (Exception e){
 
                     }
-                 //   adapter.updateOldLista(newList);
-                    getCurrentStableMeasurement();
-                  //  adapter.notifyDataSetChanged();
-                    if (!main.isFinishing() && main.alertDialog != null)
-                        main.alertDialog.dismiss();
                 }
             };
 
@@ -326,6 +340,7 @@ public class StatheresFragment extends Fragment {
             task.ctx = main;
             task.query = query;
             task.listener = new AsyncCompleteTask2() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void taskComplete2(JSONArray results) throws JSONException {
 
@@ -359,7 +374,7 @@ public class StatheresFragment extends Fragment {
                             if (bd != null) {
                                 bd.theraponIatrosTV.setText("Θεράπων ιατρός: \n " + convertObjToString(metrisi.opt("therapon_iatros")));
                                 ipefIatrosVardiasID = convertObjToString(metrisi.opt("ipefthinos_iatros_vardias"));
-                                bd.userTV.setText("Χρήστες καταχώρησης \n " + metrisi.optString("username"));
+                                bd.userTV.setText("Χρήστες καταχώρησης: \n " + metrisi.optString("username").trim());
                             }
                             main.alertDialog.dismiss();
 
@@ -441,60 +456,68 @@ public class StatheresFragment extends Fragment {
 
     private void getDoctors() {
 
-        if (Utils.isNetworkAvailable(main)) {
+        try {
 
 
-            doctorsLista.clear();
-            doctorsHashMap.clear();
-
-            String query =  Str_queries.getNefrologous(companyID);
-
-            AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-            task.ctx = main;
-            task.query = query;
-            task.listener = new AsyncCompleteTask2() {
-                @Override
-                public void taskComplete2(JSONArray results) throws JSONException {
-
-                    if (results != null) {
-
-                        doctorsLista.clear();
-                        doctorsLista.add("");
-                        doctorsHashMap.put(0, "");
+            if (Utils.isNetworkAvailable(main)) {
 
 
-                        for (int i = 0; i < results.length(); i++) {
+                doctorsLista.clear();
+                doctorsHashMap.clear();
 
-                            JSONObject doctors = results.getJSONObject(i);
-                            int id = doctors.optInt("id");
-                            String name = doctors.optString("Name");
+                String query = Str_queries.getNefrologous(companyID);
+
+                AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
+                task.ctx = main;
+                task.query = query;
+                task.listener = new AsyncCompleteTask2() {
+                    @Override
+                    public void taskComplete2(JSONArray results) throws JSONException {
+
+                        if (results != null) {
+
+                            doctorsLista.clear();
+                            doctorsLista.add("");
+                            doctorsHashMap.put(0, "");
 
 
-                            doctorsHashMap.put(id, name);
-                            doctorsLista.add(name);
+                            for (int i = 0; i < results.length(); i++) {
 
-                            //Toast.makeText(main, id + " " + name,  Toast.LENGTH_SHORT).show();
+                                JSONObject doctors = results.getJSONObject(i);
+                                int id = doctors.optInt("id");
+                                String name = doctors.optString("Name");
+
+
+                                doctorsHashMap.put(id, name);
+                                doctorsLista.add(name);
+
+                                //Toast.makeText(main, id + " " + name,  Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                            ArrayAdapter dataAdapter = new ArrayAdapter<>(main,
+                                    R.layout.spinner_layout2, doctorsLista);
+                            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            docSP.setAdapter(dataAdapter);
+
+
+                            if (ipefIatrosVardiasID != null && !ipefIatrosVardiasID.equals("")) {
+                                int spinnerPosition = dataAdapter.getPosition(doctorsHashMap.get(Integer.parseInt(ipefIatrosVardiasID)));
+                                docSP.setSelection(spinnerPosition);
+                            }
 
                         }
-
-
-                        ArrayAdapter dataAdapter = new ArrayAdapter<>(main,
-                                R.layout.spinner_layout2, doctorsLista);
-                        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        docSP.setAdapter(dataAdapter);
-
-
-                        if (ipefIatrosVardiasID != null && !ipefIatrosVardiasID.equals("")) {
-                            int spinnerPosition = dataAdapter.getPosition(doctorsHashMap.get(Integer.parseInt(ipefIatrosVardiasID)));
-                            docSP.setSelection(spinnerPosition);
-                        }
-
                     }
-                }
-            };
+                };
 
-            task.execute();
+                task.execute();
 
+            }
+        }
+
+        catch (Exception e){
+           // Toast.makeText(, "", Toast.LENGTH_SHORT).show();e.getMessage();
         }
     }
 

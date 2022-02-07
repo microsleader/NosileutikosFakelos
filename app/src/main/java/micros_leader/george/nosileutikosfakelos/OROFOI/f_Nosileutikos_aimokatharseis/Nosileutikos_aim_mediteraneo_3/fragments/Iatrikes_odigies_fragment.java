@@ -20,6 +20,7 @@ import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.BasicRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.Customers;
+import micros_leader.george.nosileutikosfakelos.GridLayoutManagerWrapper;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim;
@@ -76,7 +77,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
         bd.instructionsRV.setHasFixedSize(true);
         bd.instructionsRV.setNestedScrollingEnabled(false);
 
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManagerWrapper manager = new GridLayoutManagerWrapper(getContext(), 2);
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -210,6 +211,10 @@ public class Iatrikes_odigies_fragment extends Fragment  {
 
             }
 
+            else
+                adapter.updateLista(newList);
+
+
 
 
             main.alertDialog.dismiss();
@@ -226,7 +231,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
 
 
 
-    String getAggiakiProspelasi(int id){
+    public static String getAggiakiProspelasi(int id){
         switch (id) {
             case 1: return "AVF";
             case 2: return  "AVF ΑΡ";

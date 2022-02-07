@@ -3,6 +3,12 @@
 
 
     <item
+        android:id="@+id/prepairPatients"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/prepairPatients"/>
+
+
+    <item
         android:id="@+id/notifications"
         android:icon="@drawable/ic_os_notification_fallback_white_24dp"
         android:title="@string/patients_notification"/>

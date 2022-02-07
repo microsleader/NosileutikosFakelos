@@ -18,12 +18,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.PrintReport;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.BasicRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Zotika_simeia.Zotika_simeia_Activity;
 import micros_leader.george.nosileutikosfakelos.R;
+import micros_leader.george.nosileutikosfakelos.ReportIDs;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
@@ -64,6 +66,7 @@ public class Zotika_Activity_Meth extends BasicActivity {
             extendedAct = this;
         neaEgrafiListener();
         table = "Nursing_Zotika_Simeia_Meth";
+        thereIsImagePrinterButton(ReportIDs.ZOTIKA_SIMEIA_FLOOR_AND_METH, PrintReport.ReportParams.TRANSGROUP_ID_AND_DATE_STR);
         //timeListener();
         diagramButtonListener();
 
@@ -134,7 +137,7 @@ public class Zotika_Activity_Meth extends BasicActivity {
                         false,
                         false,
                         true);
-
+                in.putExtra("watchID_as_simpleSpinner",true);
 
                 extendedAct.startActivity(in);
             }
@@ -151,8 +154,9 @@ public class Zotika_Activity_Meth extends BasicActivity {
             public void onClick(View v) {
                 weHaveData = false;
                 id = "";
-                clearListaAdaptor(listaAdaptor);
-                adapterRV.notifyDataSetChanged();
+                //clearListaAdaptor(listaAdaptor);
+
+                adapterRV.updateLista(getZotika24oroAnaOraLista_Meth(true));
 
                 Toast.makeText(extendedAct, "Μπορείτε να κάνετε μία νέα εγγραφη", Toast.LENGTH_SHORT).show();
             }
@@ -222,7 +226,11 @@ public class Zotika_Activity_Meth extends BasicActivity {
     }
 
 
-
+    @Override
+    public void printerListener(int reportID, PrintReport.ReportParams repParam) {
+        dateStr = dateTV.getText().toString();
+        super.printerListener(reportID, repParam);
+    }
 
     static class ZotikaRV_adapter extends BasicRV {
 

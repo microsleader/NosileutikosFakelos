@@ -4,15 +4,12 @@ import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFilad
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHIMERINO_ZIGISMA;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ISOZIGIO_METH;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.NEURIKI_AKSIOLOGISI;
-import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_KALLIERGIES;
+import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_PAROXETEUSEIS;
 
-
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -21,24 +18,22 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity;
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_kalliergies_Meth_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
 import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Kathimerino_zigisma.Kathimerino_Zigisma_Activity;
-import micros_leader.george.nosileutikosfakelos.databinding.ActivityNeurikiAksiologisi3Binding;
 
 
-public class MainFragment extends Fragment {
+public class SigxoneusiFragment extends Fragment {
 
     View view;
     SigxoneusiFiladiwnActivity parentAct;
     Bundle bundle;
     SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS filladio;
 
-    public MainFragment() {
+    public SigxoneusiFragment() {
 
     }
 
@@ -59,7 +54,7 @@ public class MainFragment extends Fragment {
             view =  inflater.inflate(R.layout.activity_isozigio__meth_, container, false);
         else if (filladio == NEURIKI_AKSIOLOGISI)
             view =  inflater.inflate(R.layout.activity_neuriki_aksiologisi3, container, false);
-        else if (filladio == KATHETIRES_KALLIERGIES)
+        else if (filladio == KATHETIRES_PAROXETEUSEIS)
             view =  inflater.inflate(R.layout.activity_kathetires_kalliergies_meth, container, false);
 
 
@@ -81,8 +76,8 @@ public class MainFragment extends Fragment {
             run_isozigio_meth();
         else if (filladio == NEURIKI_AKSIOLOGISI)
             run_neuriki_aksiologisi();
-        else if (filladio == KATHETIRES_KALLIERGIES)
-            run_kathetires_kalliergies();
+        else if (filladio == KATHETIRES_PAROXETEUSEIS)
+            run_kathetires_paroxeteuseis();
 
 
     }
@@ -152,11 +147,13 @@ public class MainFragment extends Fragment {
 
         act.floorSP = view.findViewById(R.id.floorsSP);
         act.patientsTV = view.findViewById(R.id.patientsTV);
-        act.timeTV = view.findViewById(R.id.timeTV);
         act.fabMenu = view.findViewById(R.id.fabMenu);
         act.recyclerView = view.findViewById(R.id.isozigioRV);
         act.neaEggrafiBT = view.findViewById(R.id.neaEggrafiBT);
-
+        act.dateTV = view.findViewById(R.id.dateTV);
+        act.timeTV = view.findViewById(R.id.timeTV);
+        act.thereIsDatePicker(R.id.dateTV);
+        act.thereIsTimePicker(R.id.timeTV);
         act.total_pros = view.findViewById(R.id.total_pros);
         act.total_apov = view.findViewById(R.id.total_apov);
         act.total_isozigio = view.findViewById(R.id.total_isozigio);
@@ -252,8 +249,8 @@ public class MainFragment extends Fragment {
     }
 
 
-    private void run_kathetires_kalliergies() {
-        Kathetires_kalliergies_Meth_Activity  act = new Kathetires_kalliergies_Meth_Activity();
+    private void run_kathetires_paroxeteuseis() {
+        Kathetires_paroxeteuseis_Activity act = new Kathetires_paroxeteuseis_Activity();
 
         act.floorSP = view.findViewById(R.id.floorsSP);
         act.patientsTV = view.findViewById(R.id.patientsTV);
