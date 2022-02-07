@@ -33,6 +33,7 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.IMedLista;
 import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentMedicineCloseListener;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_karta_xorigisis_farmakon.Medicines;
 import micros_leader.george.nosileutikosfakelos.R;
+import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 
 public class DF_SearchMultiLookup extends DialogFragment implements IMedLista , MyDialogFragmentMedicineCloseListener {
 
@@ -50,6 +51,7 @@ public class DF_SearchMultiLookup extends DialogFragment implements IMedLista , 
     private final Handler handler = new Handler();
     private AsyncTaskSearchMedicine task;
     ItemsRV itemsRV;
+    TableViewItem tableViewItem;
     SearchMedicineAdapter adapter;
 
     private final Runnable r = new Runnable() {
@@ -69,6 +71,13 @@ public class DF_SearchMultiLookup extends DialogFragment implements IMedLista , 
         this.idsNames = idsNames;
     }
 
+
+    public DF_SearchMultiLookup(Activity act, TextView basicRV_TV, TableViewItem tableViewItem, String[] idsNames) {
+        this.act = act;
+        this.basicRV_TV = basicRV_TV;
+        this.tableViewItem = tableViewItem;
+        this.idsNames = idsNames;
+    }
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -214,8 +223,15 @@ public class DF_SearchMultiLookup extends DialogFragment implements IMedLista , 
             idsNames.add(med.trim());
         }
 
+
+
         basicRV_TV.setText(idsNames.toString());
-        itemsRV.setValue(ids.toString().replace(",","\ufffd"));
+        if (itemsRV != null)
+            itemsRV.setValue(ids.toString().replace(",","\ufffd"));
+        else
+            tableViewItem.setValue(ids.toString().replace(",","\ufffd"));
+
+
         //ΑΝ ΕΙΝΑΙ ΠΑΝΩ ΑΠΟ 3 ΦΑΡΜΑΚΑ ΝΑ ΦΕΡΝΕΙ ΜΟΝΟ ΤΑ IDS , ΤΟ ΚΑΝΩ ΑΥΤΟ ΓΙΑ ΤΟΝ ΧΩΡΟ ΤΟΥ TEXTVIEW
 //        if (savedMeds.size() > 3)
 //            basicRV_TV.setText(ids.toString());

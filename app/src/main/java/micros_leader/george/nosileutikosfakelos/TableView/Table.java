@@ -57,6 +57,7 @@ import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskDelete;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
+import micros_leader.george.nosileutikosfakelos.DialogFragmentSearches.DF_SearchMultiLookup;
 import micros_leader.george.nosileutikosfakelos.DialogFragmentSearches.DF_items_categories;
 import micros_leader.george.nosileutikosfakelos.Dialogs;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
@@ -72,6 +73,7 @@ import micros_leader.george.nosileutikosfakelos.OROFOI.f_Diaitologio.Diaitologio
 import micros_leader.george.nosileutikosfakelos.Permissions;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Spinner_new_Image_Adapter;
+import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
 import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.CHECKBOX_TYPE;
@@ -86,6 +88,7 @@ import static micros_leader.george.nosileutikosfakelos.StaticFields.EDITTEXT_ITE
 import static micros_leader.george.nosileutikosfakelos.StaticFields.HOUR;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.KEIMENO;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.MULTI_TYPE;
+import static micros_leader.george.nosileutikosfakelos.StaticFields.MULTI_TYPE_LOOKUP;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TABLE_NO_ELEMENT;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TABLE_NO_TYPE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TABLE_TYPE_LISTENER;
@@ -98,6 +101,7 @@ import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_MED
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_PHOTO;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_VALUE_FROM_VIEW;
 import static micros_leader.george.nosileutikosfakelos.Utils.convertObjToString;
+import static micros_leader.george.nosileutikosfakelos.Utils.getcompanyID;
 
 public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogFragmentMedicineCloseListener, AsyncGetDelete , DataSended_str {
 
@@ -746,6 +750,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                     row.addView(infoTV);
                                 }
 
+                                else if (typeElement == MULTI_TYPE_LOOKUP) {
+                                    infoTV = getTextViewMultiChoice(lp, value, colIndex, rowIndex, sameUser);
+                                    row.addView(infoTV);
+                                }
+
                                 else if (typeElement == TEXTVIEW_DIETA_TYPE) {
                                     infoTV = getTextviewDieta(lp, value, colIndex, rowIndex, sameUser);
                                     row.addView(infoTV);
@@ -1300,6 +1309,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                     row.addView(infoTV);
                                 }
 
+                                 else if (typeElement == MULTI_TYPE_LOOKUP) {
+                                     infoTV = getTextViewMultiChoice(lp, value, colIndex, rowIndex, sameUser);
+                                     row.addView(infoTV);
+                                 }
+
 
                                  else  if (typeElement == TEXTVIEW_DIETA_TYPE ){
                                     infoTV = getTextviewDieta(lp, value, rowIndex, colIndex ,sameUser);
@@ -1475,6 +1489,12 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         }
 
+
+
+        else if (typeElement == MULTI_TYPE_LOOKUP){
+            infoTV = getTextViewMultiChoice(lp, value, rowIndex, colIndex ,sameUser);
+            row.addView(infoTV);
+        }
 
     }
 
@@ -2190,6 +2210,77 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
 
+    private TextView getTextViewMultiChoice(TableRow.LayoutParams lp, String value,final int positionRow, final int indexOfColumn, boolean sameUser){
+        final TextView tv = getTextview(lp,value);
+        tv.setTextSize(10);
+        String lookup = tableViewArraylist.get(indexOfColumn).getLookup_query();
+
+        String meds_ids = value.replace("\ufffd", ",");
+
+
+        //ΑΠΟ ΤΗΝ ΒΑΣΗ
+        if (value != null && !value.isEmpty()){
+            AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2(Str_queries.setglobals(currentUser,"2",getcompanyID(act))  +
+                    " \n select id, name from " + lookup + " where id in (" + meds_ids + ")" );
+            task.ctx = act;
+            task.listener = new AsyncCompleteTask2() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void taskComplete2(JSONArray results) throws JSONException {
+                    if (results != null && !results.getJSONObject(0).has("status")) {
+                        //ΑΝ ΕΧΕΙ ΜΟΝΟ ΕΝΑ ΦΑΡΜΑΚΟ ΝΑ ΦΑΙΝΕΤΑΙ Η ΟΝΟΜΑΣΙΑ ΤΟΥ ΔΙΑΦΟΡΕΤΙΚΑ ΤΑ ID ΤΩΝ  ΦΑΡΜΚΑΝΩΝ
+                        StringJoiner s = new StringJoiner("\n");
+                        for (int i = 0; i < results.length(); i++) {
+                            JSONObject jsonObject = results.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String name = jsonObject.getString("name");
+                            s.add(id + " , " + name);
+                        }
+
+                        tv.setText(s.toString());
+                    }
+                }
+
+            };
+            task.execute();
+        }
+
+        if (sameUser) {
+            tv.setBackgroundResource(R.color.light_green);
+            if (isEditable) {
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Utils.isNetworkAvailable2(act)) {
+                            String [] idsNames = tv.getText().toString().split("\n");
+
+                            //ΤΟΥ ΠΕΡΝΑΩ ΚΑΙ ΤΟ ΑΝΤΙΚΕΙΜΕΝΟ ΩΣΤΕ ΜΕΣΑ ΑΠΟ ΤΟΝ ΛΙΣΕΝΕΡ ΝΑ ΤΟΥ ΠΕΡΝΑΩ ΤΗΝ ΚΑΙΝΟΥΡΙΑ ΤΙΜΗ ΜΕ ΤΑ IDS
+                            DF_SearchMultiLookup df = new DF_SearchMultiLookup(act, tv, tableViewArraylist.get(indexOfColumn) ,idsNames);
+                            df.show(((FragmentActivity) act).getSupportFragmentManager(), "Dialog");
+                        }
+                    }
+                });
+
+                //  tv.setOnClickListener(new SearchMedicineListener_Base(act));
+            }
+
+
+//            textView.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    currentTextView = textView;
+//                    currentTableFR = true;
+//                    currentPosRow = positionRow;
+//                    currentIndexOfCol = indexOfColumn;
+//                    return false;
+//                }
+//            });
+
+
+        }
+
+        return tv;
+    }
 
 
     @SuppressLint("SetTextI18n")

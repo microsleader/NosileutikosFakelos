@@ -3557,7 +3557,9 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new TableViewItem("UserID","UserID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Χρήστης","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Ημ/νία Εναρξης","dateStart", TEXTVIEW_DATE_TYPE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Φάρμακα","itemID", TEXTVIEW_MEDICINE_TYPE, TABLE_NO_TYPE));
+        //lista.add(new TableViewItem("Φάρμακα","itemID", TEXTVIEW_MEDICINE_TYPE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Φάρμακα", "itemID",  MULTI_TYPE_LOOKUP, "medicine"));
+
         if (!isOroi)
             lista.add(new TableViewItem("Κατηγορία","category", SPINNER_TYPE_NEW, Spinner_items_lists.getTypeMedicine()));
         lista.add(new TableViewItem("ML/ώρα","ml_hour", EDIT_TEXT_TYPE, KEIMENO));
