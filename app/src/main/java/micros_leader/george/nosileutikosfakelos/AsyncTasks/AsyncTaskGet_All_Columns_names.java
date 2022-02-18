@@ -30,6 +30,7 @@ public class AsyncTaskGet_All_Columns_names extends AsyncTask<String, Void, JSON
     public AsyncGet_All_Column_Names listener = null;
     public JSONArray JArray;
     public String URL ;
+    private Response response;
 
 
 
@@ -64,7 +65,7 @@ public class AsyncTaskGet_All_Columns_names extends AsyncTask<String, Void, JSON
         JSONObject Jobject = null;
         try {
 
-            Response response = client.newCall(request).execute();
+            response = client.newCall(request).execute();
             String jsonData = response.body().string();
 
 
@@ -78,12 +79,15 @@ public class AsyncTaskGet_All_Columns_names extends AsyncTask<String, Void, JSON
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                closeResponse();
+
             }
 
 
 
         } catch (IOException e) {
             e.printStackTrace();
+            closeResponse();
 
         }
 
@@ -94,6 +98,7 @@ public class AsyncTaskGet_All_Columns_names extends AsyncTask<String, Void, JSON
     @Override
     protected void onPostExecute(JSONArray result) {
 
+        closeResponse();
 
 //        Log.e("results", result.toString());
 
@@ -131,5 +136,13 @@ public class AsyncTaskGet_All_Columns_names extends AsyncTask<String, Void, JSON
             }
         }
 
+
+
+        private void closeResponse(){
+            if (response != null) {
+                response.body().close();
+                response.close();
+            }
+        }
     }
 

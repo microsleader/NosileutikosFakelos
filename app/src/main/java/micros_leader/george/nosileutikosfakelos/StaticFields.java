@@ -8,6 +8,8 @@ public class StaticFields {
     public static final int TEXTVIEW_ITEM_READ_ONLY_VALUE = 5;
     public static final int TEXTVIEW_VALUE_FROM_VIEW = 20;
     public static final int TEXTVIEW_MEDICINE_TYPE = 38;
+    public static final int TEXTVIEW_SELECT_HOURS_TYPE = 832;
+
     public static final int TEXTVIEW_DATE_TYPE = 120;
     public static final int TEXTVIEW_DATETIME_TYPE = 138;
     public static final int TEXTVIEW_CLOCK_TYPE = 8;

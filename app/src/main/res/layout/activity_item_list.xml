@@ -13,116 +13,118 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Κάρτα χορήγησης φαρμάκων" />
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout17"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
-
-        <Spinner
-            android:id="@+id/floorsSP"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/spinner_layout" />
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Κάρτα χορήγησης φαρμάκων" />
 
-        <TextView
-            android:id="@+id/patientsTV"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/linearLayout17"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/edittext_shape"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+            <Spinner
+                android:id="@+id/floorsSP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_layout" />
+
+            <TextView
+                android:id="@+id/patientsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_shape"
+                android:gravity="center"
+                android:text="patients"
+                android:textAlignment="center"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/buttonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
             android:gravity="center"
-            android:text="patients"
-            android:textAlignment="center"
-            android:textSize="18sp" />
+            android:orientation="horizontal"
+            android:weightSum="4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout17">
+
+            <Button
+                android:id="@+id/medicinesBT"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+                android:text="Καταχωρηση φαρμακων" />
 
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/oroiBT"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+                android:text="Καταχωρηση ορών" />
 
-    <LinearLayout
-        android:id="@+id/buttonsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:weightSum="4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout17">
+            <Button
+                android:id="@+id/medicinesHoursBT"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="Καταχωρηση σε ώρες"
+                style="?android:attr/buttonBarButtonStyle" />
 
-        <Button
-            android:id="@+id/medicinesBT"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            <Button
+                android:id="@+id/medicinesDisplayHoursBT"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginEnd="22dp"
+                android:layout_height="wrap_content"
+                android:text="Προβολη\n ειδων / ωρων" />
+
+        </LinearLayout>
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="22dp"
-            android:text="Καταχωρηση φαρμακων" />
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonsLayout">
 
+        </androidx.fragment.app.FragmentContainerView>
 
-        <Button
-            android:id="@+id/oroiBT"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="22dp"
-            android:text="Καταχωρηση ορών" />
-
-        <Button
-            android:id="@+id/medicinesHoursBT"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="22dp"
-            android:layout_height="wrap_content"
-            android:text="Καταχωρηση σε ώρες" />
-
-        <Button
-            android:id="@+id/medicinesDisplayHoursBT"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="22dp"
-            android:layout_height="wrap_content"
-            android:text="Προβολη\n ειδων / ωρων" />
-
-    </LinearLayout>
-
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/toolbar"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonsLayout">
-
-    </androidx.fragment.app.FragmentContainerView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 
 

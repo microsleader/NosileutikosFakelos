@@ -64,6 +64,7 @@ public class Frontis {
             lista.add(new ItemsRV("Ροή διαλύματος (ml/min)", "roi_dialima", "",  EDITTEXT_ITEM,DEKADIKOS));
             lista.add(new ItemsRV("Διάλυμα - είδος", "dialima",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_dialima"));
             lista.add(new ItemsRV("Αγωγιμότητα (mmol/L)", "agogimotita", "", EDITTEXT_ITEM,DEKADIKOS));
+            lista.add(new ItemsRV("Προφίλ UF", "profile_uf", "", EDITTEXT_ITEM,DEKADIKOS));
             lista.add(new ItemsRV("Διττανθρακικά", "Dittanthrakika", "", EDITTEXT_ITEM,DEKADIKOS));
             lista.add(new ItemsRV("Θερμοκρασία", "temparture", "", EDITTEXT_ITEM,DEKADIKOS));
             lista.add(new ItemsRV("Paricalcitol i.v", "Paracalcitol", "", EDITTEXT_ITEM,KEIMENO));
@@ -92,6 +93,7 @@ public class Frontis {
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 1", "embolio_covid", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 2", "embolio_covid2", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 3", "embolio_covid3", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 4", "embolio_covid4", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβόλιο πνευμονιόκοκου", "embolio_pneum", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Άλλα εμβόλια", "other_vac", "", EDITTEXT_ITEM,KEIMENO));
 
@@ -123,6 +125,7 @@ public class Frontis {
             lista.add(new ItemsRV("Ροή διαλύματος (ml/min)", "roi_dialima", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Διάλυμα - είδος", "dialeimaName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Αγωγιμότητα (mmol/L)", "agogimotita", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Προφίλ UF", "profile_uf", "",TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Διττανθρακικά", "Dittanthrakika", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Θερμοκρασία", "temparture", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Paricalcitol i.v", "Paracalcitol", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
@@ -152,6 +155,7 @@ public class Frontis {
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 1", "embolio_covid", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 2", "embolio_covid2", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβ.covid 19 δόση 3", "embolio_covid3", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 4", "embolio_covid4", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Εμβόλιο πνευμονιόκοκου", "embolio_pneum", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
             lista.add(new ItemsRV("Άλλα εμβόλια", "other_vac", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 

@@ -568,7 +568,10 @@ public class Str_queries {
 
     public static String getFarm_agogi(int customerID, String patientID, boolean monimi_agogi) {
 
-        return " select n.* ,  \n " +
+        return " DECLARE @TODAY BIGINT = dbo.datetime2date(DBO.LOCALTIME())\n" +
+                "\n" +
+                "\n" +
+                " select n.* ,  \n " +
                 "p.lastname + ' ' + p.firstname as patientName , dbo.nameuser(n.userID) as username, dbo.nameuser(userID_stop) as username_stop, \n" +
                 " dbo.datetostr(dateStart) as datestart_str , dbo.datetostr(dateStop) as datestop_str \n" +
                 (Customers.isFrontis(customerID) ? ", dosi.name as dosi_ID_text , sixn.name as sixnotita_ID_text " : "" ) +
@@ -582,7 +585,8 @@ public class Str_queries {
                         :
                         "")+
                 " where patientID = " + patientID +
-                (monimi_agogi ? " and efapax = 1 and sinedrias is null " : " and efapax is null and sinedrias = 1 ")
+                (monimi_agogi ? " and efapax = 1 and sinedrias is null " : " and efapax is null and sinedrias = 1 ") +
+                " and (dateStop is null or  dbo.datetime2date(dateStop) >= @TODAY )"
                // " \n and (DATESTOP IS NULL OR dbo.DateTime2Date(datestop) <= dbo.DateTime2Date(dbo.localtime()) )"
 
                 ;
@@ -1774,7 +1778,9 @@ public class Str_queries {
                 : "") +
 
 
-                (Customers.isFrontis(custID) ? "dbo.datetostr(embolio_covid2) as embolio_covid2_str, dbo.datetostr(embolio_covid3) as embolio_covid3_str, \n" : "") +
+                (Customers.isFrontis(custID) ? "dbo.datetostr(embolio_covid2) as embolio_covid2_str, " +
+                        "dbo.datetostr(embolio_covid3) as embolio_covid3_str, " +
+                        "dbo.datetostr(embolio_covid4) as embolio_covid4_str, \n" : "") +
 
                 " dbo.timetostr(Duration) as durationStr,  \n" +
                 " eidos.Name as eidos,\n" +
@@ -1824,7 +1830,9 @@ public class Str_queries {
 
     public static String get_karta_xorigisis_farmakon_items(String transgroupID){
 
-       return  "select id, dbo.nameitem(itemid) as item " +
+       return
+              // "select id, dbo.nameitem(itemid) as item " +
+               "select id, itemid as item " +
             " from Nursing_xorigisi_farmakon " +
             " where transgroupID = " + transgroupID +
             " and diakopike  is null or " +
@@ -1861,34 +1869,50 @@ public class Str_queries {
     }
 
     //public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, String medicineIDs){
-    public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, int fromhour, int tohour){
+    public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, String userID, int fromhour, int tohour){
 
         // ΚΟΙΤΑΖΕΙ ΑΝ ΥΠΑΡΧΟΥΝ ΕΓΓΡΑΦΕΣ ΜΕ ΤΙς ΣΗΜΕΡΙΝΕΣ ΩΡΕΣ ΓΙΑ ΤΑ ΦΑΡΜΑΚΑ ΠΟΥ ΔΕΝ ΕΧΟΥΝ ΔΙΑΚΟΠΕΙ
         // ΑΝ ΔΕΝ ΥΠΑΡΧΟΥΝ ΚΑΝΕΙ ΑΝΤΙΓΡΑΦΗ ΤΙΣ ΩΡΕς ΤΩΝ ΦΑΡΜΑΚΩΝ ΠΟΥ ΔΕΝ ΕΧΟΥΝ ΔΙΑΚΟΠΕΙ ΓΙΑ ΤΗ ΣΗΜΕΙΡΝΗ ΜΕΡΑ ΩΣΤΕ
         // ΝΑ ΜΠΟΡΕΙ ΝΑ ΔΗΛΩΣΕΙ Ο ΝΟΣΗΛΕΥΤΗΣ ΑΝ ΕΧΕΙ ΧΟΡΗΓΗΘΕΙ ΤΟ ΦΑΡΜΑΚΟ ΓΙΑ ΚΑΘΕ ΩΡΑ
 
 
-        return "if  not  exists( " +
-                "select top 1 x.id\n" +
+//        return "if  not  exists( " +
+//                "select top 1 x.id\n" +
+//                " from Nursing_ores_xorigisis x \n" +
+//                " left join Nursing_xorigisi_farmakon n on n.ID = x.xorigisiID \n" +
+//                " where dbo.datetostr(x.date) = dbo.datetostr(dbo.timeToNum(CONVERT(datetime, GETDATE() , 103)))\n " +
+//                " and n.transgroupID = " + transgroupID +
+//                ") " +
+
+        return
+
+                "if not  exists( \n" +
+                " select top 1 x.id\n" +
                 " from Nursing_ores_xorigisis x \n" +
                 " left join Nursing_xorigisi_farmakon n on n.ID = x.xorigisiID \n" +
                 " where dbo.datetostr(x.date) = dbo.datetostr(dbo.timeToNum(CONVERT(datetime, GETDATE() , 103)))\n " +
+                " and n.diakopike is null \n" +
                 " and n.transgroupID = " + transgroupID +
-                ") " +
-                "INSERT INTO Nursing_ores_xorigisis (date,xorigisiid,hour) \n " +
-                " SELECT (dbo.timeToNum(CONVERT(datetime, GETDATE() , 103))) , xorigisiid,hour \n" +
+                " ) \n" +
+                "BEGIN \n " +
+                "INSERT INTO Nursing_ores_xorigisis (date,xorigisiID, hourID , hour, userID , remarks ) \n " +
+                " SELECT (dbo.timeToNum(CONVERT(datetime, GETDATE() , 103))) , xorigisiID, hourID, hour , " + userID + " ,remarks  \n" +
                 " from Nursing_ores_xorigisis n    \n " +
                 " left join Nursing_xorigisi_farmakon f on f.ID = n.xorigisiID   \n  " +
                 " where f.diakopike is null  \n" +
                 " and transgroupid =   " + transgroupID +
+                "\n" +
+                "END \n" +
 
                 " select x.ID, dbo.timetostr(x.hour) as hourstr,\n " +
                 " x.UserID, dbo.NAMEUSER(x.userid) as username ,\n" +
-                " n.ml_hour, n.odos_xorigisis, n.ogkos, n.dosologia,\n" +
+                " n.ml_hour, xor.name as odos_xorigisis, dial.name as dialitis, n.ogkos, n.dosologia,\n" +
                 " x.xorigithike, x.remarks, \n" +
-                " dbo.nameitem(n.itemid) as item\n" +
+                " dbo.nameitems(n.itemid) as item\n" +
                 " from Nursing_ores_xorigisis x \n" +
                 " left join Nursing_xorigisi_farmakon n on n.ID = x.xorigisiID \n" +
+                " left join Nursing_odoi_xorigisis xor on xor.id = n.odos_xorigisisid\n" +
+                " left join Nursing_dialites dial on dial.id = n.dialitisID \n" +
                 " where n.TransGroupID = "  +  transgroupID +
                 " and hour >= " + Utils.convertHourTomillisecondsGR(fromhour) +
                 " and hour <= " + Utils.convertHourTomillisecondsGR(tohour) +

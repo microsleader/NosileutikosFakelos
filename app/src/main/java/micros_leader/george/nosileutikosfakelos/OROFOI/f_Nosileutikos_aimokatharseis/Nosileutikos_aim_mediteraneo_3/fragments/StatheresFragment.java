@@ -44,6 +44,7 @@ import micros_leader.george.nosileutikosfakelos.databinding.FragmentStatheresBin
 
 import static micros_leader.george.nosileutikosfakelos.BasicActivity.isHeader;
 import static micros_leader.george.nosileutikosfakelos.Utils.convertObjToString;
+import static micros_leader.george.nosileutikosfakelos.Utils.getCustomerID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,6 +64,7 @@ public class StatheresFragment extends Fragment {
     private Map<Integer, String> doctorsHashMap = new HashMap<>();
     private ArrayList <String> newList_oldValues ;
     private FragmentStatheresBinding bd;
+    private boolean firsttime = true;
 
     public StatheresFragment() {
         // Required empty public constructor
@@ -123,7 +125,13 @@ public class StatheresFragment extends Fragment {
 
                 getOldTeleutaiesMetriseis();
 
-                allergiesListener();
+                if (Customers.isFrontis(main.custID))
+                    bd.allergiesBT.setVisibility(View.INVISIBLE);
+                else{
+                    bd.allergiesBT.setVisibility(View.VISIBLE);
+                    allergiesListener();
+                }
+
 
             }
         }
@@ -267,6 +275,16 @@ public class StatheresFragment extends Fragment {
 
 
     public void getOldTeleutaiesMetriseis() {
+
+        ArrayList<ItemsRV> emptyList = statheresLista();
+        adapter.updateLista(emptyList);
+        if (newList_oldValues != null ){
+            for (int i = 0; i < newList_oldValues.size(); i++) {
+                newList_oldValues.set(i, "");
+            }
+            adapter.updateOldLista(newList_oldValues);
+        }
+
 
         if (Utils.isNetworkAvailable(main)) {
 

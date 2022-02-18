@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.StringJoiner;
 
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskSearchMedicine;
@@ -53,6 +54,10 @@ public class DF_SearchMultiLookup extends DialogFragment implements IMedLista , 
     ItemsRV itemsRV;
     TableViewItem tableViewItem;
     SearchMedicineAdapter adapter;
+    HashMap<Integer, ArrayList<String>> valuesMap; ArrayList<String> valuesLista;
+    int indexOfColumn;
+    int positionRow;
+
 
     private final Runnable r = new Runnable() {
         @Override
@@ -72,11 +77,15 @@ public class DF_SearchMultiLookup extends DialogFragment implements IMedLista , 
     }
 
 
-    public DF_SearchMultiLookup(Activity act, TextView basicRV_TV, TableViewItem tableViewItem, String[] idsNames) {
+
+    public DF_SearchMultiLookup(Activity act, TextView tv, HashMap<Integer, ArrayList<String>> valuesMap, ArrayList<String> valuesLista, int indexOfColumn, int positionRow, String[] idsNames) {
         this.act = act;
-        this.basicRV_TV = basicRV_TV;
-        this.tableViewItem = tableViewItem;
+        this.basicRV_TV = tv;
+        this.valuesMap = valuesMap;
+        this.valuesLista = valuesLista;
         this.idsNames = idsNames;
+        this.indexOfColumn = indexOfColumn;
+        this.positionRow = positionRow;
     }
 
     @Override
@@ -219,17 +228,23 @@ public class DF_SearchMultiLookup extends DialogFragment implements IMedLista , 
         StringJoiner ids = new StringJoiner(",");
         StringJoiner idsNames = new StringJoiner("\n");
         for (String med : savedMeds) {
-            ids.add(med.split(",")[0].trim());
-            idsNames.add(med.trim());
+            if (!med.trim().isEmpty()) {
+                ids.add(med.split(",")[0].trim());
+                idsNames.add(med.trim());
+            }
         }
 
 
 
         basicRV_TV.setText(idsNames.toString());
+
         if (itemsRV != null)
             itemsRV.setValue(ids.toString().replace(",","\ufffd"));
-        else
-            tableViewItem.setValue(ids.toString().replace(",","\ufffd"));
+        else{
+//            tableViewItem.setValue(ids.toString().replace(",","\ufffd"));
+            valuesLista.set(indexOfColumn, ids.toString().replace(",","\ufffd"));
+            valuesMap.put(positionRow, valuesLista);
+        }
 
 
         //ΑΝ ΕΙΝΑΙ ΠΑΝΩ ΑΠΟ 3 ΦΑΡΜΑΚΑ ΝΑ ΦΕΡΝΕΙ ΜΟΝΟ ΤΑ IDS , ΤΟ ΚΑΝΩ ΑΥΤΟ ΓΙΑ ΤΟΝ ΧΩΡΟ ΤΟΥ TEXTVIEW

@@ -37,6 +37,7 @@ public class AsyncTaskGetJSON extends AsyncTask<String, Void, JSONArray> {
     public AsyncCompleteTask listener = null;
     public JSONArray JArray;
     public String URL ;
+    private Response response;
 
 
 
@@ -72,7 +73,7 @@ public class AsyncTaskGetJSON extends AsyncTask<String, Void, JSONArray> {
         JSONObject Jobject = null;
         try {
 
-            Response response = client.newCall(request).execute();
+            response = client.newCall(request).execute();
             String jsonData = response.body().string();
 
 
@@ -86,12 +87,15 @@ public class AsyncTaskGetJSON extends AsyncTask<String, Void, JSONArray> {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                closeResponse();
+
             }
 
 
 
         } catch (IOException e) {
             e.printStackTrace();
+            closeResponse();
 
         }
 
@@ -102,6 +106,7 @@ public class AsyncTaskGetJSON extends AsyncTask<String, Void, JSONArray> {
     @Override
     protected void onPostExecute(JSONArray result) {
 
+        closeResponse();
 
 //        Log.e("results", result.toString());
 
@@ -142,5 +147,13 @@ public class AsyncTaskGetJSON extends AsyncTask<String, Void, JSONArray> {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void closeResponse(){
+        if (response != null) {
+            response.body().close();
+            response.close();
         }
+    }
+
     }

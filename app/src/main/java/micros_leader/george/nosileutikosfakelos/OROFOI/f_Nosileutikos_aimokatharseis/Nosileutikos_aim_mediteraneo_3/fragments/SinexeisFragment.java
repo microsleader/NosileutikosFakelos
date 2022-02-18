@@ -182,6 +182,18 @@ public class SinexeisFragment extends Fragment {
 
     public void getTeleutaiaMetrisi(boolean emptyMainList) {
 
+        ArrayList<String> emptyList = new ArrayList<>();
+
+        adapter.updateLista(emptyList);
+
+        if (namesGiaApothikeusi != null ){
+            for (int i = 0; i < namesGiaApothikeusi.size(); i++)
+                emptyList.add("");
+            adapter.updateOldLista(emptyList);
+        }
+
+
+
         if (Utils.isNetworkAvailable2(main)) {
 
             String code = Utils.getfirstPartSplitCommaString(main.bd.patientsTV.getText().toString());

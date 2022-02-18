@@ -33,6 +33,7 @@ public class AsyncTaskSearchMedicine extends AsyncTask<String, Void, JSONArray> 
     private HashMap<String, Integer> medicinesMap = new HashMap();
     private JSONArray JArray;
     private String URL ,MED_TEXT;
+    private Response response;
 
 
     public AsyncTaskSearchMedicine(DialogFragment df , String MED_TEXT){
@@ -86,7 +87,7 @@ public class AsyncTaskSearchMedicine extends AsyncTask<String, Void, JSONArray> 
             JSONObject Jobject = null;
             try {
 
-                Response response = client.newCall(request).execute();
+                response = client.newCall(request).execute();
                 String jsonData = response.body().string();
 
 
@@ -101,13 +102,14 @@ public class AsyncTaskSearchMedicine extends AsyncTask<String, Void, JSONArray> 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    closeResponse();
                 }
 
 
             } catch (IOException e) {
 
                 e.printStackTrace();
-
+                closeResponse();
             }
 
 
@@ -119,6 +121,7 @@ public class AsyncTaskSearchMedicine extends AsyncTask<String, Void, JSONArray> 
     protected void onPostExecute(JSONArray result) {
 
 
+        closeResponse();
 //        Log.e("results", result.toString());
 
         if (!(result == null)) {
@@ -169,4 +172,10 @@ public class AsyncTaskSearchMedicine extends AsyncTask<String, Void, JSONArray> 
         }
     }
 
+    private void closeResponse(){
+        if (response != null) {
+            response.body().close();
+            response.close();
+        }
+    }
 }

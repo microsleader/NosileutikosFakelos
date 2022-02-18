@@ -37,7 +37,7 @@ public class AsyncTaskGetCurrentMetrisi extends AsyncTask<String, Void, JSONArra
 
     public JSONArray JArray;
     public String URL ;
-
+    private Response response;
 
 
     @Override
@@ -71,7 +71,7 @@ public class AsyncTaskGetCurrentMetrisi extends AsyncTask<String, Void, JSONArra
         JSONObject Jobject = null;
         try {
 
-            Response response = client.newCall(request).execute();
+            response = client.newCall(request).execute();
             String jsonData = response.body().string();
 
 
@@ -85,13 +85,14 @@ public class AsyncTaskGetCurrentMetrisi extends AsyncTask<String, Void, JSONArra
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                closeResponse();
             }
 
 
 
         } catch (IOException e) {
             e.printStackTrace();
-
+            closeResponse();
         }
 
 
@@ -102,6 +103,7 @@ public class AsyncTaskGetCurrentMetrisi extends AsyncTask<String, Void, JSONArra
     protected void onPostExecute(JSONArray result) {
 
 
+        closeResponse();
 //        Log.e("results", result.toString());
 
         if (!(result == null)) {
@@ -122,6 +124,14 @@ public class AsyncTaskGetCurrentMetrisi extends AsyncTask<String, Void, JSONArra
                 e.printStackTrace();
             }
 
+        }
+    }
+
+
+    private void closeResponse(){
+        if (response != null) {
+            response.body().close();
+            response.close();
         }
     }
 }

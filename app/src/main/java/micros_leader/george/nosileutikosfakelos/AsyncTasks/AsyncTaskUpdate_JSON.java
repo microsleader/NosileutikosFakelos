@@ -30,6 +30,7 @@ public class AsyncTaskUpdate_JSON extends AsyncTask<String, Void, String> {
     public ArrayList <String> names, values;
     public String names_col[];
     private String [] ekseresiPedion;
+    private Response response;
 
     String data ;
 
@@ -202,7 +203,7 @@ public class AsyncTaskUpdate_JSON extends AsyncTask<String, Void, String> {
 
         try {
 
-            Response response = client.newCall(request).execute();
+            response = client.newCall(request).execute();
             String jsonData = response.body().string();
             if (jsonData.equals(""))
                 data = "";
@@ -213,6 +214,7 @@ public class AsyncTaskUpdate_JSON extends AsyncTask<String, Void, String> {
 
         } catch (IOException e) {
             e.printStackTrace();
+            closeResponse();
 
         }
 
@@ -223,7 +225,10 @@ public class AsyncTaskUpdate_JSON extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String str) {
 
+        closeResponse();
         try {
+
+
 
             if ((str != null && str.equals(""))  ||  (str != null && str.contains("ID"))) {
 
@@ -256,4 +261,10 @@ public class AsyncTaskUpdate_JSON extends AsyncTask<String, Void, String> {
 
     }
 
+    private void closeResponse(){
+        if (response != null) {
+            response.body().close();
+            response.close();
+        }
+    }
 }

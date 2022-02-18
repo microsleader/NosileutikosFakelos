@@ -70,7 +70,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
         getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
         medicinesBTListener();
         oroiBTListener();
-        medicinesBTSetHoursListener();
+        //medicinesBTSetHoursListener();
         medicinesBTDisplayHoursListener();
         alertDialog.dismiss();
     }
@@ -262,7 +262,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
     //private void medicines_display_hours (String medicineIDS){
     private void medicines_display_hours (){
 
-        bundle1  = tableView_sigkentrotika_dialogFragment(Str_queries.getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, FROM_HOUR,TO_HOUR),
+        bundle1  = tableView_sigkentrotika_dialogFragment(Str_queries.getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, userID, FROM_HOUR,TO_HOUR),
                 null,
                // new String[]{"ID","Χρήστης","Είδος","Ωρα χορήγησης","Χορηγήθηκε"},
                 null,

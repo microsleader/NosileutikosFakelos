@@ -38,7 +38,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
     private JSONArray JArray;
     private String URL ;
     private java.net.URL url ;
-
+    private Response response;
 
     public AsyncTaskGetJSON2(){
 
@@ -97,10 +97,9 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
         JSONObject Jobject = null;
 
 
-            Response response = client.newCall(request).execute();
+            response = client.newCall(request).execute();
             String jsonData = response.body().string();
-            response.body().close();
-            response.close();
+
 
 
             try {
@@ -113,6 +112,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
 
 
             } catch (JSONException e) {
+                closeResponse();
                 Log.e("eleos",Server.Crypt.decrypt(jsonData));
                 e.printStackTrace();
             }
@@ -120,7 +120,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
 
         } catch (IOException e) {
             e.printStackTrace();
-
+            closeResponse();
         }
 
 
@@ -130,6 +130,7 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
     @Override
     protected void onPostExecute(JSONArray result) {
 
+        closeResponse();
 
 //        Log.e("results", result.toString());
 
@@ -157,5 +158,12 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
             }
         }
 
+    }
+
+    private void closeResponse(){
+        if (response != null) {
+            response.body().close();
+            response.close();
+        }
     }
 }

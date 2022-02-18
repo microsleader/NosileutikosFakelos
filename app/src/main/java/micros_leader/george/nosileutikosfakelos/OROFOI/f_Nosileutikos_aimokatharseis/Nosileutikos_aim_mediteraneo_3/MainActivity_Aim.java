@@ -784,6 +784,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "agogName" ,
                             "roi_aima" ,"roi_dialima" ,
                             "dial","agogimotita" ,
+                            "profile_uf",
 
                             "Dittanthrakika" ,"temparture", "rithmos_afidatosis",
                             "ksiro_varos","max_uf",
@@ -797,6 +798,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "emvolio_pneum_str" ,"embolio_covid1_str",
                              "embolio_covid2_str" ,
                              "embolio_covid3_str" ,
+                             "embolio_covid4_str" ,
                             "other_vac" ,
                              "other_meds" ,
                             "genikes_odigies"
@@ -812,6 +814,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "Αντιπηκτική αγωγή" ,
                             "Ροή αίματος" ,"Ροή διαλύματος" ,
                             "Διάλυμα - είδος", "Αγωγιμότητα" ,
+                            "Προφίλ UF" ,
 
                             "Διττανθρακικά (meq/l)" ,"Θερμοκρασία", "Μέγιστος Ρυθμός\n Αφυδάτωσης",
                             "Ξηρό βάρος","Max UF/Rate",
@@ -825,6 +828,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "Εμβ. COVID 19 δόση 1" ,
                             "Εμβ. COVID 19 δόση 2" ,
                             "Εμβ. COVID 19 δόση 3" ,
+                            "Εμβ. COVID 19 δόση 4" ,
                             "Άλλα εμβόλια" ,
                             "Λοιπά φάρμακα" ,
                             "Γενικές οδηγίες"
@@ -1047,7 +1051,9 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                         (Customers.isFrontis(custID) ?
                                 " group by tg.id,p.FirstName, p.LastName, p.amka, tg.PatientID, dbo.datetostr(tg.DateIn) , tg.isEmergency, tg.code, \n" +
                                 " p.code ,p.height,dbo.CALCULATEAGE(P.DATEBIRTH, TG.DATEOUT) , tg.MTNWatchID \n" +
-                                        " HAVING count(distinct ti.ID) > 2" : "" )
+                                        " HAVING count(distinct ti.ID) > 2" : "" ) +
+                        "\n" +
+                        " order by p.LastName, p.FirstName "
                         ;
 
                 AsyncTaskGetJSON task = new AsyncTaskGetJSON();

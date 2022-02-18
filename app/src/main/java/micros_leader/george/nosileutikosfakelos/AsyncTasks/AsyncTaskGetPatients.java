@@ -43,6 +43,7 @@ public class AsyncTaskGetPatients extends AsyncTask<String, Void, JSONArray> {
     private AlertDialog alertDialog;
     private TextView patientsTV;
     private JSONArray JArray;
+    private Response response;
     private String URL ;
 
 
@@ -100,7 +101,7 @@ public class AsyncTaskGetPatients extends AsyncTask<String, Void, JSONArray> {
             JSONObject Jobject = null;
             try {
 
-                Response response = client.newCall(request).execute();
+                response = client.newCall(request).execute();
                 String jsonData = response.body().string();
 
 
@@ -113,16 +114,17 @@ public class AsyncTaskGetPatients extends AsyncTask<String, Void, JSONArray> {
 
 
                 } catch (JSONException e) {
-                    alertDialog.dismiss();
+                    //alertDialog.dismiss();
                     e.printStackTrace();
+                    closeResponse();
                 }
 
 
             } catch (IOException e) {
-                alertDialog.dismiss();
+               // alertDialog.dismiss();
 
                 e.printStackTrace();
-
+                closeResponse();
             }
 
 
@@ -135,7 +137,7 @@ public class AsyncTaskGetPatients extends AsyncTask<String, Void, JSONArray> {
 
 
 //        Log.e("results", result.toString());
-
+        closeResponse();
         if (!(result == null)) {
             // ΕΑΝ ΔΕΝ ΕΧΕΙ ΣΤΑΤΟΥΣ ΔΗΛΑΔΗ ΕΑΝ ΕΧΕΙ ΑΠΟΤΕΛΕΣΜΑΤΑ ΝΑ ΦΕΡΕΙ ΝΑ ΚΑΝΕΙ ΤΟ ΑΠΟ ΚΑΤΩ
             try {
@@ -204,4 +206,11 @@ public class AsyncTaskGetPatients extends AsyncTask<String, Void, JSONArray> {
             }
         }
 
+
+    private void closeResponse(){
+        if (response != null) {
+            response.body().close();
+            response.close();
+        }
+    }
 }

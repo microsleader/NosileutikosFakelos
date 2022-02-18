@@ -534,6 +534,8 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(2,"Ορός"));
         lista.add(new Spinner_item(3,"Εφάπαξ φάρμακο"));
         lista.add(new Spinner_item(4,"Άλλο φάρμακο"));
+        lista.add(new Spinner_item(5,"Μετάγγιση"));
+
 
 
         return lista;

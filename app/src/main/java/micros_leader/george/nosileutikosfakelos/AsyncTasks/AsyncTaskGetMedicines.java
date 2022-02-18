@@ -33,6 +33,7 @@ public class AsyncTaskGetMedicines extends AsyncTask<String, Void, JSONArray> {
     private HashMap <String, Integer> medicinesMap = new HashMap();
     private JSONArray JArray;
     private String URL ;
+    private Response response;
 
 
 
@@ -80,7 +81,7 @@ public class AsyncTaskGetMedicines extends AsyncTask<String, Void, JSONArray> {
             JSONObject Jobject = null;
             try {
 
-                Response response = client.newCall(request).execute();
+                response = client.newCall(request).execute();
                 String jsonData = response.body().string();
 
 
@@ -94,12 +95,14 @@ public class AsyncTaskGetMedicines extends AsyncTask<String, Void, JSONArray> {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    closeResponse();
                 }
 
 
             } catch (IOException e) {
 
                 e.printStackTrace();
+                closeResponse();
 
             }
 
@@ -111,6 +114,7 @@ public class AsyncTaskGetMedicines extends AsyncTask<String, Void, JSONArray> {
     @Override
     protected void onPostExecute(JSONArray result) {
 
+        closeResponse();
 
 //        Log.e("results", result.toString());
 
@@ -162,4 +166,11 @@ public class AsyncTaskGetMedicines extends AsyncTask<String, Void, JSONArray> {
         }
     }
 
+
+    private void closeResponse(){
+        if (response != null) {
+            response.body().close();
+            response.close();
+        }
+    }
 }

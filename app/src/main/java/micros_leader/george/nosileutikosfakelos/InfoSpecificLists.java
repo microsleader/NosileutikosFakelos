@@ -3562,8 +3562,11 @@ public class InfoSpecificLists extends StaticFields{
 
         if (!isOroi)
             lista.add(new TableViewItem("Κατηγορία","category", SPINNER_TYPE_NEW, Spinner_items_lists.getTypeMedicine()));
+
+        lista.add(new TableViewItem("Ώρες χορήγησης", "ores_xorigisisIDs",  TEXTVIEW_SELECT_HOURS_TYPE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("ML/ώρα","ml_hour", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("Δόση","dosi", EDIT_TEXT_TYPE, KEIMENO));
+        //lista.add(new TableViewItem("Δόση","dosi", EDIT_TEXT_TYPE, KEIMENO));
+        lista.add(new TableViewItem("Διαλύτης","dialitisID", SPINNER_TYPE_NEW, "Nursing_dialites"));// na ginei dialitis
 
         lista.add(new TableViewItem("Οδος χορήγησης","odos_xorigisisID", SPINNER_TYPE_NEW, "Nursing_odoi_xorigisis"));
         lista.add(new TableViewItem("Αντλία","antlia", SPINNER_TYPE_NEW, Spinner_items_lists.getAntlia()));
@@ -3610,7 +3613,7 @@ public class InfoSpecificLists extends StaticFields{
 
         lista.add(new TableViewItem("ML/ώρα","ml_hour", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("οδοί χορήγησης","odos_xorigisis", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
-        //lista.add(new TableViewItem("διαλύτης","dosi", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("διαλύτης","dialitis", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Όγκος","ogkos", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Δοσολογία","dosologia", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
 

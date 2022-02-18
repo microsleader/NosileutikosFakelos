@@ -127,6 +127,9 @@ public class Iatrikes_odigies_fragment extends Fragment  {
 
     public void getMedicalInsructions(){
 
+        ArrayList<ItemsRV> emptyList = iatrikesOdigiesLista();
+        adapter.updateLista(emptyList);
+
         if ( main != null ) {
 
             String code = Utils.getfirstPartSplitCommaString(main.bd.patientsTV.getText().toString());
