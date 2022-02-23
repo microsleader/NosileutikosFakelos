@@ -11,11 +11,11 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +28,7 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentMedic
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.TableView.TableFragment;
+import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivityItemListBinding;
 
@@ -57,6 +58,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
     private boolean[] ITEMS_VALUES;
     private boolean isForSetHours ;
     private String ITEM_ID;
+    private long DATE_FROM, DATE_TO;
     private int FROM_HOUR, TO_HOUR;
 
     @Override
@@ -260,11 +262,19 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
 
 
     //private void medicines_display_hours (String medicineIDS){
-    private void medicines_display_hours (){
+    private void medicines_display_hours(){
 
-        bundle1  = tableView_sigkentrotika_dialogFragment(Str_queries.getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, userID, FROM_HOUR,TO_HOUR),
+       ArrayList <TableViewItem> l = InfoSpecificLists.getKartaXorigisisFarmakwn_provoli_hours();
+       String pano []= new String[l.size() + 1] ;
+       pano[0]  = "testxaxa";
+        for (int i=0; i< l.size(); i++){
+           pano [i+1] = l.get(i).getTitle();
+       }
+
+        bundle1  = tableView_sigkentrotika_dialogFragment(Str_queries.getSigkentrotika_karta_xorigisis_farmakon_hours(transgroupID, userID, DATE_FROM,DATE_TO, FROM_HOUR,TO_HOUR),
                 null,
-               // new String[]{"ID","Χρήστης","Είδος","Ωρα χορήγησης","Χορηγήθηκε"},
+              //  pano,
+              //  new String[]{"xaxa","xaxa"},
                 null,
                 InfoSpecificLists.getKartaXorigisisFarmakwn_provoli_hours(),
                 false,
@@ -272,6 +282,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
                 true);
 
         bundle1.putString("toolbar_title","Συγκεντρωτικά ώρες χορήγησης");
+        bundle1.putBoolean("set_fist_column_stable",true);
         showFragment();
     }
 
@@ -358,7 +369,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
         //ΕΔΩ ΕΙΝΑΙ ΓΙΑ ΕΠΙΛΟΓΗ ΩΡΑΝ
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Επιλέχτε ώρες");
+        builder.setTitle("Επιλέχτε ημ/νία και ώρες");
         final EditText fromHour = new EditText(this);
         final EditText toHour = new EditText(this);
 
@@ -409,18 +420,70 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
         });
 
 
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10,10,10,10);
+
+        final TextView fromDateText = new TextView(this);
+        fromDateText.setText("Από:   ");
+        fromDateText.setLayoutParams(params);
+        fromDateText.setPadding(0,15,15,15);
+        fromDateText.setTextSize(18);
+
+        final TextView fromDateTV = new TextView(this);
+        fromDateTV.setLayoutParams(params);
+        Utils.setDatePicker(fromDateTV, this);
+        fromDateTV.setPadding(0,15,15,15);
+        fromDateTV.setTextSize(18);
+
+
+        final TextView toDateText = new TextView(this);
+        toDateText.setText("Έως:   ");
+        toDateText.setLayoutParams(params);
+        toDateText.setPadding(15,15,15,15);
+        toDateText.setTextSize(18);
+
+        final TextView toDateTV = new TextView(this);
+        Utils.setDatePicker(toDateTV, this);
+        toDateTV.setLayoutParams(params);
+        toDateTV.setPadding(15,15,0,15);
+        toDateTV.setTextSize(18);
+
+
+
 
         LinearLayout ll=new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.addView(fromHour);
         ll.addView(toHour);
-        builder.setView(ll);
+
+        LinearLayout ll_hor=new LinearLayout(this);
+        ll_hor.setOrientation(LinearLayout.HORIZONTAL);
+        ll_hor.addView(fromDateText);
+        ll_hor.addView(fromDateTV);
+        ll_hor.addView(toDateText);
+        ll_hor.addView(toDateTV);
+
+        LinearLayout ll_main=new LinearLayout(this);
+        ll_main.setOrientation(LinearLayout.VERTICAL);
+        ll_main.addView(ll_hor);
+        ll_main.addView(ll);
+
+        builder.setView(ll_main);
 
         builder.setCancelable(false);
         builder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                int from = fromHour.toString().isEmpty() ? 0 : Integer.parseInt(fromHour.getText().toString());
-                int to = toHour.toString().isEmpty() ? 0 : Integer.parseInt(toHour.getText().toString());
+                DATE_FROM = Long.parseLong(Utils.convertDateTomilliseconds(fromDateTV.getText().toString()));
+                DATE_TO = Long.parseLong(Utils.convertDateTomilliseconds(toDateTV.getText().toString()));
+
+                if (DATE_FROM > DATE_TO) {
+                    Toast.makeText(FarmakaListActivity.this, "Η 'Ημ/νία από' πρέπει να είναι μικρότερη ή ίση της 'Έως'", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                int from = fromHour.getText().toString().isEmpty() ? 0 : Integer.parseInt(fromHour.getText().toString());
+                int to = toHour.getText().toString().isEmpty() ? 0 : Integer.parseInt(toHour.getText().toString());
                 if (from > to)
                     Toast.makeText(FarmakaListActivity.this, "Η ώρα 'Από' πρέπει να είναι μικρότερη ή ίση της 'Έως'", Toast.LENGTH_SHORT).show();
                 else {

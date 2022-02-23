@@ -21,11 +21,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -36,6 +40,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,16 +58,22 @@ import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskDelete;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
+import micros_leader.george.nosileutikosfakelos.DialogFragmentSearches.DF_SearchMultiLookup;
+import micros_leader.george.nosileutikosfakelos.DialogFragmentSearches.DF_items_categories;
 import micros_leader.george.nosileutikosfakelos.Dialogs;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetDelete;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
+import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended_str;
 import micros_leader.george.nosileutikosfakelos.Interfaces.MyDialogFragmentMedicineCloseListener;
+
 import micros_leader.george.nosileutikosfakelos.Listeners.SearchMedicineListener_Base;
+
 import micros_leader.george.nosileutikosfakelos.Permissions;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Spinner_new_Image_Adapter;
+import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
 import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.CHECKBOX_TYPE;
@@ -77,25 +88,34 @@ import static micros_leader.george.nosileutikosfakelos.StaticFields.EDITTEXT_ITE
 import static micros_leader.george.nosileutikosfakelos.StaticFields.HOUR;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.KEIMENO;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.MULTI_TYPE;
+import static micros_leader.george.nosileutikosfakelos.StaticFields.MULTI_TYPE_LOOKUP;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TABLE_NO_ELEMENT;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TABLE_NO_TYPE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TABLE_TYPE_LISTENER;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_CLOCK_TYPE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_DATE_TYPE;
+import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_DIETA_TYPE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_ITEM_READ_ONLY_VALUE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_LISTENER;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_MEDICINE_TYPE;
+import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_SELECT_HOURS_TYPE;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_PHOTO;
 import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_VALUE_FROM_VIEW;
 import static micros_leader.george.nosileutikosfakelos.Utils.convertObjToString;
+import static micros_leader.george.nosileutikosfakelos.Utils.getcompanyID;
 
-public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogFragmentMedicineCloseListener, AsyncGetDelete{
+public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogFragmentMedicineCloseListener, AsyncGetDelete , DataSended_str {
+
+    // 23/2/2022
+
     private TextView infoTV;
     private EditText infoET;
     private CheckBox infoCH;
-    private Spinner infoSP;
+    private Spinner  infoSP;
     private TableRow firstRow;
-    private TableLayout ll;
+    private final TableLayout llheader,  lldetailTitles, ll;
+    private final HorizontalScrollView scrollHeader, scrollDetail;
+    private final ScrollView scrollVertTitle, scrollVertDetail;
     public String str_query , table ,transgroupID;
     private String column_class; //ΓΙΑ ΝΑ ΞΕΡΩ ΣΕ ΠΙΟ ΠΕΔΙΟ ΕΙΜΑΙ ΩΣΤΕ ΜΗΠΩς ΧΡΕΙΑΣΤΕΙ ΝΑ ΤΟ ΧΡΗΣΙΜΟΠΟΙΗΣΩ ΑΛΛΟΥ ΣΕ ΑΛΛΕΣ ΜΕΘΟΔΟΥΣ
     private JSONObject jsonObject_class;  //ΓΙΑ ΝΑ ΞΕΡΩ ΣΕ ΠΙΟ ΠΕΔΙΟ ΕΙΜΑΙ ΩΣΤΕ ΜΗΠΩς ΧΡΕΙΑΣΤΕΙ ΝΑ ΤΟ ΧΡΗΣΙΜΟΠΟΙΗΣΩ ΑΛΛΟΥ ΣΕ ΑΛΛΕΣ ΜΕΘΟΔΟΥΣ
@@ -111,22 +131,23 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
     public String patientID;
     private String [] panoTitloi, plagioiTitloi ,col_names;
     public AlertDialog alertDialog;
-    private ImageButton updateIMB;
     private ArrayList<String> nameJson , valuesJson    ,extraCols, extraValues;
     private HashMap<Integer,ArrayList<String>> arxikes_timesValuesMap ;
     private HashMap <Integer,ArrayList<String>>  valuesMap ;
     private ArrayList<TableViewItem> tableViewArraylist;
     private boolean isPinakas = false , saveTransgroupID = true , setOnlyFirstRowAvalaible = false;
+    private boolean set_fist_column_stable; // μεταβλτη για το αν θελουμε το πρωτο πεδιο σε μονοδιαστατο πινακα να ειναι ακινητο
+    private boolean watchID_as_simpleSpinner;
     private ArrayList<String> col_namesFromViesLista;
     private TextView currentTextView;
-    private Toolbar t;
+    private final Toolbar t;
     private final static String  LOOK_UP_TEXT = "_text";
     private int currentPosRow , currentIndexOfCol;
     private  DialogFragment dialogFragment;
     public boolean editextsUsingDialogs;
 
-    private Activity act;
-    private Context ctx;
+    private final Activity act;
+    private final Context ctx;
     private Bundle bundle;
     private Intent in;
 
@@ -134,7 +155,14 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
-    public Table_old(TableLayout ll, Toolbar t, Bundle bundle , DialogFragment dialogFragment) {
+    public Table_old(TableLayout ll, Toolbar t, View view, Bundle bundle, DialogFragment dialogFragment) {
+        llheader = view.findViewById(R.id.displayLinearHeader);
+        lldetailTitles = view.findViewById(R.id.displayLinearTitle);
+        scrollHeader = view.findViewById(R.id.scrollHeader);
+        scrollDetail = view.findViewById(R.id.scrollDetail);
+        scrollVertTitle = view.findViewById(R.id.scrollVertTitle);
+        scrollVertDetail = view.findViewById(R.id.scrollVertDetail);
+
         this.ll = ll;
         this.t = t;
         this.ctx = dialogFragment.getContext();
@@ -145,7 +173,13 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         initializeAndCreateTable();
     }
 
-    public Table_old(TableLayout ll, Toolbar t, Intent in  , Activity act) {
+    public Table_old(TableLayout ll, Toolbar t,  Intent in  , Activity act) {
+        llheader = act.findViewById(R.id.displayLinearHeader);
+        lldetailTitles = act.findViewById(R.id.displayLinearTitle);
+        scrollHeader = act.findViewById(R.id.scrollHeader);
+        scrollDetail = act.findViewById(R.id.scrollDetail);
+        scrollVertTitle = act.findViewById(R.id.scrollVertTitle);
+        scrollVertDetail = act.findViewById(R.id.scrollVertDetail);
 
         this.ll = ll;
         this.t = t;
@@ -155,6 +189,8 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
         initializeAndCreateTable();
     }
+
+
 
 
 
@@ -171,6 +207,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             if (col_names != null && plagioiTitloi != null) {
 
 
+                //ΕΔΩ ΜΠΑΙΝΕΙ ΟΤΑΝ ΕΧΟΥΜΕ ΠΑΝΩ ΚΑΙ ΠΛΑΓΙΟΥΣ ΤΙΤΛΟΥΣ ΜΕ ΙΔΙΟ ΑΡΙΘΜΟ , ΕΠΙΣΗΣ ΟΙ ΠΛΑΓΙΟΙ ΤΙΤΛΟΙ ΝΑ ΑΝΤΙΠΡΟΣΩΠΕΥΟΥΝ ΠΕΔΙΑ ΤΗΣ ΒΑΣΗΣ
                 if (col_names.length == plagioiTitloi.length) {
                     if (Utils.isNetworkAvailable2(ctx))
                         getDataForTable();
@@ -186,7 +223,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         }
 
         else{
-            if (panoTitloi != null && plagioiTitloi !=null)
+            if (panoTitloi != null && plagioiTitloi !=null )
                 isPinakas = true;
 
             try {
@@ -197,9 +234,15 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                 e.printStackTrace();
             }
         }
+
+
+
+
     }
 
     private void initialize(){
+
+
 
         firstRow = new TableRow(ctx);
         TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT);
@@ -214,6 +257,16 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         valuesMap = new HashMap<>();
         col_namesFromViesLista = new ArrayList<>();
         currentUser = Utils.getUserID(ctx);
+
+
+        //ΓΙΑ ΣΥΓΧΡΟΝΙΣΜΟ ΤΩΝ ΔΥΟ ΟΡΙΖΟΝΤΙΩΝ SCROLLVIEW
+        if (scrollHeader != null && scrollDetail != null  ) {
+            scrollDetail.getViewTreeObserver().addOnScrollChangedListener(() -> scrollHeader.smoothScrollTo(scrollDetail.getScrollX(), 0));
+            scrollVertDetail.getViewTreeObserver().addOnScrollChangedListener(() -> scrollVertTitle.smoothScrollTo( 0,scrollVertDetail.getScrollY()));
+        }
+
+
+
     }
 
 
@@ -223,16 +276,9 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
         if (bundle != null)
-                getParametersFromBandle();
+            getParametersFromBandle();
         else if (in != null)
             getParametersFromIntent();
-
-
-
-
-
-
-
 
 
     }
@@ -249,6 +295,9 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         }
         if (bundle.containsKey("date"))
             date = bundle.getString("date");
+
+        if (bundle.containsKey("watchID_as_simpleSpinner"))
+            watchID_as_simpleSpinner = bundle.getBoolean("watchID_as_simpleSpinner");
 
 
         if (bundle.containsKey("transgroupID"))
@@ -271,6 +320,8 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             saveTransgroupID = bundle.getBoolean("saveTransgroupID", true);
         if (bundle.containsKey("toolbar_title"))
             t.setTitle(bundle.getString("toolbar_title"));
+        if (bundle.containsKey("set_fist_column_stable"))
+            set_fist_column_stable = bundle.getBoolean("set_fist_column_stable");
         if (bundle.containsKey("patientID"))
             patientID = bundle.getString("patientID");
         if (bundle.containsKey("plagioiTitlesAreItemIDs"))
@@ -307,7 +358,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                     panoTitloi = tles.toArray(new String[tles.size()]);
             } else {
                 col_names = bundle.getStringArray("col_names");
-                nameJson = new ArrayList<String>(Arrays.asList(col_names));
+                nameJson = new ArrayList<>(Arrays.asList(col_names));
             }
 
         }
@@ -323,10 +374,13 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             if (in.hasExtra("table"))
                 table = in.getStringExtra("table");
             else
-                 table = afterFrom.split(" ")[0].trim();
+                table = afterFrom.split(" ")[0].trim();
         }
         if (in.hasExtra("date"))
             date = in.getStringExtra("date");
+
+        if (in.hasExtra("watchID_as_simpleSpinner"))
+            watchID_as_simpleSpinner = in.getBooleanExtra("watchID_as_simpleSpinner",false);
 
 
         if (in.hasExtra("transgroupID"))
@@ -349,6 +403,8 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             saveTransgroupID = in.getBooleanExtra("saveTransgroupID",true);
         if (in.hasExtra("toolbar_title"))
             t.setTitle(in.getStringExtra("toolbar_title"));
+        if (in.hasExtra("set_fist_column_stable"))
+            set_fist_column_stable = in.getBooleanExtra("set_fist_column_stable" , false);
         if (in.hasExtra("patientID"))
             patientID = in.getStringExtra("patientID");
         if (in.hasExtra("hasValuesForCH"))
@@ -406,10 +462,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
     private void addPanoTitles(String [] titles){
 
         if (plagioiTitloi !=null) {
-
             addTheFirstBlankTextView();
-
-
         }
 
 
@@ -417,36 +470,44 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             for (int i = 0; i < tableViewArraylist.size(); i++)
                 if (tableViewArraylist.get(i).getTypeElement() != TABLE_NO_ELEMENT && plagioiTitlesAreItemIDs) {
                     if (i <= titles.length)
-                        createTitleTV(titles[i]);
+                        createTitleTV(titles[i] );
                 }
-            else if (i < titles.length && !plagioiTitlesAreItemIDs)
-                if (!titles[i].toLowerCase().equals("id")&& !titles[i].toLowerCase().equals("userid"))
-                    createTitleTV(titles[i]);
+                else if (i < titles.length && !plagioiTitlesAreItemIDs)
+                    if (!titles[i].toLowerCase().equals("id") && !titles[i].toLowerCase().equals("userid")  && !titles[i].toLowerCase().equals("bedid") )
+                        createTitleTV(titles[i]);
         }
         else {
             for (int i = 0; i < titles.length; i++) {
-                if (!titles[i].toLowerCase().equals("id") && !titles[i].toLowerCase().equals("userid")) {
+                if (!titles[i].toLowerCase().equals("id") && !titles[i].toLowerCase().equals("userid") && !titles[i].toLowerCase().equals("bedid")) {
                     createTitleTV(titles[i]);
                 }
             }
         }
 
-            ll.removeAllViews();
-            ll.addView(firstRow);
 
+        if (llheader != null) {
+            llheader.removeAllViews();
+            llheader.addView(firstRow);
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void createTitleTV(String title){
         infoTV = new TextView(ctx);
+        TableRow.LayoutParams lp = new TableRow.LayoutParams();
+        lp.setMarginStart(10);
+        infoTV.setLayoutParams(lp);
+
         infoTV.setGravity(Gravity.CENTER);
         infoTV.setBackgroundResource(R.drawable.edittext_table);
         infoTV.setText(" " + title + " ");
+
         firstRow.addView(infoTV);
     }
 
 
 
-    private void addPlagiousTitlesAndValues(String[] plagioiTitloi, String[] col_names, JSONArray results) throws JSONException {
+    private void addPlagiousTitlesAndValues(String[] plagioiTitloi, String[] col_names, JSONArray results) {
 
         double [] [] valuesForTotal= new double[plagioiTitloi.length][results.length()];
 
@@ -510,7 +571,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
                     }
 
-                   addValueToValueList(colIndex,value);
+                    addValueToValueList(colIndex,value);
 
 
 
@@ -545,23 +606,52 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
         int rowID =0;
         int col_index =0;
+        lldetailTitles.removeAllViews();
+
+
+
+        if (isEditable){
+
+            JSONObject x = results.getJSONObject(0);
+            JSONObject clone = new JSONObject(x.toString());
+            for (int i=0; i<clone.length(); i++){
+                clone.put(clone.names().getString(i),"");
+            }
+            results.put(results.length()  ,clone);
+
+        }
+
         for (int rowIndex = 0; rowIndex < plagioiTitloi.length; rowIndex++) {
             tempHorList = new ArrayList<>();
             rowID ++;
             // ΤΟΠΟΘΕΤΗΣΗ ΠΛΑΓΙΟΥ ΤΙΤΛΟΥ
             TableRow row = getRowWithLP(rowID,"0"); //ΤΟ ΕΒΑΛΑ ΕΠΕΙΔΗ ΥΠΑΡΧΕ ΘΕΜΑ ΤΗ ΝΕΥΡΟΛΟΓΙΚΗ ΑΞΙΟΛΟΓΗΣΗ ΟΤΑΝ ΤΑ ΑΠΟΤΕΛΕΣΜΑΤΑ ΗΤΑΝ ΛΙΓΟΤΕΡΑ ΑΠΟ ΤΟΥΣ ΠΛΑΓΙΟΥΣ ΤΙΤΛΟΥΣ
+            TableRow titlerow = getRowWithLP(rowID,"0"); //ΤΟ ΕΒΑΛΑ ΕΠΕΙΔΗ ΥΠΑΡΧΕ ΘΕΜΑ ΤΗ ΝΕΥΡΟΛΟΓΙΚΗ ΑΞΙΟΛΟΓΗΣΗ ΟΤΑΝ ΤΑ ΑΠΟΤΕΛΕΣΜΑΤΑ ΗΤΑΝ ΛΙΓΟΤΕΡΑ ΑΠΟ ΤΟΥΣ ΠΛΑΓΙΟΥΣ ΤΙΤΛΟΥΣ
             // TableRow row = getRowWithLP(results.getJSONObject(rowIndex).getInt("ID"));
+
             TableRow.LayoutParams lp = getLayoutsParams();
-            infoTV = getTextview(lp, plagioiTitloi[rowIndex]); // layoutParameters , onomasia
-            row.addView(infoTV);
+            if ( plagioiTitloi[rowIndex] != null &&  !plagioiTitloi[rowIndex].equalsIgnoreCase("id")) {
+                infoTV = getTextview(lp, plagioiTitloi[rowIndex]); // layoutParameters , onomasia
+                titlerow.addView(infoTV);
+                lldetailTitles.addView(titlerow);
+            }
+
+
             valuesJson = new ArrayList<>();
 
 //----------------------------
 
 
-            JSONObject jsonObject;
+
+
             try {
-                for (int colIndex = 0; colIndex < results.length(); colIndex++) {
+
+
+
+
+                JSONObject jsonObject;
+
+                for (int colIndex = 0; colIndex < results.length() ; colIndex++) {
 
                     col_index = colIndex;
                     jsonObject = results.getJSONObject(colIndex);
@@ -667,7 +757,25 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                                 if (typeElement == TEXTVIEW_MEDICINE_TYPE) {
                                     infoTV = getTextviewMedicine(lp, value, colIndex, rowIndex, sameUser);
                                     row.addView(infoTV);
-                                } else if (typeElement == SPINNER_TYPE_NEW && tableViewArraylist.get(rowIndex).lookup_query != null) {
+                                }
+
+                                else if (typeElement == MULTI_TYPE_LOOKUP) {
+                                    infoTV = getTextViewMultiChoice(lp, value, colIndex, rowIndex, sameUser);
+                                    row.addView(infoTV);
+                                }
+
+                                else if (typeElement == TEXTVIEW_SELECT_HOURS_TYPE) {
+                                    infoTV = getTextViewSelectHours(lp, value, colIndex, rowIndex, sameUser);
+                                    row.addView(infoTV);
+                                }
+
+                                else if (typeElement == TEXTVIEW_DIETA_TYPE) {
+                                    infoTV = getTextviewDieta(lp, value, colIndex, rowIndex, sameUser);
+                                    row.addView(infoTV);
+                                }
+
+
+                                else if (typeElement == SPINNER_TYPE_NEW && tableViewArraylist.get(rowIndex).lookup_query != null) {
                                     value = jsonObject.optString(col_names[rowIndex] + LOOK_UP_TEXT);
                                     infoET = getEditText(lp, value, colIndex, rowIndex, textType, sameUser);
                                     row.addView(infoET);
@@ -707,12 +815,15 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                             infoTV = getTextview(lp, value);
                             row.addView(infoTV);
 
+
                         }
 
                     }
 
                     tempHorList.add(value);
-                 //   addValueToValueList(rowIndex, value);
+                    //   addValueToValueList(rowIndex, value);
+
+
 
 
                 }
@@ -726,22 +837,19 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
-
             ll.addView(row);
-//            arxikes_timesValuesMap.put(rowIndex,valuesJson);
-//            valuesMap.put(rowIndex,(ArrayList<String>)valuesJson.clone());
+
 
 
         }
 
 
-        //            for (int col=0; col < tempHorizontalMap.size(); col++) {  //6
-        //                      for (int row=0; row < results.length(); row++){  //3
 
-        for (int row=0; row < results.length(); row++){  //3
-                valuesJson = new ArrayList<>();
 
-            for (int col=0; col < tempHorizontalMap.size(); col++) {  //6
+        for (int row=0; row < results.length(); row++){
+            valuesJson = new ArrayList<>();
+
+            for (int col=0; col < tempHorizontalMap.size(); col++) {
                 ArrayList<String> hor_values = tempHorizontalMap.get(col);
                 if (hor_values != null){
                     valuesJson.add(hor_values.get(row));
@@ -757,14 +865,123 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
-
         if (exeiSinolo)
             setTotal(valuesForTotal, true);
+
+
+        setHeadersSizesAsDetail();
+        setPlagioiTitloiSizes();
+
+
     }
 
 
 
 
+    private void setHeadersSizesAsDetail(){
+        //ΑΥΤΟ ΧΡΗΣΙΜΟΠΟΕΙΤΑΙ ΓΙΑ ΟΤΑΝ ΤΕΛΕΙΩΣΟΥΝ ΤΑ ΓΡΑΦΙΚΑ ΚΑΙ ΕΧΟΥΝ ΔΩΘΕΙ ΟΙ ΔΙΑΣΤΑΣΕΙΣ
+        // ΣΤΟ DETAIL ΝΑ ΠΑΕΙ ΝΑ ΔΩΣΕΙ ΤΙΣ ΙΔΙΕΣ ΔΙΑΣΤΑΣΕΙΣ ΚΑΙ ΣΤΟ HEADER
+        // ΑΝ Η ΔΙΑΣΤΑΣΗ ΤΟΥ HEADER ΕΙΝΑΙ ΜΕΓΑΛΥΤΕΡΗ ΤΟΥ DETAIL ΤΟΤΕ ΘΑ ΓΙΝΕΙ ΤΟ ΑΝΤΙΘΕΤΟ
+        ll.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ll.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                //ΑΥΤΟ ΕΔΩ ΤΟΝ ΕΛΕΓΧΟ ΤΟΝ ΚΑΝΩ ΕΠΕΙΔΗ ΟΤΑΝ ΕΧΩ
+                TableRow tableRow ;
+                if (ll.getChildCount() > 0 && plagioiTitloi != null)
+                    tableRow = (TableRow)ll.getChildAt(1);
+                else
+                    tableRow = (TableRow)ll.getChildAt(0);
+
+
+
+                if (tableRow != null) {
+                    for (int x = 0 ; x < tableRow.getChildCount(); x ++) { //παιρνω την πρωτη γραμμη απο το detail για να παρω τις διαστασεις του καθε πεδιου
+                        View detailView = tableRow.getChildAt(x);
+                        int detal_width = detailView.getWidth();
+
+                        TextView headerTV = (TextView) firstRow.getChildAt(x);
+                        if (headerTV == null)
+                            return;
+
+                        String xaxaxaxa = headerTV.getText().toString();
+
+                        int header_width = headerTV.getWidth();
+                        int header_height = headerTV.getHeight();
+
+
+                        if (x == 0 && plagioiTitloi != null){
+
+                            TableRow detailTitlerow = (TableRow) lldetailTitles.getChildAt(0);
+                            if (detailTitlerow != null) {
+                                TextView detailTitleTV = (TextView) detailTitlerow.getChildAt(0);
+
+                                int detailTitle_width = detailTitleTV.getWidth();
+
+                                headerTV.setWidth(detailTitle_width);
+                                TableRow.LayoutParams lp = new TableRow.LayoutParams(detailTitle_width, TableRow.LayoutParams.MATCH_PARENT);
+                                lp.setMargins(20, 0, 0, 0);
+                                headerTV.setLayoutParams(lp);
+                            }
+
+                        }
+
+
+
+
+                        else if (header_width > detal_width){
+
+                            TableRow.LayoutParams lp = new TableRow.LayoutParams(header_width, TableRow.LayoutParams.MATCH_PARENT);
+                            lp.setMargins(10, 10, 0, 0);
+                            detailView.setLayoutParams(lp);
+                        }
+                        else
+                            headerTV.setWidth(detal_width);
+
+
+                    }
+                }
+
+            }
+        });
+
+    }
+
+
+
+    private void setPlagioiTitloiSizes(){
+
+
+        ll.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ll.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+
+                for (int i = 0 ; i < ll.getChildCount(); i ++){
+                    TableRow tableRow ;
+                    tableRow = (TableRow)ll.getChildAt(i);
+
+                    View detailView = tableRow.getChildAt(0);
+
+                    if (detailView != null) {
+                        int detail_height = detailView.getHeight();
+
+                        TableRow titleRow = (TableRow) lldetailTitles.getChildAt(i);
+                        if (titleRow != null) {
+                            TextView titleTV = (TextView) titleRow.getChildAt(0);
+                            titleTV.setHeight(detail_height);
+
+
+                        }
+                    }
+                }
+
+            }
+        });
+
+    }
 
 
 
@@ -814,7 +1031,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
             for (int colIndex = 0; colIndex < results.length(); colIndex++) {
 
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
 
                 try {
                     jsonObject = results.getJSONObject(colIndex);
@@ -876,7 +1093,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
                             checkTypesAndAddViewToRow(row, typeElement, textType, lp, value, rowIndex, jsonItemIndex, lista, sameUser);
 
-                           addValueToValueList(colIndex,value);
+                            addValueToValueList(colIndex,value);
 
 
                         }
@@ -907,7 +1124,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
                             checkTypesAndAddViewToRow(row, typeElement, textType, lp, value, rowIndex, jsonItemIndex, lista, true);
 
-                           addValueToValueList(colIndex,value);
+                            addValueToValueList(colIndex,value);
 
 
                         }
@@ -951,8 +1168,17 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
         double [] [] valuesForTotal= new double[results.length()][col_names.length];
 
+        if (set_fist_column_stable)
+            lldetailTitles.removeAllViews();
 //--------------
         for (int rowIndex = 0; rowIndex < results.length(); rowIndex++) {
+//            {
+//                TableRow titlerow = getRowWithLP(rowIndex, "0");
+//                TableRow.LayoutParams lp = getLayoutsParams();
+//                TextView infotestTV = getTextview(lp, "test");
+//                titlerow.addView(infotestTV);
+//                lldetailTitles.addView(titlerow);
+//            }
 
             TableRow row;
             int id = 0;
@@ -985,6 +1211,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
                 for (int colIndex = 0; colIndex < col_names.length; colIndex ++) {
 
+
                     String column = col_names[colIndex];
                     column_class = column;                    //ΓΙΑ ΝΑ ΞΕΡΩ ΣΕ ΠΙΟ ΠΕΔΙΟ ΕΙΜΑΙ ΩΣΤΕ ΜΗΠΩς ΧΡΕΙΑΣΤΕΙ ΝΑ ΤΟ ΧΡΗΣΙΜΟΠΟΙΗΣΩ ΑΛΛΟΥ ΣΕ ΑΛΛΕΣ ΜΕΘΟΔΟΥΣ
                     String value;
@@ -993,7 +1220,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                     int TYPE_ELEMENT = 0;
 
                     if (tableViewArraylist != null)
-                    TYPE_ELEMENT = tableViewArraylist.get(colIndex).getTypeElement();
+                        TYPE_ELEMENT = tableViewArraylist.get(colIndex).getTypeElement();
 
                     //-------------
                     if (col_names[colIndex].toLowerCase().contains("date"))
@@ -1049,7 +1276,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
-                       //TODO:(ΔΕΝΕ ΙΝΑΙ ΓΙΑ ΦΤΙΑΞΙΜΟ ΑΠΛΑ ΝΑ ΦΑΙΝΕΤΑΙ ΚΑΛΥΤΕΡΑ ΕΔΩ ΦΑΙΝΕΤΑΙ ΑΝΑΛΟΓΑ ΤΙΣ ΠΑΡΑΜΕΤΡΟΥΣ ΤΙ ΘΑ ΕΜΦΑΝΙΣΤΕΙ ΣΤΗ ΓΡΑΜΜΗ
+                        //TODO:(ΔΕΝΕ ΙΝΑΙ ΓΙΑ ΦΤΙΑΞΙΜΟ ΑΠΛΑ ΝΑ ΦΑΙΝΕΤΑΙ ΚΑΛΥΤΕΡΑ ΕΔΩ ΦΑΙΝΕΤΑΙ ΑΝΑΛΟΓΑ ΤΙΣ ΠΑΡΑΜΕΤΡΟΥΣ ΤΙ ΘΑ ΕΜΦΑΝΙΣΤΕΙ ΣΤΗ ΓΡΑΜΜΗ
 
                         //----------------------------------------------------------------------------------
                         //ΓΙΑ ΑΡΧΗ ΘΑ ΠΡΕΠΕΙ ΝΑ ΕΧΟΥΜΕ ΔΩΣΕΙ ΕΝΤΟΛΗ ΜΟΝΟ Η ΠΡΩΤΗ ΓΡΑΜΜΗ ΝΑ ΕΙΝΑΙ ΔΙΑΘΕΣΙΜΗ ΣΤΟΝ ΧΡΗΣΤΗ ΓΙΑ ΑΛΛΑΓΗ
@@ -1077,7 +1304,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
                                 }
                                 else if (TYPE_ELEMENT == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query != null ){
-                                      value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
+                                    value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
                                 }
 
 
@@ -1102,43 +1329,68 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 //                            }
                             else
                                 checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, rowIndex, colIndex, lista, sameUser);
+
+
+
                         }
+
 
                         else {
 
                             //ΕΔΩ ΟΤΑΝ ΔΕΝ ΕΧΕΙ Ο ΧΡΗΣΤΗΣ ΕΠΙΛΟΓΗ EDIT (isEditable false)
                             ArrayList<Spinner_item> spList = tableViewArraylist.get(colIndex).spinnerLista;
                             if (typeElement != TABLE_NO_ELEMENT  ) {
-                                 if (typeElement == TEXTVIEW_MEDICINE_TYPE ){
+                                if (typeElement == TEXTVIEW_MEDICINE_TYPE ){
                                     infoTV = getTextviewMedicine(lp, value, rowIndex, colIndex ,sameUser);
                                     row.addView(infoTV);
                                 }
-                                 else if (typeElement == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query != null){
-                                     value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
-                                     infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
-                                     row.addView(infoET);
-                                 }
-                                 else if (typeElement == SPINNER_TYPE_NEW && spList != null){
-                                     if (!value.isEmpty())
+
+                                else if (typeElement == MULTI_TYPE_LOOKUP) {
+                                    infoTV = getTextViewMultiChoice(lp, value, colIndex, rowIndex, sameUser);
+                                    row.addView(infoTV);
+                                }
+
+
+                                else if (typeElement == TEXTVIEW_SELECT_HOURS_TYPE) {
+                                    infoTV = getTextViewSelectHours(lp, value, colIndex, rowIndex, sameUser);
+                                    row.addView(infoTV);
+                                }
+
+                                else  if (typeElement == TEXTVIEW_DIETA_TYPE ){
+                                    infoTV = getTextviewDieta(lp, value, rowIndex, colIndex ,sameUser);
+                                    row.addView(infoTV);
+                                }
+
+
+                                else if (typeElement == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query != null){
+                                    value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
+                                    infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
+                                    row.addView(infoET);
+                                }
+
+
+
+                                else if (typeElement == SPINNER_TYPE_NEW && spList != null){
+                                    if (!value.isEmpty())
                                         value =  spList.get(Integer.parseInt(value)).name;
-                                     infoTV = getTextview(lp, value);
-                                     row.addView(infoTV);
+                                    infoTV = getTextview(lp, value);
+                                    row.addView(infoTV);
                                     // value =  tableViewArraylist.get(colIndex).getValueFromSpinnerList(Integer.parseInt(value));
-                                 }
-                                 else if (typeElement == CHECKBOX_TYPE || typeElement == CHECKBOX_TYPE_READ_ONLY_VALUE ){
-                                     infoCH = getCheckbox(lp,value,currentPosRow,colIndex,false,typeElement);
-                                     row.addView(infoCH);
-                                 }
-                                 else if (typeElement == MULTI_TYPE ||  spList != null ){
-                                     infoTV = getTextviewMulti(lp,value,rowIndex,colIndex,spList, false);
-                                     row.addView(infoTV);
-                                 }
+                                }
+                                else if (typeElement == CHECKBOX_TYPE || typeElement == CHECKBOX_TYPE_READ_ONLY_VALUE ){
+                                    infoCH = getCheckbox(lp,value,currentPosRow,colIndex,false,typeElement);
+                                    row.addView(infoCH);
+                                }
+                                else if (typeElement == MULTI_TYPE ||  spList != null ){
+                                    infoTV = getTextviewMulti(lp,value,rowIndex,colIndex,spList, false);
+                                    row.addView(infoTV);
+                                }
 
-                                 else {
+                                else {
 
-                                     infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
-                                     row.addView(infoET);
-                                 }
+                                    infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
+                                    row.addView(infoET);
+                                }
                             }
                         }
 
@@ -1148,7 +1400,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                         if (typeElement == TEXTVIEW_CLOCK_TYPE)
                             value = Utils.convertHourTomillisecondsGR(value);
                         else if (typeElement == TEXTVIEW_DATE_TYPE)
-                            value = Utils.convertDateTomilliseconds(value);
+                            value = Utils.convertDateTomillisecondsTable(value);
 
 
 
@@ -1162,12 +1414,13 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
                             infoTV = getTextview(lp, value);
                             row.addView(infoTV);
+
                         }
                     }
 
 
 
-                   addValueToValueList(colIndex,value);
+                    addValueToValueList(colIndex,value);
 
 
                 }
@@ -1190,11 +1443,12 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         if (exeiSinolo)
             setTotal(valuesForTotal, false);
 
+        setHeadersSizesAsDetail();
 
     }
 
     private void checkTypesAndAddViewToRow( TableRow row, int typeElement, int textType, TableRow.LayoutParams lp,
-                                           String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser) {
+                                            String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser) {
 
         checkTypesAndAddViewToRow( "",  row,  typeElement,  textType,  lp, value,  rowIndex,  colIndex,  lista,  sameUser);
 
@@ -1205,8 +1459,8 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                                            String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser) {
 
 
-            if (rowIndex >= tableViewArraylist.size() && plagioiTitloi == null)
-                return;
+//            if (rowIndex >= tableViewArraylist.size() && plagioiTitloi == null)
+//                return;
 
 
 
@@ -1220,6 +1474,17 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
         else  if (typeElement == TEXTVIEW_MEDICINE_TYPE ){
             infoTV = getTextviewMedicine(lp, value, rowIndex, colIndex ,sameUser);
+            row.addView(infoTV);
+
+        }
+
+        else if (typeElement == TEXTVIEW_SELECT_HOURS_TYPE) {
+            infoTV = getTextViewSelectHours(lp, value, colIndex, rowIndex, sameUser);
+            row.addView(infoTV);
+        }
+
+        else  if (typeElement == TEXTVIEW_DIETA_TYPE ){
+            infoTV = getTextviewDieta(lp, value.replace("\ufffd",","), rowIndex, colIndex ,sameUser);
             row.addView(infoTV);
 
         }
@@ -1275,6 +1540,12 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         }
 
 
+
+        else if (typeElement == MULTI_TYPE_LOOKUP){
+            infoTV = getTextViewMultiChoice(lp, value, rowIndex, colIndex ,sameUser);
+            row.addView(infoTV);
+        }
+
     }
 
 
@@ -1301,7 +1572,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
-            panoTitloi =  hours.toArray(new String[hours.size()]);
+        panoTitloi =  hours.toArray(new String[hours.size()]);
 
 
 
@@ -1333,26 +1604,26 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
-    try {
-        for (int i = 0; i < totalValues[0].length; i++) {
-            double num = 0;
-            for (double[] totalValue : totalValues) {
-                num = num + totalValue[i];
-            }
-            infoTV = getTextview(lp, String.valueOf(num));
-            infoTV.setTextColor(Color.RED);
-            infoTV.setTypeface(null, Typeface.BOLD);
+        try {
+            for (int i = 0; i < totalValues[0].length; i++) {
+                double num = 0;
+                for (double[] totalValue : totalValues) {
+                    num = num + totalValue[i];
+                }
+                infoTV = getTextview(lp, String.valueOf(num));
+                infoTV.setTextColor(Color.RED);
+                infoTV.setTypeface(null, Typeface.BOLD);
 
-            row.addView(infoTV);
+                row.addView(infoTV);
+
+            }
+
+            ll.addView(row);
 
         }
-
-        ll.addView(row);
-
-    }
-    catch (Exception e){
-        //ΤΟ ΕΒΑΛΑ ΤΟ try ΕΔΩ ΕΠΕΙΔΗ ΟΠΟΙΟΝ ΕΛΕΓΧΟ ΚΑΙ ΝΑ ΕΚΑΝΑ ΕΣΠΑΓΕ ΤΟ ACTIVITY
-    }
+        catch (Exception e){
+            //ΤΟ ΕΒΑΛΑ ΤΟ try ΕΔΩ ΕΠΕΙΔΗ ΟΠΟΙΟΝ ΕΛΕΓΧΟ ΚΑΙ ΝΑ ΕΚΑΝΑ ΕΣΠΑΓΕ ΤΟ ACTIVITY
+        }
 
 
     }
@@ -1384,6 +1655,11 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             if (results.getJSONObject(0).has("status") && plagioiTitloi == null) {
 
                 Toast.makeText(ctx, "Δεν υπάρχουν δεδομένα για τις συγκεκριμένες παραμέτρους", Toast.LENGTH_SHORT).show();
+
+
+                if (ll != null)
+                    ll.removeAllViews();
+
 
                 results.remove(0);
                 addGrammiEggrafis(results);
@@ -1424,6 +1700,18 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                     if (exeiWatchID)
                         createNewPanoTitlous(results);
 
+                    //---------------
+                    if (tableViewArraylist != null && plagioiTitloi != null && panoTitloi != null && isEditable && results.length() == panoTitloi.length){
+                        //ΕΔΩ ΜΠΑΙΝΕΙ ΟΤΑΝ ΕΧΟΥΜΕ ΠΑΝς ΚΑΙ ΠΛΑΓΙΟΥΣ ΤΙΤΛΟΥΣ ΚΑΙ ΜΠΟΡΕΙ Ο ΧΡΗΣΤΗΣ ΝΑ ΚΑΝΕΙ ΑΛΛΑΓΕΣ
+                        //ΑΥΤΟ ΓΙΝΕΤΑΙ ΕΠΕΙΔΗ ΕΙΝΑΙ ΕΝΑ ΑΠΟ ΤΑ ΒΗΜΑΤΑ ΩΣΤΕ ΝΑ ΔΟΥΛΕΨΕΙ ΣΩΣΤΑ ΤΟ ΝΑ ΕΜΦΑΝΙΖΕΤΑΙ ΚΑΙΝΟΥΡΙΑ ΕΛΕΘΕΡΗ ΣΤΗΛΗ
+                        //ΓΙΑ ΝΑ ΚΑΝΕΙ ΙΣΝΕΡΤ Ο ΧΡΗΣΤΗΣ
+
+                        String [] temp = panoTitloi;
+                        panoTitloi = new String[temp.length + 1];
+                        System.arraycopy(temp, 0, panoTitloi, 0, temp.length);
+                        panoTitloi[temp.length ] = "";
+                    }
+                    //------------------------------
                     addPanoTitles(panoTitloi);
 
 
@@ -1446,6 +1734,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
         }
+
 
         if (alertDialog != null && alertDialog.isShowing())
             alertDialog.dismiss();
@@ -1528,13 +1817,21 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
     }
 
     private TableRow.LayoutParams getLayoutsParams(){
-        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,TableRow.LayoutParams.MATCH_PARENT);
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        lp.setMargins(10,10,0,0);
+        return lp;
+    }
+
+
+    private TableRow.LayoutParams getLayoutsParams_wrapWidth(){
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableRow.LayoutParams.MATCH_PARENT);
         lp.setMargins(10,10,0,0);
 
         return lp;
     }
 
 
+    @SuppressLint("SetTextI18n")
     private TextView getTextview(TableRow.LayoutParams lp, String text ){
 
         TextView  textView = new TextView(ctx);
@@ -1566,6 +1863,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2("select name from item where id = " + value );
             task.ctx = act;
             task.listener = new AsyncCompleteTask2() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void taskComplete2(JSONArray results) throws JSONException {
                     if (results != null){
@@ -1598,6 +1896,143 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         }
         return textView;
 
+
+    }
+
+
+
+    private TextView getTextViewSelectHours(TableRow.LayoutParams lp, String value,final int positionRow, final int indexOfColumn, boolean sameUser){
+        final TextView tv = getTextview(lp,value);
+        tv.setTextSize(12);
+
+        String[] hourIDs = new String[]{};
+        if (value != null && !value.isEmpty()) {
+            hourIDs = value.split("\ufffd");
+            tv.setText(value.replace("\ufffd"," , "));
+        }
+
+
+        if (sameUser) {
+            tv.setBackgroundResource(R.color.light_green);
+            if (isEditable) {
+                String[] finalHourIDs = hourIDs;
+                tv.setOnClickListener(view -> selectHoursListener(finalHourIDs,tv , positionRow, indexOfColumn));
+            }
+        }
+
+        return tv;
+    }
+
+
+
+
+    private void selectHoursListener(String[] hoursIDs, TextView tv, int positionRow, int indexOfColumn){
+        boolean[] ITEMS_HOURS_VALUES = { false, false, false, false, false,false, false, false, false, false,
+                false, false, false, false, false,false, false, false, false, false,false, false, false, false};
+
+        CharSequence[] ITEMS_HOURS = {  "01:00","02:00", "03:00","04:00", "05:00","06:00", "07:00",
+                "08:00", "09:00","10:00", "11:00","12:00", "13:00", "14:00", "15:00","16:00", "17:00","18:00", "19:00","20:00", "21:00",
+                "22:00", "23:00","00:00"};
+        for (String hoursID : hoursIDs) {
+            int id = Integer.parseInt(hoursID);
+            ITEMS_HOURS_VALUES[id - 1] = true;
+        }
+
+
+        StringJoiner sj_hours = new StringJoiner(",");
+        AlertDialog.Builder builder = Utils.getAlertMultipleChoice(act, ITEMS_HOURS, ITEMS_HOURS_VALUES);
+        builder.setPositiveButton("ΟΚ", (dialog, whichButton) -> {
+            dialog.dismiss();
+            for (int i=0; i<ITEMS_HOURS.length; i ++){
+                //ΤΑ ΕΧΩ ΦΤΙΑΞΕΙ ΕΤΣΙ ΩΣΤΕ ΤΑ IDs ΕΙΝΑΙ ΤΟ ΠΡΩΤΟ ΚΟΜΜΑΤΙ ΤΗΣ ΩΡΑΣ ΕΚΤΟΣ ΤΟΥ 00:00
+                if (ITEMS_HOURS_VALUES[i]){
+                    String chosenHour = String.valueOf(ITEMS_HOURS[i]);
+                    if (chosenHour.equals("00:00"))
+                        sj_hours.add("24");
+                    else
+                        sj_hours.add(chosenHour.split(":")[0]);
+                }
+            }
+
+            tv.setText(sj_hours.toString());
+
+            ArrayList<String> valuesLista = valuesMap.get(indexOfColumn);
+            if (valuesLista != null) {
+                valuesLista.set(positionRow, sj_hours.toString().replace(",","\ufffd"));
+                valuesMap.put(indexOfColumn, valuesLista);
+            }
+
+
+        });
+
+
+        builder.show();
+    }
+
+
+
+
+    private TextView getTextviewDieta(TableRow.LayoutParams lp, final String value,final int positionRow, final int indexOfColumn, boolean sameUser) {
+
+        final TextView textView = getTextview(lp,value);
+        if (sameUser){
+
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DF_items_categories df = new DF_items_categories(dialogFragment);
+                    Bundle args = new Bundle();
+
+                    if (value.isEmpty())
+                        args.putString(DF_items_categories.IDS, textView.getText().toString());
+                    else
+                        args.putString(DF_items_categories.IDS, value);
+
+                    df.setArguments(args);
+                    if (act != null)
+                        df.show(((FragmentActivity)act).getSupportFragmentManager(), "Dialog");
+                    else
+                        df.show(((FragmentActivity) dialogFragment.requireContext()).getSupportFragmentManager(), "Dialog");
+
+                    //  df.show(act.getcontex, "Dialog");
+                    //   df.show(((FragmentActivity)act).getSupportFragmentManager(), "Dialog");
+
+                }
+            });
+
+
+
+
+            textView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    currentTextView = textView;
+                    currentTableFR = true;
+                    currentPosRow = positionRow;
+                    currentIndexOfCol = indexOfColumn;
+                    return false;
+                }
+            });
+
+
+        }
+
+        return textView;
+
+    }
+
+    @Override
+    public void hereIsYourStr_Data(String info) {
+//        if (currentTextView != null)
+//            currentTextView.setText(id_name);
+//
+//        ArrayList<String> valuesLista = valuesMap.get(currentPosRow);
+//        if (valuesLista != null) {
+//            valuesLista.set(currentIndexOfCol, Utils.getfirstPartSplitCommaString(currentTextView.getText().toString()));
+//            valuesMap.put(currentPosRow, valuesLista);
+//        }
+        Toast.makeText(act, "", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -1707,6 +2142,24 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
     }
 
 
+    public void setInfoDietesDialogFragment(String ids_name){
+
+        if (currentTextView != null) {
+            currentTextView.setText(ids_name);
+            ArrayList<String> valuesLista = valuesMap.get(currentPosRow);
+            if (valuesLista != null) {
+                valuesLista.set(currentIndexOfCol, ids_name.replace(",","\ufffd"));
+                valuesMap.put(currentPosRow, valuesLista);
+            }
+        }
+        currentTableFR = false;
+
+    }
+
+
+
+
+
 
     private TextView getTextviewDate(TableRow.LayoutParams lp, String value,final int positionRow, final int indexOfColumn, boolean sameUser) {
 
@@ -1779,6 +2232,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                     int minute = mcurrentTime.get(Calendar.MINUTE);
                     TimePickerDialog mTimePicker;
                     mTimePicker = new TimePickerDialog(ctx, new TimePickerDialog.OnTimeSetListener() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                             textView.setText((selectedHour < 10 ? "0" + selectedHour : selectedHour) + ":"
@@ -1838,7 +2292,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                         Toast.makeText(act, "Δεν υπάρχει επισυναπτόμενη εικόνα", Toast.LENGTH_SHORT).show();
                     else {
                         alertDialog.show();
-                       // String q = "select fileData, fileExt from medicalRecords where id = " + "10464";
+                        // String q = "select fileData, fileExt from medicalRecords where id = " + "10464";
                         String q = "SELECT top 1  fileExt , CAST('' as XML).value('xs:base64Binary(sql:column(\"filedata\"))', 'NVARCHAR(MAX)') as [Content]\n" +
                                 "FROM MedicalRecords where id = " + value;
 
@@ -1878,8 +2332,85 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
+    private TextView getTextViewMultiChoice(TableRow.LayoutParams lp, String value,final int positionRow, final int indexOfColumn, boolean sameUser){
+        final TextView tv = getTextview(lp,value);
+        tv.setTextSize(10);
+        String lookup = tableViewArraylist.get(indexOfColumn).getLookup_query();
+
+        String meds_ids = value.replace("\ufffd", ",");
 
 
+        //ΑΠΟ ΤΗΝ ΒΑΣΗ
+        if (value != null && !value.isEmpty()){
+            AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2(Str_queries.setglobals(currentUser,"2",getcompanyID(act))  +
+                    " \n select id, name from " + lookup + " where id in (" + meds_ids + ")" );
+            task.ctx = act;
+            task.listener = new AsyncCompleteTask2() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void taskComplete2(JSONArray results) throws JSONException {
+                    if (results != null && !results.getJSONObject(0).has("status")) {
+                        //ΑΝ ΕΧΕΙ ΜΟΝΟ ΕΝΑ ΦΑΡΜΑΚΟ ΝΑ ΦΑΙΝΕΤΑΙ Η ΟΝΟΜΑΣΙΑ ΤΟΥ ΔΙΑΦΟΡΕΤΙΚΑ ΤΑ ID ΤΩΝ  ΦΑΡΜΚΑΝΩΝ
+                        StringJoiner s = new StringJoiner("\n");
+                        for (int i = 0; i < results.length(); i++) {
+                            JSONObject jsonObject = results.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String name = jsonObject.getString("name");
+                            s.add(id + " , " + name);
+                        }
+
+                        tv.setText(s.toString());
+                    }
+                }
+
+            };
+            task.execute();
+        }
+
+        if (sameUser) {
+            tv.setBackgroundResource(R.color.light_green);
+            if (isEditable) {
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (Utils.isNetworkAvailable2(act)) {
+                            String [] idsNames = tv.getText().toString().split("\n");
+
+                            //ΤΟΥ ΠΕΡΝΑΩ ΚΑΙ ΤΟ ΑΝΤΙΚΕΙΜΕΝΟ ΩΣΤΕ ΜΕΣΑ ΑΠΟ ΤΟΝ ΛΙΣΕΝΕΡ ΝΑ ΤΟΥ ΠΕΡΝΑΩ ΤΗΝ ΚΑΙΝΟΥΡΙΑ ΤΙΜΗ ΜΕ ΤΑ IDS
+                            ArrayList<String> valuesLista = valuesMap.get(positionRow);
+//                            if (valuesLista != null) {
+//                                valuesLista.set(indexOfColumn, s.toString());
+//                                valuesMap.put(positionRow, valuesLista);
+//                            }
+                            DF_SearchMultiLookup df = new DF_SearchMultiLookup(act, tv, valuesMap ,valuesLista ,indexOfColumn,positionRow,idsNames);
+                            df.show(((FragmentActivity) act).getSupportFragmentManager(), "Dialog");
+                        }
+                    }
+                });
+
+                //  tv.setOnClickListener(new SearchMedicineListener_Base(act));
+            }
+
+
+//            textView.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    currentTextView = textView;
+//                    currentTableFR = true;
+//                    currentPosRow = positionRow;
+//                    currentIndexOfCol = indexOfColumn;
+//                    return false;
+//                }
+//            });
+
+
+        }
+
+        return tv;
+    }
+
+
+    @SuppressLint("SetTextI18n")
     private TextView getTextviewWithDialog(String title, int textType, TableRow.LayoutParams lp, String value, final int positionRow, final int indexOfColumn, boolean sameUser){
         final TextView  tv = new TextView(ctx);
         tv.setLayoutParams(lp);
@@ -1917,14 +2448,13 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
         final EditText  editText = new EditText(ctx);
-        editText.setLayoutParams(lp);
+        editText.setLayoutParams(getLayoutsParams_wrapWidth());
         editText.setTextSize(18);
         editText.setPadding(1,0,1,0);
         editText.setGravity(Gravity.CENTER);
         editText.setBackgroundResource(R.drawable.table_row_cell);
         editText.setText(text);
 
-        // editText.setElegantTextHeight(true);
         editText.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editText.setMaxEms(14);
         editText.setSingleLine(false);
@@ -1946,7 +2476,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             editText.setBackgroundResource(R.color.light_green);
 
             if (edittextType == KEIMENO)
-                editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE );
 
             else if (edittextType == AKERAIOS) {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
@@ -1962,7 +2492,6 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
             }
 
-
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1973,8 +2502,11 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
                 }
 
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void afterTextChanged(Editable s) {
+
+
 
                     ArrayList<String> valuesLista = valuesMap.get(positionRow);
                     if (valuesLista != null) {
@@ -2003,10 +2535,11 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
         if (hasValuesForCH){
             setValuesForSigkentrotikaSinexon(cbx);
-
         }
 
-        if (value.equals("1") || (tableViewArraylist.get(positionRow).force_value != null && tableViewArraylist.get(positionRow).force_value.equals("1")))
+        if (value.equals("1")
+                ||
+                (tableViewArraylist.size() > positionRow &&  tableViewArraylist.get(positionRow).force_value != null && tableViewArraylist.get(positionRow).force_value.equals("1")))
             cbx.setChecked(true);
         else
             cbx.setChecked(false);
@@ -2051,29 +2584,29 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
     private void setValuesForSigkentrotikaSinexon(CheckBox cbx) {
 
 
-            switch (column_class) {
-                case "vit_b":
-                    cbx.setText(jsonObject_class.optString("vitB_text"));
-                    break;
-                case "carnitine":
-                    cbx.setText(jsonObject_class.optString("carnitine_text"));
-                    break;
-                case "alphacalcidol":
-                    cbx.setText(jsonObject_class.optString("alfacalcidol_text"));
-                    break;
-                case "epo_alpha":
-                    cbx.setText(jsonObject_class.optString("alpha_text"));
-                    break;
-                case "epo_zeta":
-                    cbx.setText(jsonObject_class.optString("zeta_text"));
-                    break;
-                case "epo_darbepoetin":
-                    cbx.setText(jsonObject_class.optString("darbepoetin_text"));
-                    break;
-                case "paricalcitol":
-                    cbx.setText(jsonObject_class.optString("paracalcitol_text"));
-                    break;
-            }
+        switch (column_class) {
+            case "vit_b":
+                cbx.setText(jsonObject_class.optString("vitB_text"));
+                break;
+            case "carnitine":
+                cbx.setText(jsonObject_class.optString("carnitine_text"));
+                break;
+            case "alphacalcidol":
+                cbx.setText(jsonObject_class.optString("alfacalcidol_text"));
+                break;
+            case "epo_alpha":
+                cbx.setText(jsonObject_class.optString("alpha_text"));
+                break;
+            case "epo_zeta":
+                cbx.setText(jsonObject_class.optString("zeta_text"));
+                break;
+            case "epo_darbepoetin":
+                cbx.setText(jsonObject_class.optString("darbepoetin_text"));
+                break;
+            case "paricalcitol":
+                cbx.setText(jsonObject_class.optString("paracalcitol_text"));
+                break;
+        }
 
 
 
@@ -2099,9 +2632,21 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
 
+
+            String forceValue = null;
+            if (tableViewArraylist.size() > indexOfColumn)
+                forceValue = tableViewArraylist.get(indexOfColumn).force_value;
             //TΟ ΑΝΑΛΟΓΟ ID ΕΙΝΑΙ ΚΑΙ Η ΘΕΣΗ ΤΟΥ ΣΠΙΝΝΕΡ  (ΒΟΛΕΥΕΙ ΑΡΚΕΤΑ)
             if (value == null || value.equals(""))
                 value = "0";
+
+
+            if (forceValue != null && !forceValue.isEmpty()) {
+                value = forceValue;
+            }
+
+
+
 
             spinner.setSelection(Integer.parseInt(value));
 
@@ -2186,21 +2731,21 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
 
-        private String  getLookUpInfo(String look_up, int id){
-            String q = "select ID, Name from " +  look_up + " where id = " + id;
+    private String  getLookUpInfo(String look_up, int id){
+        String q = "select ID, Name from " +  look_up + " where id = " + id;
 
-            AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2(q, act);
-            task.listener = new AsyncCompleteTask2() {
-                @Override
-                public void taskComplete2(JSONArray results) throws JSONException {
-                    if (results != null){
-                        results.getJSONObject(0).getString("");
-                    }
+        AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2(q, act);
+        task.listener = new AsyncCompleteTask2() {
+            @Override
+            public void taskComplete2(JSONArray results) throws JSONException {
+                if (results != null){
+                    results.getJSONObject(0).getString("");
                 }
-            };
+            }
+        };
 
-            return "";
-        }
+        return "";
+    }
 
 
 
@@ -2251,7 +2796,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
     public void thereIsImageUpdateButton(){
 
         //view.setSupportActionBar(t);
-        updateIMB = new ImageButton(ctx);
+        ImageButton updateIMB = new ImageButton(ctx);
         Toolbar.LayoutParams l1=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
         l1.gravity= Gravity.START;
         updateIMB.setLayoutParams(l1);
@@ -2273,6 +2818,9 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
 
     private String checkEksereseis(String column,String value) {
+
+        if (watchID_as_simpleSpinner)
+            return value;
 
         if (value == null || value.equals(""))
             return "";
@@ -2424,8 +2972,8 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
 
     public void addExtraColAndValue(ArrayList<String> extraCols , ArrayList <String> extraValues){
 
-       this.extraCols = extraCols;
-       this.extraValues = extraValues;
+        this.extraCols = extraCols;
+        this.extraValues = extraValues;
 
     }
 
@@ -2436,7 +2984,7 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
         }
         else
             Log.e("method_error","checkExtraColAndValues method is null or size is not the same");
-           // Toast.makeText(act, "checkExtraColAndValues method is null or size is not the same", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(act, "checkExtraColAndValues method is null or size is not the same", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -2527,36 +3075,25 @@ public class Table_old implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDia
     }
 
 
+    public static Intent tableView_sigkentrotika(String query, String transgroupID, Activity act, String [] panoTitloi,
+                                                 String [] plagioiTitloi , ArrayList<TableViewItem> lista,
+                                                 boolean exeiWatchID, boolean exeiSinolo, boolean editable){
 
 
 
+        Intent in = new Intent(act, TableActivity.class);
+        in.putExtra("str_query",query);
+        in.putExtra("transgroupID",transgroupID);
+        in.putExtra("panoTitloi",panoTitloi);
+        in.putExtra("tableView_cols" , lista);
+        in.putExtra("plagioiTitloi",plagioiTitloi);
+        in.putExtra("exeiWatchID",exeiWatchID);
+        in.putExtra("exeiSinolo",exeiSinolo);
+        in.putExtra("editable",editable);
 
+        return in;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 
 
 

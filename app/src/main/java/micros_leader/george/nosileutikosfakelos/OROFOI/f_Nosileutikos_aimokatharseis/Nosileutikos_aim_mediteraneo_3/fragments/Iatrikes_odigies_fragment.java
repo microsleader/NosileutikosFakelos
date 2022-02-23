@@ -109,7 +109,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
                 bd.neaEggrafiBT.setOnClickListener(view -> { main.id =""; Toast.makeText(main, "Μπορείτε να κάνετε μία νέα εγγραφή", Toast.LENGTH_SHORT).show(); });
             }
         }
-        getMedicalInsructions();
+        getMedicalInsructions(false);
 
 
         return view;
@@ -125,10 +125,12 @@ public class Iatrikes_odigies_fragment extends Fragment  {
     }
 
 
-    public void getMedicalInsructions(){
+    public void getMedicalInsructions(boolean is_patient_changed){
 
-        ArrayList<ItemsRV> emptyList = iatrikesOdigiesLista();
-        adapter.updateLista(emptyList);
+        if (is_patient_changed) {
+            ArrayList<ItemsRV> emptyList = iatrikesOdigiesLista();
+            adapter.updateLista(emptyList);
+        }
 
         if ( main != null ) {
 
@@ -310,7 +312,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
 
                 Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                 main.alertDialog.dismiss();
-                getMedicalInsructions();
+                getMedicalInsructions(false);
 
             }
 

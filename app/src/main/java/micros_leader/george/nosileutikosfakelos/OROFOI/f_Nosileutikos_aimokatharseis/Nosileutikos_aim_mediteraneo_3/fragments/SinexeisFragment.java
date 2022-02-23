@@ -99,14 +99,14 @@ public class SinexeisFragment extends Fragment {
         });
 
 
-        getTeleutaiaMetrisi(true);
+        getTeleutaiaMetrisi(true ,false);
         newEntryListenerBT();
 
         return view;
     }
 
     private void newEntryListenerBT() {
-        bd.newEntryBT.setOnClickListener(v -> { getTeleutaiaMetrisi(true);        });
+        bd.newEntryBT.setOnClickListener(v -> { getTeleutaiaMetrisi(true,false);        });
     }
 
 
@@ -145,7 +145,7 @@ public class SinexeisFragment extends Fragment {
                 if (str.equals(main.getResources().getString(R.string.successful_update))) {
 
                  //   Utils.timeHandlerDoneButton(bd.updateButton, main);
-                    getTeleutaiaMetrisi(false);
+                    getTeleutaiaMetrisi(false,false);
                     getCurrentContinuousMeasurement();  // ΤΟ ΞΑΝΑΤΡΕΧΩ ΕΠΕΙΔΗ ΔΕΝ ΕΧΩ ΤΟ ID
 
                 } else {
@@ -180,17 +180,20 @@ public class SinexeisFragment extends Fragment {
 
     }
 
-    public void getTeleutaiaMetrisi(boolean emptyMainList) {
+    public void getTeleutaiaMetrisi(boolean emptyMainList , boolean is_patient_changed) {
 
-        ArrayList<String> emptyList = new ArrayList<>();
+        if (is_patient_changed){
+            ArrayList<String> emptyList = new ArrayList<>();
 
-        adapter.updateLista(emptyList);
+            adapter.updateLista(emptyList);
 
-        if (namesGiaApothikeusi != null ){
-            for (int i = 0; i < namesGiaApothikeusi.size(); i++)
-                emptyList.add("");
-            adapter.updateOldLista(emptyList);
+            if (namesGiaApothikeusi != null ){
+                for (int i = 0; i < namesGiaApothikeusi.size(); i++)
+                    emptyList.add("");
+                adapter.updateOldLista(emptyList);
+            }
         }
+
 
 
 

@@ -20,22 +20,37 @@
             app:layout_constraintTop_toTopOf="parent"
             app:title="Συγκεντρωτικά" />
 
-
-    <HorizontalScrollView
-        android:id="@+id/scrollHeader"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
+        android:orientation="horizontal">
 
         <TableLayout
-            android:id="@+id/displayLinearHeader"
+            android:id="@+id/displayLinearHeader_stable"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 
-    </HorizontalScrollView>
+
+
+        <HorizontalScrollView
+            android:id="@+id/scrollHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <TableLayout
+                android:id="@+id/displayLinearHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+        </HorizontalScrollView>
+
+
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"

@@ -17,6 +17,9 @@ public class TableViewItem implements Serializable {
     private int width;
 
     public ArrayList<TableViewItem> tableLista = new ArrayList<>();
+
+    private boolean stable_col = false; //ΜΕΤΑΒΛΗΤΗ ΩΣΤΕ ΜΟΝΟ ΤΟ ΠΕΔΙΟ ΝΑ ΕΙΝΑΙ ΑΚΙΝΗΤΟ ΣΤΟ ΣΚΡΟΛΛ , ΜΟΝΟ ΕΝΑ ΠΕΔΙΟ ΣΕ ΚΑΘΕ ΠΙΝΑΚΑ ΚΑΙ ΜΟΝΟ ΣΕ ΜΟΝΟΔΙΑΣΤΑΤΟ ΠΙΝΑΚΑ
+
     private boolean editWithNoSameUserID = false;  //ΜΕΤΑΒΛΗΤΗ ΠΟΥ ΑΚΟΜΑ ΚΑΙ ΝΑ ΜΗΝ ΕΙΝΑΙ ΙΔΙΟΣ ΧΡΗΣΤΗΣ ΝΑ ΕΧΕΙ ΤΟ ΔΙΚΑΙΩΜΑ ΝΑ ΚΑΝΕΙ ΑΛΛΑΓΗ ΣΤΟ ΣΥΓΚΕΚΡΙΜΕΝΟ ΠΕΔΙΟ
     private TextViewTableListener textViewTableListener;
 
@@ -142,6 +145,18 @@ public class TableViewItem implements Serializable {
         return this;
 
     }
+
+
+
+    public TableViewItem setStable_col(boolean v) {
+        this.stable_col = v;
+        return this;
+    }
+
+    public boolean isStable_col() {
+        return stable_col ;
+    }
+
 
     public void additem(TableViewItem item){
         tableLista.add(item);

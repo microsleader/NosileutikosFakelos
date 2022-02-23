@@ -27,7 +27,7 @@ android {
         applicationId "micros_leader.george.nosileutikosfakelos"
         minSdkVersion 24 //23
         targetSdkVersion 30
-        versionCode 150
+        versionCode 153
       //  multiDexEnabled true  // μονο για νεφροξενια 4.4 εκδοση minSdkVersion 19
         versionName "1.3.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

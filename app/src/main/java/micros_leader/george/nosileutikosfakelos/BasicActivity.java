@@ -818,6 +818,25 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     }
 
+    public void getAll_col_names_table( ArrayList<TableViewItem> lista){
+
+        //newList = lista;
+        ArrayList <String> read_only_cols_List = new ArrayList<>();
+        for (int i = 0; i<lista.size(); i++){
+            String colName = lista.get(i).getColumn();
+            if (colName != null) {
+                nameJson.add(colName);
+                if (lista.get(i).getTypeElement() == TEXTVIEW_ITEM_READ_ONLY_VALUE)
+                    read_only_cols_List.add(colName);
+            }
+            if (read_only_cols_List.size() > 0)
+                read_only_col = read_only_cols_List.toArray(new String[read_only_cols_List.size()]);
+        }
+
+
+    }
+
+
 
     public void setRead_only_col(String... cols) {
         this.read_only_col = cols;

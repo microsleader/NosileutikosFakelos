@@ -28,6 +28,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -110,7 +111,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     private CheckBox infoCH;
     private Spinner  infoSP;
     private TableRow firstRow;
-    private final TableLayout llheader, lldetailTitles, ll;
+    private final TableLayout llheader, llheader_first_col_stable , lldetailTitles, ll;
     private final HorizontalScrollView scrollHeader, scrollDetail;
     private final ScrollView scrollVertTitle, scrollVertDetail;
     public String str_query , table ,transgroupID;
@@ -133,6 +134,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     private HashMap <Integer,ArrayList<String>>  valuesMap ;
     private ArrayList<TableViewItem> tableViewArraylist;
     private boolean isPinakas = false , saveTransgroupID = true , setOnlyFirstRowAvalaible = false;
+    private boolean set_fist_column_stable; // μεταβλτη για το αν θελουμε το πρωτο πεδιο σε μονοδιαστατο πινακα να ειναι ακινητο
     private boolean watchID_as_simpleSpinner;
     private ArrayList<String> col_namesFromViesLista;
     private TextView currentTextView;
@@ -152,6 +154,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
     public Table(TableLayout ll, Toolbar t, View view, Bundle bundle, DialogFragment dialogFragment) {
+        llheader_first_col_stable = view.findViewById(R.id.displayLinearHeader_stable);
         llheader = view.findViewById(R.id.displayLinearHeader);
         lldetailTitles = view.findViewById(R.id.displayLinearTitle);
         scrollHeader = view.findViewById(R.id.scrollHeader);
@@ -170,6 +173,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     }
 
     public Table(TableLayout ll, Toolbar t,  Intent in  , Activity act) {
+        llheader_first_col_stable = act.findViewById(R.id.displayLinearHeader_stable);
         llheader = act.findViewById(R.id.displayLinearHeader);
         lldetailTitles = act.findViewById(R.id.displayLinearTitle);
         scrollHeader = act.findViewById(R.id.scrollHeader);
@@ -203,6 +207,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             if (col_names != null && plagioiTitloi != null) {
 
 
+                //ΕΔΩ ΜΠΑΙΝΕΙ ΟΤΑΝ ΕΧΟΥΜΕ ΠΑΝΩ ΚΑΙ ΠΛΑΓΙΟΥΣ ΤΙΤΛΟΥΣ ΜΕ ΙΔΙΟ ΑΡΙΘΜΟ , ΕΠΙΣΗΣ ΟΙ ΠΛΑΓΙΟΙ ΤΙΤΛΟΙ ΝΑ ΑΝΤΙΠΡΟΣΩΠΕΥΟΥΝ ΠΕΔΙΑ ΤΗΣ ΒΑΣΗΣ
                 if (col_names.length == plagioiTitloi.length) {
                     if (Utils.isNetworkAvailable2(ctx))
                         getDataForTable();
@@ -218,7 +223,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         }
 
         else{
-            if (panoTitloi != null && plagioiTitloi !=null)
+            if (panoTitloi != null && plagioiTitloi !=null )
                 isPinakas = true;
 
             try {
@@ -315,6 +320,8 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             saveTransgroupID = bundle.getBoolean("saveTransgroupID", true);
         if (bundle.containsKey("toolbar_title"))
             t.setTitle(bundle.getString("toolbar_title"));
+        if (bundle.containsKey("set_fist_column_stable"))
+            set_fist_column_stable = bundle.getBoolean("set_fist_column_stable");
         if (bundle.containsKey("patientID"))
             patientID = bundle.getString("patientID");
         if (bundle.containsKey("plagioiTitlesAreItemIDs"))
@@ -396,6 +403,8 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             saveTransgroupID = in.getBooleanExtra("saveTransgroupID",true);
         if (in.hasExtra("toolbar_title"))
             t.setTitle(in.getStringExtra("toolbar_title"));
+        if (in.hasExtra("set_fist_column_stable"))
+            set_fist_column_stable = in.getBooleanExtra("set_fist_column_stable" , false);
         if (in.hasExtra("patientID"))
             patientID = in.getStringExtra("patientID");
         if (in.hasExtra("hasValuesForCH"))
@@ -476,8 +485,27 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         }
 
 
+//
+//        if (llheader != null) {
+//            llheader.removeAllViews();
+//            llheader.addView(firstRow);
+//        }
+//
+//
+
+
+
         if (llheader != null) {
             llheader.removeAllViews();
+
+
+            if (set_fist_column_stable) {  //ΓΙΑ ΝΑ ΕΙΝΑΙ Ο ΠΡΩΤΟΣ ΤΙΤΛΟΣ ΣΤΑΘΕΡΟΣ ΣΤΟ ΣΚΡΟΛΙΝΓΚ
+                //ΒΓΑΖΕΙ ΤΟΝ ΤΙΤΛΟ ΑΠΟ ΤΟ ΚΕΝΤΡΙΚΟ ΛΑΥΟΥΤ ΚΑΙ ΤΟ ΒΑΖΕΙ ΣΤΟ ΠΡΩΤΟ ΠΟΥ ΔΕΝ ΕΧΕΙ ΣΚΛΡΟΛΛΙΝΓΚ
+                View v = firstRow.getChildAt(0);
+                TextView t = (TextView) v;
+                firstRow.removeViewAt(0);
+                llheader_first_col_stable.addView(t);
+            }
             llheader.addView(firstRow);
         }
     }
@@ -886,6 +914,13 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                     tableRow = (TableRow)ll.getChildAt(0);
 
 
+                if (set_fist_column_stable) {
+                    TextView stableTVTitle = (TextView) llheader_first_col_stable.getChildAt(0);// width 270
+                    TableRow colRow = (TableRow)lldetailTitles.getChildAt(0);
+                    TextView stableTVDetail = (TextView) colRow.getChildAt(0);
+                    int width_title = stableTVDetail.getWidth();
+                    stableTVTitle.setWidth(width_title);
+                }
 
                 if (tableRow != null) {
                     for (int x = 0 ; x < tableRow.getChildCount(); x ++) { //παιρνω την πρωτη γραμμη απο το detail για να παρω τις διαστασεις του καθε πεδιου
@@ -895,6 +930,8 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         TextView headerTV = (TextView) firstRow.getChildAt(x);
                         if (headerTV == null)
                             return;
+
+
                         int header_width = headerTV.getWidth();
                         int header_height = headerTV.getHeight();
 
@@ -917,10 +954,13 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
 
+
                         else if (header_width > detal_width){
+
                             TableRow.LayoutParams lp = new TableRow.LayoutParams(header_width, TableRow.LayoutParams.MATCH_PARENT);
-                            lp.setMargins(10,10,0,0);
+                            lp.setMargins(10, 10, 0, 0);
                             detailView.setLayoutParams(lp);
+
                         }
                         else
                             headerTV.setWidth(detal_width);
@@ -944,23 +984,36 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             public void onGlobalLayout() {
                 ll.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 
+                for (int i = 0; i < ll.getChildCount(); i++) {
+                    TableRow tableRow;
+                    tableRow = (TableRow) ll.getChildAt(i);
 
-                for (int i = 0 ; i < ll.getChildCount(); i ++){
-                    TableRow tableRow ;
-                    tableRow = (TableRow)ll.getChildAt(i);
 
-                    View detailView = tableRow.getChildAt(0);
+                    //TextView detailTV = (TextView) tableRow.getChildAt(0);
+                    View detailView =  tableRow.getChildAt(0);
                     if (detailView != null) {
                         int detail_height = detailView.getHeight();
 
                         TableRow titleRow = (TableRow) lldetailTitles.getChildAt(i);
+
                         if (titleRow != null) {
                             TextView titleTV = (TextView) titleRow.getChildAt(0);
-                            titleTV.setHeight(detail_height);
+
+                            if (!set_fist_column_stable)
+                                titleTV.setHeight(detail_height);
+
+                            else {
+                                TextView detailTV = (TextView) tableRow.getChildAt(0);
+                                int title_height = titleTV.getHeight();
+                                if (detail_height > title_height)
+                                    titleTV.setHeight(detail_height);
+                                else {
+                                    detailTV.setHeight(title_height);
+                                }
+                            }
                         }
                     }
                 }
-
             }
         });
 
@@ -1151,8 +1204,17 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         double [] [] valuesForTotal= new double[results.length()][col_names.length];
 
+        if (set_fist_column_stable)
+            lldetailTitles.removeAllViews();
 //--------------
         for (int rowIndex = 0; rowIndex < results.length(); rowIndex++) {
+//            {
+//                TableRow titlerow = getRowWithLP(rowIndex, "0");
+//                TableRow.LayoutParams lp = getLayoutsParams();
+//                TextView infotestTV = getTextview(lp, "test");
+//                titlerow.addView(infotestTV);
+//                lldetailTitles.addView(titlerow);
+//            }
 
             TableRow row;
             int id = 0;
@@ -1185,6 +1247,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
                 for (int colIndex = 0; colIndex < col_names.length; colIndex ++) {
 
+
+                    int typeElement = tableViewArraylist.get(colIndex).getTypeElement();
+                    int textType = tableViewArraylist.get(colIndex).getTextType();
                     String column = col_names[colIndex];
                     column_class = column;                    //ΓΙΑ ΝΑ ΞΕΡΩ ΣΕ ΠΙΟ ΠΕΔΙΟ ΕΙΜΑΙ ΩΣΤΕ ΜΗΠΩς ΧΡΕΙΑΣΤΕΙ ΝΑ ΤΟ ΧΡΗΣΙΜΟΠΟΙΗΣΩ ΑΛΛΟΥ ΣΕ ΑΛΛΕΣ ΜΕΘΟΔΟΥΣ
                     String value;
@@ -1243,8 +1308,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         String title = tableViewArraylist.get(colIndex).getTitle();
                         if (title == null || title.isEmpty())
                             title = panoTitloi[colIndex];
-                        int typeElement = tableViewArraylist.get(colIndex).getTypeElement();
-                        int textType = tableViewArraylist.get(colIndex).getTextType();
+
                         ArrayList<Spinner_item> lista = tableViewArraylist.get(colIndex).getSpinnerLista();
 
 
@@ -1300,9 +1364,24 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 //                                infoTV = getTextview(lp, value);
 //                                row.addView(infoTV);
 //                            }
-                            else
-                                checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, rowIndex, colIndex, lista, sameUser);
+                            else {
+
+                                boolean isStable_col =  tableViewArraylist.get(colIndex).isStable_col();
+                                if (isStable_col) {
+                                    TableRow titlerow = getRowWithLP(rowIndex, currentUser);
+                                    TableRow.LayoutParams lps = getLayoutsParams();
+                                    TextView infotestTV = getTextview(lps, value);
+                                    titlerow.addView(infotestTV);
+                                    lldetailTitles.addView(titlerow);
+                                }
+
+                                else
+                                    checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, rowIndex, colIndex, lista, sameUser);
+
+
+                            }
                         }
+
 
                         else {
 
@@ -1383,10 +1462,12 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
                             infoTV = getTextview(lp, value);
                             row.addView(infoTV);
+
                         }
                     }
 
-
+                    if (isEditable && typeElement == SPINNER_TYPE_NEW && !sameUser)
+                        value = value = convertObjToString(jsonObject.opt(col_names[colIndex]));
 
                     addValueToValueList(colIndex,value);
 
@@ -1412,8 +1493,14 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             setTotal(valuesForTotal, false);
 
         setHeadersSizesAsDetail();
+        if (set_fist_column_stable)
+            setPlagioiTitloiSizes();
 
     }
+
+
+
+
 
     private void checkTypesAndAddViewToRow( TableRow row, int typeElement, int textType, TableRow.LayoutParams lp,
                                             String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser) {
@@ -1836,6 +1923,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                 public void taskComplete2(JSONArray results) throws JSONException {
                     if (results != null){
                         textView.setText(value + " , " + results.getJSONObject(0).getString("name"));
+                        setHeadersSizesAsDetail();
                     }
                 }
             };

@@ -1869,7 +1869,7 @@ public class Str_queries {
     }
 
     //public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, String medicineIDs){
-    public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, String userID, int fromhour, int tohour){
+    public static String getSigkentrotika_karta_xorigisis_farmakon_hours(String transgroupID, String userID, long dateFrom, long dateTo, int fromhour, int tohour){
 
         // ΚΟΙΤΑΖΕΙ ΑΝ ΥΠΑΡΧΟΥΝ ΕΓΓΡΑΦΕΣ ΜΕ ΤΙς ΣΗΜΕΡΙΝΕΣ ΩΡΕΣ ΓΙΑ ΤΑ ΦΑΡΜΑΚΑ ΠΟΥ ΔΕΝ ΕΧΟΥΝ ΔΙΑΚΟΠΕΙ
         // ΑΝ ΔΕΝ ΥΠΑΡΧΟΥΝ ΚΑΝΕΙ ΑΝΤΙΓΡΑΦΗ ΤΙΣ ΩΡΕς ΤΩΝ ΦΑΡΜΑΚΩΝ ΠΟΥ ΔΕΝ ΕΧΟΥΝ ΔΙΑΚΟΠΕΙ ΓΙΑ ΤΗ ΣΗΜΕΙΡΝΗ ΜΕΡΑ ΩΣΤΕ
@@ -1903,7 +1903,12 @@ public class Str_queries {
                 " and transgroupid =   " + transgroupID +
                 "\n" +
                 "END \n" +
+                "\n" +
+                "\n" +
 
+                "DECLARE @DATE_FROM BIGINT = (select dbo.DateTime2Date(" + dateFrom + "))\n" +
+                "DECLARE @DATE_TO BIGINT = (select dbo.DateTime2Date(" + dateTo + "))\n" +
+                "\n" +
                 " select x.ID, dbo.timetostr(x.hour) as hourstr,\n " +
                 " x.UserID, dbo.NAMEUSER(x.userid) as username ,\n" +
                 " n.ml_hour, xor.name as odos_xorigisis, dial.name as dialitis, n.ogkos, n.dosologia,\n" +
@@ -1914,6 +1919,8 @@ public class Str_queries {
                 " left join Nursing_odoi_xorigisis xor on xor.id = n.odos_xorigisisid\n" +
                 " left join Nursing_dialites dial on dial.id = n.dialitisID \n" +
                 " where n.TransGroupID = "  +  transgroupID +
+                " and x.date >= @DATE_FROM \n" +
+                " and x.date <= @DATE_TO + 86400000 -- για να καλυπτει ολόκληρη την ημέρα \n" +
                 " and hour >= " + Utils.convertHourTomillisecondsGR(fromhour) +
                 " and hour <= " + Utils.convertHourTomillisecondsGR(tohour) +
                 //" and x.xorigisiID in (" + medicineIDs + ") \n" +

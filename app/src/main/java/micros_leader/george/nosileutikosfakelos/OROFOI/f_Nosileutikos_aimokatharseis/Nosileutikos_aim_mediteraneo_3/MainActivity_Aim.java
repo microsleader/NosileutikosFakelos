@@ -709,7 +709,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                 if (results != null && !results.getJSONObject(0).has("status")) {
 
 
-                    String []  panoTitloi =new String[results.length()];
+                    String []  panoTitloi = new String[results.length()];
 
                   //  ArrayList<TableViewItem> tableLista = InfoSpecificLists.getSigkentrotika_MedicalInst_lista();
 
@@ -1175,9 +1175,9 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
     private void refreshFrgamentsData(){
 
-        x.getMedicalInsructions();
-        y.getOldTeleutaiesMetriseis();
-        z.getTeleutaiaMetrisi(true);
+        x.getMedicalInsructions(true);
+        y.getOldTeleutaiesMetriseis(true);
+        z.getTeleutaiaMetrisi(true ,true);
 
     }
 

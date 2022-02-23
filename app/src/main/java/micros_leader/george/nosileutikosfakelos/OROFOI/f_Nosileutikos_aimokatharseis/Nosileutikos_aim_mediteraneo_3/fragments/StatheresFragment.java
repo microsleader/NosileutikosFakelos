@@ -123,7 +123,7 @@ public class StatheresFragment extends Fragment {
                 bd.statheresMetriseisRV.setLayoutManager(manager);
                 bd.updateButton.setOnClickListener(v -> update());
 
-                getOldTeleutaiesMetriseis();
+                getOldTeleutaiesMetriseis(false);
 
                 if (Customers.isFrontis(main.custID))
                     bd.allergiesBT.setVisibility(View.INVISIBLE);
@@ -245,7 +245,7 @@ public class StatheresFragment extends Fragment {
                     valuesGiaApothikeusi.remove(strKey);
 
                   //  Utils.timeHandlerDoneButton(bd.updateButton, main);
-                    getOldTeleutaiesMetriseis();
+                    getOldTeleutaiesMetriseis(false);
                     getCurrentStableMeasurement();  // ΤΟ ΞΑΝΑΤΡΕΧΩ ΕΠΕΙΔΗ ΔΕΝ ΕΧΩ ΤΟ ID
 
                 } else {
@@ -274,15 +274,17 @@ public class StatheresFragment extends Fragment {
 
 
 
-    public void getOldTeleutaiesMetriseis() {
+    public void getOldTeleutaiesMetriseis(boolean is_patient_changed) {
 
-        ArrayList<ItemsRV> emptyList = statheresLista();
-        adapter.updateLista(emptyList);
-        if (newList_oldValues != null ){
-            for (int i = 0; i < newList_oldValues.size(); i++) {
-                newList_oldValues.set(i, "");
+        if (is_patient_changed) {
+            ArrayList<ItemsRV> emptyList = statheresLista();
+            adapter.updateLista(emptyList);
+            if (newList_oldValues != null) {
+                for (int i = 0; i < newList_oldValues.size(); i++) {
+                    newList_oldValues.set(i, "");
+                }
+                adapter.updateOldLista(newList_oldValues);
             }
-            adapter.updateOldLista(newList_oldValues);
         }
 
 
