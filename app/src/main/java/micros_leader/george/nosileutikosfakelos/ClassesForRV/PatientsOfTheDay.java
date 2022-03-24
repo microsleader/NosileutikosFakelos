@@ -9,11 +9,13 @@ public class PatientsOfTheDay implements Serializable {
     public String fatherName;
     public String  patCode;
     public String age;
+    public String datebirth;
     public String height;
     public int transgroupID;
     public int patientID;
     public String datein;
     public int vardiaID;
+    public int sex;
     public String isEmergency;
     public String code ,amka,bed;
 
@@ -73,6 +75,15 @@ public class PatientsOfTheDay implements Serializable {
         this.transgroupID = transgroupID;
     }
 
+
+    public String getDatebirth() {
+        return datebirth;
+    }
+
+    public void setDatebirth(String datebirth) {
+        this.datebirth = datebirth;
+    }
+
     public String getIsEmergency() {
         return isEmergency;
     }
@@ -94,6 +105,14 @@ public class PatientsOfTheDay implements Serializable {
 
     public void setAge(String age) {
         this.age = age;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
     public String getHeight() {

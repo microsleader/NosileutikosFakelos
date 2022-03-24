@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+
+    <item
+        android:id="@+id/genika"
+        android:icon="@drawable/item"
+        android:title="@string/genika"/>
+
+        <item
+            android:id="@+id/eidikes_metriseis"
+            android:icon="@drawable/ic_error_outline_black_24dp"
+            android:title="@string/eidikes_metriseis"/>
+
+
+    <item
+            android:id="@+id/anapnoi"
+            android:icon="@drawable/ic_star_border_black_24dp"
+            android:title="@string/anapnoi"/>
+
+
+    <item
+        android:id="@+id/zotika"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="@string/zotika"/>
+
+</menu>

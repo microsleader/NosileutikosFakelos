@@ -1,5 +1,6 @@
 package micros_leader.george.nosileutikosfakelos.DialogFragmentSearches;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.AsyncTask;
@@ -176,18 +177,20 @@ public class DF_SendDoctorOrders extends DialogFragment implements AsyncGetUpdat
         String q;
         String [] cols  ;
         String [] vals ;
+        String date = Utils.convertDateTomilliseconds(dateTV.getText().toString());
+
             alertDialog.show();
             if (isClicked){
-                cols = new String[]{"message"};
-                vals = new String[]{msgET.getText().toString()};
+                cols = new String[]{"date","message"};
+                vals = new String[]{date,msgET.getText().toString()};
              q =  Str_queries.setglobals(Utils.getUserID(act),"2",companyID) + " \n " + Utils.createUpdate("Nursing_iatrikes_entoles",cols ,vals, " WHERE ID = " + notif_item.id , act);
 
            }
            else{
                //   INSERT
 
-               cols = new String[]{"patientID","companyID", "userID","doctorID" ,"message"};
-               vals = new String[]{patientID, companyID, Utils.getUserID(act), Utils.getLinkDoctorID(act),msgET.getText().toString()};
+               cols = new String[]{"date","patientID","companyID", "userID","doctorID" ,"message"};
+               vals = new String[]{date,patientID, companyID, Utils.getUserID(act), Utils.getLinkDoctorID(act),msgET.getText().toString()};
                q = Str_queries.setglobals(Utils.getUserID(act),"2",companyID) + " \n " +  Utils.createInsert("Nursing_iatrikes_entoles",cols ,vals,  act);
 
            }
@@ -219,7 +222,7 @@ public class DF_SendDoctorOrders extends DialogFragment implements AsyncGetUpdat
             }
 
             @Override
-            public void onBindViewHolder(MyViewHolder holder, int position) {
+            public void onBindViewHolder(MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
                 super.onBindViewHolder(holder, position);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -227,6 +230,8 @@ public class DF_SendDoctorOrders extends DialogFragment implements AsyncGetUpdat
                         isClicked = true;
                         notif_item = result.get(position);
                         msgET.setText(notif_item.message);
+                        String date = Utils.convertMillisecondsTO_onlyDate(notif_item.date);
+                        dateTV.setText(date);
                     }
                 });
             }

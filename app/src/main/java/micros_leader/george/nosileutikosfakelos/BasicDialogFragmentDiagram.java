@@ -59,8 +59,12 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
     private Activity act;
     private ArrayAdapter adapter;
     private ArrayList <Double> currentDiagramInfo;
-    private ArrayList lineEntries;
+    private ArrayList<Entry> lineEntries;
+    private ArrayList<String> x_entries; //οι κατω ωρες
     private boolean isFirstTime = true;
+    private JSONArray main_results;
+    private int x_axis_metritis = 0;
+    private int results_rows = 0;
 
 
     @Override
@@ -175,6 +179,7 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
 
                     currentDiagramInfo = new ArrayList<>();
                     lineEntries = new ArrayList<Entry>();
+                    x_entries = new ArrayList();
                     ArrayList<Float> floatValuesLista =new ArrayList<>();
                     float hour = 0.0f;                                 // ΑΝΤΙΠΡΟΣΩΠΕΥΕΙ ΤΟΝ Χ ΑΞΟΝΑ ΜΕ ΤΙΣ ΩΡΕΣ
                                                                  // ΓΙΑ ΚΑΘΕ ΤΙΜΗ ΘΑ ΑΥΞΑΝΕΤΑΙ Η ΤΙΜΗ ΑΝΑ 3 ΩΡΕΣ
@@ -184,14 +189,23 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
                     if (!results.getJSONObject(0).has("status")) {
                         for (int i = 0; i < results.length(); i++) {
 
+                            main_results = results;
+                            results_rows = results.length();
                             JSONObject katigoriaMetrisi = results.getJSONObject(i);
 
                             String metrisi = Utils.convertObjToString(katigoriaMetrisi.get(katigoriaItem));
                             int watch = 0;
                                if (act instanceof ParakolouthisiActivity)
                                    watch = getWatchNameParakolouthisi(katigoriaMetrisi.getInt("watch"));
-                               else if (act instanceof Zotika_simeia_Activity || act instanceof Zotika_Activity_Meth || act instanceof SigxoneusiFiladiwnActivity)
-                                   watch = getWatchNameZotika(katigoriaMetrisi.getInt("watch"));
+                               else if (act instanceof Zotika_simeia_Activity || act instanceof Zotika_Activity_Meth || act instanceof SigxoneusiFiladiwnActivity) {
+                                   if (katigoriaMetrisi.has("watch"))
+                                       watch = getWatchNameZotika(katigoriaMetrisi.getInt("watch"));
+                                   else if (katigoriaMetrisi.has("timeStr")) {
+                                       String timeStr = katigoriaMetrisi.getString("timeStr");
+                                       x_entries.add(timeStr);
+                                       watch = Integer.parseInt(timeStr.split(":")[0]);
+                                   }
+                               }
                             float metr ;
 
 
@@ -200,6 +214,7 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
                                 // ΜΟΝΟ ΟΤΑΝ ΥΠΑΡΧΕΙ ΜΕΤΡΗΣΗ ΝΑ ΠΡΟΣΘΕΙΤΕΙ ΚΑΙ ΟΧΙ ΟΤΑΝ ΒΡΕΙ ΚΕΝΟ
                                 metr = (float) katigoriaMetrisi.getDouble(katigoriaItem);
                               //  lineEntries.add(new Entry(hour, metr));
+
                                 lineEntries.add(new Entry(watch, metr));
 
                             }
@@ -264,9 +279,32 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
             }
         });
 
+       String x  = lineChart.getXAxis().getLongestLabel();
+       String z  = lineChart.getXAxis().getFormattedLabel(0);
+
         lineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
+
+                String v;
+                try {
+                    //ΑΥΤΟ ΕΓΙΝΕ ΕΠΕΙΔΗ ΣΤΑ ΖΩΙΤΙΚΑ ΕΙΧΑ ΤΟ ΣΠΙΝΝΕΡ ΜΕ ΤΙΣ ΒΑΡΔΙΕΣ ΚΑΙ ΤΟ ΑΛΛΑΞΑΜΕ ΚΑΙ ΒΑΛΑΜΕ ΚΑΝΟΝΙΚΗ ΩΡΑ
+                    //--------------------------------------------
+                    if (main_results != null && main_results.length() > 0 && main_results.getJSONObject(0).has("timeStr")) {
+                        v = main_results.getJSONObject(x_axis_metritis).optString("timeStr");
+
+                        x_axis_metritis++;
+                        if (x_axis_metritis == results_rows)
+                            x_axis_metritis = 0; //παει απο την αρχη
+
+                        return v;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                //----------------------------------------------------
                 return  (int) value + ":00"; // yVal is a string array
             }
         });
@@ -398,8 +436,9 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
                 case "Οξυμετρία" :
                     return "oximetria";
 
-                case "Αναπνοές" :
-                    return "anapnoes";
+                case "Αναπνοές (per min)" :
+                    return  "sinolo_anapnown";
+
 
                 case "Πόνος" :
                     return "ponos";

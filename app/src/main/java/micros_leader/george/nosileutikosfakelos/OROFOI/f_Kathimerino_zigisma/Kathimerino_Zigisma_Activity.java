@@ -62,7 +62,7 @@ public class Kathimerino_Zigisma_Activity extends BasicActivity {
             extendedAct = this;
 
 
-        thereIsImagePrinterButton(ReportIDs.KATHIMERINO_ZIGISMA_ASTHENI , PrintReport.ReportParams.TRANSGROUP_ID_ONLY);
+        //thereIsImagePrinterButton(ReportIDs.KATHIMERINO_ZIGISMA_ASTHENI , PrintReport.ReportParams.TRANSGROUP_ID_ONLY);
         fabListener();
 
         textViews = new TextView[] {dateTV};

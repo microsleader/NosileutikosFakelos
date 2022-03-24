@@ -26,6 +26,7 @@ import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity_NEW;
 import micros_leader.george.nosileutikosfakelos.Main_menu.Menu_generalActivity_NEW;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.MainActivity_Aim;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.activities.Nephroxenia_Main_Activity;
@@ -59,10 +60,6 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
         settingsButton = findViewById(R.id.settingsButton);
 
 
-       // signIn_and_getDeviceID();
-
-
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);   //gia na min emafnizetai automata to keyboard
 
 //------------------------------------------------
@@ -82,44 +79,6 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
     }
 
 
-    //ΓΙΑ ΕΔΙΠΟΙΗΣΕΙΣ ΣΤΟ ΤΑΜΠΛΕΤ ΑΛΛΑ ΘΑ ΓΙΝΕΙ ΜΕ ΑΛΛΟ ΤΡΟΠΟ
-    private void signIn_and_getDeviceID() {
-
-        if (!Utils.isDeviceSignedToDatabase(this)) {
-            OneSignal.startInit(this)
-                    .inFocusDisplaying(OneSignal
-                            .OSInFocusDisplayOption
-                            .Notification).unsubscribeWhenNotificationsAreDisabled(true).init();
-
-            String deviceID = "";
-            boolean isSubscribed = false;
-
-            if (OneSignal.getPermissionSubscriptionState() != null && OneSignal.getPermissionSubscriptionState().getSubscriptionStatus() != null) {
-                deviceID = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getUserId();
-                isSubscribed = OneSignal.getPermissionSubscriptionState().getSubscriptionStatus().getSubscribed();
-            }
-
-            if (deviceID != null && !deviceID.equals("") && isSubscribed) {
-
-                String deviceModel = android.os.Build.MODEL;
-
-                ArrayList<String> namesLista = new ArrayList();
-                namesLista.add("deviceID");
-                namesLista.add("information");
-
-                ArrayList<String> valuesLista = new ArrayList();
-                valuesLista.add(deviceID);
-                valuesLista.add(deviceModel);
-
-
-                AsyncTaskUpdate_JSON task = new AsyncTaskUpdate_JSON(this, null, "mobile_devices", namesLista, valuesLista, null);
-
-                task.date = Utils.getCurrentDateTimeConverted();
-                task.listener = this;
-                task.execute();
-            }
-        }
-    }
 
     @Override
     public void update_JSON(String str) {
@@ -163,6 +122,7 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
                     intent =  new Intent(LoginActiity.this, MainActivity_Aim.class);
                 else
                     intent  =  new Intent(LoginActiity.this, Menu_generalActivity_NEW.class);
+                    //intent  =  new Intent(LoginActiity.this, Kathetires_Activity_NEW.class);
 
                 intent.putExtra("id", id);
                 intent.putExtra("name", name);
@@ -183,7 +143,35 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
 
                 InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
                 if (getCurrentFocus() != null)
-                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+
+                String usernameStr = username.getText().toString().trim();
+                String passwordStr = password.getText().toString().trim();
+
+                if (usernameStr.equals("microsdemo") && passwordStr.equals("microsdemo")) {
+                    //GIA NA MIN KSANAKANEI LOGIN
+                    editorForLogin.putInt("custID", 1);
+                    editorForLogin.putBoolean("login", true);
+                    editorForLogin.putString("id", "1");
+                    editorForLogin.putString("name", "demo");
+                    editorForLogin.putString("companyID", "1");
+                    editorForLogin.putString("linkdoctorID", "");
+                    editorForLogin.putBoolean("isNurse", true);
+                    editorForLogin.putBoolean("is_nursing_unlock", true);
+
+                    if (editorForLogin.commit()) {
+
+                        Intent intent = new Intent(LoginActiity.this, Menu_generalActivity_NEW.class);
+
+                        intent.putExtra("id", id);
+                        intent.putExtra("name", name);
+                        intent.putExtra("companyID", companyID);
+                        startActivity(intent);
+
+                        finish();
+                        return;
+                    }
+                }
 
                 if (!(Utils.getAddress(LoginActiity.this).equals("")) || !(Utils.getPort(LoginActiity.this).equals(""))) {
 
@@ -192,13 +180,16 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
                     if (Utils.isNetworkAvailable(LoginActiity.this)) {
                         progressBar.setVisibility(View.VISIBLE);
 
-                        query = "SELECT ID,Name," +
-                                "isNurse, " +
-                                " dbo.custID() as custID, " +
-                                "linkdoctorID , " +
-                                "companyID " +
-                                "FROM USERS " +
-                                "WHERE LoginName = '" + username.getText().toString().trim() + "'" + " AND WebPassword = '" + password.getText().toString().trim() + "'" ;
+                        query = "SELECT us.ID,us.Name,\n" +
+                                "  us.isNurse, \n" +
+                                "  dbo.custID() as custID, \n" +
+                                "  us.linkdoctorID , \n" +
+                                "  us.companyID ,\n" +
+                                "  case when p.nursing_unlock = 1 or  team_p.nursing_unlock = 1 then 1 else 0  end as nursing_unlock\n" +
+                                "  FROM USERS us \n" +
+                                "  left join userproperties p on p.userID = us.id \n" +
+                                "  left join userproperties team_p on team_p.userGroupID = us.UserGroupID \n" +
+                                "WHERE LoginName = '" + usernameStr + "'" + " AND WebPassword = '" + passwordStr + "'" ;
 
                         AsyncTaskGetJSON task = new AsyncTaskGetJSON();
                         task.ctx = getApplicationContext();
@@ -239,6 +230,7 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
             if (jsonObject.has("Name") ){
                 try {
                     boolean isNurse = Utils.convertObjToString(jsonObject.get("isNurse")).equals("1");
+                    boolean is_nursing_unlock = Utils.convertObjToString(jsonObject.get("nursing_unlock")).equals("1");
                     linkdoctorID = Utils.convertObjToString(jsonObject.get("linkdoctorID"));
 
                     if (isNurse || !linkdoctorID.equals("") ) {
@@ -257,6 +249,7 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
                         editorForLogin.putString("companyID", companyID);
                         editorForLogin.putString("linkdoctorID", linkdoctorID);
                         editorForLogin.putBoolean("isNurse", isNurse);
+                        editorForLogin.putBoolean("is_nursing_unlock", is_nursing_unlock);
 
                         if (editorForLogin.commit()) {
 

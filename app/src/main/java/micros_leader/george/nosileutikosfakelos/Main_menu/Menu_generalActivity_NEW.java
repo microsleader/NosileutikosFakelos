@@ -84,6 +84,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
         filladiaLayout = findViewById(R.id.filadiaLayout);
         menu_lista = InfoSpecificLists.getFloorsMenu();
         initializeRV();
+        setDisplayUserName();
 
         tmimaSP = findViewById(R.id.tmimaSP);
         tmimaLista.add("ΟΡΟΦΟΙ");
@@ -137,6 +138,8 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
         if (customerID == 0){
             getCustID();
         }
+
+
 
       //  checkFirstTimeLogin();
 

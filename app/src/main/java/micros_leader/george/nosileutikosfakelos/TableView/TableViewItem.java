@@ -153,6 +153,10 @@ public class TableViewItem implements Serializable {
         return this;
     }
 
+
+
+
+
     public boolean isStable_col() {
         return stable_col ;
     }

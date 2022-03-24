@@ -4,7 +4,7 @@ import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFilad
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHIMERINO_ZIGISMA;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ISOZIGIO_METH;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.NEURIKI_AKSIOLOGISI;
-import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_PAROXETEUSEIS;
+import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES;
 
 import android.os.Bundle;
 
@@ -19,7 +19,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity;
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity_NEW;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
 import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
@@ -43,7 +44,8 @@ public class SigxoneusiFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         bundle = getArguments();
-        filladio = (SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS) bundle.get(SigxoneusiFiladiwnActivity.FILLADIO_KEY);
+        if (bundle != null)
+            filladio = (SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS) bundle.get(SigxoneusiFiladiwnActivity.FILLADIO_KEY);
 
 
         if (filladio == ZOTIKA_METH)
@@ -54,8 +56,8 @@ public class SigxoneusiFragment extends Fragment {
             view =  inflater.inflate(R.layout.activity_isozigio__meth_, container, false);
         else if (filladio == NEURIKI_AKSIOLOGISI)
             view =  inflater.inflate(R.layout.activity_neuriki_aksiologisi3, container, false);
-        else if (filladio == KATHETIRES_PAROXETEUSEIS)
-            view =  inflater.inflate(R.layout.activity_kathetires_kalliergies_meth, container, false);
+        else if (filladio == KATHETIRES)
+            view =  inflater.inflate(R.layout.activity_kathetires_meth, container, false);
 
 
          parentAct = (SigxoneusiFiladiwnActivity) getActivity();
@@ -76,7 +78,7 @@ public class SigxoneusiFragment extends Fragment {
             run_isozigio_meth();
         else if (filladio == NEURIKI_AKSIOLOGISI)
             run_neuriki_aksiologisi();
-        else if (filladio == KATHETIRES_PAROXETEUSEIS)
+        else if (filladio == KATHETIRES)
             run_kathetires_paroxeteuseis();
 
 
@@ -88,10 +90,10 @@ public class SigxoneusiFragment extends Fragment {
         Zotika_Activity_Meth  act = new Zotika_Activity_Meth();
         act.floorSP = view.findViewById(R.id.floorsSP);
         act.patientsTV = view.findViewById(R.id.patientsTV);
-        //act.timeTV = view.findViewById(R.id.timeTV);
+        act.timeTV = view.findViewById(R.id.hoursTV);
         act.hoursSP = view.findViewById(R.id.hoursSP);
 
-        act.fab = view.findViewById(R.id.fab);
+        act.fabMenu = view.findViewById(R.id.fabMenu);
         act.recyclerView = view.findViewById(R.id.zotikaMethRV);
 
         act.dateTV = view.findViewById(R.id.dateTV);
@@ -250,13 +252,14 @@ public class SigxoneusiFragment extends Fragment {
 
 
     private void run_kathetires_paroxeteuseis() {
-        Kathetires_paroxeteuseis_Activity act = new Kathetires_paroxeteuseis_Activity();
+        Kathetires_Activity_NEW act = new Kathetires_Activity_NEW();
 
         act.floorSP = view.findViewById(R.id.floorsSP);
         act.patientsTV = view.findViewById(R.id.patientsTV);
         act.timeTV = view.findViewById(R.id.timeTV);
         act.fabMenu = view.findViewById(R.id.fabMenu);
         act.recyclerView = view.findViewById(R.id.kathetiresRV);
+        act.neaEggrafiBT = view.findViewById(R.id.newEntryBT);
 
 
         act.dateTV = view.findViewById(R.id.dateTV);

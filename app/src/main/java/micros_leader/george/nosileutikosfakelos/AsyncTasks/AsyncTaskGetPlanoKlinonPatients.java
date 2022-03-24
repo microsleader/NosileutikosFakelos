@@ -173,7 +173,9 @@ public class AsyncTaskGetPlanoKlinonPatients extends AsyncTask<String, Void, JSO
                             pat.setFirstName(Utils.convertObjToString(currentPatient.get("FirstName")));
                             pat.setLastName(Utils.convertObjToString(currentPatient.get("LastName")));
                             pat.setFatherName(Utils.convertObjToString(currentPatient.get("fatherName")));
+                            pat.setDatebirth(Utils.convertObjToString(currentPatient.get("datebirthStr")));
                             pat.setTransgroupID(currentPatient.getInt("transgroupID"));
+                            pat.setSex(currentPatient.getInt("sex"));
                       //      pat.setPatientID(currentPatient.getInt("PatientID"));
                             pat.setDatein(Utils.convertObjToString(currentPatient.get("datein")));
                             pat.setIsEmergency(Utils.convertObjToString(currentPatient.get("IsEmergency")));
@@ -194,7 +196,9 @@ public class AsyncTaskGetPlanoKlinonPatients extends AsyncTask<String, Void, JSO
                     patientsTV.setText(patientsNosileuomenoi.get(pos).getBed() + " , " +
                             patientsNosileuomenoi.get(pos).getCode() + " , " +
                             patientsNosileuomenoi.get(pos).getFirstName() + " " +
-                            patientsNosileuomenoi.get(pos).getLastName() + " του " +
+                            patientsNosileuomenoi.get(pos).getLastName() +
+                            " ( " + patientsNosileuomenoi.get(pos).getDatebirth() + " ) "
+                            + " του " +
                             patientsNosileuomenoi.get(pos).getFatherName() + " , " +
                             patientsNosileuomenoi.get(pos).getTransgroupID());
 

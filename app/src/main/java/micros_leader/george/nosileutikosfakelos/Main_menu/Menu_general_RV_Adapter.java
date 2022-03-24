@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity;
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
 import micros_leader.george.nosileutikosfakelos.SigxoneusiFragment;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
@@ -145,8 +145,8 @@ public class Menu_general_RV_Adapter extends RecyclerView.Adapter<Menu_general_R
                     filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ISOZIGIO_METH;
                 else if (activity instanceof NeurikiAksiologisi3Activity)
                     filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.NEURIKI_AKSIOLOGISI;
-                else if (activity instanceof Kathetires_paroxeteuseis_Activity)
-                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_PAROXETEUSEIS;
+                else if (activity instanceof Kathetires_Activity)
+                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES;
 
                 bundle.putSerializable(SigxoneusiFiladiwnActivity.FILLADIO_KEY, filladio_sigxoneusis);
                 myf.setArguments(bundle);

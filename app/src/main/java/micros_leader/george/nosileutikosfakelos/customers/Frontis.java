@@ -82,6 +82,7 @@ public class Frontis {
             lista.add(new ItemsRV("Epoetin", "epoetinID",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_epoetin"));
 
             lista.add(new ItemsRV("Etelalcetide", "etelalcetide", "",  EDITTEXT_ITEM,KEIMENO));
+            lista.add(new ItemsRV("Darbepoetin", "darbepoetin", "",  EDITTEXT_ITEM,KEIMENO));
             lista.add(new ItemsRV("Fe i.v", "Fe_ID",   SPINNER_ITEM_NEW,"Nursing_items_med_Fe_types"));
             lista.add(new ItemsRV("L-carnitine i.v", "Carnitine_ID", SPINNER_ITEM_NEW,"Nursing_items_med_L_carnitine"));
             lista.add(new ItemsRV("Vit B I.v", "vit_B_ID", SPINNER_ITEM_NEW,"Nursing_items_med_Vit_B"));
@@ -144,6 +145,7 @@ public class Frontis {
             lista.add(new ItemsRV("Epoetin", "epoName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
             lista.add(new ItemsRV("Etelalcetide", "etelalcetide", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("darbepoetin", "darbepoetin", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Fe i.v", "feName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("L-carnitine i.v", "CarnitineName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Vit B I.v", "VitB_Name", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
@@ -260,6 +262,7 @@ public class Frontis {
 //        lista.add(new ItemsRV("Epoetin alpha", "epo_alpha", false, CHECKBOX_ITEM));
 //        lista.add(new ItemsRV("Epoetin zeta", "epo_zeta", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Darbepoetin", "epo_darbepoetin", false, CHECKBOX_ITEM));
+        lista.add(new ItemsRV("etelalcetide", "etelalcetide", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Paricalcitol", "paricalcitol", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Σίδηρος", "sidiros", false, CHECKBOX_ITEM));
 
@@ -305,7 +308,7 @@ public class Frontis {
         lista.add(new TableViewItem("Φίλτρο","filtroID", SPINNER_TYPE_NEW, "Nursing_items_med_instr_filter"));
         lista.add(new TableViewItem( "Διάλυμα","dialimaID", SPINNER_TYPE_NEW, "Nursing_items_med_instr_dialima"));
         lista.add(new TableViewItem(  "Ηπαρίνη","ipar_efapax", EDIT_TEXT_TYPE, KEIMENO));
-        lista.add(new TableViewItem("Θερμοκ. \nδιαλύματος (°C)","therm_dialimatos", EDIT_TEXT_TYPE, DEKADIKOS));
+        //lista.add(new TableViewItem("Θερμοκ. \nδιαλύματος (°C)","therm_dialimatos", EDIT_TEXT_TYPE, DEKADIKOS));
 
         lista.add(new TableViewItem(  "Kt/V","Kt_V", EDIT_TEXT_TYPE, DEKADIKOS));
         lista.add(new TableViewItem(  "SPO2","SPO2", EDIT_TEXT_TYPE, DEKADIKOS));
@@ -368,6 +371,7 @@ public class Frontis {
 //
 //        lista.add(new TableViewItem("Epoetin zeta","epo_zeta", CHECKBOX_ITEM, TABLE_NO_TYPE));
         lista.add(new TableViewItem(  "Darbepoetin","epo_darbepoetin", CHECKBOX_ITEM, TABLE_NO_TYPE));
+        lista.add(new TableViewItem(  "Etelalcetide","etelalcetide", CHECKBOX_ITEM, TABLE_NO_TYPE));
         lista.add(new TableViewItem( "Paricalcitol","paricalcitol", CHECKBOX_ITEM, TABLE_NO_TYPE));
         lista.add(new TableViewItem("Σίδηρος","sidiros", CHECKBOX_ITEM, TABLE_NO_TYPE));
 

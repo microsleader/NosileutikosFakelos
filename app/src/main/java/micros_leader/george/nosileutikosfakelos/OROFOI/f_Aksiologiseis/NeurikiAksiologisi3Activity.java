@@ -200,7 +200,7 @@ public class NeurikiAksiologisi3Activity extends BasicActivity implements  Async
         Utils.timeListener(extendedAct, wraProtokollouTV);
         Utils.timeListener(extendedAct, wraThromvolisisTV);
 
-        thereIsImagePrinterButton(ReportIDs.NEUROLOGIKI_AKSIOLOGISI_ANA_ORA , PrintReport.ReportParams.TRANSGROUP_ID_AND_DATE_STR);
+        //thereIsImagePrinterButton(ReportIDs.NEUROLOGIKI_AKSIOLOGISI_ANA_ORA , PrintReport.ReportParams.TRANSGROUP_ID_AND_DATE_STR);
 
     }
 

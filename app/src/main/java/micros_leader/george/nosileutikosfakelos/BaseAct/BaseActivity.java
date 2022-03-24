@@ -62,7 +62,7 @@ public abstract  class BaseActivity extends BasicActivity {
     protected abstract int rv_ID();
     protected abstract String setTable();
     protected abstract ArrayList <ItemsRV> set_RV_list();
-    protected abstract  int[] positionTitlesInRV();
+    protected abstract int[] positionTitlesInRV();
     protected abstract boolean isThereImageUpdateButton();
     protected abstract String[] colNames_not_in_RV();
     protected abstract String setMainQuery();

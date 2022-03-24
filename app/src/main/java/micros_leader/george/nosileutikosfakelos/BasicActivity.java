@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +22,10 @@ import android.printservice.PrintService;
 import android.speech.SpeechRecognizer;
 
 import com.github.ag.floatingactionmenu.OptionsFabLayout;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
@@ -36,6 +40,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,6 +50,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -315,6 +321,8 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         companyID = Utils.getcompanyID(this);
 
 
+
+
     }
 
 
@@ -529,6 +537,54 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         date = date_tv.getText().toString();
     }
 
+
+
+    public void setDisplayUserName(){
+
+        if (toolbar == null)
+            toolbar = findViewById(R.id.toolbar);
+        if (toolbar == null)
+            return;
+
+        if (extendedAct == null)
+            extendedAct = this;
+        extendedAct.setSupportActionBar(toolbar);
+
+
+
+        ImageButton userNameIB = new ImageButton(extendedAct);
+
+        Toolbar.LayoutParams l1=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l1.gravity= Gravity.START;
+        userNameIB.setLayoutParams(l1);
+        userNameIB.setBackgroundResource(R.drawable.ic_person_black_24dp);
+        userNameIB.setPadding(20,20,20,20);
+        userNameIB.setScaleType(ImageButton.ScaleType.FIT_START);
+        toolbar.addView(userNameIB);
+        Toolbar.LayoutParams l3=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l3.gravity= Gravity.START;
+        userNameIB.setLayoutParams(l3);
+        userNameIB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(extendedAct);
+                alert.setTitle("Συνδεδεμένος χρήστης");
+                alert.setMessage(Utils.getUserName(extendedAct));
+                alert.setPositiveButton("ΟΚ", (dialog, whichButton) -> {
+
+                });
+
+                alert.show();
+
+            }
+        });
+
+
+
+
+    }
+
+
     public void thereIsImageUpdateButton(){
 
         if (toolbar == null)
@@ -553,7 +609,12 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         l3.gravity= Gravity.END;
         updateIMB.setLayoutParams(l3);
 
+
+
     }
+
+
+
 
 
 
@@ -1371,7 +1432,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         });
     }
 //---------
-    public void insertOrUpdateListener(final ArrayList<ItemsRV>  listaAdaptor, final String names_col[]){
+    public void insertOrUpdateListener(final ArrayList<ItemsRV>  listaAdaptor, final String[] names_col){
 
         if (updateButton != null) {
 
@@ -1379,11 +1440,9 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
                 @Override
                 public void onClick(View v) {
 
-
                     if (nurseID.equals(Utils.getUserID(BasicActivity.this))|| nurseID.equals("")) {
-
-                    updateButton.startAnimation();
-                    insert_or_update_data(listaAdaptor, names_col);
+                        updateButton.startAnimation();
+                        insert_or_update_data(listaAdaptor, names_col);
                     }
                     else
                         Toast.makeText(BasicActivity.this, R.string.error_user_id, Toast.LENGTH_SHORT).show();
@@ -1408,7 +1467,62 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     }
 
-    public void insertOrUpdateListener(final EditText editText [], final TextView textView[], final String names_col[]){
+
+
+    public void insertOrUpdateListener_with_question(final ArrayList<ItemsRV>  listaAdaptor, final String[] names_col){
+
+
+
+        if (updateIMB != null){
+            updateIMB.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    BottomSheetDialog bottomSheerDialog = new BottomSheetDialog(extendedAct);
+                    View parentView = extendedAct.getLayoutInflater().inflate(R.layout.bottom_sheet_dialog_question_form,null);
+                    bottomSheerDialog.setContentView(parentView);
+                    final Button yesBT = parentView.findViewById(R.id.yesBT);
+                    final TextView  noBT = parentView.findViewById(R.id.noBT);
+                    yesBT.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            if (nurseID.equals(Utils.getUserID(extendedAct))|| nurseID.equals(""))
+                                insert_or_update_data(listaAdaptor, names_col);
+                            else
+                                Toast.makeText(BasicActivity.this, R.string.error_user_id, Toast.LENGTH_SHORT).show();
+
+                            bottomSheerDialog.cancel();
+                        }
+                    });
+
+                    noBT.setOnClickListener(view -> bottomSheerDialog.cancel());
+
+                    bottomSheerDialog.show();
+
+
+
+                }
+            });
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void insertOrUpdateListener(final EditText[] editText, final TextView[] textView, final String[] names_col){
 
         if (updateButton != null) {
 
@@ -1498,7 +1612,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     }
 
 // ΒΟΛΕΥΕΙ ΓΙΑ ΦΡΑΓΚΜΕΝΤ
-    public void insert_or_update_data(ArrayList<ItemsRV>  listaAdaptor , String names_col[],ArrayList<String> namesLista, ArrayList<String> valuesLista){
+    public void insert_or_update_data(ArrayList<ItemsRV>  listaAdaptor , String[] names_col, ArrayList<String> namesLista, ArrayList<String> valuesLista){
 
         alertDialog.show();
         AsyncTaskUpdate_JSON task;
@@ -1524,6 +1638,10 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public ArrayList <String>  replaceTrueOrFalse(ArrayList <String> lista){
         for (int i=0; i<lista.size(); i++){
             String v = lista.get(i);
+            if (v == null) {
+                lista.set(i, "");
+                continue;
+            }
             if (v.equals("1") || v.equals("true"))
                 lista.set(i,"1");
             if (v.equals("false"))
@@ -1537,7 +1655,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
 
-    public void clearTexts(EditText editTexts []) {
+    public void clearTexts(EditText[] editTexts) {
 
         for (EditText editText : editTexts)
             editText.setText("");
@@ -1545,7 +1663,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
     }
 
-    public void clearTexts(Spinner spinners []) {
+    public void clearTexts(Spinner[] spinners) {
 
         for (Spinner spinner : spinners)
             spinner.setSelection(0);

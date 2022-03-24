@@ -29,9 +29,13 @@ public class SigxoneusiFiladiwnActivity extends BasicActivity {
         View view = bd.getRoot();
         setContentView(view);
 
+
         Menu_general_RV_Adapter adapter = new Menu_general_RV_Adapter(menu_lista, this, false);
         setRecyclerViewHorizontalLinearLayout(rv_hor,  R.id.recyclerView , adapter);
         adapter.addFrameLayout(bd.actFR);
+
+        setDisplayUserName();
+
     }
 
 
@@ -41,7 +45,7 @@ public class SigxoneusiFiladiwnActivity extends BasicActivity {
         KATHIMERINO_ZIGISMA,
         ISOZIGIO_METH,
         NEURIKI_AKSIOLOGISI,
-        KATHETIRES_PAROXETEUSEIS
+        KATHETIRES
     }
 
 

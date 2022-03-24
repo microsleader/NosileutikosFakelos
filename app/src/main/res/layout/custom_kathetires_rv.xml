@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="3dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout25"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="22dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/mainTitleTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorAccent"
+
+                     />
+
+                <LinearLayout
+                    android:id="@+id/childLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/titleTV1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_shape"
+                        android:gravity="center" />
+
+
+                    <Spinner
+                        android:id="@+id/valSP1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_layout"
+
+                        android:layout_weight="1"
+
+                        />
+
+                    <EditText
+                        android:id="@+id/textET1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="άλλο"
+                        android:inputType="textMultiLine"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/childLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/titleTV2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_shape"
+                        android:gravity="center" />
+
+                    <Spinner
+                        android:id="@+id/valSP2"
+                        android:layout_width="0dp"
+                        android:layout_height="34dp"
+                        android:background="@drawable/spinner_layout"
+
+                        android:layout_weight="1"
+
+                        />
+
+                    <EditText
+                        android:id="@+id/textET2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="άλλο"
+                        android:inputType="textMultiLine"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/childLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/titleTV3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/textview_shape"
+                        android:gravity="center" />
+
+
+                    <Spinner
+                        android:id="@+id/valSP3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/spinner_layout"
+
+                        android:layout_weight="1"
+
+                        />
+
+                    <EditText
+                        android:id="@+id/textET3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/edittext_shape"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="άλλο"
+                        android:inputType="textMultiLine"
+                        tools:ignore="TouchTargetSizeCheck" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/date_inTV"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="58dp"
+                android:layout_marginEnd="22dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shape"
+                android:ems="10"
+                android:gravity="center"
+                app:layout_constraintEnd_toStartOf="@+id/date_outTV"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+            <TextView
+                android:id="@+id/date_outTV"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="58dp"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shape"
+                android:ems="10"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+            <TextView
+                android:id="@+id/textView63"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/textview_shape"
+                android:paddingStart="0dp"
+                android:paddingTop="8dp"
+                android:text="Ημ/νία εισόδου"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/textView83"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+            <TextView
+                android:id="@+id/textView83"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/textview_shape"
+                android:paddingStart="0dp"
+                android:paddingTop="8dp"
+                android:text="Ημ/νία εξόδου"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+            <Button
+                android:id="@+id/neaEggrafiBT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="12dp"
+                android:layout_weight="1"
+                android:text="ΝΕΑ ΕΓΓΡΑΦΗ"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+            <ImageView
+                android:id="@+id/sigkentrotikaBT"
+                android:layout_width="38dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toEndOf="@+id/neaEggrafiBT"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25"
+                app:srcCompat="@drawable/info_fab_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

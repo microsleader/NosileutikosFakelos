@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity;
 import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.TableView.Table;
 
@@ -88,10 +88,10 @@ public class Simple_items_rv_adapter extends RecyclerView.Adapter<Simple_items_r
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView titleTV, date_inTV, date_outTV;
-        EditText textET;
-        Button neaEggrafiBT;
-        ImageView sigkentrotikaBT;
+        public TextView titleTV, date_inTV, date_outTV;
+        public EditText textET;
+        public Button neaEggrafiBT;
+        public ImageView sigkentrotikaBT;
 
 
         public MyViewHolder(View itemView) {
@@ -191,27 +191,28 @@ public class Simple_items_rv_adapter extends RecyclerView.Adapter<Simple_items_r
 
 
             textET = itemView.findViewById(R.id.textET);
-            textET.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (textET != null) {
+                textET.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
+                    }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                }
+                    }
 
-                @Override
-                public void afterTextChanged(Editable s) {
+                    @Override
+                    public void afterTextChanged(Editable s) {
 
-                    int pos = (int) textET.getTag();
-                    result.get(pos).setValue(textET.getText().toString());
+                        int pos = (int) textET.getTag();
+                        result.get(pos).setValue(textET.getText().toString());
 
 
-                }
-            });
-
+                    }
+                });
+            }
 
 
             neaEggrafiBT = itemView.findViewById(R.id.neaEggrafiBT);
@@ -252,12 +253,12 @@ public class Simple_items_rv_adapter extends RecyclerView.Adapter<Simple_items_r
 
 
                     String transgroupID = "";
-                    Kathetires_paroxeteuseis_Activity x = null;
+                    Kathetires_Activity x = null;
                     try{
                         //Αυτο γινεται για να παρει  το transgroupID οταν καλειται απο την οθονη των συγχωνευσεων φυλλαδιων
 
                         SigxoneusiFiladiwnActivity s  = (SigxoneusiFiladiwnActivity) act;
-                        x = (Kathetires_paroxeteuseis_Activity) s.activityFromSigxoneusi;
+                        x = (Kathetires_Activity) s.activityFromSigxoneusi;
                         transgroupID = x.transgroupID;
                     }
                     catch (Exception ignored){

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -136,6 +135,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     private boolean isPinakas = false , saveTransgroupID = true , setOnlyFirstRowAvalaible = false;
     private boolean set_fist_column_stable; // μεταβλτη για το αν θελουμε το πρωτο πεδιο σε μονοδιαστατο πινακα να ειναι ακινητο
     private boolean watchID_as_simpleSpinner;
+    private boolean modify_everything;
     private ArrayList<String> col_namesFromViesLista;
     private TextView currentTextView;
     private final Toolbar t;
@@ -198,8 +198,13 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         initialize();
         initializeParameters();
 
+
         if (isEditable)
             thereIsImageUpdateButton();
+
+        setDisplayUserName();
+        setRefreshButton();
+
 
         if (tableViewArraylist == null) {
 
@@ -257,6 +262,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         valuesMap = new HashMap<>();
         col_namesFromViesLista = new ArrayList<>();
         currentUser = Utils.getUserID(ctx);
+        modify_everything = Utils.get_is_nursing_unlock(ctx);
 
 
         //ΓΙΑ ΣΥΓΧΡΟΝΙΣΜΟ ΤΩΝ ΔΥΟ ΟΡΙΖΟΝΤΙΩΝ SCROLLVIEW
@@ -320,8 +326,6 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             saveTransgroupID = bundle.getBoolean("saveTransgroupID", true);
         if (bundle.containsKey("toolbar_title"))
             t.setTitle(bundle.getString("toolbar_title"));
-        if (bundle.containsKey("set_fist_column_stable"))
-            set_fist_column_stable = bundle.getBoolean("set_fist_column_stable");
         if (bundle.containsKey("patientID"))
             patientID = bundle.getString("patientID");
         if (bundle.containsKey("plagioiTitlesAreItemIDs"))
@@ -349,6 +353,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
                     if (item.getTitle() != null) {  //ΕΔΩ ΘΑ ΜΠΕΙ ΣΤΗΝ ΟΥΣΙΑ ΟΤΑΝ panoTitloi == null ΔΗΛΑΔΗ ΘΑ ΠΑΡΕΙ ΤΟΥς ΤΙΤΛΟΥΣ ΑΠΟ ΤΗΝ tableViewArraylist
                         tles.add(item.getTitle());
+
+                        if (item.isStable_col()) //ΒΛΕΠΕΙ ΑΝ ΤΟ ΠΕΔΙΟ ΠΡΕΠΕΙ ΝΑ ΕΙΝΑΙ ΣΤΑΘΕΡΟ ΣΤΟ ΣΚΡΟΛΑΡΙΣΜΑ (ΜΟΝΟ Ο ΠΡΩΤΟΣ ΤΙΤΛΟΣ ΠΡΕΠΕΙ)
+                            set_fist_column_stable = true;
                     }
                 }
 
@@ -403,8 +410,6 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             saveTransgroupID = in.getBooleanExtra("saveTransgroupID",true);
         if (in.hasExtra("toolbar_title"))
             t.setTitle(in.getStringExtra("toolbar_title"));
-        if (in.hasExtra("set_fist_column_stable"))
-            set_fist_column_stable = in.getBooleanExtra("set_fist_column_stable" , false);
         if (in.hasExtra("patientID"))
             patientID = in.getStringExtra("patientID");
         if (in.hasExtra("hasValuesForCH"))
@@ -414,6 +419,8 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         if (in.hasExtra("setOnlyFirstRowAvalaible"))
             setOnlyFirstRowAvalaible = in.getBooleanExtra("setOnlyFirstRowAvalaible",false);
+
+
 
 
 
@@ -429,6 +436,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                 }
                 if (item.getTitle() != null)
                     tles.add(item.getTitle());
+
+                if (item.isStable_col()) //ΒΛΕΠΕΙ ΑΝ ΤΟ ΠΕΔΙΟ ΠΡΕΠΕΙ ΝΑ ΕΙΝΑΙ ΣΤΑΘΕΡΟ ΣΤΟ ΣΚΡΟΛΑΡΙΣΜΑ (ΜΟΝΟ Ο ΠΡΩΤΟΣ ΤΙΤΛΟΣ ΠΡΕΠΕΙ)
+                    set_fist_column_stable = true;
             }
 
             col_names = nameJson.toArray(new String[nameJson.size()]);
@@ -519,6 +529,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         infoTV.setGravity(Gravity.CENTER);
         infoTV.setBackgroundResource(R.drawable.edittext_table);
+        infoTV.setWidth(80);
         infoTV.setText(" " + title + " ");
 
         firstRow.addView(infoTV);
@@ -547,7 +558,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
             for (int colIndex = 0; colIndex < results.length(); colIndex++) {
 
-                JSONObject jsonObject = null;
+                JSONObject jsonObject ;
 
                 try {
                     jsonObject = results.getJSONObject(colIndex);
@@ -662,17 +673,12 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
 
-
             try {
-
-
-
 
                 JSONObject jsonObject;
 
                 for (int colIndex = 0; colIndex < results.length() ; colIndex++) {
 
-                    col_index = colIndex;
                     jsonObject = results.getJSONObject(colIndex);
                     jsonObject_class = jsonObject;   //ΓΙΑ ΝΑ ΞΕΡΩ ΣΕ ΠΙΟ ΠΕΔΙΟ ΕΙΜΑΙ ΩΣΤΕ ΜΗΠΩς ΧΡΕΙΑΣΤΕΙ ΝΑ ΤΟ ΧΡΗΣΙΜΟΠΟΙΗΣΩ ΑΛΛΟΥ ΣΕ ΑΛΛΕΣ ΜΕΘΟΔΟΥΣ
 
@@ -687,6 +693,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
                     String column = col_names[rowIndex];
+
                     column_class = column;                    //ΓΙΑ ΝΑ ΞΕΡΩ ΣΕ ΠΙΟ ΠΕΔΙΟ ΕΙΜΑΙ ΩΣΤΕ ΜΗΠΩς ΧΡΕΙΑΣΤΕΙ ΝΑ ΤΟ ΧΡΗΣΙΜΟΠΟΙΗΣΩ ΑΛΛΟΥ ΣΕ ΑΛΛΕΣ ΜΕΘΟΔΟΥΣ
                     String value;
 
@@ -760,7 +767,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                 //      infoET.setText("xaxaxaxax");
                                 row.addView(infoET);
                             }
-                        } else if (isEditable)
+                        } else if (isEditable || modify_everything)
                             if (TYPE_ELEMENT == SPINNER_TYPE_NEW && tableViewArraylist.get(rowIndex).lookup_query != null && !sameUser) { //ΕΔΩ ΜΠΑΙΕΝΙ ΑΝ ΕΧΟΥΜΕ ΕΝΤΙ, ΔΙΑΦΟΡΕΤΙΚΟ ΧΡΗΣΤΗ ΚΑΙ ΛΟΟΚ ΑΠ
                                 value = jsonObject.optString(col_names[rowIndex] + LOOK_UP_TEXT);
                                 infoTV = getTextview(lp, value);
@@ -779,7 +786,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                 }
 
                                 else if (typeElement == MULTI_TYPE_LOOKUP) {
-                                    infoTV = getTextViewMultiChoice(lp, value, colIndex, rowIndex, sameUser);
+                                    infoTV = getTextViewMultiChoice(lp, value, rowIndex, colIndex, sameUser);
                                     row.addView(infoTV);
                                 }
 
@@ -915,11 +922,18 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
                 if (set_fist_column_stable) {
-                    TextView stableTVTitle = (TextView) llheader_first_col_stable.getChildAt(0);// width 270
+                    TextView stableTV_title = (TextView) llheader_first_col_stable.getChildAt(0);
                     TableRow colRow = (TableRow)lldetailTitles.getChildAt(0);
-                    TextView stableTVDetail = (TextView) colRow.getChildAt(0);
-                    int width_title = stableTVDetail.getWidth();
-                    stableTVTitle.setWidth(width_title);
+                    if (colRow != null) {
+                        TextView stableTV_detail = (TextView) colRow.getChildAt(0);
+                        int width_detail = stableTV_detail.getWidth();
+                        int width_title = stableTV_title.getWidth();
+
+                        if (width_detail > width_title)
+                            stableTV_title.setWidth(width_detail);
+                        else
+                            stableTV_detail.setWidth(width_title);
+                    }
                 }
 
                 if (tableRow != null) {
@@ -964,7 +978,6 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         }
                         else
                             headerTV.setWidth(detal_width);
-
 
                     }
                 }
@@ -1063,6 +1076,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             row.addView(infoTV);
             valuesJson = new ArrayList<>();
 
+            checksex(results.getJSONObject(rowIndex), row);
 
 
             for (int colIndex = 0; colIndex < results.length(); colIndex++) {
@@ -1145,6 +1159,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         for (int jsonItemIndex = 0; jsonItemIndex < tableViewArraylist.size(); jsonItemIndex ++) {
 
                             String col = tableViewArraylist.get(jsonItemIndex).getColumn();
+
                             column_class = col;
 
 
@@ -1200,6 +1215,16 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
     }
 
+    private void checksex(JSONObject jsonObject , TableRow row){
+
+        //1=αντρας 2=γυναικα
+        if (jsonObject.optString("sex").equals("2") || jsonObject.optString("Sex").equals("2"))
+            row.setBackgroundColor(act.getResources().getColor(R.color.light_red));
+    }
+
+
+
+
     private void addValues(String[] col_names, JSONArray results) throws JSONException {
 
         double [] [] valuesForTotal= new double[results.length()][col_names.length];
@@ -1244,13 +1269,18 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                 }
 
 
+                checksex(jsonObject, row);
+
 
                 for (int colIndex = 0; colIndex < col_names.length; colIndex ++) {
 
 
                     int typeElement = tableViewArraylist.get(colIndex).getTypeElement();
                     int textType = tableViewArraylist.get(colIndex).getTextType();
+                    boolean isStable_col =  tableViewArraylist.get(colIndex).isStable_col();
+
                     String column = col_names[colIndex];
+
                     column_class = column;                    //ΓΙΑ ΝΑ ΞΕΡΩ ΣΕ ΠΙΟ ΠΕΔΙΟ ΕΙΜΑΙ ΩΣΤΕ ΜΗΠΩς ΧΡΕΙΑΣΤΕΙ ΝΑ ΤΟ ΧΡΗΣΙΜΟΠΟΙΗΣΩ ΑΛΛΟΥ ΣΕ ΑΛΛΕΣ ΜΕΘΟΔΟΥΣ
                     String value;
 
@@ -1353,27 +1383,30 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         }
 
 
-                        else if (isEditable) {
+
+                        else if (isEditable || modify_everything) {
                             if (TYPE_ELEMENT == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query != null && !sameUser) { //ΕΔΩ ΜΠΑΙΕΝΙ ΑΝ ΕΧΟΥΜΕ ΕΝΤΙ, ΔΙΑΦΟΡΕΤΙΚΟ ΧΡΗΣΤΗ ΚΑΙ ΛΟΟΚ ΑΠ
-                                value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
-                                infoTV = getTextview(lp, value);
-                                row.addView(infoTV);
-                            }
-//                            else if (TYPE_ELEMENT == CHECKBOX_ITEM && tableViewArraylist.get(colIndex).lookup_query != null && !sameUser) { //ΕΔΩ ΜΠΑΙΕΝΙ ΑΝ ΕΧΟΥΜΕ ΕΝΤΙ, ΔΙΑΦΟΡΕΤΙΚΟ ΧΡΗΣΤΗ ΚΑΙ ΛΟΟΚ ΑΠ
+                                if (value.isEmpty()){
+                                    String lookupTextvalue = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
+                                    infoTV = getTextview(lp, lookupTextvalue.isEmpty() ? "" : lookupTextvalue);
+                                    row.addView(infoTV);
+                                }
+                                else {
+                                    infoSP = getSpinner(lp, value, rowIndex, colIndex, lista, sameUser);
+                                    row.addView(infoSP);
+                                }
+
 //                                value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
 //                                infoTV = getTextview(lp, value);
 //                                row.addView(infoTV);
-//                            }
+                            }
+
+
                             else {
 
-                                boolean isStable_col =  tableViewArraylist.get(colIndex).isStable_col();
-                                if (isStable_col) {
-                                    TableRow titlerow = getRowWithLP(rowIndex, currentUser);
-                                    TableRow.LayoutParams lps = getLayoutsParams();
-                                    TextView infotestTV = getTextview(lps, value);
-                                    titlerow.addView(infotestTV);
-                                    lldetailTitles.addView(titlerow);
-                                }
+
+                                if (isStable_col)
+                                    setStable_col_tv(typeElement , lp, value, rowIndex, colIndex, sameUser);
 
                                 else
                                     checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, rowIndex, colIndex, lista, sameUser);
@@ -1394,7 +1427,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                 }
 
                                 else if (typeElement == MULTI_TYPE_LOOKUP) {
-                                    infoTV = getTextViewMultiChoice(lp, value, colIndex, rowIndex, sameUser);
+                                    infoTV = getTextViewMultiChoice(lp, value, rowIndex, colIndex, sameUser);
                                     row.addView(infoTV);
                                 }
 
@@ -1411,9 +1444,18 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
                                 else if (typeElement == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query != null){
-                                    value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
-                                    infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
-                                    row.addView(infoET);
+                                    if (value.isEmpty() ){
+                                        String lookupTextvalue = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
+                                        infoTV = getTextview(lp, lookupTextvalue.isEmpty() ? "" : lookupTextvalue);
+                                        row.addView(infoTV);
+                                    }
+                                    else {
+                                        infoSP = getSpinner(lp, value, rowIndex, colIndex, lista, sameUser);
+                                        row.addView(infoSP);
+                                    }
+//                                    value = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
+//                                    infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
+//                                    row.addView(infoET);
                                 }
 
 
@@ -1436,10 +1478,18 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
                                 else {
 
-                                    infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
-                                    row.addView(infoET);
+                                    if (!isStable_col) {
+                                        infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
+                                        row.addView(infoET);
+                                    }
                                 }
                             }
+
+
+                            if (isStable_col)
+                                setStable_col_tv(typeElement , lp, value, rowIndex, colIndex, sameUser);
+
+
                         }
 
 
@@ -1466,8 +1516,8 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         }
                     }
 
-                    if (isEditable && typeElement == SPINNER_TYPE_NEW && !sameUser)
-                        value = value = convertObjToString(jsonObject.opt(col_names[colIndex]));
+                    if ((isEditable && typeElement == SPINNER_TYPE_NEW && !sameUser) || (modify_everything && typeElement == SPINNER_TYPE_NEW) )
+                        value = convertObjToString(jsonObject.opt(col_names[colIndex]));
 
                     addValueToValueList(colIndex,value);
 
@@ -1517,6 +1567,8 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 //            if (rowIndex >= tableViewArraylist.size() && plagioiTitloi == null)
 //                return;
 
+        if (modify_everything)
+            sameUser = true;
 
 
         if (typeElement == TABLE_NO_ELEMENT ) {
@@ -1632,6 +1684,24 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
     }
+
+
+
+    public void setStable_col_tv(int typeElement, TableRow.LayoutParams lp, String value, int rowIndex, int colIndex , boolean sameUser){
+        TableRow titlerow = getRowWithLP(rowIndex, currentUser);
+        TableRow.LayoutParams lps = getLayoutsParams();
+        TextView infotestTV ;
+        if (typeElement == MULTI_TYPE_LOOKUP)
+            infotestTV = getTextViewMultiChoice(lp, value, rowIndex, colIndex, sameUser);
+        else if (typeElement == TEXTVIEW_CLOCK_TYPE)
+            infotestTV = getTextviewClock(lp, value, rowIndex, colIndex ,sameUser);
+        else
+            infotestTV = getTextview(lps, value);
+        titlerow.addView(infotestTV);
+        lldetailTitles.addView(titlerow);
+    }
+
+
 
 
 
@@ -1756,7 +1826,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         createNewPanoTitlous(results);
 
                     //---------------
-                    if (tableViewArraylist != null && plagioiTitloi != null && panoTitloi != null && isEditable && results.length() == panoTitloi.length){
+                    if (tableViewArraylist != null && plagioiTitloi != null && panoTitloi != null && (isEditable || modify_everything) && results.length() == panoTitloi.length){
                         //ΕΔΩ ΜΠΑΙΝΕΙ ΟΤΑΝ ΕΧΟΥΜΕ ΠΑΝς ΚΑΙ ΠΛΑΓΙΟΥΣ ΤΙΤΛΟΥΣ ΚΑΙ ΜΠΟΡΕΙ Ο ΧΡΗΣΤΗΣ ΝΑ ΚΑΝΕΙ ΑΛΛΑΓΕΣ
                         //ΑΥΤΟ ΓΙΝΕΤΑΙ ΕΠΕΙΔΗ ΕΙΝΑΙ ΕΝΑ ΑΠΟ ΤΑ ΒΗΜΑΤΑ ΩΣΤΕ ΝΑ ΔΟΥΛΕΨΕΙ ΣΩΣΤΑ ΤΟ ΝΑ ΕΜΦΑΝΙΖΕΤΑΙ ΚΑΙΝΟΥΡΙΑ ΕΛΕΘΕΡΗ ΣΤΗΛΗ
                         //ΓΙΑ ΝΑ ΚΑΝΕΙ ΙΣΝΕΡΤ Ο ΧΡΗΣΤΗΣ
@@ -1800,7 +1870,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     // ΒΓΑΖΕΙ ΠΡΟΕΙΔΟΠΟΙΗΣΗ ΤΟ ANDROID STUDIO ΠΩΣ ΔΕΝ ΧΡΗΣΙΜΟΠΟΙΕΙΤΑΙ ΠΟΥΘΕΝΑ ΑΛΛΑ ΚΑΝΕΙ ΛΑΘΟΣ
     public JSONArray addGrammiEggrafis(JSONArray results) throws JSONException {
 
-        if (isEditable){
+        if (isEditable || modify_everything){
             JSONObject jsonObject = new JSONObject();
             for (String n : nameJson) {
                 if (n.equalsIgnoreCase("id"))
@@ -1830,7 +1900,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         row.setLayoutParams(lp);
 
 
-        if (isEditable)
+        if (isEditable || modify_everything)
             row.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -1843,21 +1913,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         alertDialog.setTitle("Διαγραφη");
                         alertDialog.setMessage("Διαγραφη της επιλεγμένης εγγραφής ;");
                         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ΟΚ",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        deleteData(id);
-
-                                    }
-                                });
+                                (dialog, which) -> deleteData(id));
 
 
                         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "ΑΚΥΡΩΣΗ",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                });
+                                (dialog, which) -> dialog.dismiss());
                         alertDialog.show();
                     }
 
@@ -1932,7 +1992,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         if (sameUser) {
             textView.setBackgroundResource(R.color.light_green);
-            if (isEditable) {
+            if (isEditable || modify_everything) {
                 textView.setOnClickListener(new SearchMedicineListener_Base(act));
             }
 
@@ -1970,7 +2030,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         if (sameUser) {
             tv.setBackgroundResource(R.color.light_green);
-            if (isEditable) {
+            if (isEditable || modify_everything) {
                 String[] finalHourIDs = hourIDs;
                 tv.setOnClickListener(view -> selectHoursListener(finalHourIDs,tv , positionRow, indexOfColumn));
             }
@@ -2116,7 +2176,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         }
         tv.setText(names.toString());
 
-        if (isEditable) {
+        if (isEditable || modify_everything) {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2397,7 +2457,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
         //ΑΠΟ ΤΗΝ ΒΑΣΗ
-        if (value != null && !value.isEmpty()){
+        if (!value.isEmpty()){
             AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2(Str_queries.setglobals(currentUser,"2",getcompanyID(act))  +
                     " \n select id, name from " + lookup + " where id in (" + meds_ids + ")" );
             task.ctx = act;
@@ -2425,7 +2485,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         if (sameUser) {
             tv.setBackgroundResource(R.color.light_green);
-            if (isEditable) {
+            if (isEditable || modify_everything) {
                 tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -2448,16 +2508,6 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             }
 
 
-//            textView.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    currentTextView = textView;
-//                    currentTableFR = true;
-//                    currentPosRow = positionRow;
-//                    currentIndexOfCol = indexOfColumn;
-//                    return false;
-//                }
-//            });
 
 
         }
@@ -2482,14 +2532,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         else{
 
             tv.setBackgroundResource(R.color.light_green);
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            tv.setOnClickListener(v -> {
 
-                    ArrayList<String> valuesLista = valuesMap.get(positionRow);
-                    if (valuesLista != null)
-                        Dialogs.setDialogInputTextTable(act, tv, title, valuesMap, valuesLista, positionRow, indexOfColumn ,value,textType);
-                }
+                ArrayList<String> valuesLista = valuesMap.get(positionRow);
+                if (valuesLista != null)
+                    Dialogs.setDialogInputTextTable(act, tv, title, valuesMap, valuesLista, positionRow, indexOfColumn ,value,textType);
             });
         }
 
@@ -2515,7 +2562,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         editText.setMaxEms(14);
         editText.setSingleLine(false);
 
-        if (!isEditable)
+        if (!isEditable && !modify_everything)
             editText.setTextColor(act.getResources().getColor(R.color.cyan2));
 
 
@@ -2679,7 +2726,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         spinner.setBackgroundResource(R.drawable.table_row_cell);
 
 
-        if (lista != null && sameUser) {
+        if (lista != null ) {
 
             Spinner_new_Image_Adapter adapter = new Spinner_new_Image_Adapter(ctx, R.layout.spinner_layout2,
                     lista.toArray(new Spinner_item[lista.size()]));
@@ -2687,7 +2734,6 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
-
 
             String forceValue = null;
             if (tableViewArraylist.size() > indexOfColumn)
@@ -2703,16 +2749,14 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
 
-
             spinner.setSelection(Integer.parseInt(value));
-
             spinner.setBackgroundResource(R.color.light_green);
-
             checkSameUserAndSetSpinnerListener(spinner, positionRow, indexOfColumn,sameUser);
 
         }
 
-        else if (lista == null && sameUser){
+       // else if (lista == null && sameUser){
+        else {
             lista = new ArrayList<>();
 
             String lookup_query = tableViewArraylist.get(indexOfColumn).getLookup_query();
@@ -2769,6 +2813,10 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
                         checkSameUserAndSetSpinnerListener(spinner, positionRow, indexOfColumn,sameUser);
 
+                        setHeadersSizesAsDetail();
+                        if (set_fist_column_stable)
+                            setPlagioiTitloiSizes();
+
 
 
                     }
@@ -2815,7 +2863,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
     private void checkSameUserAndSetSpinnerListener(Spinner spinner, int positionRow, int indexOfColumn, boolean sameUser){
 
-        if (sameUser) {
+        if (sameUser && (isEditable || modify_everything) ) {
             spinner.setBackgroundResource(R.color.light_green);
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -2840,13 +2888,30 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             });
 
         }
-        else
+        else {
             spinner.setEnabled(false);
+            spinner.setBackgroundResource(R.color.colorWhiteBackground);
+        }
 
     }
 
 
 
+    public void setRefreshButton(){
+        ImageButton refreshIMB = new ImageButton(ctx);
+        LinearLayout.LayoutParams l1=new LinearLayout.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+
+        l1.gravity= Gravity.START;
+        refreshIMB.setLayoutParams(l1);
+        refreshIMB.setBackgroundResource(R.drawable.ic_icon_refresh);
+        refreshIMB.setPadding(20,20,32,20);
+        refreshIMB.setScaleType(ImageButton.ScaleType.FIT_CENTER);
+        t.addView(refreshIMB);
+        Toolbar.LayoutParams l3 = new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l3.gravity= Gravity.CENTER;
+        refreshIMB.setLayoutParams(l3);
+        refreshIMB.setOnClickListener(v -> getDataForTable());
+    }
 
 
     public void thereIsImageUpdateButton(){
@@ -2873,6 +2938,44 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     }
 
 
+
+    public void setDisplayUserName(){
+
+
+        ImageButton userNameIB = new ImageButton(ctx);
+
+        Toolbar.LayoutParams l1=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l1.gravity= Gravity.START;
+        userNameIB.setLayoutParams(l1);
+        userNameIB.setBackgroundResource(R.drawable.ic_person_black_24dp);
+        userNameIB.setPadding(20,20,20,20);
+        userNameIB.setScaleType(ImageButton.ScaleType.FIT_START);
+        t.addView(userNameIB);
+        Toolbar.LayoutParams l3=new Toolbar.LayoutParams(Toolbar.LayoutParams.WRAP_CONTENT, Toolbar.LayoutParams.WRAP_CONTENT);
+        l3.gravity= Gravity.START;
+        userNameIB.setLayoutParams(l3);
+        userNameIB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
+                alert.setTitle("Συνδεδεμένος χρήστης");
+                alert.setMessage(Utils.getUserName(ctx));
+                alert.setPositiveButton("ΟΚ", (dialog, whichButton) -> {
+
+                });
+
+                alert.show();
+
+            }
+        });
+
+
+
+
+    }
+
+
+
     private String checkEksereseis(String column,String value) {
 
         if (watchID_as_simpleSpinner)
@@ -2886,6 +2989,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             value = value + ":00";
         else if (column.equals("Watch")&& value.length() == 3)
             value = value.substring(1) + ":00";
+
 
         return value;
 

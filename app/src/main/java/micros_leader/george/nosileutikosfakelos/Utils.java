@@ -571,6 +571,13 @@ public class Utils  {
     }
 
 
+    public static boolean get_is_nursing_unlock(Context context) {
+        sp = context.getSharedPreferences("loginSettings", Activity.MODE_PRIVATE);
+        return  sp.getBoolean("is_nursing_unlock", false);
+
+    }
+
+
 
     public static ArrayList<String> getMedicinesArrayList(Context context) {
         sp = context.getSharedPreferences("settings", Activity.MODE_PRIVATE);
@@ -973,18 +980,8 @@ public class Utils  {
         prefs = ctx.getSharedPreferences("loginSettings", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editorForLogin;
         editorForLogin = prefs.edit();
-
-        //-----------------------------------------------------------------
-//        editorForLogin.putBoolean("login", false);
-//        editorForLogin.putString("id", "");
-//        editorForLogin.putString("name", "");
-//        editorForLogin.putString("companyID", "");
-//        editorForLogin.putString("linkdoctorID", "");
-//        editorForLogin.apply();
-
         editorForLogin.clear();
         editorForLogin.apply();
-
 
 
     }

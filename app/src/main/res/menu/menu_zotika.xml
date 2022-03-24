@@ -9,10 +9,10 @@
         android:icon="@drawable/item"
         android:title="@string/sigkentrotika_ana_ora"/>
 
-    <item
-        android:id="@+id/sigkentrotika_ana_3oro"
-        android:icon="@drawable/ic_error_outline_black_24dp"
-        android:title="@string/sigkentrotika_ana_3oro"/>
+<!--    <item-->
+<!--        android:id="@+id/sigkentrotika_ana_3oro"-->
+<!--        android:icon="@drawable/ic_error_outline_black_24dp"-->
+<!--        android:title="@string/sigkentrotika_ana_3oro"/>-->
 
 
     <item

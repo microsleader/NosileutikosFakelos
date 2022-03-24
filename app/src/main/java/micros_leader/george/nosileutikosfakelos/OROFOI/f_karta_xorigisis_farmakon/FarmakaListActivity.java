@@ -282,7 +282,6 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
                 true);
 
         bundle1.putString("toolbar_title","Συγκεντρωτικά ώρες χορήγησης");
-        bundle1.putBoolean("set_fist_column_stable",true);
         showFragment();
     }
 
@@ -414,7 +413,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
             public void afterTextChanged(Editable s) {
                 int num = s.toString().isEmpty() ? 0 : Integer.parseInt(s.toString());
                 int length = s.toString().length();
-                if (num >24)
+                if (num > 24)
                     s.delete(length - 1, length);
             }
         });

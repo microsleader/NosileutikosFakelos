@@ -330,6 +330,8 @@ public class Str_queries {
                 "  p.FirstName,    " +
                 "  p.LastName,      " +
                 "  p.fatherName, " +
+                "  dbo.datetostr(p.DateBirth) as datebirthStr, " +
+                "  p.sex , " +
                 "  tg.IsEmergency  " +
                 "  from transgroup tg  " +
                 " " +
@@ -1031,13 +1033,16 @@ public class Str_queries {
 
     public static String getZOTIKA_DIAGRAM_INFO_ANA_HOUR(String transgroupID ,String katigoria, String date){
 
-        return "select s." + katigoria + ", watch \n " +
+        return "select s." + katigoria + ", " +
+                //" watch \n " +
+                " dbo.timetostr(time) as timeStr \n" +
                 " from Nursing_Zotika_Simeia s \n" +
                 " join transgroup tg on tg.id = s.TransGroupID\n" +
-                " where tg.FirstTransGroupID = " + transgroupID +
-               // " and date = dbo.timeToNum(CONVERT(datetime, '" + date +"',103)) " +
-                " and LEN(watch) < 3 \n" +
-                " order by watch ";
+                " where tg.FirstTransGroupID=(SELECT FirstTransGroupID FROM TransGroup WHERE ID=" + transgroupID +")\n " +
+                " and dbo.datetime2date(date) = dbo.timeToNum(CONVERT(datetime, '" + date +"',103))\n " +
+                " and time is not null \n" +
+                //" and LEN(watch) < 3 \n" +
+                " order by s.time ";
     }
 
     public static String getZOTIKA_DIAGRAM_INFO_ANA_3ORO(String transgroupID ,String katigoria, String date){
@@ -1053,12 +1058,16 @@ public class Str_queries {
 
     public static String getZOTIKA_METH_DIAGRAM_INFO(String transgroupID ,String katigoria, String date){
 
-        return "select " + katigoria + " , watch " +
-                "  from Nursing_Zotika_Simeia_Meth where TransGroupid = " + transgroupID +
-                " and dbo.datetime_to_date(date) = dbo.timeToNum(CONVERT(datetime, '" + date +"',103)) " +
-                " and watch is not null " +
-                " and LEN(watch) < 3 " +
-                " order by watch";
+        return "select " + katigoria + " , " +
+                //" watch " +
+                " dbo.timetostr(time) as timeStr \n" +
+                " from Nursing_Zotika_Simeia_Meth n\n" +
+                " join transgroup tg on tg.id = n.TransGroupID\n" +
+                " where tg.FirstTransGroupID=(SELECT FirstTransGroupID FROM TransGroup WHERE ID=" + transgroupID +")\n " +
+                " and dbo.datetime_to_date(n.date) = dbo.timeToNum(CONVERT(datetime, '" + date +"',103)) \n " +
+                " and n.time is not null \n" +
+                //" and LEN(watch) < 3 " +
+                " order by n.time";
     }
 
 
@@ -1370,12 +1379,12 @@ public class Str_queries {
                 " order by p.name";
     }
 
-    public String getZOTIKA_24ORO_ANA_ORA_PERSON(String transgroupID, String date , String watch){
+    public String getZOTIKA_24ORO_ANA_ORA_PERSON(String transgroupID, String date , String time){
 
         return "select * from Nursing_Zotika_Simeia " +
                 "where transgroupID = " + transgroupID +
-                " and date = dbo.timeToNum(CONVERT(datetime, '" + date + "' , 103))" +
-                " and watch = " + watch;
+                " and dbo.DateTime2Date(date) = dbo.timeToNum(CONVERT(datetime, '" + date + "' , 103))" +
+                " and time =  dbo.DateTime2time(dbo.timeToNum(CONVERT(datetime,'" + time + "',103)))";
     }
 
 
@@ -1516,32 +1525,43 @@ public class Str_queries {
     }
 
 
-    public static  String getZOTIKA_SIMEIA_SIGKENTROTIKA_TON_ASETHENWN_SIGKEKRIMENI_HOUR(String date, String watch_ID){
+    public static  String getZOTIKA_SIMEIA_SIGKENTROTIKA_TON_ASETHENWN(String date, String fromTime , String toTime ,int floorID){
 
         return  "select z.* ,\n" +
-                " dbo.NAMEUSER(userID) as username, p.FirstName + ' ' + p.LastName as patName, \n" +
-                " dbo.datetostr(z.date) as dateStr \n" +
+                " dbo.NAMEUSER(z.userID) as username, p.FirstName + ' ' + p.LastName as patName, p.sex, \n" +
+                " dbo.datetostr(z.date) as dateStr, \n" +
+                " dbo.timetostr(z.time) as timeStr \n" +
                 " from Nursing_Zotika_Simeia  z \n" +
                 " join transgroup tg on tg.id = z.transgroupid\n " +
                 " join person p on p.id = tg.PatientID\n " +
+                " join bed b on b.id = tg.BedID\n" +
+                " join room r on r.id = b.RoomID\n" +
+                " join Floor fl on fl.ID = r.FloorID\n " +
+                //" left join zotika_time tim on tim.id = z.watch \n" +
                 " where \n" +
-                " z.date = dbo.timeToNum(CONVERT(datetime, '" + date.replace("-","/") + "' , 103))  \n" +
-                " and watch = "  + watch_ID +
-                " order by watch";
+                " dbo.DateTime2Date(z.date) = dbo.timeToNum(CONVERT(datetime, '" + date.replace("-","/") + "' , 103))  \n" +
+                " and time >=   dbo.DateTime2time(dbo.timeToNum(CONVERT(datetime,'" + fromTime + "',103)))  \n" +
+                " and time <=   dbo.DateTime2time(dbo.timeToNum(CONVERT(datetime,'" + toTime + "',103)))  \n" +
+                " and fl.id = " + floorID +
+               // " and watch = "  + watch_ID +
+                " order by  r.id, z.time desc";
     }
 
-    public static  String getZOTIKA_SIMEIA_SIGKENTROTIKA_ANA_HOUR(String transgroupID,String date){
+    public static  String getZOTIKA_SIMEIA_SIGKENTROTIKA_ANA_HOUR(String transgroupID, String date){
 
         return  "select z.* ,\n" +
-                " dbo.NAMEUSER(z.userID) as username, p.FirstName + ' ' + p.LastName as patName, \n" +
-                " dbo.datetostr(z.date) as dateStr \n" +
+                " dbo.NAMEUSER(z.userID) as username, p.FirstName + ' ' + p.LastName as patName, p.sex, \n" +
+                " dbo.datetostr(z.date) as dateStr, \n" +
+                " dbo.timetostr(z.time) as timeStr \n" +
+
                 " from Nursing_Zotika_Simeia z \n" +
                 " join transgroup tg on tg.id = z.transgroupid\n " +
                 " join person p on p.id = tg.PatientID\n " +
+                //" left join zotika_time tim on tim.id = z.watch \n" +
                 " where z.transgroupid =  " + transgroupID +
-                " and z.date = dbo.timeToNum(CONVERT(datetime, '" + date.replace("-","/") + "' , 103))  " +
-                " and LEN(watch) < 3 " +
-                " order by watch";
+                " and dbo.DateTime2Date(z.date) = dbo.timeToNum(CONVERT(datetime, '" + date.replace("-","/") + "' , 103)) \n " +
+                //" and LEN(watch) < 3 " +
+                " order by z.time desc";
     }
 
 
@@ -1558,6 +1578,8 @@ public class Str_queries {
                 " and LEN(watch) = 3 " +
                 " order by watch";
     }
+
+
 
     public static String getMEDICAL_INSTRACTIONS_OLD(String cols, String patientid){
         int custID = Utils.getCustomerID(MyApplication.getAppContext());
@@ -1658,22 +1680,42 @@ public class Str_queries {
                 " and vardiaID = " + vardiaID;
     }
 
-    public static  String getZotikaMeth(String transgroupID, String date ){
 
-        return  "select  * , dbo.NAMEUSER(userid) as username " +
-                "from Nursing_Zotika_Simeia_Meth " +
-                "where transgroupID = " + transgroupID +
+
+    public static String getZotikaMeth (String transgroupID, String date , String time){
+
+        return  "select  n.* , dbo.NAMEUSER(n.userid) as username \n" +
+                "from Nursing_Zotika_Simeia_Meth n \n" +
+                " where n.transgroupID = " + transgroupID +
+               // " and watch = " + watchID +
+                " and dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) \n" +
+                " and time = dbo.DateTime2time(dbo.timeToNum(CONVERT(datetime,'" + time + "',103)))\n" +
+                " order by  n.time desc " ;
+
+    }
+
+
+    public static  String getSigkentrotikaZotikaMeth(String transgroupID, String date ){
+
+        return  "select  n.* , dbo.NAMEUSER(n.userid) as username, \n" +
+                "dbo.datetostr(n.date) + ' ' + dbo.timetostr(n.time) as datetimeStr \n" +
+                "from Nursing_Zotika_Simeia_Meth n \n" +
+                "join transgroup tg on tg.id = n.transgroupID \n" +
+                " where tg.FirstTransGroupID=(SELECT FirstTransGroupID FROM TransGroup WHERE ID = " +  transgroupID + ") \n" +
                 " and dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) " +
-                " order by  date desc" ;
+                " order by n.date desc,  n.watch desc " ;
 
     }
 
 
     public static  String getKathetiresValues_Meth(String transgroupID,String date ) {
 
-        return "select *, dbo.dateToStr(datestart) as dateinStr ,dbo.dateToStr(datestop) as dateoutStr ,topos " +
-                " from  Nursing_Kathethres_Topos where transgroupID = " + transgroupID +
-                " and dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) ";
+        return "select n.*, dbo.dateToStr(n.datestart) as dateinStr ,dbo.dateToStr(n.datestop) as dateoutStr ,n.topos, met.name as itemName \n" +
+                " from  Nursing_Kathethres_Topos n\n" +
+                " join  Nursing_Kathethres_Meth met on met.ID = n.itemID\n" +
+                " where n.transgroupID = " + transgroupID +
+                " and dbo.DateTime2Date(n.date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) \n" +
+                " order by n.itemID , n.id desc";
 
     }
 
@@ -1758,7 +1800,7 @@ public class Str_queries {
 
     public static String getSigkentrotika_Medical_instructions(String patientID, int custID){
 
-        String x= "select  y.Name as yearName , \n" +
+        String x = "select  y.Name as yearName , \n" +
                 "m.Name as monthName ,\n" +
                 " n.DoctorID as  UserID,\n" +
                 " dur.name as  durationName,\n" +
@@ -1778,8 +1820,9 @@ public class Str_queries {
                 : "") +
 
 
-                (Customers.isFrontis(custID) ? "dbo.datetostr(embolio_covid2) as embolio_covid2_str, " +
-                        "dbo.datetostr(embolio_covid3) as embolio_covid3_str, " +
+                (Customers.isFrontis(custID) ? "n.darbepoetin,\n" +
+                        "dbo.datetostr(embolio_covid2) as embolio_covid2_str,\n " +
+                        "dbo.datetostr(embolio_covid3) as embolio_covid3_str,\n " +
                         "dbo.datetostr(embolio_covid4) as embolio_covid4_str, \n" : "") +
 
                 " dbo.timetostr(Duration) as durationStr,  \n" +
@@ -2038,13 +2081,15 @@ public class Str_queries {
 
          public static String getNotification_Messages(String companyID) {
 
-            return "IF EXISTS (select top 1 id from Notification_messages where confirmation is null and companyID = 1 ) " +
-                    "AND EXISTS (select top 1 id from Nursing_iatrikes_entoles where confirmation is null and companyID = " + companyID +") " +
-             " SELECT 1 AS ID " +
-                     "ELSE IF EXISTS (select top 1 id from Notification_messages where confirmation is null and companyID = " + companyID +" )  " +
-                     " SELECT 2 AS ID " +
-                     "ELSE IF EXISTS (select top 1 id from Nursing_iatrikes_entoles where confirmation is null and companyID = " + companyID +") " +
-                     " SELECT 3 AS ID";
+            return  "declare @curDate bigint = dbo.datetime_to_date( dbo.timeToNum(GETDATE()))\n" +
+
+                    "IF EXISTS (select top 1 id from Notification_messages where confirmation is null and companyID = 1 ) \n" +
+                    "AND EXISTS (select top 1 id from Nursing_iatrikes_entoles where confirmation is null and companyID = " + companyID +" and dbo.datetime_to_date(date) <= @curDate ) \n" +
+             " SELECT 1 AS ID \n" +
+                     "ELSE IF EXISTS (select top 1 id from Notification_messages where confirmation is null and companyID = " + companyID +" )  \n" +
+                     " SELECT 2 AS ID \n" +
+                     "ELSE IF EXISTS (select top 1 id from Nursing_iatrikes_entoles where confirmation is null and companyID = " + companyID +" and dbo.datetime_to_date(date) <= @curDate ) \n" +
+                     " SELECT 3 AS ID ";
 
         }
 

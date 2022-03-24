@@ -142,6 +142,8 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(0,""));
         lista.add(new Spinner_item(1,"Δεξιά"));
         lista.add(new Spinner_item(2,"Αριστερά"));
+        lista.add(new Spinner_item(3,"Ύπτια"));
+        lista.add(new Spinner_item(4,"Πρηνή"));
 
         return lista;
     }
@@ -408,6 +410,22 @@ public class Spinner_items_lists {
     }
 
 
+    public static ArrayList <Spinner_item> getSinthikes_vimatodoti(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"mode VVI"));
+        lista.add(new Spinner_item(2,"mode DDD"));
+        lista.add(new Spinner_item(3,"mode AAI"));
+        lista.add(new Spinner_item(4,"κλειστός"));
+        lista.add(new Spinner_item(5,"stand by"));
+
+        return lista;
+    }
+
+
+
     public static ArrayList <Spinner_item> getIABP_mode(){
 
         ArrayList <Spinner_item> lista = new ArrayList<>();
@@ -416,6 +434,18 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(1,"1:1"));
         lista.add(new Spinner_item(2,"1:2"));
         lista.add(new Spinner_item(3,"1:4"));
+
+        return lista;
+    }
+
+
+    public static ArrayList <Spinner_item> getIABP_side(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1, "ΔΕ μηριαία"));
+        lista.add(new Spinner_item(2, "ΑΡ μηριαία"));
 
         return lista;
     }
@@ -456,15 +486,16 @@ public class Spinner_items_lists {
 
         lista.add(new Spinner_item(0,""));
         lista.add(new Spinner_item(1,"Χωρίς οξυγόνο"));
-        lista.add(new Spinner_item(2,"P.K."));
-        lista.add(new Spinner_item(3,"M.V."));
-        lista.add(new Spinner_item(4,"Μ.Τραχ"));
-        lista.add(new Spinner_item(5,"BIPAP"));
-        lista.add(new Spinner_item(6,"CPAP"));
-        lista.add(new Spinner_item(7,"T-Tube"));
-        lista.add(new Spinner_item(8,"B.O."));
-        lista.add(new Spinner_item(9,"Μέσος όρος"));
-        lista.add(new Spinner_item(10,"HIGH FLOW"));
+        lista.add(new Spinner_item(2,"Ριν. κάνουλα"));
+        lista.add(new Spinner_item(3,"Μάσκα απλή"));
+        lista.add(new Spinner_item(4,"Μάσκα Venturi"));
+        lista.add(new Spinner_item(5,"Μάσκα μη επανεισπ."));
+        lista.add(new Spinner_item(6,"BiPAP"));
+        lista.add(new Spinner_item(7,"Hi - Flow"));
+        lista.add(new Spinner_item(8,"Μάσκα τραχειστ."));
+        lista.add(new Spinner_item(9,"T-tube"));
+        lista.add(new Spinner_item(10,"Βαλβίδα ομιλίας"));
+        lista.add(new Spinner_item(11,"Mech. ventilation"));
 
 
         return lista;
@@ -650,5 +681,183 @@ public class Spinner_items_lists {
 
         return lista;
     }
+
+
+
+
+    public static ArrayList <Spinner_item> get_periferiki_grammi_megethos_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"4G"));
+        lista.add(new Spinner_item(2,"16G"));
+        lista.add(new Spinner_item(3,"18G"));
+        lista.add(new Spinner_item(4,"20G"));
+        lista.add(new Spinner_item(5,"22G"));
+        lista.add(new Spinner_item(6,"24G"));
+
+
+        return lista;
+    }
+
+
+    public static ArrayList <Spinner_item> get_periferiki_grammi_thesi_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"ΔΕ άκρα χείρα"));
+        lista.add(new Spinner_item(2,"ΔΕ αντιβράχιο"));
+        lista.add(new Spinner_item(3,"ΔΕ βραχίονας"));
+        lista.add(new Spinner_item(4,"ΑΡ άκρα χείρα"));
+        lista.add(new Spinner_item(5,"ΑΡ αντιβράχιο"));
+        lista.add(new Spinner_item(6,"ΑΡ βραχίονας"));
+
+
+        return lista;
+    }
+
+
+    public static ArrayList <Spinner_item> get_artiriaki_grammi_thesi_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1, "ΔΕ κερκιδική"));
+        lista.add(new Spinner_item(2, "ΔΕ βραχιόνια"));
+        lista.add(new Spinner_item(3, "ΔΕ μηριαία"));
+        lista.add(new Spinner_item(4, "ΑΡ κερκιδική"));
+        lista.add(new Spinner_item(5, "ΑΡ βραχιόνια"));
+        lista.add(new Spinner_item(6, "ΑΡ μηριαία"));
+
+
+        return lista;
+    }
+
+
+    public static ArrayList <Spinner_item> get_artiriaki_grammi_megethos_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"T20Gx51mm"));
+        lista.add(new Spinner_item(2,"T20Gx32mm"));
+
+        return lista;
+    }
+
+
+
+
+    public static ArrayList <Spinner_item> get_folley_eidos_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"2way latex"));
+        lista.add(new Spinner_item(2,"2way silicone"));
+        lista.add(new Spinner_item(3,"3way latex"));
+        lista.add(new Spinner_item(4,"3way silicone"));
+        lista.add(new Spinner_item(5,"3way dufour"));
+        lista.add(new Spinner_item(6,"3way couvelaire"));
+
+        return lista;
+    }
+
+
+    public static ArrayList <Spinner_item> get_folley_megethos_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"Νο. 12"));
+        lista.add(new Spinner_item(2,"Νο. 14"));
+        lista.add(new Spinner_item(3,"Νο. 16"));
+        lista.add(new Spinner_item(4,"Νο. 18"));
+        lista.add(new Spinner_item(5,"Νο. 20"));
+        lista.add(new Spinner_item(6,"Νο. 22"));
+        lista.add(new Spinner_item(7,"Νο. 24"));
+
+        return lista;
+    }
+
+
+
+
+
+
+    public static ArrayList <Spinner_item> get_levin_eidos_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"1way"));
+        lista.add(new Spinner_item(2,"2way"));
+
+
+        return lista;
+    }
+
+
+    public static ArrayList <Spinner_item> get_levin_megethos_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"Νο. 14"));
+        lista.add(new Spinner_item(2,"Νο. 16"));
+        lista.add(new Spinner_item(3,"Νο. 18"));
+
+
+        return lista;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static ArrayList <Spinner_item> get_paroxeteusi_eidos_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"κεραμιδάκι"));
+        lista.add(new Spinner_item(2,"penrose"));
+        lista.add(new Spinner_item(3,"Redon"));
+        lista.add(new Spinner_item(4,"Nelaton"));
+        lista.add(new Spinner_item(5,"Redovac"));
+        lista.add(new Spinner_item(6,"Blake"));
+        lista.add(new Spinner_item(7,"Billow"));
+
+        return lista;
+    }
+
+
+
+    public static ArrayList <Spinner_item> get_paroxeteusi_perigrafi_choices(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"Bomba"));
+        lista.add(new Spinner_item(2,"Jacksson"));
+        lista.add(new Spinner_item(3,"Σάκος στομίας"));
+
+        return lista;
+    }
+
+
+
+
+
 
 }

@@ -84,21 +84,26 @@ public class DialogFragmentSearchPat extends DialogFragment {
          filteredList =  new ArrayList();
 
         for (PatientsOfTheDay item : patientsArraylist){
-            if (item.getFirstName().toLowerCase().contains(text.toLowerCase())){
+            if (item.getFirstName() != null && item.getFirstName().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(item);
             }
 
-            else if(item.getLastName().toLowerCase().contains(text.toLowerCase())){
+            else if(item.getLastName() != null && item.getLastName().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(item);
 
             }
 
-            else if (item.getCode().toLowerCase().contains(text.toLowerCase())){
+            else if (item.getCode() != null && item.getCode().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(item);
 
             }
 
             else if (item.getAmka() != null && item.getAmka().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+
+            }
+
+            else if (item.getPatCode() != null && item.getPatCode().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(item);
 
             }

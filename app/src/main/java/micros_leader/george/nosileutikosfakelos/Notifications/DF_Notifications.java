@@ -201,10 +201,12 @@ public class DF_Notifications extends DialogFragment {
                 break;
 
             case MEDICAL_INS_NOTIFICATIONS:
-                query = "select top 100 * , dbo.DateTimeToString(confirmation_date) as confirmDate , dbo.NAMEUSER(Conifrmed_userID) as username ,dbo.nameperson(patientID) as patient " +
-                        "from Nursing_iatrikes_entoles " +
+                query = "declare @curDate bigint = dbo.datetime_to_date( dbo.timeToNum(GETDATE()))\n" +
+                        "select top 100 * , dbo.DateTimeToString(confirmation_date) as confirmDate , dbo.NAMEUSER(Conifrmed_userID) as username ,dbo.nameperson(patientID) as patient \n" +
+                        "from Nursing_iatrikes_entoles \n" +
                         " where companyid = " + companyID +
                         (patientID != null && isIconPressed ? " and  patientID = " + patientID : "" ) +
+                        " and dbo.datetime_to_date(date) <= @curDate \n" +
                         " order by id desc";
                 toolbar.setTitle("Ιατρικές εντολές προς επιβεβαίωση");
                 break;

@@ -37,7 +37,7 @@
 
     <string name="sigentrotika">Συγκεντρωτικά</string>
     <string name="sigentrotika_astheni">Συγκεντρωτικά / ασθενή</string>
-    <string name="sigkentrotika_ana_ora">Συγκεντρωτικά ανά ώρα / ασθενή</string>
+    <string name="sigkentrotika_ana_ora">Συγκεντρωτικά / ασθενή</string>
     <string name="sigkentrotika_ana_3oro">Συγκεντρωτικά ανά 3ωρο</string>
     <string name="info">Πληροφορίες</string>
     <string name="info_epipedo_sinidisis">
@@ -149,6 +149,12 @@
     <string name="title_activity_main__aim">MainActivity_Aim</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="sigkentrotika_all_patients"> Συγκεντρωτικά ασθενών  </string>
+
+
+    <string name="zotika"> Ζωτικά  </string>
+    <string name="anapnoi"> Ρυθμίσεις αναπνευστήρα  </string>
+    <string name="eidikes_metriseis"> Ειδικές μετρήσεις  </string>
+    <string name="genika"> Γενικά  </string>
 
 
     <item name="xreosima_ilika" type="id" />

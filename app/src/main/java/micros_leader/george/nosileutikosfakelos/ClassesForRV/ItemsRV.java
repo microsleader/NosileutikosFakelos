@@ -4,6 +4,8 @@ package micros_leader.george.nosileutikosfakelos.ClassesForRV;
 import java.util.ArrayList;
 import java.util.Map;
 
+import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
+
 public class ItemsRV implements  Comparable{
 
     public static int TEXTVIEW_TITLE_TYPE = 0;  //titlos i apla mia timi
@@ -20,6 +22,7 @@ public class ItemsRV implements  Comparable{
 
     public String compareColValue;//ΕΔΩ ΔΙΝΩ ΕΝΑ ΟΝΟΜΑ ΑΛΛΟΥ ΠΕΔΙΟΥ ΩΣΤΕ ΝΑ ΣΥΓΚΡΙΝΕΙ ΤΗΝ ΤΙΜΗ ΤΟΥ ΜΕ ΑΥΤΗ ΠΟΥ ΕΧΕΙ , ΑΝ ΕΙΝΑΙ ΚΕΝΟ ΤΟ ΑΠΟΤΕΛΕΣΜΑ ΝΑ ΒΕΛΕΙ ΤΗΝ ΤΙΜΗ ΑΠΟ ΤΟ compareColValue
     public boolean isCompValueSame; // ΑΝ ΔΕΝ ΕΙΝΑΙ ΙΔΙΑ ΣΤΟ RECYECLERVIEW ΤΟ ΠΕΔΙΟ ΤΟΥ ΘΑ ΕΙΝΑΙ ΚΟΚΚΙΝΟ
+    public boolean stable_col;
     public String[] listaArray = new String[]{};
     public int desplay_image;
 
@@ -287,6 +290,19 @@ public class ItemsRV implements  Comparable{
         return this;
     }
 
+
+    public ItemsRV setStable_col(boolean v) {
+        this.stable_col = v;
+        return this;
+    }
+
+
+
+
+
+    public boolean isStable_col() {
+        return stable_col ;
+    }
 
 
 

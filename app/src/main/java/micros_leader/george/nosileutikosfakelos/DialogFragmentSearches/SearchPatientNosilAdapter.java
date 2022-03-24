@@ -1,5 +1,6 @@
 package micros_leader.george.nosileutikosfakelos.DialogFragmentSearches;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -64,20 +65,26 @@ public class SearchPatientNosilAdapter extends RecyclerView.Adapter<SearchPatien
 
 
     @Override
-    public void onBindViewHolder(final SearchPatientNosilAdapter.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final SearchPatientNosilAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         // set the data in items
         final PatientsOfTheDay apotelesmata = result.get(position);
 
         final String bed = apotelesmata.getBed();
 
-        final String namePat = apotelesmata.getFirstName() + " " + apotelesmata.getLastName() + " του " + apotelesmata.getFatherName();
+        final String namePat = apotelesmata.getFirstName() + " " + apotelesmata.getLastName() +
+                " ( " + apotelesmata.getDatebirth() + " )  του " + apotelesmata.getFatherName();
         final String transgroupID = String.valueOf(apotelesmata.getTransgroupID());
         final String code = apotelesmata.getCode();
 
         holder.name.setText(bed + " , " + code + " , " + namePat + " , " + transgroupID);
 
         final String isEmergency = apotelesmata.getIsEmergency();
+        final int sex = apotelesmata.getSex();
 
+        if (sex == 2)
+            holder.itemView.setBackgroundColor(context.getResources().getColor(R.color.light_red));
+        else
+            holder.itemView.setBackgroundColor(0);
 
         if (isEmergency.equals("true") || isEmergency.equals("1")){
             holder.name.setTextColor(Color.RED);

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
     <application
         android:name=".MyApplication"
@@ -29,7 +30,8 @@
             android:exported="true" />
         <activity
             android:name=".Main_menu.SigxoneusiFiladiwnActivity"
-            android:exported="true" />
+            android:configChanges="orientation|screenSize"
+        android:exported="true" />
         <activity android:name=".METH.METH_MAP.Ektimisi_kind_ptoseos.Ektimisi_kind_ptoseos_Activity" />
         <activity android:name=".METH.METH_MAP.f_imerologio_katragrafis_diatrofis.Imer_katagr_diatrofis_Activity" />
         <activity android:name=".BaseAct.TestBaseAct" />
@@ -44,7 +46,8 @@
         <activity android:name=".EKSOTERIKA.Enimerotiko_simeioma_eksetasis_activity" />
         <activity android:name=".Main_menu.Menu_generalActivity_NEW" />
         <activity android:name=".METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity" />
-        <activity android:name=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_paroxeteuseis_Activity" />
+        <activity android:name=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity" />
+        <activity android:name=".METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity_NEW" />
         <activity android:name=".METH.METH_MAP.f_Nosil_logodosia.Logodosia_Meth_Activity" />
         <activity android:name=".METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth" />
         <activity android:name=".METH.METH_MAP.f_Nosil_Elegxos.Nosil_elegxos_Meth" />

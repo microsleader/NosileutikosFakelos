@@ -79,6 +79,7 @@ public class BasicList {
 
             x.textType = lista.get(i).texttype;
             x.typeElement = lista.get(i).type;
+            x.setStable_col(lista.get(i).stable_col);
             if (lista.get(i).sp_item_lista != null)
                 x.spinnerLista = lista.get(i).sp_item_lista;
             else if ( lista.get(i).lista != null )

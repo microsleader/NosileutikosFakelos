@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.ag.floatingactionmenu.OptionsFabLayout;
 
@@ -19,9 +18,9 @@ import java.util.ArrayList;
 
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
-import micros_leader.george.nosileutikosfakelos.AsyncTasks.PrintReport;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
+import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncCompleteTask2;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdateResult;
@@ -29,26 +28,26 @@ import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.KalliergiesDialog.KalliergiesDialog;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.ThetikesKalliergies.ThetikesKalliergiesDialog;
 import micros_leader.george.nosileutikosfakelos.R;
-import micros_leader.george.nosileutikosfakelos.ReportIDs;
 import micros_leader.george.nosileutikosfakelos.Simple_Items;
 import micros_leader.george.nosileutikosfakelos.Simple_items_rv_adapter;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 import micros_leader.george.nosileutikosfakelos.Utils;
 
-public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements  AsyncGetUpdateResult{
+public class Kathetires_Activity extends BasicActivity implements  AsyncGetUpdateResult{
 
 
     public OptionsFabLayout fabMenu;
     private TextView nurseTV;
-    private ArrayList<Simple_Items> simple_items_lista;
-    private Simple_items_rv_adapter adapter;
-    private boolean isTeleutaio;
+    public ArrayList<Simple_Items> simple_items_lista;
+    public ArrayList<Spinner_item> spinner_items_lista;
+    private Kathetires_RV adapter;
+    public boolean isTeleutaio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_kathetires_kalliergies_meth);
+        setContentView(R.layout.activity_kathetires_meth);
 
         fabMenu = findViewById(R.id.fabMenu);
         recyclerView = findViewById(R.id.kathetiresRV);
@@ -75,7 +74,7 @@ public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements 
 
         thereIsDatePicker(R.id.dateTV);
         thereIsImageUpdateButton();
-        thereIsImagePrinterButton(ReportIDs.KATHETIRES_METH , PrintReport.ReportParams.TRANSGROUP_ID_ONLY);
+        //thereIsImagePrinterButton(ReportIDs.KATHETIRES_METH , PrintReport.ReportParams.TRANSGROUP_ID_ONLY);
 
         updateButtonListener();
 
@@ -91,7 +90,7 @@ public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements 
 
 
 
-    private void updateButtonListener(){
+    public void updateButtonListener(){
         if (updateIMB != null) {
 
             updateIMB.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +174,7 @@ public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements 
         }
     }
 
-    private void getSimpleItems() {
+    public void getSimpleItems() {
 
         alertDialog.show();
         
@@ -192,11 +191,13 @@ public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements 
                         JSONObject item = results.getJSONObject(i);
                         int id = item.getInt("ID");
                         String name = item.getString("Name");
-                        simple_items_lista.add(new Simple_Items(id,name));
+                        simple_items_lista.add(manageItems(id,name));
+                        if (id == 3)  //TEST
+                            break;
 
                     }
                     
-                    adapter = new Simple_items_rv_adapter(extendedAct,  simple_items_lista);
+                    adapter = new Kathetires_RV(extendedAct,  simple_items_lista);
                     recyclerView.setAdapter(adapter);
                     
                     getValuesForSimpleItems();
@@ -215,10 +216,40 @@ public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements 
 
 
 
+    private Simple_Items manageItems(int id , String name){
+
+        Simple_Items x = new Simple_Items(id,name);
+
+        if (id == 1){ // ΠΕΡΙΦΕΡΙΚΗ 1
+            x.col1 = "perif1_megethosID";
+            x.col2 = "perif1_megethos_text";
+            x.col3 = "perif1_thesiID";
+            x.col4 = "perif1_thesi_text";
+
+        }
+        else if (id == 2){ // ΠΕΡΙΦΕΡΙΚΗ 2
+            x.col1 = "perif2_megethosID";
+            x.col2 = "perif2_megethos_text";
+            x.col3 = "perif2_thesiID";
+            x.col4 = "perif2_thesi_text";
+        }
+        else if (id == 3){ // ΑΡΤΗΡΙΑΚΗ
+            x.col1 = "art_eidosID";
+            x.col2 = "art_eidos_text";
+            x.col3 = "art_megethosID";
+            x.col4 = "art_megethos_text";
+        }
+
+        return x;
+    }
 
 
 
-    private void getValuesForSimpleItems() {
+
+
+
+
+    public void getValuesForSimpleItems() {
 
         alertDialog.show();
         clearLista();
@@ -282,10 +313,11 @@ public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements 
 
 
 
-    private void clearLista(){
+    public void clearLista(){
         for (int x = 0; x < simple_items_lista.size(); x++) {
             if (simple_items_lista.get(x).getValue() != null)
                 simple_items_lista.get(x).setValue("");
+
             simple_items_lista.get(x).setId(0);
             simple_items_lista.get(x).setDatein("");
             simple_items_lista.get(x).setDateout("");
@@ -304,7 +336,7 @@ public class Kathetires_paroxeteuseis_Activity extends BasicActivity implements 
 
     private void managefabMenuIcon() {
 
-//Set main fab clicklistener.
+    //Set main fab clicklistener.
         fabMenu.setMainFabOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
