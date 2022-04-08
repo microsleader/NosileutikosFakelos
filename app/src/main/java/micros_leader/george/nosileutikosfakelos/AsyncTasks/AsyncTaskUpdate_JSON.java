@@ -123,8 +123,8 @@ public class AsyncTaskUpdate_JSON extends AsyncTask<String, Void, String> {
             if (doctorID != null && !doctorID.equals(""))
                 json.put("doctorID", doctorID);
 
-            if (date != null && !date.equals(""))
-                json.put("date", Utils.convertDateTomilliseconds(date));
+//            if (date != null && !date.equals(""))
+//                json.put("date", Utils.convertDateTomilliseconds(date));
 
             if (period != null && !period.equals(""))
                 json.put("period", period);

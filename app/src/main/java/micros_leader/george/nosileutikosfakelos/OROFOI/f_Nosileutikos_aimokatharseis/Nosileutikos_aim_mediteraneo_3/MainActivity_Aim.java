@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -520,8 +521,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                                     Intent in  =   tableView_sigkentrotika( Str_queries.getSigkentrotika_statherwn_metrisewn(patientID,transgroupID,custID),
                                             transgroupID,
-                                            panoTitloi ,
-                                            plagioiTitloi,
+                                           // panoTitloi ,
+                                            null,
                                             lista,
                                             false,
                                             false,
@@ -600,8 +601,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                                     Intent in = tableView_sigkentrotika(Str_queries.getSigkentrotika_sinexwn_metrisewn(patientID),
                                             transgroupID,
-                                            panoTitloi,
-                                            plagioiTitloi,
+                                         //   panoTitloi,
+                                            null,
                                             lista,
                                             false, false, isNurse);
                                     in.putExtra("toolbar_title", "Συγκεντρωτικά συνεχών μετρήσεων");
@@ -1059,6 +1060,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                         "\n" +
                         " order by p.LastName, p.FirstName "
                         ;
+
 
                 AsyncTaskGetJSON task = new AsyncTaskGetJSON();
                 task.ctx = getApplicationContext();

@@ -1,10 +1,12 @@
 package micros_leader.george.nosileutikosfakelos;
 
+import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_OROFOI;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ZOTIKA_METH;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHIMERINO_ZIGISMA;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ISOZIGIO_METH;
 import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.NEURIKI_AKSIOLOGISI;
-import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES;
+import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_METH;
+import static micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ZOTIKA_OROFOI;
 
 import android.os.Bundle;
 
@@ -25,16 +27,17 @@ import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zo
 import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Kathimerino_zigisma.Kathimerino_Zigisma_Activity;
+import micros_leader.george.nosileutikosfakelos.OROFOI.f_Zotika_simeia.Zotika_simeia_Activity;
 
 
-public class SigxoneusiFragment extends Fragment {
+public class SigxoneusiFragment_Meth extends Fragment {
 
     View view;
     SigxoneusiFiladiwnActivity parentAct;
     Bundle bundle;
     SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS filladio;
 
-    public SigxoneusiFragment() {
+    public SigxoneusiFragment_Meth() {
 
     }
 
@@ -56,7 +59,12 @@ public class SigxoneusiFragment extends Fragment {
             view =  inflater.inflate(R.layout.activity_isozigio__meth_, container, false);
         else if (filladio == NEURIKI_AKSIOLOGISI)
             view =  inflater.inflate(R.layout.activity_neuriki_aksiologisi3, container, false);
-        else if (filladio == KATHETIRES)
+        else if (filladio == KATHETIRES_METH)
+            view =  inflater.inflate(R.layout.activity_kathetires_meth, container, false);
+
+        else if (filladio == ZOTIKA_OROFOI)
+            view =  inflater.inflate(R.layout.activity_zotika_simeia_ana_ora_, container, false);
+        else if (filladio == KATHETIRES_OROFOI)
             view =  inflater.inflate(R.layout.activity_kathetires_meth, container, false);
 
 
@@ -72,16 +80,43 @@ public class SigxoneusiFragment extends Fragment {
 
         if (filladio == ZOTIKA_METH)
             runZotika_meth();
+        else if (filladio == ZOTIKA_OROFOI)
+            runZotika_orofoi();
         else if (filladio == KATHIMERINO_ZIGISMA)
             run_kathimerino_zigisma();
         else if (filladio == ISOZIGIO_METH)
             run_isozigio_meth();
         else if (filladio == NEURIKI_AKSIOLOGISI)
             run_neuriki_aksiologisi();
-        else if (filladio == KATHETIRES)
+        else if (filladio == KATHETIRES_OROFOI || filladio == KATHETIRES_METH)
             run_kathetires_paroxeteuseis();
 
 
+    }
+
+    private void runZotika_orofoi(){
+
+        Zotika_simeia_Activity act = new Zotika_simeia_Activity();
+        act.floorSP = view.findViewById(R.id.floorsSP);
+        act.patientsTV = view.findViewById(R.id.patientsTV);
+        act.timeTV = view.findViewById(R.id.hoursTV);
+
+        act.fabMenu = view.findViewById(R.id.fabMenu);
+        act.recyclerView = view.findViewById(R.id.zotikaRV);
+
+        act.dateTV = view.findViewById(R.id.dateTV);
+        act.toolbar = view.findViewById(R.id.toolbar);
+        act.updateButton = view.findViewById(R.id.updateButton);
+        act.diagramBT = view.findViewById(R.id.diagramButton);
+
+
+        parentAct.setAct(parentAct);
+        parentAct.setActFromSigxoneusi(act);
+
+        act.setAct(parentAct);
+        act.setActFromSigxoneusi(act);
+        //act.neaEggrafiBT = view.findViewById(R.id.neaEggrafiBT);
+        act.initialize();
     }
 
 
@@ -254,12 +289,14 @@ public class SigxoneusiFragment extends Fragment {
     private void run_kathetires_paroxeteuseis() {
         Kathetires_Activity_NEW act = new Kathetires_Activity_NEW();
 
+        act.isKathetiresMeth = filladio == KATHETIRES_METH;
         act.floorSP = view.findViewById(R.id.floorsSP);
         act.patientsTV = view.findViewById(R.id.patientsTV);
         act.timeTV = view.findViewById(R.id.timeTV);
         act.fabMenu = view.findViewById(R.id.fabMenu);
         act.recyclerView = view.findViewById(R.id.kathetiresRV);
         act.neaEggrafiBT = view.findViewById(R.id.newEntryBT);
+        act.istorikoBT = view.findViewById(R.id.istorikoBT);
 
 
         act.dateTV = view.findViewById(R.id.dateTV);

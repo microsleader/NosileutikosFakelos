@@ -20,6 +20,7 @@ import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Nosil_Elegxos.No
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Nursing_katagrafi_efarmogis_metron_elegxou_loimokseon.Katagrafi_efarmogis_metron_elegxou_loimokseon_Act;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
 import micros_leader.george.nosileutikosfakelos.Main_menu.Menu_general_Item;
+import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Diagnoseis_Istoriko.Diagnoseis_Istoriko_Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Diaitologio.DiaitologioActivity;
@@ -94,15 +95,23 @@ public class InfoSpecificLists extends StaticFields{
         return id;
     }
 
-        public static ArrayList<Menu_general_Item> getSigxoneusiFilladiwn(){
+        public static ArrayList<Menu_general_Item> getSigxoneusiFilladiwn(int departmentID){
             ArrayList<Menu_general_Item> lista  = new ArrayList<>();
 
-            lista.add(new Menu_general_Item("Ζωτικά σημεία / Ώρα", R.drawable.search , R.color.mpornto, new Zotika_Activity_Meth()));
-            lista.add(new Menu_general_Item("Καθημερινό ζύγισμα\nασθενούς", R.drawable.search , R.color.grey, new Kathimerino_Zigisma_Activity()));
-            lista.add(new Menu_general_Item("Ισοζύγιο ΜΕΘ", R.drawable.search , R.color.dark_blue, new Isozigio_Meth_Activity()));
-            lista.add(new Menu_general_Item("3ωρη νευρολογική\nαξιολόγηση", R.drawable.search , R.color.mov, new NeurikiAksiologisi3Activity()));
-            lista.add(new Menu_general_Item("Καθετήρες", R.drawable.search , R.color.grey, new Kathetires_Activity_NEW()));
+            if (departmentID == SigxoneusiFiladiwnActivity.DEPARTMENT_OROFOI) {
+                lista.add(new Menu_general_Item("Ζωτικά σημεία", R.drawable.search, R.color.mpornto, new Zotika_simeia_Activity()));
+                lista.add(new Menu_general_Item("Καθετήρες", R.drawable.search, R.color.grey, new Kathetires_Activity_NEW()));
 
+            }
+
+
+            else if (departmentID == SigxoneusiFiladiwnActivity.DEPARTMENT_METH) {
+                lista.add(new Menu_general_Item("Ζωτικά σημεία", R.drawable.search, R.color.mpornto, new Zotika_Activity_Meth()));
+                lista.add(new Menu_general_Item("Καθημερινό ζύγισμα\nασθενούς", R.drawable.search, R.color.grey, new Kathimerino_Zigisma_Activity()));
+                lista.add(new Menu_general_Item("Ισοζύγιο ΜΕΘ", R.drawable.search, R.color.dark_blue, new Isozigio_Meth_Activity()));
+                lista.add(new Menu_general_Item("3ωρη νευρολογική\nαξιολόγηση", R.drawable.search, R.color.mov, new NeurikiAksiologisi3Activity()));
+                lista.add(new Menu_general_Item("Καθετήρες", R.drawable.search, R.color.grey, new Kathetires_Activity_NEW()));
+            }
 
 
             return lista;
@@ -145,7 +154,7 @@ public class InfoSpecificLists extends StaticFields{
         lista.add(new Menu_general_Item("Νοσηλ. έλεγχος \n Νοσηλ. λογοδοσία", R.drawable.search ,  R.color.ladi, new Nosil_elegxos_Meth()));
         lista.add(new Menu_general_Item("Ζωτικά σημεία / Ώρα", R.drawable.search , R.color.mpornto, new Zotika_Activity_Meth()));
         lista.add(new Menu_general_Item("Νοσηλευτική αναφορά", R.drawable.search , R.color.mov, new Nosil_IstorikoActivity_NEW()));
-        lista.add(new Menu_general_Item("Καθετήρες - Καλλιεργιες", R.drawable.search , R.color.grey, new Kathetires_Activity_NEW()));
+        lista.add(new Menu_general_Item("Καθετήρες", R.drawable.search , R.color.grey, new Kathetires_Activity_NEW()));
         lista.add(new Menu_general_Item("Ισοζύγιο ΜΕΘ", R.drawable.search , R.color.dark_blue, new Isozigio_Meth_Activity()));
         lista.add(new Menu_general_Item("Ιατρικές οδηγίες \n μεταφορας " +
                 "καρδιολογικού / καρδιοχειρουγικού ασθενούς \n απο την ΜΕΘ/ΜΑΦ", R.drawable.search , R.color.cyan2, new Med_instr_tr_cardio_Activity()));
@@ -3307,17 +3316,149 @@ public class InfoSpecificLists extends StaticFields{
 
 
 
-    public static ArrayList<TableViewItem> getNursing_Kathethres_Topos_for_item() {
+    public static ArrayList<TableViewItem> getNursing_Kathethres_Topos_for_item(int itemID , boolean isKathetiresMeth) {
 
         ArrayList<TableViewItem> lista = new ArrayList<>();
 
        // lista.add(new TableViewItem("ID", "ID", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Ημ/νία εγγραφής","dateStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Νοσηλευτής","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Ονομασία","name", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Τόπος","topos", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
-        lista.add(new TableViewItem("Ημ/νία εισόδου","datestartStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        lista.add(new TableViewItem("Ημ/νία εισόδου","datestartStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE).setStable_col(true));
         lista.add(new TableViewItem("Ημ/νία εξόδου","datestopStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+        lista.add(new TableViewItem("Νοσηλευτής","username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        //lista.add(new TableViewItem("Ονομασία","name", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+        if (itemID == 1){ // 1 περιφ
+            lista.add(new TableViewItem("μέγεθος","perif1_megethosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_periferiki_grammi_megethos_choices()));
+            lista.add(new TableViewItem("άλλο","perif1_megethos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","perif1_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_periferiki_grammi_thesi_choices()));
+            lista.add(new TableViewItem("άλλο","perif1_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 2){ // 2 περιφ
+            lista.add(new TableViewItem("μέγεθος","perif2_megethosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_periferiki_grammi_megethos_choices()));
+            lista.add(new TableViewItem("άλλο","perif2_megethos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","perif2_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_periferiki_grammi_thesi_choices()));
+            lista.add(new TableViewItem("άλλο","perif2_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 32){ // 3 περιφ
+            lista.add(new TableViewItem("μέγεθος","perif3_megethosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_periferiki_grammi_megethos_choices()));
+            lista.add(new TableViewItem("άλλο","perif3_megethos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","perif3_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_periferiki_grammi_thesi_choices()));
+            lista.add(new TableViewItem("άλλο","perif3_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 3){ // αρτ 1
+            lista.add(new TableViewItem("θέση","art_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_artiriaki_grammi_thesi_choices()));
+            lista.add(new TableViewItem("άλλο","art_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("μέγεθος","art_megethosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_artiriaki_grammi_megethos_choices()));
+            lista.add(new TableViewItem("άλλο","art_megethos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("είδος","art_eidosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_artiriaki_grammi_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","art_eidos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 28){ // αρτ 2
+            lista.add(new TableViewItem("θέση","art_thesiID2", SPINNER_TYPE_NEW, Spinner_items_lists.get_artiriaki_grammi_thesi_choices()));
+            lista.add(new TableViewItem("άλλο","art_thesi_text2", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("μέγεθος","art_megethosID2", SPINNER_TYPE_NEW, Spinner_items_lists.get_artiriaki_grammi_megethos_choices()));
+            lista.add(new TableViewItem("άλλο","art_megethos_text2", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("είδος","art_eidosID2", SPINNER_TYPE_NEW, Spinner_items_lists.get_artiriaki_grammi_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","art_eidos_text2", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 4){ // folley
+            lista.add(new TableViewItem("είδος","folley_eidosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_folley_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","folley_eidos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("μέγεθος","folley_megethosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_folley_megethos_choices()));
+            lista.add(new TableViewItem("άλλο","folley_megethos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 5){ // levin
+            lista.add(new TableViewItem("είδος","levin_eidosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_levin_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","levin_eidos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("μέγεθος","levin_megethosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_levin_megethos_choices()));
+            lista.add(new TableViewItem("άλλο","levin_megethos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 6){ // επισκληρίδιος καθετήρας
+            lista.add(new TableViewItem("θέση","episk_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_episk_ferei_choices()));
+            lista.add(new TableViewItem("φέρει","episk_fereiID", TEXTVIEW_ITEM_READ_ONLY_VALUE, Spinner_items_lists.getYesNo()));
+
+        }
+
+        else if (itemID == 8){ // κεντρική γραμμή
+            lista.add(new TableViewItem("είδος","kentr_eidosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_kentr_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","kentr_eidos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","kentr_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.kentr_thesi_and_kath_aim_and_thikari_choices()));
+            lista.add(new TableViewItem("άλλο","kentr_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+
+
+        else if (itemID == 9){ // καθετήρας αιμοκάθαρσης
+            lista.add(new TableViewItem("είδος","kath_aim_eidosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_kath_aim_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","kath_aim_eidos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","kath_aim_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.kentr_thesi_and_kath_aim_and_thikari_choices()));
+            lista.add(new TableViewItem("άλλο","kath_aim_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+
+        else if (itemID == 10  && isKathetiresMeth){ // ΕΝΔΟΤΡΑΧΕΙΑΚΟΣ ΣΩΛΗΝΑΣ  έση (cm εξόδου), μέγεθος, πίεση cuff
+            lista.add(new TableViewItem("μέγεθος","end_sol_sizeID", SPINNER_TYPE_NEW, Spinner_items_lists.end_sol_size_choices()));
+            lista.add(new TableViewItem("άλλο","end_sol_size_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("πίεση cuff","end_sol_piesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","end_sol_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 11){ // ΣΩΛΗΝΑΣ ΤΡΑΧΕΙΟΣΤΟΜΙΑΣ
+            lista.add(new TableViewItem("μέγεθος","sol_trax_sizeID", SPINNER_TYPE_NEW, Spinner_items_lists.sol_trax_size_choices()));
+            lista.add(new TableViewItem("άλλο","sol_trax_size_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("πίεση cuff","sol_trax_piesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 12){ // Ρινοφαρυγγικός Αεραγωγός
+            lista.add(new TableViewItem("μέγεθος","rin_aer_sizeID", SPINNER_TYPE_NEW, Spinner_items_lists.get_rin_aer_size_choices_choices()));
+            lista.add(new TableViewItem("άλλο","rin_aer_size_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 13){ // Στοματοφαρυγγικός Αεραγωγός
+            lista.add(new TableViewItem("μέγεθος","stoma_aer_sizeID", SPINNER_TYPE_NEW, Spinner_items_lists.get_stoma_aer_size_choices_choices()));
+            lista.add(new TableViewItem("άλλο","stoma_aer_size_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+        }
+
+        else if (itemID == 14 && isKathetiresMeth){ // ΘΗΚΑΡΙ
+            lista.add(new TableViewItem("είδος","thikari_eidosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_thikari_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","thikari_eidos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","thikari_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.kentr_thesi_and_kath_aim_and_thikari_choices()));
+            lista.add(new TableViewItem("άλλο","thikari_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 15 && isKathetiresMeth){ // ΘΗΚΑΡΙ (+ Ενδοαορτική Αντλία(IABP)
+            lista.add(new TableViewItem("ΘΗΚΑΡΙ (IABP) θέση","thikari_antl_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_thikari_antlia_thesi_choices()));
+        }
+
+        else if (itemID == 16 && isKathetiresMeth){ // ΚΑΘΕΤΗΡΑΣ ICP
+            lista.add(new TableViewItem("ICP","icp_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
+        }
+
+
+        else if (itemID >= 18 && itemID <= 27){ // παροχευτευσεις 1-10
+            lista.add(new TableViewItem("είδος","parox_eidosID", SPINNER_TYPE_NEW, Spinner_items_lists.get_paroxeteusi_eidos_choices()));
+            lista.add(new TableViewItem("άλλο","parox_eidos_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("περιγραφή","parox_perigrafiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_paroxeteusi_perigrafi_choices()));
+            lista.add(new TableViewItem("άλλο","parox_perigrafi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+            lista.add(new TableViewItem("θέση","parox_thesi_text", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+        }
+
+        else if (itemID == 29){ // port- a- cath
+            lista.add(new TableViewItem("port- a- cath θέση ","port_a_cath_thesiID", SPINNER_TYPE_NEW, Spinner_items_lists.get_port_a_cath_thesi_choices()));
+            lista.add(new TableViewItem("port- a- cath gripper","port_a_cath_gripperID", SPINNER_TYPE_NEW, Spinner_items_lists.get_port_a_cath_gripper_choices()));
+        }
+
+        lista.add(new TableViewItem("Ημ/νία εγγραφής","dateStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+
 
 
         return lista;
@@ -3844,12 +3985,12 @@ public class InfoSpecificLists extends StaticFields{
 
              lista.add(new TableViewItem("Συστ. πίεση","sistoliki_piesi", EDITTEXT_ITEM, DEKADIKOS));
              lista.add(new TableViewItem("Διαστ. πίεση","diastoliki_piesi", EDITTEXT_ITEM, DEKADIKOS));
-             lista.add(new TableViewItem("Καρδ. ρυθμός","rithmos", SPINNER_TYPE_NEW, "kardiakos_rithmos_choices"));
              lista.add(new TableViewItem("Σφύξεις (bpm)","sfixeis", EDITTEXT_ITEM, AKERAIOS));
              lista.add(new TableViewItem("Θερμοκ.","thermokrasia", EDITTEXT_ITEM, DEKADIKOS));
-             lista.add(new TableViewItem("Κλίμ. πόνου","ponos", SPINNER_TYPE_NEW, Spinner_items_lists.getVathmoiPonou()));
              lista.add(new TableViewItem("SPO2 (%)","spo2", EDITTEXT_ITEM, AKERAIOS));
              lista.add(new TableViewItem("Stick glu (mg/dl)","stick_glu", EDITTEXT_ITEM, AKERAIOS));
+             lista.add(new TableViewItem("Κλίμ. πόνου","ponos", SPINNER_TYPE_NEW, Spinner_items_lists.getVathmoiPonou()));
+             lista.add(new TableViewItem("Καρδ. ρυθμός","rithmos", SPINNER_TYPE_NEW, "kardiakos_rithmos_choices"));
              lista.add(new TableViewItem("Αναπνοές (per min)","anapnoes", EDITTEXT_ITEM, AKERAIOS));
 
              return lista;

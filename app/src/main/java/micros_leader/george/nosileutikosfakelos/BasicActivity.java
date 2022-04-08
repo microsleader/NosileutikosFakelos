@@ -286,6 +286,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public boolean loading = true;
     public boolean isDoctor;
     public boolean isNurse;
+    public boolean modify_everything;
     public String companyID;
     public int custID;
     public int pastVisiblesItems, visibleItemCount, totalItemCount;
@@ -319,7 +320,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         isDoctor = Utils.getIsDoctor(this);
         isNurse = Utils.getIsNurse(this);
         companyID = Utils.getcompanyID(this);
-
+        modify_everything = Utils.get_is_nursing_unlock(this);
 
 
 
@@ -466,8 +467,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         final DatePickerDialog.OnDateSetListener dateStr = new DatePickerDialog.OnDateSetListener() {
 
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // TODO Auto-generated method stub
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);

@@ -114,7 +114,7 @@ public class DF_Notifications extends DialogFragment {
         task.listener = new AsyncCompleteTask2() {
             @Override
             public void taskComplete2(JSONArray results) throws JSONException {
-                if (results != null){
+                if (results != null && !results.getJSONObject(0).has("status")){
                     lista = new ArrayList<>();
                     Notifications_objects n;
                     for (int i=0; i<results.length(); i++){

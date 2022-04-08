@@ -153,7 +153,7 @@ public class Isozigio_statheresDialog extends DialogFragment {
 
             StringBuilder query = new StringBuilder() ;
 
-            int id = lista.get(i).getId();
+            long id = lista.get(i).getId();
             int itemID =  result.get(i).getItemID();
             String dateIN = result.get(i).getDatein();
 

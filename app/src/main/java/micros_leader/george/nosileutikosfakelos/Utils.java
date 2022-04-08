@@ -167,8 +167,8 @@ public class Utils  {
 
         Calendar c = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",Locale.US);
+
         String currentDate = df.format(c.getTime());
 
         return currentDate;
@@ -1333,7 +1333,7 @@ public class Utils  {
 
         Locale locale = new Locale("el", "GR");
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm",locale);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy, HH:mm" , locale);
         formatter.setLenient(false);
 
 
@@ -1344,6 +1344,7 @@ public class Utils  {
             oldTime = date.trim().replace("/","-").replace(" " ,", ");
         else
             oldTime = date.trim().replace("/","-") + ", " + getCurrentTime2();
+
 
         Date oldDate = null;
         try {

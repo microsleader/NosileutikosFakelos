@@ -262,11 +262,9 @@ public class Zotika_Activity_Meth extends BasicActivity {
 
 
 
-
     private void diagramButtonListener() {
-        diagramBT.setOnClickListener(v ->
-                 showDiagram(transgroupID,dateTV.getText().toString(),
-                         InfoSpecificLists.getZotikaKatigories_meth_DiagramLista(),1, extendedAct));
+        diagramBT.setOnClickListener(v -> showDiagram(transgroupID,dateTV.getText().toString(),
+                InfoSpecificLists.getZotikaKatigories_meth_DiagramLista(),1, extendedAct));
 
     }
 

@@ -139,7 +139,11 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
 
     private String getAvtivityQuery(){
         String query ="";
-        if (act instanceof Zotika_Activity_Meth || act instanceof SigxoneusiFiladiwnActivity)
+        SigxoneusiFiladiwnActivity sigx_act = null;
+        if (act instanceof SigxoneusiFiladiwnActivity)
+            sigx_act = (SigxoneusiFiladiwnActivity) act;
+
+        if (act instanceof Zotika_Activity_Meth || sigx_act != null && sigx_act.departmentID == SigxoneusiFiladiwnActivity.DEPARTMENT_METH)
             katigoriaItem = getKatigoria_meth_ForTheQuery(katigoriesSP.getSelectedItem().toString());
         else
             katigoriaItem = getKatigoriaForTheQuery(katigoriesSP.getSelectedItem().toString());
@@ -147,14 +151,14 @@ public class BasicDialogFragmentDiagram extends DialogFragment  {
         if (act instanceof ParakolouthisiActivity)
             query = Str_queries.getPARAKOLOUTHISI_DIAGRAM_INFO(transgroupID,katigoriaItem,date);
 
-        else if (act instanceof Zotika_simeia_Activity) {
+        else if (act instanceof Zotika_simeia_Activity || sigx_act != null && sigx_act.departmentID == SigxoneusiFiladiwnActivity.DEPARTMENT_OROFOI) {
             if (kathe_poses_ores == ANA_HOUR)
                 query = Str_queries.getZOTIKA_DIAGRAM_INFO_ANA_HOUR(transgroupID, katigoriaItem, date);
             else if (kathe_poses_ores == ANA_3_HOURS)
                 query = Str_queries.getZOTIKA_DIAGRAM_INFO_ANA_3ORO(transgroupID, katigoriaItem, date);
 
         }
-        else if (act instanceof Zotika_Activity_Meth || act instanceof SigxoneusiFiladiwnActivity)
+        else if (act instanceof Zotika_Activity_Meth || sigx_act != null && sigx_act.departmentID == SigxoneusiFiladiwnActivity.DEPARTMENT_METH)
             query = Str_queries.getZOTIKA_METH_DIAGRAM_INFO(transgroupID, katigoriaItem, date);
 
         return query;

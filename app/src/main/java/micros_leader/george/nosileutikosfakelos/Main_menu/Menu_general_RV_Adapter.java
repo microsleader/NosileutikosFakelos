@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import micros_leader.george.nosileutikosfakelos.Interfaces.DataSended;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Isozigio_Meth.Isozigio_Meth_Activity;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity;
+import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.Kathetires_Activity_NEW;
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Zotika_simeia.Zotika_Activity_Meth;
-import micros_leader.george.nosileutikosfakelos.SigxoneusiFragment;
+import micros_leader.george.nosileutikosfakelos.OROFOI.f_Zotika_simeia.Zotika_simeia_Activity;
+import micros_leader.george.nosileutikosfakelos.SigxoneusiFragment_Meth;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Aksiologiseis.NeurikiAksiologisi3Activity;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Kathimerino_zigisma.Kathimerino_Zigisma_Activity;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -33,14 +35,16 @@ public class Menu_general_RV_Adapter extends RecyclerView.Adapter<Menu_general_R
     public Activity act;
     public DataSended dataSendedListener;
     private final boolean isGeneralMenu;
+    private final int  department;
     private FrameLayout actFr;
     private SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS filladio_sigxoneusis;
 
-    public Menu_general_RV_Adapter(ArrayList<Menu_general_Item> result, Activity act,boolean isGeneralMenu) {
+    public Menu_general_RV_Adapter(ArrayList<Menu_general_Item> result, Activity act, boolean isGeneralMenu , int department) {
         this.result = result;
         this.act = act;
         dataSendedListener = (DataSended) act;
         this.isGeneralMenu = isGeneralMenu;
+        this.department = department;
     }
 
 
@@ -132,21 +136,31 @@ public class Menu_general_RV_Adapter extends RecyclerView.Adapter<Menu_general_R
 
                 actFr.removeAllViews();
                 actFr.clearChildFocus(actFr);
-                SigxoneusiFragment myf = new SigxoneusiFragment();
+
+                if (department == SigxoneusiFiladiwnActivity.DEPARTMENT_OROFOI){
+                    if (activity instanceof Zotika_simeia_Activity)
+                        filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ZOTIKA_OROFOI;
+                    if (activity instanceof Kathetires_Activity_NEW)
+                        filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_OROFOI;
+                }
+
+
+                else if (department == SigxoneusiFiladiwnActivity.DEPARTMENT_METH){
+                    if (activity instanceof Zotika_Activity_Meth)
+                        filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ZOTIKA_METH;
+                    else if (activity instanceof Kathimerino_Zigisma_Activity)
+                        filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHIMERINO_ZIGISMA;
+                    else if (activity instanceof Isozigio_Meth_Activity)
+                        filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ISOZIGIO_METH;
+                    else if (activity instanceof NeurikiAksiologisi3Activity)
+                        filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.NEURIKI_AKSIOLOGISI;
+                    else if (activity instanceof Kathetires_Activity)
+                        filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES_METH;
+                }
+
+
+                SigxoneusiFragment_Meth myf = new SigxoneusiFragment_Meth();
                 Bundle bundle = new Bundle();
-
-
-
-                if (activity instanceof Zotika_Activity_Meth)
-                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ZOTIKA_METH;
-                else if (activity instanceof Kathimerino_Zigisma_Activity)
-                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHIMERINO_ZIGISMA;
-                else if (activity instanceof Isozigio_Meth_Activity)
-                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.ISOZIGIO_METH;
-                else if (activity instanceof NeurikiAksiologisi3Activity)
-                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.NEURIKI_AKSIOLOGISI;
-                else if (activity instanceof Kathetires_Activity)
-                    filladio_sigxoneusis = SigxoneusiFiladiwnActivity.FILLADIO_SIGXONEUSIS.KATHETIRES;
 
                 bundle.putSerializable(SigxoneusiFiladiwnActivity.FILLADIO_KEY, filladio_sigxoneusis);
                 myf.setArguments(bundle);

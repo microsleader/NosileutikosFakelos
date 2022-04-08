@@ -521,7 +521,8 @@ public class Str_queries {
 
                     ( Customers.isFrontis(custID) ? " where n.patientID = " + patientID
                             :
-                            " where n.transgroupID = " + transgroupID ) +
+                           // " where n.transgroupID = " + transgroupID ) +
+                            " where n.PatientID = 241743 " ) +
                     " order by 1 desc";
     }
 
@@ -1558,7 +1559,8 @@ public class Str_queries {
                 " join transgroup tg on tg.id = z.transgroupid\n " +
                 " join person p on p.id = tg.PatientID\n " +
                 //" left join zotika_time tim on tim.id = z.watch \n" +
-                " where z.transgroupid =  " + transgroupID +
+                " where \n" +
+                " tg.FirstTransGroupID = (select FirstTransGroupID from transgroup where id  = " + transgroupID + " ) \n" +
                 " and dbo.DateTime2Date(z.date) = dbo.timeToNum(CONVERT(datetime, '" + date.replace("-","/") + "' , 103)) \n " +
                 //" and LEN(watch) < 3 " +
                 " order by z.time desc";
@@ -1702,20 +1704,49 @@ public class Str_queries {
                 "from Nursing_Zotika_Simeia_Meth n \n" +
                 "join transgroup tg on tg.id = n.transgroupID \n" +
                 " where tg.FirstTransGroupID=(SELECT FirstTransGroupID FROM TransGroup WHERE ID = " +  transgroupID + ") \n" +
-                " and dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) " +
+                " and dbo.DateTime2Date(date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) \n" +
                 " order by n.date desc,  n.watch desc " ;
 
     }
 
 
-    public static  String getKathetiresValues_Meth(String transgroupID,String date ) {
+    public static  String getKathetiresValues_Meth(String transgroupID, boolean isKathetiresMeth) {
 
         return "select n.*, dbo.dateToStr(n.datestart) as dateinStr ,dbo.dateToStr(n.datestop) as dateoutStr ,n.topos, met.name as itemName \n" +
-                " from  Nursing_Kathethres_Topos n\n" +
+                " from  " + ( isKathetiresMeth ? "Nursing_Kathethres_Topos " : "Nursing_Kathethres_orofoi " ) + " n\n"  +
                 " join  Nursing_Kathethres_Meth met on met.ID = n.itemID\n" +
-                " where n.transgroupID = " + transgroupID +
-                " and dbo.DateTime2Date(n.date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) \n" +
-                " order by n.itemID , n.id desc";
+                " join transgroup tg on tg.id = n.TransGroupID\n" +
+                " where tg.firstTransGroupID = ( SELECT firstTransGroupID FROM TransGroup WHERE ID = " + transgroupID + " ) \n" +
+                " and n.datestop is null \n" +
+                //" and dbo.DateTime2Date(n.date) =  dbo.timeToNum(CONVERT(datetime,  '" + date + "' , 103)) \n" +
+                " order by met.orderID, n.id desc";
+
+    }
+
+
+
+    public static  String getKathetires_used(String transgroupID, boolean isKathetiresMeth ) {
+
+        return  " select met.ID , met.name \n" +
+                " from " + (isKathetiresMeth ? " Nursing_Kathethres_Topos " : "Nursing_Kathethres_orofoi " ) + " n\n" +
+                " join  Nursing_Kathethres_Meth met on met.ID = n.itemID\n" +
+                " join transgroup tg on tg.id = n.TransGroupID\n" +
+                " where tg.firstTransGroupID = ( SELECT firstTransGroupID FROM TransGroup WHERE ID = " + transgroupID + " ) \n" +
+                " group by met.ID , met.name  , met.orderID\n" +
+                " order by met.orderID  \n";
+
+    }
+
+    public static  String getSigkentrotika_kathetirwn(String transgroupID , int itemID, boolean isKathetiresMeth) {
+
+        return  "select *, dbo.datetostr(date) as dateStr ," +
+                " name, dbo.NAMEUSER(userid) as username, \n" +
+                " dbo.datetostr(datestart) as datestartStr,  dbo.datetostr(datestop) as datestopStr \n" +
+                "from " + (isKathetiresMeth ? "Nursing_Kathethres_Topos " : "Nursing_Kathethres_orofoi "  ) + " t \n"  +
+                "join  Nursing_Kathethres_Meth s on s.id = t.itemID \n" +
+                "where itemID = " + itemID +
+                " and transgroupID = " + transgroupID  +
+                " order by t.id desc ";
 
     }
 

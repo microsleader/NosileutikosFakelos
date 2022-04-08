@@ -147,7 +147,7 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
 
     private void initializeRV() {
 
-        adapter = new Menu_general_RV_Adapter(menu_lista,this , true);
+        adapter = new Menu_general_RV_Adapter(menu_lista,this , true , SigxoneusiFiladiwnActivity.NO_DEPARTMENT);
         setRecyclerViewgridrLayaout( R.id.recyclerView,  adapter, 2,titloi_positions );
     }
 
@@ -266,9 +266,12 @@ public class Menu_generalActivity_NEW extends BasicActivity implements View.OnCl
 
         if (v.getId() == R.id.planoKlinonBT)
             methodKlinesDialog();
-        else if (v.getId() == R.id.sigxoneusiBT)
-            startActivity(new Intent(this, SigxoneusiFiladiwnActivity.class));
-
+        else if (v.getId() == R.id.sigxoneusiBT) {
+            int department = tmimaSP.getSelectedItemPosition(); // 0 συγχωνευση οροφων , 1 συγχωνευση μεθ
+            Intent in = new Intent(this, SigxoneusiFiladiwnActivity.class);
+            in.putExtra("department", department);
+            startActivity(in);
+        }
     }
 
 

@@ -55,7 +55,7 @@ public class Simple_items_rv_adapter extends RecyclerView.Adapter<Simple_items_r
     @Override
     public void onBindViewHolder(@NonNull Simple_items_rv_adapter.MyViewHolder holder, int pos) {
 
-       int id =  result.get(pos).getId();
+       long id =  result.get(pos).getId();
        int itemID =  result.get(pos).getItemID();
        String title = result.get(pos).getTitle();
        String dateIN = result.get(pos).getDatein();
@@ -244,45 +244,45 @@ public class Simple_items_rv_adapter extends RecyclerView.Adapter<Simple_items_r
 
 
             sigkentrotikaBT = itemView.findViewById(R.id.sigkentrotikaBT);
-            sigkentrotikaBT.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    int pos = (int) textET.getTag();
-                    int itemID = result.get(pos).getItemID();
-
-
-                    String transgroupID = "";
-                    Kathetires_Activity x = null;
-                    try{
-                        //Αυτο γινεται για να παρει  το transgroupID οταν καλειται απο την οθονη των συγχωνευσεων φυλλαδιων
-
-                        SigxoneusiFiladiwnActivity s  = (SigxoneusiFiladiwnActivity) act;
-                        x = (Kathetires_Activity) s.activityFromSigxoneusi;
-                        transgroupID = x.transgroupID;
-                    }
-                    catch (Exception ignored){
-
-                    }
-
-                    BasicActivity basicAct = (BasicActivity) act;
-
-                    String query = "select *, dbo.datetostr(date) as dateStr ," +
-                            " name, dbo.NAMEUSER(userid) as username, \n" +
-                            " dbo.datetostr(datestart) as datestartStr,  dbo.datetostr(datestop) as datestopStr \n" +
-                            "from Nursing_Kathethres_Topos t \n" +
-                            "join  Nursing_Kathethres_Meth s on s.id = t.itemID \n" +
-                            "where itemID = " + itemID +
-                            " and transgroupID = " + (x != null ? transgroupID : basicAct.transgroupID ) +
-                            " order by t.id desc ";
-
-
-
-                    act.startActivity(Table.tableView_sigkentrotika(query,"",act,
-                            null,null,InfoSpecificLists.getNursing_Kathethres_Topos_for_item(),
-                            false,false,false));
-                }
-            });
+//            sigkentrotikaBT.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    int pos = (int) textET.getTag();
+//                    int itemID = result.get(pos).getItemID();
+//
+//
+//                    String transgroupID = "";
+//                    Kathetires_Activity x = null;
+//                    try{
+//                        //Αυτο γινεται για να παρει  το transgroupID οταν καλειται απο την οθονη των συγχωνευσεων φυλλαδιων
+//
+//                        SigxoneusiFiladiwnActivity s  = (SigxoneusiFiladiwnActivity) act;
+//                        x = (Kathetires_Activity) s.activityFromSigxoneusi;
+//                        transgroupID = x.transgroupID;
+//                    }
+//                    catch (Exception ignored){
+//
+//                    }
+//
+//                    BasicActivity basicAct = (BasicActivity) act;
+//
+//                    String query = "select *, dbo.datetostr(date) as dateStr ," +
+//                            " name, dbo.NAMEUSER(userid) as username, \n" +
+//                            " dbo.datetostr(datestart) as datestartStr,  dbo.datetostr(datestop) as datestopStr \n" +
+//                            "from Nursing_Kathethres_Topos t \n" +
+//                            "join  Nursing_Kathethres_Meth s on s.id = t.itemID \n" +
+//                            "where itemID = " + itemID +
+//                            " and transgroupID = " + (x != null ? transgroupID : basicAct.transgroupID ) +
+//                            " order by t.id desc ";
+//
+//
+//
+//                    act.startActivity(Table.tableView_sigkentrotika(query,"",act,
+//                            null,null,InfoSpecificLists.getNursing_Kathethres_Topos_for_item(itemID),
+//                            false,false,false));
+//                }
+//            });
         }
 
     }

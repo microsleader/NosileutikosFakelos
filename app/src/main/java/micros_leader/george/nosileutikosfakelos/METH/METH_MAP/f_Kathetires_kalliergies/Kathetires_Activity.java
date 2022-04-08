@@ -29,7 +29,6 @@ import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalli
 import micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kalliergies.ThetikesKalliergies.ThetikesKalliergiesDialog;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Simple_Items;
-import micros_leader.george.nosileutikosfakelos.Simple_items_rv_adapter;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 import micros_leader.george.nosileutikosfakelos.Utils;
@@ -106,10 +105,13 @@ public class Kathetires_Activity extends BasicActivity implements  AsyncGetUpdat
                     for (int i = 0; i < lista.size(); i++) {
 
 
+
                         if (i == lista.size() - 1)
                             isTeleutaio = true;
 
-                        int id = lista.get(i).getId();
+
+
+                        long id = lista.get(i).getId();
                         int itemID = simple_items_lista.get(i).getItemID();
                         String dateIN = simple_items_lista.get(i).getDatein();
                         String dateout = simple_items_lista.get(i).getDateout();
@@ -180,7 +182,7 @@ public class Kathetires_Activity extends BasicActivity implements  AsyncGetUpdat
         
         AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
         task.ctx = extendedAct;
-        task.query = "select * from  Nursing_Kathethres_Meth ";
+        task.query = "select * from  Nursing_Kathethres_Meth order by orderID";
         task.listener = new AsyncCompleteTask2() {
             @Override
             public void taskComplete2(JSONArray results) throws JSONException {
@@ -197,7 +199,7 @@ public class Kathetires_Activity extends BasicActivity implements  AsyncGetUpdat
 
                     }
                     
-                    adapter = new Kathetires_RV(extendedAct,  simple_items_lista);
+                    adapter = new Kathetires_RV(extendedAct,  simple_items_lista ,true);
                     recyclerView.setAdapter(adapter);
                     
                     getValuesForSimpleItems();
@@ -255,7 +257,7 @@ public class Kathetires_Activity extends BasicActivity implements  AsyncGetUpdat
         clearLista();
 
         final AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
-        task.query =  Str_queries.getKathetiresValues_Meth(transgroupID ,dateTV.getText().toString()) ;
+        task.query =  Str_queries.getKathetiresValues_Meth(transgroupID, true) ;
         task.ctx = extendedAct;
         task.listener = new AsyncCompleteTask2() {
             @Override

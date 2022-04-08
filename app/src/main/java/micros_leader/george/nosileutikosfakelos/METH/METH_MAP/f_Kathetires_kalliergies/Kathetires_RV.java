@@ -2,7 +2,10 @@ package micros_leader.george.nosileutikosfakelos.METH.METH_MAP.f_Kathetires_kall
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -26,26 +30,32 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskDelete;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
+import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetDelete;
 import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Simple_Items;
 import micros_leader.george.nosileutikosfakelos.Spinner_items_lists;
 import micros_leader.george.nosileutikosfakelos.Spinner_new_Image_Adapter;
 import micros_leader.george.nosileutikosfakelos.TableView.Table;
+import micros_leader.george.nosileutikosfakelos.TableView.TableActivity;
+import micros_leader.george.nosileutikosfakelos.Utils;
 
 public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHolder> {
 
 
     private final Activity act;
+    private final boolean isKathetiresMeth;
     public ArrayList<Simple_Items> result;
 
 
-    public Kathetires_RV(Activity act , ArrayList <Simple_Items> result){
+    public Kathetires_RV(Activity act , ArrayList <Simple_Items> result , boolean isKathetiresMeth){
         this.act = act;
         this.result = result;
+        this.isKathetiresMeth = isKathetiresMeth;
     }
 
     @NonNull
@@ -64,7 +74,7 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
     public void onBindViewHolder(@NonNull MyViewHolder holder, int pos) {
 
         Simple_Items x = result.get(pos);
-        int id =  result.get(pos).getId();
+        long id =  result.get(pos).getId();
         int itemID =  result.get(pos).getItemID();
         String title = result.get(pos).getTitle();
         String dateIN = result.get(pos).getDatein();
@@ -80,9 +90,15 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
 
         result.get(pos).hasDateoutFromServer = !dateout.isEmpty();
 
-        String value = result.get(pos).getValue();
 
-        holder.mainTitleTV.setText(title);
+        if (itemID >= 18 && itemID <= 27 &&  val_et3 != null && !val_et3.isEmpty()) {  //παροχευτεσεις 1-10
+            holder.mainTitleTV.setText(val_et3); // τιτλος θεση
+        }
+        else
+            holder.mainTitleTV.setText(title);
+
+
+
         holder.date_inTV.setText(dateIN);
         holder.date_outTV.setText(dateout);
 
@@ -114,24 +130,44 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
 
     private void manageItems(MyViewHolder holder, int itemID , Simple_Items x){
 
-        if ((itemID >=1 && itemID <= 9) || itemID == 11 || itemID == 14){ //περιφερικες αρτηριακες και αλλα
+        if ((itemID >=1 && itemID <= 5) ||  itemID == 8 ||  itemID == 9 || itemID == 14 || itemID == 28 || itemID == 32){ //περιφερικες αρτηριακες και αλλα
             holder.childLayout1.setVisibility(View.VISIBLE);
             holder.childLayout2.setVisibility(View.VISIBLE);
 
-            if (itemID == 1 || itemID == 2) { //περιφερικες 1 ,2
-                holder.titleTV1.setText("Θέση");
-                holder.titleTV2.setText("Μέγεθος");
-                addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_periferiki_grammi_thesi_choices() , x.valSP1);
-                addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_periferiki_grammi_megethos_choices() , x.valSP2);
+            if (itemID == 1 || itemID == 2 || itemID == 32) { //περιφερικες 1 ,2 ,3
+                holder.titleTV1.setText("Μέγεθος");
+                holder.titleTV2.setText("Θέση");
+
+                addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_periferiki_grammi_megethos_choices() , x.valSP1);
+                addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_periferiki_grammi_thesi_choices() , x.valSP2);
             }
 
-            else if (itemID == 3){ //αρτηριακή
+            else if (itemID == 3){ //αρτηριακή 1
+
                 holder.titleTV1.setText("Θέση");
                 holder.titleTV2.setText("Μέγεθος");
+                holder.titleTV3.setText("Είδος");
+                holder.childLayout3.setVisibility(View.VISIBLE);
+
                 addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_artiriaki_grammi_thesi_choices() , x.valSP1);
                 addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_artiriaki_grammi_megethos_choices() , x.valSP2);
+                addSpinnerAdapter(holder.valSP3 , Spinner_items_lists.get_artiriaki_grammi_eidos_choices() , x.valSP3);
 
             }
+
+            else if (itemID == 28){ //αρτηριακή 2
+
+                holder.titleTV1.setText("Θέση");
+                holder.titleTV2.setText("Μέγεθος");
+                holder.titleTV3.setText("Είδος");
+                holder.childLayout3.setVisibility(View.VISIBLE);
+
+                addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_artiriaki_grammi_thesi_choices() , x.valSP1);
+                addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_artiriaki_grammi_megethos_choices() , x.valSP2);
+                addSpinnerAdapter(holder.valSP3 , Spinner_items_lists.get_artiriaki_grammi_eidos_choices() , x.valSP3);
+
+            }
+
 
             else if (itemID == 4){ //folley
                 holder.titleTV1.setText("Θέση");
@@ -149,12 +185,123 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
 
             }
 
+
+            else if (itemID == 8){ //κεντρική γραμμή
+                holder.titleTV1.setText("είδος");
+                holder.titleTV2.setText("Θέση");
+                addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_kentr_eidos_choices() , x.valSP1);
+                addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.kentr_thesi_and_kath_aim_and_thikari_choices() , x.valSP2);
+
+            }
+
+            else if (itemID == 9){ //καθετήρας αιμοκάθαρσης
+                holder.titleTV1.setText("είδος");
+                holder.titleTV2.setText("Θέση");
+                addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_kath_aim_eidos_choices() , x.valSP1);
+                addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.kentr_thesi_and_kath_aim_and_thikari_choices() , x.valSP2);
+
+            }
+
+
+            else if (itemID == 14){ //ΘΗΚΑΡΙ
+                holder.titleTV1.setText("είδος");
+                holder.titleTV2.setText("Θέση");
+                addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_thikari_eidos_choices() , x.valSP1);
+                addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.kentr_thesi_and_kath_aim_and_thikari_choices() , x.valSP2);
+
+            }
+
+        }
+
+
+
+        else if (itemID == 6){ //επισκληρίδιος καθετήρας
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.childLayout2.setVisibility(View.VISIBLE);
+            holder.textET1.setVisibility(View.GONE);
+            holder.textET2.setVisibility(View.GONE);
+            holder.titleTV1.setText("Θέση");
+            holder.titleTV2.setText("φέρει");
+            addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_episk_ferei_choices() , x.valSP1);
+            addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.getYesNo() , x.valSP2);
+
         }
 
 
 
 
-        else if (itemID == 10 || (itemID>= 18 &&  itemID <= 27) ) {//ενδτραχειακος σωλαηνας και παροχευτευσεις 1-10
+
+        else if (itemID == 10){  // ΕΝΔΟΤΡΑΧΕΙΑΚΟΣ ΣΩΛΗΝΑΣ  έση (cm εξόδου), μέγεθος, πίεση cuff
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.childLayout2.setVisibility(View.VISIBLE);
+            holder.childLayout3.setVisibility(View.VISIBLE);
+            holder.valSP2.setVisibility(View.GONE);
+            holder.valSP3.setVisibility(View.GONE);
+            holder.titleTV1.setText("μέγεθος");
+            holder.titleTV2.setText("πίεση cuff");
+            holder.titleTV3.setText("Θέση");
+
+            holder.textET2.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            holder.textET3.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+
+            addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.end_sol_size_choices() , x.valSP1);
+
+        }
+
+
+
+        else if (itemID == 11){  // ΣΩΛΗΝΑΣ ΤΡΑΧΕΙΟΣΤΟΜΙΑΣ
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.childLayout2.setVisibility(View.VISIBLE);
+            holder.valSP2.setVisibility(View.GONE);
+            holder.titleTV1.setText("μέγεθος");
+            holder.titleTV2.setText("πίεση cuff");
+
+            holder.textET2.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
+            addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.sol_trax_size_choices() , x.valSP1);
+
+        }
+
+
+
+        else if (itemID == 12){  // Ρινοφαρυγγικός Αεραγωγός
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.titleTV1.setText("μέγεθος");
+            addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_rin_aer_size_choices_choices() , x.valSP1);
+
+
+        }
+
+        else if (itemID == 13){  // Στοματοφαρυγγικός Αεραγωγός
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.titleTV1.setText("μέγεθος");
+            addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_stoma_aer_size_choices_choices() , x.valSP1);
+
+        }
+
+
+        else if (itemID == 15) { //ΘΗΚΑΡΙ (+ Ενδοαορτική Αντλία(IABP)
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.textET1.setVisibility(View.GONE);
+            holder.titleTV1.setText("ΘΗΚΑΡΙ (IABP) θέση");
+            addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_thikari_antlia_thesi_choices() , x.valSP1);
+
+
+        }
+
+        else if (itemID == 16) { //ΚΑΘΕΤΗΡΑΣ ICP
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.valSP1.setVisibility(View.GONE);
+            holder.titleTV1.setText("ICP");
+
+        }
+
+
+
+
+        else if (itemID>= 18 &&  itemID <= 27) {// παροχευτευσεις 1-10
             holder.childLayout1.setVisibility(View.VISIBLE);
             holder.childLayout2.setVisibility(View.VISIBLE);
             holder.childLayout3.setVisibility(View.VISIBLE);
@@ -166,6 +313,19 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
             holder.valSP3.setVisibility(View.GONE);
             addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_paroxeteusi_eidos_choices(), x.valSP1);
             addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_paroxeteusi_perigrafi_choices(), x.valSP2);
+
+        }
+
+        else if (itemID == 29) { //ΘΗΚΑΡΙ (+ Ενδοαορτική Αντλία(IABP)
+            holder.childLayout1.setVisibility(View.VISIBLE);
+            holder.childLayout2.setVisibility(View.VISIBLE);
+            holder.textET1.setVisibility(View.GONE);
+            holder.textET2.setVisibility(View.GONE);
+            holder.titleTV1.setText("θέση");
+            holder.titleTV2.setText("gripper");
+            addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_port_a_cath_thesi_choices() , x.valSP1);
+            addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_port_a_cath_gripper_choices() , x.valSP1);
+
 
         }
 
@@ -223,6 +383,35 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
             childLayout2 = itemView.findViewById(R.id.childLayout2);
             childLayout3 = itemView.findViewById(R.id.childLayout3);
 
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int pos = (int) textET1.getTag();
+                    long id = result.get(pos).getId();
+                    String row_userID = result.get(pos).getUserID();
+                    if (!row_userID.equals(Utils.getUserID(act)) && !Utils.get_is_nursing_unlock(act))
+                        Toast.makeText(act, "Δεν μπορείτε να διαγράψετε την συγκεκριμένη εγγραφή", Toast.LENGTH_SHORT).show();
+                    else {
+                        new AlertDialog.Builder(act)
+                                .setTitle("Διαγραφή εγγραφης;")
+                                .setMessage("Είστε σίγουροι πως θέλετε να διαγράψετε ;")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        deleteListener(id, pos);
+
+                                    }
+                                })
+
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
+                    return false;
+
+                }
+            });
 
 
 
@@ -460,6 +649,7 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
 
                     int pos = (int) textET1.getTag();
                     int itemID = result.get(pos).getItemID();
+                    String title = result.get(pos).getTitle();
 
 
                     String transgroupID = "";
@@ -480,17 +670,18 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
                     String query = "select *, dbo.datetostr(date) as dateStr ," +
                             " name, dbo.NAMEUSER(userid) as username, \n" +
                             " dbo.datetostr(datestart) as datestartStr,  dbo.datetostr(datestop) as datestopStr \n" +
-                            "from Nursing_Kathethres_Topos t \n" +
+                            "from " + ( isKathetiresMeth ? "Nursing_Kathethres_Topos " : "Nursing_Kathethres_orofoi " + " t \n") +
                             "join  Nursing_Kathethres_Meth s on s.id = t.itemID \n" +
                             "where itemID = " + itemID +
                             " and transgroupID = " + (x != null ? transgroupID : basicAct.transgroupID ) +
                             " order by t.id desc ";
 
 
-
-                    act.startActivity(Table.tableView_sigkentrotika(query,"",act,
-                            null,null, InfoSpecificLists.getNursing_Kathethres_Topos_for_item(),
-                            false,false,false));
+                    Intent in = Table.tableView_sigkentrotika(query,"", act,
+                            null,null, InfoSpecificLists.getNursing_Kathethres_Topos_for_item(itemID , isKathetiresMeth),
+                            false,false,false);
+                    in.putExtra("toolbar_title", title);
+                    act.startActivity(in);
                 }
             });
 
@@ -542,6 +733,28 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
                         " η ημ/νία εξόδου της προηγούμενης εγγαρφής", Toast.LENGTH_SHORT).show();
         }
 
+
+
+        private void deleteListener(long id, int pos){
+            if (id > 0) {
+                AsyncTaskDelete task = new AsyncTaskDelete(act, "Nursing_Kathethres_Topos", String.valueOf(id));
+                task.ctx = act;
+                task.listener = new AsyncGetDelete() {
+                    @Override
+                    public void deleteResult(String str) {
+                        if (str.equals(act.getString(R.string.successful_update))) {
+                            Toast.makeText(act, "Διαγραφή επιτυχής", Toast.LENGTH_SHORT).show();
+                            result.remove(pos);
+                            notifyItemChanged(pos);
+                        }
+                        else
+                            Toast.makeText(act, "Κάτι πήγε στραβά", Toast.LENGTH_SHORT).show();
+
+                    }
+                };
+                task.execute();
+            }
+        }
      }
 
 

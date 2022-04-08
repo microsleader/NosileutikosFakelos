@@ -2,10 +2,13 @@ package micros_leader.george.nosileutikosfakelos;
 
 public class Simple_Items {
 
-    public int id, transgroupID , itemID , typecol1;
+
+    public int  transgroupID , itemID , typecol1;
     public String title, datein = "" ,dateout = "", value = "" , userID = "" , col1 ,col2,col3,col4 ,col5,col6;
     public String valSP1 , valSP2, valSP3 , valET1, valET2, valET3;
     public boolean hasDateoutFromServer;
+    public long id ;
+
 
 
 
@@ -32,11 +35,11 @@ public class Simple_Items {
         this.title = title;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

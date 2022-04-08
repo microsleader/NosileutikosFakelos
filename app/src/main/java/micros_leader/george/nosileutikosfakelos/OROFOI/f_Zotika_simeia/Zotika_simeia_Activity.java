@@ -52,11 +52,8 @@ import androidx.appcompat.app.AlertDialog;
 
 public class Zotika_simeia_Activity extends BasicActivity {
 
-    private Spinner hoursSP;
-    private boolean isFirstTime = true;
-    private ArrayList <String> watchLista;
-    private TextView epilogiTV ;
-    private Button diagramBT;
+    public Button diagramBT;
+    public Spinner hoursSP;
     private RV_zotika_ana_ora_adapter adapterRV;
 
 
@@ -66,40 +63,39 @@ public class Zotika_simeia_Activity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zotika_simeia_ana_ora_);
 
+        diagramBT = findViewById(R.id.diagramButton);
+        fabMenu = findViewById(R.id.fabMenu);
+
+        initialize();
+    }
+
+    public void initialize(){
+        if (extendedAct == null)
+            extendedAct = this;
 
         table = "Nursing_Zotika_Simeia";
         getAll_col_names( getZotika24oroAnaOraLista());
-        diagramBT = findViewById(R.id.diagramButton);
         diagramButtonListener();
-
-        //epilogiTVListener();
-        //hoursSP = findViewById(R.id.hoursSP);
-        fabMenu = findViewById(R.id.fabMenu);
         fabListener();
-        //watchLista = get24HoursLista();
-        //spinnersAdapter();
-        //watchID = InfoSpecificLists.get24hoursID(hoursSP.getSelectedItem().toString());
         titloi_positions = new int[]{};
-        adapterRV = new RV_zotika_ana_ora_adapter(this, getZotika24oroAnaOraLista(),titloi_positions);
+        adapterRV = new RV_zotika_ana_ora_adapter(extendedAct, getZotika24oroAnaOraLista(),titloi_positions);
         listaAdaptor = adapterRV.result;
-
-
 
         setRecyclerViewgridrLayaout( R.id.zotikaRV,adapterRV,2,titloi_positions);
 
-        getPatientsList(this,R.id.patientsTV, R.id.floorsSP);
+        getPatientsList(extendedAct,R.id.patientsTV, R.id.floorsSP);
         thereIsDatePicker(R.id.dateTV);
         setTimePicker(R.id.hoursTV);
         thereIsImageUpdateButton();
         insertOrUpdateListener_with_question(listaAdaptor,new String [] {"ID","TransGroupID","Watch","date"});
 
 
-
     }
 
 
     private void diagramButtonListener() {
-        diagramBT.setOnClickListener(v -> showDiagram(transgroupID,dateTV.getText().toString(),InfoSpecificLists.getZotikaKatigoriesDiagramLista(),1,this));
+        diagramBT.setOnClickListener(v -> showDiagram(transgroupID,dateTV.getText().toString(),
+                InfoSpecificLists.getZotikaKatigoriesDiagramLista(),1,extendedAct));
     }
 
 
@@ -147,7 +143,7 @@ public class Zotika_simeia_Activity extends BasicActivity {
 
                         in = tableView_sigkentrotika(Str_queries.getZOTIKA_SIMEIA_SIGKENTROTIKA_ANA_HOUR(transgroupID, dateTV.getText().toString()),
                                 transgroupID,null,InfoSpecificLists.getSigkentrotika_zotika(false),false,false,true);
-                        startActivity(in);
+                        extendedAct.startActivity(in);
 
                         break;
 
@@ -164,38 +160,6 @@ public class Zotika_simeia_Activity extends BasicActivity {
 
 
 
-    private void epilogiTVListener() {
-
-        epilogiTV.setOnClickListener(v -> new FancyAlertDialog.Builder(Zotika_simeia_Activity.this)
-                .setTitle("Επιλογή φυλλαδίου")
-                .setBackgroundColor(Color.parseColor("#2288c1"))  //Don't pass R.color.colorvalue
-                .setMessage("επιλέξτε Ζωτικά σημεία")
-                .setPositiveBtnBackground(Color.parseColor("#2288c1"))  //Don't pass R.color.colorvalue
-                .setPositiveBtnText("ανά ώρα")
-                .OnPositiveClicked(new FancyAlertDialogListener() {
-                    @Override
-                    public void OnClick() {
-                        epilogiTV.setText("Ανά ώρα");
-
-                        setSpinnerAdapter(hoursSP, get24HoursLista());
-
-                    }
-                })
-                .setNegativeBtnText("ανά 3ωρο")
-                .OnNegativeClicked(new FancyAlertDialogListener() {
-                    @Override
-                    public void OnClick() {
-                        epilogiTV.setText("Ανά 3ωρο");
-                        setSpinnerAdapter(hoursSP, InfoSpecificLists.get3HoursLista());
-
-                    }
-                })
-                .setAnimation(Animation.POP)
-                .isCancellable(false)
-                .setIcon(R.drawable.error_icon, Icon.Visible)
-                .isCancellable(true)
-                .build());
-    }
 
 
     private void getZotikaSimeia24oro(){
@@ -258,44 +222,11 @@ public class Zotika_simeia_Activity extends BasicActivity {
 
 
 
-    private void spinnersAdapter() {
-        ArrayAdapter arrayAdapter = new ArrayAdapter<>(this,
-                R.layout.spinner_layout_for_vardies, watchLista);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        hoursSP.setAdapter(arrayAdapter);
-
-        hoursSP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                if (isFirstTime)
-                    isFirstTime = false;
-
-                else {
-
-                    //if (epilogiTV.getText().toString().equals("Ανά ώρα"))
-                         watchID = InfoSpecificLists.get24hoursID(hoursSP.getSelectedItem().toString());
-//                    else
-//                        watchID = InfoSpecificLists.get3hoursID(hoursSP.getSelectedItem().toString());
-
-
-                    getZotikaSimeia24oro();   //ΚΑΛΕΙΤΑΙ ΣΙΓΟΥΡΑ
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
 
 
     private void setTimePicker(int timeID){
 
-        timeTV = findViewById(timeID);
+        timeTV = extendedAct.findViewById(timeID);
         timeTV.setText(Utils.getCurrentTime2());
 
         timeTV.setOnClickListener(new View.OnClickListener() {
@@ -409,12 +340,12 @@ public class Zotika_simeia_Activity extends BasicActivity {
         });
 
 
-        LinearLayout ll=new LinearLayout(this);
+        LinearLayout ll=new LinearLayout(extendedAct);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.addView(fromHour);
         ll.addView(toHour);
 
-        LinearLayout ll_main=new LinearLayout(this);
+        LinearLayout ll_main=new LinearLayout(extendedAct);
         ll_main.setOrientation(LinearLayout.VERTICAL);
         ll_main.addView(ll);
 
@@ -438,7 +369,7 @@ public class Zotika_simeia_Activity extends BasicActivity {
 
 
 
-                    startActivity(   tableView_sigkentrotika(Str_queries.getZOTIKA_SIMEIA_SIGKENTROTIKA_TON_ASETHENWN(dateTV.getText().toString(), fromTime , toTime, floorID),
+                    extendedAct.startActivity(tableView_sigkentrotika(Str_queries.getZOTIKA_SIMEIA_SIGKENTROTIKA_TON_ASETHENWN(dateTV.getText().toString(), fromTime , toTime, floorID),
                             null,null,InfoSpecificLists.getSigkentrotika_zotika(true),false,false,false));
                 }
             }

@@ -17,10 +17,13 @@ import micros_leader.george.nosileutikosfakelos.databinding.ActivitySigxoneusiFi
 public class SigxoneusiFiladiwnActivity extends BasicActivity {
 
 
-    private final ArrayList<Menu_general_Item> menu_lista =  InfoSpecificLists.getSigxoneusiFilladiwn();
     private RecyclerView rv_hor;
     private ActivitySigxoneusiFiladiwnBinding bd;
+    public int departmentID ;
     public static final String FILLADIO_KEY = "filladio";
+    public static final int NO_DEPARTMENT = -1;
+    public static final int DEPARTMENT_OROFOI = 0;
+    public static final int DEPARTMENT_METH = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +32,10 @@ public class SigxoneusiFiladiwnActivity extends BasicActivity {
         View view = bd.getRoot();
         setContentView(view);
 
+        departmentID = getIntent().getIntExtra("department" , NO_DEPARTMENT);
+        ArrayList<Menu_general_Item> menu_lista =  InfoSpecificLists.getSigxoneusiFilladiwn(departmentID);
 
-        Menu_general_RV_Adapter adapter = new Menu_general_RV_Adapter(menu_lista, this, false);
+        Menu_general_RV_Adapter adapter = new Menu_general_RV_Adapter(menu_lista, this, false, departmentID);
         setRecyclerViewHorizontalLinearLayout(rv_hor,  R.id.recyclerView , adapter);
         adapter.addFrameLayout(bd.actFR);
 
@@ -42,10 +47,12 @@ public class SigxoneusiFiladiwnActivity extends BasicActivity {
 
    public enum FILLADIO_SIGXONEUSIS {
         ZOTIKA_METH,
+        ZOTIKA_OROFOI,
         KATHIMERINO_ZIGISMA,
         ISOZIGIO_METH,
         NEURIKI_AKSIOLOGISI,
-        KATHETIRES
+        KATHETIRES_METH,
+        KATHETIRES_OROFOI,
     }
 
 

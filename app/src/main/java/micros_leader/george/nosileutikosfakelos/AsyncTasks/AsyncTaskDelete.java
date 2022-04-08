@@ -37,7 +37,7 @@ public class AsyncTaskDelete extends AsyncTask<String, Void, String> {
 
         base_URL = Utils.getAddress(ctx.getApplicationContext()) + ":" + Utils.getPort(ctx.getApplicationContext()) + "/rquery?cquery=";;
 
-        URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(" delete " +table + " where id = " + id));
+        URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(" delete " + table + " where id = " + id));
 
       //  Log.e("url",URL);
     }
