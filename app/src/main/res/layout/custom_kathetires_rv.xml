@@ -25,16 +25,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/mainTitleTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="12dp"
-                    android:textSize="15sp"
-                    android:textColor="@color/colorAccent"
 
-                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/isfromHomeCH"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="22dp"
+                        android:layout_weight="1"
+                        android:text="Φέρει" />
+
+                    <TextView
+                        android:id="@+id/mainTitleTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center"
+                        android:textColor="@color/colorAccent"
+
+                        android:textSize="15sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/childLayout1"
@@ -71,10 +87,9 @@
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_shape"
-                        android:ems="10"
                         android:gravity="center"
                         android:hint="άλλο"
-                        android:inputType="textMultiLine"
+                        android:inputType="text|textMultiLine"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </LinearLayout>
@@ -114,10 +129,9 @@
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_shape"
-                        android:ems="10"
                         android:gravity="center"
                         android:hint="άλλο"
-                        android:inputType="textMultiLine"
+                        android:inputType="text|textMultiLine"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </LinearLayout>
@@ -158,10 +172,9 @@
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:background="@drawable/edittext_shape"
-                        android:ems="10"
                         android:gravity="center"
                         android:hint="άλλο"
-                        android:inputType="textMultiLine"
+                        android:inputType="text|textMultiLine"
                         tools:ignore="TouchTargetSizeCheck" />
 
                 </LinearLayout>
@@ -172,12 +185,23 @@
                 android:id="@+id/date_inTV"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="58dp"
-                android:layout_marginEnd="22dp"
+                android:layout_marginEnd="12dp"
                 android:layout_weight="1"
                 android:background="@drawable/edittext_shape"
-                android:ems="10"
+                android:gravity="center"
+                app:layout_constraintEnd_toStartOf="@+id/date_changeTV"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+
+            <TextView
+                android:id="@+id/date_changeTV"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="58dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/edittext_shape"
                 android:gravity="center"
                 app:layout_constraintEnd_toStartOf="@+id/date_outTV"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
@@ -191,7 +215,6 @@
                 android:layout_marginEnd="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/edittext_shape"
-                android:ems="10"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
@@ -201,14 +224,30 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:layout_marginEnd="22dp"
+                android:layout_marginEnd="12dp"
                 android:background="@drawable/textview_shape"
-                android:paddingStart="0dp"
                 android:paddingTop="8dp"
-                android:text="Ημ/νία εισόδου"
+                android:text="Ημ/νία εισ."
+                android:textAlignment="center"
+                app:layout_constraintEnd_toStartOf="@+id/date_change_titleTV"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+
+            <TextView
+                android:id="@+id/date_change_titleTV"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/textview_shape"
+                android:paddingTop="8dp"
+                android:text="Ημ/νία τροπ."
                 android:textAlignment="center"
                 app:layout_constraintEnd_toStartOf="@+id/textView83"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
+
+
+
 
             <TextView
                 android:id="@+id/textView83"
@@ -217,7 +256,6 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="3dp"
                 android:background="@drawable/textview_shape"
-                android:paddingStart="0dp"
                 android:paddingTop="8dp"
                 android:text="Ημ/νία εξόδου"
                 android:textAlignment="center"
@@ -225,13 +263,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
 
             <Button
-                android:id="@+id/neaEggrafiBT"
+                android:id="@+id/tropopoisiBT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
                 android:layout_marginTop="12dp"
                 android:layout_weight="1"
-                android:text="ΝΕΑ ΕΓΓΡΑΦΗ"
+                android:text="ΤΡΟΠΟΠΟΙΗΣΗ"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout25" />
 
@@ -239,9 +277,9 @@
                 android:id="@+id/sigkentrotikaBT"
                 android:layout_width="38dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="21dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                app:layout_constraintStart_toEndOf="@+id/neaEggrafiBT"
+                app:layout_constraintStart_toEndOf="@+id/tropopoisiBT"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout25"
                 app:srcCompat="@drawable/info_fab_icon" />
 

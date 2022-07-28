@@ -252,7 +252,7 @@ public class AsyncTaskUpdate_JSON extends AsyncTask<String, Void, String> {
         }
 
         catch (Exception e){
-            str = "Κάτι πήγε στραβά";
+            str = "Κάτι πήγε στραβά ";
             listener.update_JSON(str);
 
         }

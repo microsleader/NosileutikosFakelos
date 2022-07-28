@@ -1,5 +1,6 @@
 package micros_leader.george.nosileutikosfakelos.Notifications;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -49,6 +50,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final NotificationsAdapter.MyViewHolder holder, final int position) {
         // set the data in items
@@ -79,6 +81,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             holder.msgTV.setText(Html.fromHtml(Utils.getColorTextRed(patient)));
             holder.msgTV.append("\n\n" + msg);
 
+            holder.dateorderTV.setText("Ημ/νία εντολής ιατρού : \n   " + date);
 
             if (confirmDate != null)
                 holder.confirmDateTV.setText("Ημ/νία επιβεβαίωσης : \n" + confirmDate);
@@ -127,7 +130,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView msgTV,confirmDateTV,confirmedUserTV;
+        TextView msgTV,dateorderTV,confirmDateTV,confirmedUserTV;
         CheckBox confirmedCH;
         LinearLayout confLayout ;
 
@@ -137,6 +140,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
             msgTV = itemView.findViewById(R.id.msgTV);
             confirmDateTV = itemView.findViewById(R.id.confirmDateTV);
+            dateorderTV = itemView.findViewById(R.id.dateorderTV);
             confirmedUserTV = itemView.findViewById(R.id.confirmedUserTV);
             confLayout = itemView.findViewById(R.id.confirmationLayout);
             confirmedCH = itemView.findViewById(R.id.confirmedCH);

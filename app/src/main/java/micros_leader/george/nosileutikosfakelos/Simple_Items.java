@@ -4,9 +4,9 @@ public class Simple_Items {
 
 
     public int  transgroupID , itemID , typecol1;
-    public String title, datein = "" ,dateout = "", value = "" , userID = "" , col1 ,col2,col3,col4 ,col5,col6;
+    public String title, datein = "" ,datechange = "" ,dateout = "", value = "" , userID = "" , col1 ,col2,col3,col4 ,col5,col6;
     public String valSP1 , valSP2, valSP3 , valET1, valET2, valET3;
-    public boolean hasDateoutFromServer;
+    public boolean hasDateoutFromServer , isFromHome;
     public long id ;
 
 
@@ -67,6 +67,14 @@ public class Simple_Items {
         this.datein = datein;
     }
 
+    public String getDatechange() {
+        return datechange;
+    }
+
+    public void setDatechange(String datechange) {
+        this.datechange = datechange;
+    }
+
     public String getDateout() {
         return dateout;
     }
@@ -82,6 +90,8 @@ public class Simple_Items {
     public void setValue(String value) {
         this.value = value;
     }
+
+
 
     public String getUserID() {
         return userID;

@@ -46,6 +46,7 @@ public class ItemsRV implements  Comparable{
     public int type, texttype ,min,max;
     public ArrayList<String> lista;
     public ArrayList<Spinner_item> sp_item_lista;
+    public double normalMinValue = -1000, normalMaxValue = -1000;
     public Map map;
     private  int CUSTOMER_ID;
 
@@ -296,9 +297,29 @@ public class ItemsRV implements  Comparable{
         return this;
     }
 
+    public ItemsRV setNormalValues(double minValue, double maxValue){
+        this.normalMinValue = minValue;
+        this.normalMaxValue = maxValue;
+
+        return this;
+    }
 
 
+    public double getNormalMinValue() {
+        return normalMinValue;
+    }
 
+    public void setNormalMinValue(double normalMinValue) {
+        this.normalMinValue = normalMinValue;
+    }
+
+    public double getNormalMaxValue() {
+        return normalMaxValue;
+    }
+
+    public void setNormalMaxValue(double normalMaxValue) {
+        this.normalMaxValue = normalMaxValue;
+    }
 
     public boolean isStable_col() {
         return stable_col ;

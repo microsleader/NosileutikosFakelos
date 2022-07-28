@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,21 +26,26 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskDelete;
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetDelete;
+import micros_leader.george.nosileutikosfakelos.Interfaces.AsyncGetUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.Main_menu.SigxoneusiFiladiwnActivity;
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Simple_Items;
 import micros_leader.george.nosileutikosfakelos.Spinner_items_lists;
 import micros_leader.george.nosileutikosfakelos.Spinner_new_Image_Adapter;
+import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.TableView.Table;
 import micros_leader.george.nosileutikosfakelos.TableView.TableActivity;
 import micros_leader.george.nosileutikosfakelos.Utils;
@@ -77,15 +83,17 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
         long id =  result.get(pos).getId();
         int itemID =  result.get(pos).getItemID();
         String title = result.get(pos).getTitle();
+        boolean isFromHome = result.get(pos).isFromHome;
         String dateIN = result.get(pos).getDatein();
+        String datechange = result.get(pos).getDatechange();
         String dateout = result.get(pos).getDateout();
         String val_et1 = result.get(pos).valET1;
         String val_et2 = result.get(pos).valET2;
         String val_et3 = result.get(pos).valET3;
 
-        String val_sp1 = result.get(pos).valSP1;
-        String val_sp2 = result.get(pos).valSP2;
-        String val_sp3 = result.get(pos).valSP3;
+//        String val_sp1 = result.get(pos).valSP1;
+//        String val_sp2 = result.get(pos).valSP2;
+//        String val_sp3 = result.get(pos).valSP3;
 
 
         result.get(pos).hasDateoutFromServer = !dateout.isEmpty();
@@ -98,8 +106,23 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
             holder.mainTitleTV.setText(title);
 
 
+        if ((itemID >= 18 && itemID <= 27) || itemID == 4 || itemID == 5) { //παροχευτεσεις 1-10  , folley , γαστρεντερικός καθετήρας
+            holder.date_changeTV.setVisibility(View.VISIBLE);
+            holder.date_change_titleTV.setVisibility(View.VISIBLE);
+            holder.tropopoisiBT.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            holder.date_changeTV.setVisibility(View.GONE);
+            holder.date_change_titleTV.setVisibility(View.GONE);
+            holder.tropopoisiBT.setVisibility(View.GONE);
+        }
+
+
+        holder.isfromHomeCH.setChecked(isFromHome);
 
         holder.date_inTV.setText(dateIN);
+        holder.date_changeTV.setText(datechange);
         holder.date_outTV.setText(dateout);
 
         holder.textET1.setTag(pos);holder.textET2.setTag(pos);holder.textET3.setTag(pos);
@@ -108,12 +131,13 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
         holder.textET3.setText(val_et3);
 
 
-
         holder.valSP1.setTag(pos);holder.valSP2.setTag(pos);holder.valSP3.setTag(pos);
-
 
         holder.date_inTV.setTag(pos);
         holder.date_outTV.setTag(pos);
+        holder.isfromHomeCH.setTag(pos);
+        holder.tropopoisiBT.setTag(pos);
+
 
         manageItems( holder,itemID,x);
 
@@ -218,10 +242,10 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
         else if (itemID == 6){ //επισκληρίδιος καθετήρας
             holder.childLayout1.setVisibility(View.VISIBLE);
             holder.childLayout2.setVisibility(View.VISIBLE);
-            holder.textET1.setVisibility(View.GONE);
-            holder.textET2.setVisibility(View.GONE);
             holder.titleTV1.setText("Θέση");
             holder.titleTV2.setText("φέρει");
+            holder.textET1.setHint("Τέθηκε από:");
+            holder.textET2.setHint("Αφαιρέθηκε από:");
             addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_episk_ferei_choices() , x.valSP1);
             addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.getYesNo() , x.valSP2);
 
@@ -242,7 +266,7 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
             holder.titleTV3.setText("Θέση");
 
             holder.textET2.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            holder.textET3.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            //holder.textET3.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
 
             addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.end_sol_size_choices() , x.valSP1);
@@ -324,7 +348,7 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
             holder.titleTV1.setText("θέση");
             holder.titleTV2.setText("gripper");
             addSpinnerAdapter(holder.valSP1 , Spinner_items_lists.get_port_a_cath_thesi_choices() , x.valSP1);
-            addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_port_a_cath_gripper_choices() , x.valSP1);
+            addSpinnerAdapter(holder.valSP2 , Spinner_items_lists.get_port_a_cath_gripper_choices() , x.valSP2);
 
 
         }
@@ -357,16 +381,19 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
       class  MyViewHolder  extends RecyclerView.ViewHolder{
 
 
-        public TextView mainTitleTV, titleTV1, titleTV2, titleTV3 , date_inTV, date_outTV;
+        public TextView mainTitleTV, titleTV1, titleTV2, titleTV3 ,date_change_titleTV,  date_inTV, date_changeTV, date_outTV;
         public EditText textET1, textET2, textET3;
         public Spinner valSP1, valSP2, valSP3;
         public LinearLayout childLayout1 , childLayout2, childLayout3;
-        public Button neaEggrafiBT;
+        public Button tropopoisiBT;
+        public CheckBox isfromHomeCH;
         public ImageView sigkentrotikaBT;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+
             mainTitleTV = itemView.findViewById(R.id.mainTitleTV);
+            isfromHomeCH = itemView.findViewById(R.id.isfromHomeCH);
             titleTV1 = itemView.findViewById(R.id.titleTV1);
             titleTV2 = itemView.findViewById(R.id.titleTV2);
             titleTV3 = itemView.findViewById(R.id.titleTV3);
@@ -382,6 +409,9 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
             childLayout1 = itemView.findViewById(R.id.childLayout1);
             childLayout2 = itemView.findViewById(R.id.childLayout2);
             childLayout3 = itemView.findViewById(R.id.childLayout3);
+
+            date_change_titleTV = itemView.findViewById(R.id.date_change_titleTV);
+            date_changeTV = itemView.findViewById(R.id.date_changeTV);
 
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -502,6 +532,15 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
 
 
 
+            if (isfromHomeCH != null){
+                isfromHomeCH.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int pos = (int) isfromHomeCH.getTag();
+                        result.get(pos).isFromHome = isfromHomeCH.isChecked() ;
+                    }
+                });
+            }
 
 
 
@@ -638,8 +677,18 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
             }
 
 
-            neaEggrafiBT = itemView.findViewById(R.id.neaEggrafiBT);
-            neaEggrafiBT.setOnClickListener(view -> neaEggrafiListener());
+            tropopoisiBT = itemView.findViewById(R.id.tropopoisiBT);
+            tropopoisiBT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = (int) tropopoisiBT.getTag(); //καθετήρας 1
+                    int itemID = result.get(pos).getItemID();
+                    if ((itemID >= 18 && itemID <= 27) || itemID == 4 || itemID == 5) //παροχευτεσεις 1-10  , folley , γαστρεντερικός καθετήρας
+                        tropopoisiListener(result.get(pos));
+//                    else
+//                        neaEggrafiListener();
+                }
+            });
 
 
             sigkentrotikaBT = itemView.findViewById(R.id.sigkentrotikaBT);
@@ -667,14 +716,16 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
 
                     BasicActivity basicAct = (BasicActivity) act;
 
-                    String query = "select *, dbo.datetostr(date) as dateStr ," +
-                            " name, dbo.NAMEUSER(userid) as username, \n" +
-                            " dbo.datetostr(datestart) as datestartStr,  dbo.datetostr(datestop) as datestopStr \n" +
-                            "from " + ( isKathetiresMeth ? "Nursing_Kathethres_Topos " : "Nursing_Kathethres_orofoi " + " t \n") +
-                            "join  Nursing_Kathethres_Meth s on s.id = t.itemID \n" +
-                            "where itemID = " + itemID +
-                            " and transgroupID = " + (x != null ? transgroupID : basicAct.transgroupID ) +
-                            " order by t.id desc ";
+                    String query = Str_queries.getSigkentrotika_kathetirwn(x != null ? transgroupID : basicAct.transgroupID  , itemID ,isKathetiresMeth);
+
+//                    String query = "select *, dbo.datetostr(date) as dateStr ," +
+//                            " name, dbo.NAMEUSER(userid) as username, \n" +
+//                            " dbo.datetostr(datestart) as datestartStr,  dbo.datetostr(datestop) as datestopStr \n" +
+//                            "from " + ( isKathetiresMeth ? "Nursing_Kathethres_Topos " : "Nursing_Kathethres_orofoi " ) + " t \n" +
+//                            "join  Nursing_Kathethres_Meth s on s.id = t.itemID \n" +
+//                            "where itemID = " + itemID +
+//                            " and transgroupID = " + (x != null ? transgroupID : basicAct.transgroupID ) +
+//                            " order by t.id desc ";
 
 
                     Intent in = Table.tableView_sigkentrotika(query,"", act,
@@ -689,6 +740,64 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
         }
 
 
+
+        private void tropopoisiListener(Simple_Items s_item){
+
+
+            BottomSheetDialog bottomSheerDialog = new BottomSheetDialog(act);
+            View parentView = act.getLayoutInflater().inflate(R.layout.bottom_sheet_dialog_question_form,null);
+            bottomSheerDialog.setContentView(parentView);
+            final Button yesBT = parentView.findViewById(R.id.yesBT);
+            final TextView  noBT = parentView.findViewById(R.id.noBT);
+            yesBT.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    SigxoneusiFiladiwnActivity s  = (SigxoneusiFiladiwnActivity) act;
+                    Kathetires_Activity_NEW x = (Kathetires_Activity_NEW) s.activityFromSigxoneusi;
+
+                    x.alertDialog.show();
+                    x.valuesJson.clear();
+                    x.valuesJson.add(String.valueOf(s_item.itemID));
+                    x.valuesJson.add(""); //datein    το datein στην τροποποιηση θα ειναι null
+                    x.valuesJson.add(s_item.dateout.trim().equals("") ? "" : Utils.convertDateTomilliseconds(s_item.dateout));
+
+                    x.manageValuesForUpdate(s_item);
+                    x.nameJson.add("joinID");
+                    // x.nameJson.add("datechange");
+                    x.valuesJson.add(String.valueOf(s_item.getId()));
+                    //  x.valuesJson.add(Utils.convertDateTomilliseconds(Utils.getCurrentDate()));
+
+                    AsyncTaskUpdate_JSON task;
+                    task = new AsyncTaskUpdate_JSON(act, x.transgroupID, "Nursing_Kathethres_Topos", x.nameJson, x.replaceTrueOrFalse(x.valuesJson), new int[]{});
+                    task.names_col = new String[]{"ID", "TransgroupID"};
+                    task.listener = new AsyncGetUpdate_JSON() {
+                        @Override
+                        public void update_JSON(String str) {
+                            x.alertDialog.dismiss();
+                            Toast.makeText(act, str, Toast.LENGTH_SHORT).show();
+                            if (str.equals(act.getString(R.string.successful_update)))
+                                x.getValuesForSimpleItems();
+                        }
+
+                        @Override
+                        public void getIDofInsert(String id) {
+
+                        }
+                    };
+                    task.execute();
+
+
+                    bottomSheerDialog.cancel();
+                }
+            });
+
+            noBT.setOnClickListener(view -> bottomSheerDialog.cancel());
+
+            bottomSheerDialog.show();
+
+
+        }
 
 
 
@@ -737,7 +846,7 @@ public class Kathetires_RV extends  RecyclerView.Adapter<Kathetires_RV.MyViewHol
 
         private void deleteListener(long id, int pos){
             if (id > 0) {
-                AsyncTaskDelete task = new AsyncTaskDelete(act, "Nursing_Kathethres_Topos", String.valueOf(id));
+                AsyncTaskDelete task = new AsyncTaskDelete(act, isKathetiresMeth ? "Nursing_Kathethres_Topos" : "Nursing_Kathethres_orofoi", String.valueOf(id));
                 task.ctx = act;
                 task.listener = new AsyncGetDelete() {
                     @Override

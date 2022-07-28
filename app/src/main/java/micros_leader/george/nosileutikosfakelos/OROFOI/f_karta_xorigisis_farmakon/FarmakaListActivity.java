@@ -265,7 +265,7 @@ public class FarmakaListActivity extends BasicActivity implements MyDialogFragme
     private void medicines_display_hours(){
 
        ArrayList <TableViewItem> l = InfoSpecificLists.getKartaXorigisisFarmakwn_provoli_hours();
-       String pano []= new String[l.size() + 1] ;
+       String[] pano = new String[l.size() + 1] ;
        pano[0]  = "testxaxa";
         for (int i=0; i< l.size(); i++){
            pano [i+1] = l.get(i).getTitle();

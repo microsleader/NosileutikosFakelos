@@ -64,6 +64,7 @@ import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.TableView.TableViewItem;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.customers.Frontis;
+import micros_leader.george.nosileutikosfakelos.customers.KianousStavros;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivityMainAim3Binding;
 
 
@@ -246,7 +247,7 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
     }
 
     private void log_out_iv() {
-        if (custID == Customers.CUSTID_FRONTIS  || custID == Customers.CUSTID_FRONTIS_2){
+        if (custID == Customers.CUSTID_FRONTIS  || custID == Customers.CUSTID_FRONTIS_2 || custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA){
             bd.logOutIv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -340,7 +341,9 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                 Intent intent;
                 String code = Utils.getfirstPartSplitCommaString(bd.patientsTV.getText().toString());
                 String patientID = getPatientIDUsingCode.get(code);
+                String patName = bd.patientsTV.getText().toString().split(",")[1];
                 transgroupID = getTransgroupIDUsingCode.get(code);
+
 
                 switch (fabItem.getItemId()) {
 
@@ -368,16 +371,40 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                         ad.setTitle("Επιλέξτε φαρμ. αγωγή");
 
                         ad.setMessage("");
+                        if (custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA) {
+                            ad.setButton(Dialog.BUTTON_NEUTRAL, "Χορήγηση", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    Intent in  =    tableView_sigkentrotika( KianousStavros.getXorigisiStr(patientID),
+                                            null,  //ΤΟ ΚΑΝΩ NULL ΕΠΕΙΔΗ Ο ΠΙΑΝΑΚΣ ΠΟΥ ΘΑ ΚΑΤΑΧΩΡΩ ΔΕΝ ΕΧΕΙ TRANSGROUPID ΑΛΛΑ ΕΧΕΙ patientID
+
+                                            null,
+                                             KianousStavros.getXorigisiLista(),
+                                            false,
+                                            false,
+                                            true);
+
+
+                                    in.putExtra("toolbar_title","Χορήγηση " + patName );
+                                    in.putExtra("table","Nursing_meds_xorigisis" );
+                                    startActivity(in);                                }
+                            });
+                        }
                         ad.setButton( Dialog.BUTTON_POSITIVE, "Μόνιμη φαρμακευτική αγωγή", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                               Intent intent  =    tableView_sigkentrotika( Str_queries.getFarm_agogi(custID,patientID , true),
+                               Intent intent  =    tableView_sigkentrotika( Str_queries.getFarm_agogi(custID, patientID , true),
                                         null,  //ΤΟ ΚΑΝΩ NULL ΕΠΕΙΔΗ Ο ΠΙΑΝΑΚΣ ΠΟΥ ΘΑ ΚΑΤΑΧΩΡΩ ΔΕΝ ΕΧΕΙ TRANSGROUPID ΑΛΛΑ ΕΧΕΙ patientID
                                         null,
-                                        Customers.isFrontis(custID) ? Frontis.getFarm_agogi_lista(false ,true) : InfoSpecificLists.getFarm_agogi_lista(true),
-                                        false,
+                                       Customers.isFrontis(custID) ?  Frontis.getFarm_agogi_lista(true,false)
+                                               :
+                                               custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA ? KianousStavros.getFarm_agogi_lista(true,isDoctor)
+                                               :
+                                               InfoSpecificLists.getFarm_agogi_lista(false),
+                                       false,
                                         false,
                                         isDoctor );
-                                intent.putExtra("toolbar_title","Μόνιμη φαρμακευτική αγωγή");
+                                intent.putExtra("toolbar_title","Μόνιμη φαρμ. αγωγή " +  patName);
                                 if (isDoctor)
                                     intent.putExtra("patientID",patientID);
 
@@ -385,19 +412,24 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                             }});
 
-                        ad.setButton( Dialog.BUTTON_NEGATIVE, "Προσωρινή φαρμακευτική αγωγή", new DialogInterface.OnClickListener()    {
+                        ad.setButton( Dialog.BUTTON_NEGATIVE, custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA ? "Φαρμ. αγωγή συνεδρίας" : "Προσωρινή φαρμακευτική αγωγή", new DialogInterface.OnClickListener()    {
                                 public void onClick(DialogInterface dialog, int which) {
                                     Intent in  =    tableView_sigkentrotika( Str_queries.getFarm_agogi(custID,patientID , false),
                                             null,  //ΤΟ ΚΑΝΩ NULL ΕΠΕΙΔΗ Ο ΠΙΑΝΑΚΣ ΠΟΥ ΘΑ ΚΑΤΑΧΩΡΩ ΔΕΝ ΕΧΕΙ TRANSGROUPID ΑΛΛΑ ΕΧΕΙ patientID
 
                                             null,
-                                            Customers.isFrontis(custID) ?  Frontis.getFarm_agogi_lista(true,false) : InfoSpecificLists.getFarm_agogi_lista(false),
+                                            Customers.isFrontis(custID) ?  Frontis.getFarm_agogi_lista(true,false)
+                                                    :
+                                                    custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA ? KianousStavros.getFarm_agogi_lista(false,isDoctor)
+                                                            :
+                                                    InfoSpecificLists.getFarm_agogi_lista(false),
                                             false,
                                             false,
                                             true);
 
 
-                                    in.putExtra("toolbar_title","Φαρμακευτική αγωγή συνεδρίας");
+
+                                    in.putExtra("toolbar_title","Φαρμ. αγωγή συνεδρ." + patName);
                                     in.putExtra("patientID",patientID);
                                     startActivity(in);
 
@@ -499,7 +531,11 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             t.listener = new AsyncCompleteTask2() {
                                 @Override
                                 public void taskComplete2(JSONArray results) throws JSONException {
-                                    ArrayList <TableViewItem> lista = InfoSpecificLists.getSigkentrotikaStatheresMetriseis_MEDIT();
+                                    ArrayList <TableViewItem> lista;
+                                    if (custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA)
+                                        lista = KianousStavros.getStathersMetriseisLista(false);
+                                    else
+                                        lista = InfoSpecificLists.getSigkentrotikaStatheresMetriseis_MEDIT();
                                     String[] panoTitloi = new String[]{};
                                     String[] plagioiTitloi = new String[lista.size()];
 
@@ -515,9 +551,9 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                                             plagioiTitloi[i] = lista.get(i).getTitle();
                                         }
 
-
+                                        String code = Utils.getfirstPartSplitCommaString(bd.patientsTV.getText().toString());
+                                        String patientID = getPatientIDUsingCode.get(code);
                                     }
-
 
                                     Intent in  =   tableView_sigkentrotika( Str_queries.getSigkentrotika_statherwn_metrisewn(patientID,transgroupID,custID),
                                             transgroupID,
@@ -580,7 +616,13 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             t.listener = new AsyncCompleteTask2() {
                                 @Override
                                 public void taskComplete2(JSONArray results) throws JSONException {
-                                    ArrayList <TableViewItem> lista = InfoSpecificLists.getSigkentrotikaSinexeisMetriseis_MEDIT();
+                                    ArrayList <TableViewItem> lista ;
+                                    if (custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA)
+                                        lista = KianousStavros.getSinexeisMetriseisLista(false);
+                                    else
+                                        lista = InfoSpecificLists.getSigkentrotikaSinexeisMetriseis_MEDIT();
+
+
                                     String[] panoTitloi = new String[]{};
                                     String[] plagioiTitloi = new String[lista.size()];
 
@@ -598,7 +640,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
 
                                     }
-
+                                    String code = Utils.getfirstPartSplitCommaString(bd.patientsTV.getText().toString());
+                                    String patientID = getPatientIDUsingCode.get(code);
                                     Intent in = tableView_sigkentrotika(Str_queries.getSigkentrotika_sinexwn_metrisewn(patientID),
                                             transgroupID,
                                          //   panoTitloi,
@@ -750,6 +793,25 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                     };
 
+                    String [] colsKianos = new String[]{"doctorName","eidos" ,
+                            "sixnotita_aim" ,"durationName",
+                            "fil",
+
+                            "agogName" , "agogiDosiName"  ,
+                            "max_uf","ksiro_varos",
+
+                            "roi_aima" ,"roi_dialima" ,
+                            "dial","agogimotita" ,
+
+                            "Dittanthrakika" ,"temparture",
+
+
+                            "genikes_odigies",
+                            "emvolio_ip_b" ,"emvolio_antigrip",
+                            "emvolio_pneum_str" ,"embolio_covid1_str",
+
+                    };
+
 
                     String []  plagioiTitloiMedit = new String[]{"Ιατρός","Είδος Αιμ." ,
                             "Συχνότητα αιμοκ.\nανά εβδομάδα" ,"Διάρκεια",
@@ -766,6 +828,26 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                             "Epoetin" ,"Vit-B" ,
                             "L-carnitine", "Vit-D",
                             "Fe", "Etelalcetide",
+
+                            "Γενικές οδηγίες",
+                            "Εμβόλιο ηπατίτιδας Β" ,"Αντιγριπικό εμβόλιο",
+                            "Εμβόλιο πνευμονιόκοκκου" ,
+                            "Εμβόλιο COVID 19"
+
+                    };
+
+                    String []  plagioiTitloiKianos = new String[]{"Ιατρός","Είδος Αιμ." ,
+                            "Συχνότητα αιμοκ.\nανά εβδομάδα" ,"Διάρκεια",
+                            "Φίλτρο",
+
+                            "Αντιπηκτική αγωγή" ,"Αρχική δόση\nαντιπ. αγωγ."  ,
+                            "Μέγιστος Ρυθμός\n Αφυδάτωσης", "Ξηρό βάρος",
+
+                            "Ροή αίματος" ,"Ροή διαλύματος" ,
+                            "Διάλυμα - είδος",  "Νάτριο"  ,
+
+                            "Διττανθρακικά (meq/l)" ,"Θερμοκρασία",
+
 
                             "Γενικές οδηγίες",
                             "Εμβόλιο ηπατίτιδας Β" ,"Αντιγριπικό εμβόλιο",
@@ -844,6 +926,10 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
                     if (Customers.isFrontis(custID)){
                         cols = colsFrontis;
                         plagioiTitloi = plagioiTitloiFrontis;
+                    }
+                    else if (custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA) {
+                        cols = colsKianos;
+                        plagioiTitloi = plagioiTitloiKianos;
                     }
                     else{
                         cols = colsMedit;

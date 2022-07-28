@@ -195,8 +195,8 @@ public class AsyncTaskGetPlanoKlinonPatients extends AsyncTask<String, Void, JSO
 
                     patientsTV.setText(patientsNosileuomenoi.get(pos).getBed() + " , " +
                             patientsNosileuomenoi.get(pos).getCode() + " , " +
-                            patientsNosileuomenoi.get(pos).getFirstName() + " " +
-                            patientsNosileuomenoi.get(pos).getLastName() +
+                            patientsNosileuomenoi.get(pos).getLastName() + " " +
+                            patientsNosileuomenoi.get(pos).getFirstName() +
                             " ( " + patientsNosileuomenoi.get(pos).getDatebirth() + " ) "
                             + " του " +
                             patientsNosileuomenoi.get(pos).getFatherName() + " , " +

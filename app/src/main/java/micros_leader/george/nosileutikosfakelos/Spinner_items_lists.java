@@ -775,6 +775,8 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(4,"3way silicone"));
         lista.add(new Spinner_item(5,"3way dufour"));
         lista.add(new Spinner_item(6,"3way couvelaire"));
+        lista.add(new Spinner_item(7,"2way με θερμίστορα"));
+        lista.add(new Spinner_item(8,"Tiemman"));
 
         return lista;
     }
@@ -806,8 +808,12 @@ public class Spinner_items_lists {
         ArrayList <Spinner_item> lista = new ArrayList<>();
 
         lista.add(new Spinner_item(0,""));
-        lista.add(new Spinner_item(1,"1way"));
-        lista.add(new Spinner_item(2,"2way"));
+        lista.add(new Spinner_item(1,"1way levin"));
+        lista.add(new Spinner_item(2,"2way levin"));
+        lista.add(new Spinner_item(3,"γαστροστομία"));
+        lista.add(new Spinner_item(4,"νηστιδοστομία"));
+        lista.add(new Spinner_item(5,"ρινονιστιδικός καθετ."));
+        lista.add(new Spinner_item(6,"καθετήρας κιρσών"));
 
 
         return lista;
@@ -897,6 +903,8 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(5,"Redovac"));
         lista.add(new Spinner_item(6,"Blake"));
         lista.add(new Spinner_item(7,"Billow"));
+        lista.add(new Spinner_item(8,"απλή"));
+        lista.add(new Spinner_item(9,"pezzer"));
 
         return lista;
     }
@@ -911,6 +919,7 @@ public class Spinner_items_lists {
         lista.add(new Spinner_item(1,"Bomba"));
         lista.add(new Spinner_item(2,"Jacksson"));
         lista.add(new Spinner_item(3,"Σάκος στομίας"));
+        lista.add(new Spinner_item(4,"Ουροσυλλέκτης"));
 
         return lista;
     }
@@ -1050,6 +1059,37 @@ public class Spinner_items_lists {
 
         return lista;
     }
+
+
+
+
+
+    public static ArrayList <Spinner_item> getKsiraKatharsi(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"30 λεπτά"));
+        lista.add(new Spinner_item(2,"45 λεπτά"));
+        lista.add(new Spinner_item(3,"60 λεπτά"));
+
+        return lista;
+    }
+
+
+
+    public static ArrayList <Spinner_item> getEndeiksiFiltrou(){
+
+        ArrayList <Spinner_item> lista = new ArrayList<>();
+
+        lista.add(new Spinner_item(0,""));
+        lista.add(new Spinner_item(1,"Καθαρό"));
+        lista.add(new Spinner_item(2,"Μέτριο"));
+        lista.add(new Spinner_item(3,"Πηγμένο"));
+
+        return lista;
+    }
+
 
 
 

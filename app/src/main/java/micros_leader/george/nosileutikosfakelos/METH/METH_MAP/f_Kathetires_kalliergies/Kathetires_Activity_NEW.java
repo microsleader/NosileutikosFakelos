@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
@@ -17,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetFloors;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskUpdate_JSON;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
@@ -37,6 +40,7 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
     public Button neaEggrafiBT , istorikoBT;
     private Kathetires_RV adapter;
     public boolean isKathetiresMeth;
+    public boolean onlyMethFlorr;
 
 
     @Override
@@ -51,6 +55,8 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
 
         simple_items_lista = new ArrayList<>();
         super.initialize();
+        istorikoBT = extendedAct.findViewById(R.id.istorikoBT);
+        isKathetiresMeth = true; //ΕΝΗΜΕΡΩΣΗ 20/4/2022 ΠΑΝΤΑ ΤΟ ΦΥΛΛΑΔΙΟ ΤΗΣ ΜΕΘ ΘΑ ΧΕΙΡΙΖΟΝΤΑΙ ΑΠΟ ΠΑΝΤΟΥ
 
         if (isKathetiresMeth)
             table = "Nursing_Kathethres_Topos";
@@ -80,17 +86,27 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
         neaEggrafiBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean [] ITEMS_VALUES = new boolean[names.length];
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(extendedAct)
-                        .setSingleChoiceItems(names, 0, null)
-                        .setTitle("Επιλογή καθετήρα")
+                        .setMultiChoiceItems(names, null, (dialogInterface, i, isChecked) -> ITEMS_VALUES[i] = isChecked)
+                        .setTitle("Επιλογή καθετήρων")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
-                                int pos = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-                                addToRV(spinner_items_lista.get(pos));
+                                for (int i=0; i<ITEMS_VALUES.length; i++){
+                                    if (ITEMS_VALUES[i])
+                                        addToRV(spinner_items_lista.get(i));
+                                }
                             }
                         });
+//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int whichButton) {
+//                                dialog.dismiss();
+//                                int pos = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+//                                addToRV(spinner_items_lista.get(pos));
+//                            }
+//                        });
 
                 AlertDialog d = builder.create();
                 d.show();
@@ -140,7 +156,8 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
                                     int itemID = Integer.parseInt(names[pos].split(",")[0].trim());
                                     String title = names[pos].split(",")[1].trim();
 
-                                    Intent in = Table.tableView_sigkentrotika(Str_queries.getSigkentrotika_kathetirwn(transgroupID,itemID , isKathetiresMeth),
+                                    //Intent in = Table.tableView_sigkentrotika(Str_queries.getSigkentrotika_kathetirwn(transgroupID,itemID , isKathetiresMeth),
+                                    Intent in = Table.tableView_sigkentrotika(Str_queries.getSigkentrotika_kathetirwn(transgroupID,itemID ,isKathetiresMeth),
                                             "", extendedAct,
                                             null,null, InfoSpecificLists.getNursing_Kathethres_Topos_for_item(itemID , isKathetiresMeth),
                                             false,false,false);
@@ -267,6 +284,7 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
                         int id = jsonObject.getInt("ID");
                         int itemID = jsonObject.getInt("itemID");
                         String dateIN = Utils.convertObjToString(jsonObject.get("dateinStr"));
+                        String datechange = Utils.convertObjToString(jsonObject.get("datechangeStr"));
                         String dateOut = Utils.convertObjToString(jsonObject.get("dateoutStr"));
                         String topos = Utils.convertObjToString(jsonObject.get("topos"));
                         String itemName = Utils.convertObjToString(jsonObject.get("itemName")).replace("\n","");
@@ -275,6 +293,7 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
                         Simple_Items item = new Simple_Items(itemID,itemName);
                         item.setId(id);
                         item.setDatein(dateIN);
+                        item.setDatechange(datechange);
                         item.setValue(topos);
                         item.setDateout(dateOut);
                         item.setUserID(userID);
@@ -310,7 +329,7 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
     private void getValuesForEachItem(Simple_Items s, JSONObject vals){
         try {
             int itemID = s.getItemID();
-
+            s.isFromHome = vals.getString("isFromHome").equals("1");
 
             if (itemID == 1) { //περιφερικη 1
                 s.valSP1 = vals.getString("perif1_megethosID");
@@ -364,7 +383,9 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
             }  else if (itemID == 6) {  // Επισκληρίδιος καθετήρας
 
                 s.valSP1 = vals.getString("episk_thesiID");
+                s.valET1 = vals.getString("episk_tethike");
                 s.valSP2 = vals.getString("episk_fereiID");
+                s.valET2 = vals.getString("episk_afairethike");
 
             }  else if (itemID == 8) {  // ΚΕΝΤΡΙΚΗ ΓΡΑΜΜΗ
                 s.valSP1 = vals.getString("kentr_eidosID");
@@ -381,8 +402,8 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
             } else if (itemID == 10) {  // ΕΝΔΟΤΡΑΧΕΙΑΚΟΣ ΣΩΛΗΝΑΣ
                 s.valSP1 = vals.getString("end_sol_sizeID");
                 s.valET1 = vals.getString("end_sol_size_text");
-                s.valET2 = vals.getString("end_sol_piesi_text"); // αριθμος
-                s.valET3 = vals.getString("end_sol_thesi_text"); // αριθμος
+                s.valET2 = vals.getString("end_sol_piesi_text");
+                s.valET3 = vals.getString("end_sol_thesi_text");
 
             }  else if (itemID == 11) {  // ΣΩΛΗΝΑΣ ΤΡΑΧΕΙΟΣΤΟΜΙΑΣ
                 s.valSP1 = vals.getString("sol_trax_sizeID");
@@ -466,7 +487,6 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
 
 
 
-                            alertDialog.show();
                             ArrayList<Simple_Items> lista = adapter.result;
                             String curUser = Utils.getUserID(extendedAct);
 
@@ -478,21 +498,25 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
                                 long id = lista.get(i).getId();
                                 int itemID = simple_items_lista.get(i).getItemID();
                                 String dateIN = simple_items_lista.get(i).getDatein();
+                                //String datechange = simple_items_lista.get(i).getDatechange();
                                 String dateout = simple_items_lista.get(i).getDateout();
                                 String userID = simple_items_lista.get(i).getUserID();
                                 if (userID.equals(""))
                                     userID = curUser;
 
-                                if (curUser.equals(userID) || modify_everything) {
+                         //       if (curUser.equals(userID) || modify_everything) {
 
                                     valuesJson = new ArrayList<>();
 
                                     valuesJson.add(String.valueOf(itemID));
                                     valuesJson.add(dateIN.trim().equals("") ? "" : Utils.convertDateTomilliseconds(dateIN));
+                                    //valuesJson.add(datechange.trim().equals("") ? "" : Utils.convertDateTomilliseconds(datechange));
                                     valuesJson.add(dateout.trim().equals("") ? "" : Utils.convertDateTomilliseconds(dateout));
 
                                     manageValuesForUpdate(lista.get(i));
                                     AsyncTaskUpdate_JSON task;
+
+                                    alertDialog.show();
 
                                     if (id != 0)
                                         task = new AsyncTaskUpdate_JSON(extendedAct, String.valueOf(id), transgroupID, table, nameJson, replaceTrueOrFalse(valuesJson), titloi_positions);
@@ -508,9 +532,10 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
                                     task.execute();
 
 
-                                }
+                        //        }
 
                             }
+
 
 
 
@@ -536,9 +561,12 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
 
     }
 
-    private void manageValuesForUpdate(Simple_Items s) {
+    public void manageValuesForUpdate(Simple_Items s) {
         int itemID = s.getItemID();
         nameJson.subList(3, nameJson.size()).clear();
+
+        nameJson.add("isFromHome");
+        valuesJson.add(s.isFromHome ? "1" : "");
         if ((itemID >=1 && itemID <= 5) ||  itemID == 8 ||  itemID == 9 || itemID == 14 || itemID == 28 || itemID == 32){
             valuesJson.add(s.valSP1);valuesJson.add(s.valET1);
             valuesJson.add(s.valSP2);valuesJson.add(s.valET2);
@@ -607,7 +635,9 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
 
         else if (itemID == 6){  // επισκληρίδιος καθετήρας
             valuesJson.add(s.valSP1);valuesJson.add(s.valSP2);
+            valuesJson.add(s.valET1);valuesJson.add(s.valET2);
             nameJson.add("episk_thesiID");nameJson.add("episk_fereiID");
+            nameJson.add("episk_tethike");nameJson.add("episk_afairethike");
         }
 
         else if (itemID == 10){  // ΕΝΔΟΤΡΑΧΕΙΑΚΟΣ ΣΩΛΗΝΑΣ  έση (cm εξόδου), μέγεθος, πίεση cuff
@@ -672,6 +702,26 @@ public class Kathetires_Activity_NEW extends Kathetires_Activity{
     public void clearLista() {
         adapter.result.clear();
         adapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void getPatientsList(AppCompatActivity extendedActivity, int textviewID, int spinnerID) {
+        if (floorSP == null)
+            floorSP = findViewById(spinnerID);
+
+        if (patientsTV == null)
+            patientsTV = findViewById(textviewID);
+
+        this.extendedAct = extendedActivity;
+        AsyncTaskGetFloors s ;
+        if (activityFromSigxoneusi == null)
+            s = new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter);
+        else
+            s = new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter,activityFromSigxoneusi);
+        s.query = " select id,name from floor where companyid = " + Utils.getcompanyID(extendedActivity)
+                + " and id  " + (onlyMethFlorr ? " = " : " <> " ) + " (6) " ; //μόνο  μεθ
+        s.execute();
     }
 
     @Override

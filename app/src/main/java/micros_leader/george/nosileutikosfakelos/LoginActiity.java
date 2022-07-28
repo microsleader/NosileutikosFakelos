@@ -118,7 +118,7 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
                 Intent intent;
                 if (custID == Customers.CUSTID_NEPHROXENIA )
                     intent  =  new Intent(LoginActiity.this, Nephroxenia_Main_Activity.class);
-                else if (custID == Customers.CUSTID_FRONTIS || custID == Customers.CUSTID_FRONTIS_2)
+                else if (custID == Customers.CUSTID_FRONTIS || custID == Customers.CUSTID_FRONTIS_2 || custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA)
                     intent =  new Intent(LoginActiity.this, MainActivity_Aim.class);
                 else
                     intent  =  new Intent(LoginActiity.this, Menu_generalActivity_NEW.class);
@@ -260,7 +260,7 @@ public class LoginActiity extends AppCompatActivity implements AsyncCompleteTask
 
                             if (custID == Customers.CUSTID_NEPHROXENIA)
                                 intent = new Intent(LoginActiity.this, Nephroxenia_Main_Activity.class);
-                            else if (custID == Customers.CUSTID_FRONTIS || custID == Customers.CUSTID_FRONTIS_2)
+                            else if (custID == Customers.CUSTID_FRONTIS || custID == Customers.CUSTID_FRONTIS_2 || custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA)
                                 intent = new Intent(LoginActiity.this, MainActivity_Aim.class);
                             else
                                 intent = new Intent(LoginActiity.this, Menu_generalActivity_NEW.class);

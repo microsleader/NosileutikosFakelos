@@ -106,6 +106,7 @@ public class SigxoneusiFragment_Meth extends Fragment {
 
         act.dateTV = view.findViewById(R.id.dateTV);
         act.toolbar = view.findViewById(R.id.toolbar);
+        act.newEntryBT = view.findViewById(R.id.newEntryBT);
         act.updateButton = view.findViewById(R.id.updateButton);
         act.diagramBT = view.findViewById(R.id.diagramButton);
 
@@ -288,6 +289,9 @@ public class SigxoneusiFragment_Meth extends Fragment {
 
     private void run_kathetires_paroxeteuseis() {
         Kathetires_Activity_NEW act = new Kathetires_Activity_NEW();
+        if (filladio == KATHETIRES_METH )
+            act.onlyMethFlorr = true;
+
 
         act.isKathetiresMeth = filladio == KATHETIRES_METH;
         act.floorSP = view.findViewById(R.id.floorsSP);

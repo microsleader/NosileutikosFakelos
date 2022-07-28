@@ -367,7 +367,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
 
-        public void getFloors(Spinner floorSP, AppCompatActivity extendedActivity){
+    public void getFloors(Spinner floorSP, AppCompatActivity extendedActivity){
 
         this.floorSP = floorSP;
         this.extendedAct = extendedActivity;
@@ -1192,7 +1192,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         if (Utils.isNetworkAvailable2(extendedAct)) {
             this.str_query = str_query;
 
-            if (alertDialog != null)
+            if (alertDialog != null && !isFinishing())
                 alertDialog.show();
             AsyncTaskGetJSON2 task = new AsyncTaskGetJSON2();
             task.ctx = extendedAct != null ? extendedAct : getApplicationContext();
@@ -1490,7 +1490,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
                             if (nurseID.equals(Utils.getUserID(extendedAct))|| nurseID.equals(""))
                                 insert_or_update_data(listaAdaptor, names_col);
                             else
-                                Toast.makeText(BasicActivity.this, R.string.error_user_id, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(extendedAct, R.string.error_user_id, Toast.LENGTH_SHORT).show();
 
                             bottomSheerDialog.cancel();
                         }

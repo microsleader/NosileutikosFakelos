@@ -3,6 +3,7 @@ package micros_leader.george.nosileutikosfakelos.TableView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Spinner_item;
 
 public class TableViewItem implements Serializable {
@@ -14,7 +15,10 @@ public class TableViewItem implements Serializable {
     public int typeElement, textType;
     public ArrayList<Spinner_item> spinnerLista;
     public String title,checkboxTitle;
+    public double normalMinValue, normalMaxValue;
+
     private int width;
+
 
     public ArrayList<TableViewItem> tableLista = new ArrayList<>();
 
@@ -186,6 +190,29 @@ public class TableViewItem implements Serializable {
         return editWithNoSameUserID;
     }
 
+    public TableViewItem setNormalValues(double min, double max){
+        this.normalMinValue = min;
+        this.normalMaxValue = max;
+
+        return this;
+    }
+
+
+    public double getNormalMinValue() {
+        return normalMinValue;
+    }
+
+    public void setNormalMinValue(double normalMinValue) {
+        this.normalMinValue = normalMinValue;
+    }
+
+    public double getNormalMaxValue() {
+        return normalMaxValue;
+    }
+
+    public void setNormalMaxValue(double normalMaxValue) {
+        this.normalMaxValue = normalMaxValue;
+    }
 
     public TableViewItem setTextViewTableListener(String query, String transgroupID, ArrayList<TableViewItem> lista, boolean exeiWatchID, boolean exeiSinolo, boolean editable) {
         this.textViewTableListener = new TextViewTableListener(query, transgroupID, lista, exeiWatchID, exeiSinolo, editable);

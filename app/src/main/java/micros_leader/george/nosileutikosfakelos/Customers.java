@@ -12,9 +12,13 @@ public class Customers {
     public static final int CUSTID_NEPHROXENIA = 1106;
     public static final int CUSTID_EYGENIDEIO = 1109;
     public static final int CUSTID_SEA_MEDICAL = 1117;
+    public static final int CUSTID_LEFKOS_STAVROS = 1135;
 
     public static final int CUSTID_FRONTIS = 1119;
     public static final int CUSTID_FRONTIS_2 = 1120;
+
+    public static final int CUSTID_KYANOS_STAVROS_MTN_PATRA = 1137;
+
 
 
     public static boolean isFrontis(int custID){

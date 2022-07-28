@@ -24,12 +24,19 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/dateorderTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
         <CheckBox
             android:id="@+id/confirmedCH"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
 
+            android:minHeight="48dp"
             android:text="Επιβεβαίωση" />
 
         <TextView

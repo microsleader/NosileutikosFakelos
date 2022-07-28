@@ -773,7 +773,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                 infoTV = getTextview(lp, value);
                                 row.addView(infoTV);
                             } else
-                                checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, colIndex, rowIndex, lista, sameUser);
+                                checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, colIndex, rowIndex, lista, sameUser ,tableViewArraylist.get(rowIndex));
 
                         else {
 
@@ -1271,6 +1271,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
                 checksex(jsonObject, row);
 
+                if (tableViewArraylist == null)
+                    return;
+
 
                 for (int colIndex = 0; colIndex < col_names.length; colIndex ++) {
 
@@ -1291,8 +1294,13 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                         TYPE_ELEMENT = tableViewArraylist.get(colIndex).getTypeElement();
 
                     //-------------
-                    if (col_names[colIndex].toLowerCase().contains("date"))
-                        value = Utils.convertMillisecondsToDateTime(convertObjToString(jsonObject.opt(column)));
+                    if (col_names[colIndex].toLowerCase().contains("date")){
+                        if (typeElement ==  TEXTVIEW_DATE_TYPE)
+                            value = Utils.convertMillisecondsTO_onlyDate(convertObjToString(jsonObject.opt(column)));
+                        else
+                            value = Utils.convertMillisecondsToDateTime(convertObjToString(jsonObject.opt(column)));
+
+                    }
                     else if(TYPE_ELEMENT == TEXTVIEW_CLOCK_TYPE ||
                             //col_names[colIndex].toLowerCase().contains("hour") ||
                             col_names[colIndex].toLowerCase().contains("time") ||
@@ -1367,7 +1375,15 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                 if (TYPE_ELEMENT == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query == null
                                         &&   tableViewArraylist.get(colIndex).spinnerLista != null && value != null && !value.isEmpty()) {
 
-                                    value = tableViewArraylist.get(colIndex).spinnerLista.get(Integer.parseInt(value)).name;
+                                    /*
+                                    play console error
+                                        java.lang.IndexOutOfBoundsException:
+                                         at java.util.ArrayList.get (ArrayList.java:437)
+                                          at micros_leader.george.nosileutikosfakelos.TableView.Table.addValues (Table.java:1378)
+
+                                     */
+                                    if (Integer.parseInt(value) < tableViewArraylist.get(colIndex).spinnerLista.size())
+                                        value = tableViewArraylist.get(colIndex).spinnerLista.get(Integer.parseInt(value)).name;
 
                                 }
                                 else if (TYPE_ELEMENT == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query != null ){
@@ -1375,10 +1391,12 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                 }
 
 
-                                infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
-                                infoET.setEnabled(false);
-                                infoET.setTextColor(act.getResources().getColor(R.color.cyan2));
-                                row.addView(infoET);
+                                if (!isStable_col) {
+                                    infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
+                                    infoET.setEnabled(false);
+                                    infoET.setTextColor(act.getResources().getColor(R.color.cyan2));
+                                    row.addView(infoET);
+                                }
                             }
                         }
 
@@ -1388,7 +1406,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                             if (TYPE_ELEMENT == SPINNER_TYPE_NEW && tableViewArraylist.get(colIndex).lookup_query != null && !sameUser) { //ΕΔΩ ΜΠΑΙΕΝΙ ΑΝ ΕΧΟΥΜΕ ΕΝΤΙ, ΔΙΑΦΟΡΕΤΙΚΟ ΧΡΗΣΤΗ ΚΑΙ ΛΟΟΚ ΑΠ
                                 if (value.isEmpty()){
                                     String lookupTextvalue = jsonObject.optString(col_names[colIndex] + LOOK_UP_TEXT);
-                                    infoTV = getTextview(lp, lookupTextvalue.isEmpty() ? "" : lookupTextvalue);
+                                    infoTV = getTextview(lp, lookupTextvalue.isEmpty() ? "" : lookupTextvalue , tableViewArraylist.get(colIndex));
                                     row.addView(infoTV);
                                 }
                                 else {
@@ -1405,11 +1423,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                             else {
 
 
-                                if (isStable_col)
-                                    setStable_col_tv(typeElement , lp, value, rowIndex, colIndex, sameUser);
+                                if (!isStable_col)
+                                 //   setStable_col_tv(typeElement , lp, value, rowIndex, colIndex, sameUser);
 
-                                else
-                                    checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, rowIndex, colIndex, lista, sameUser);
+                              //  else
+                                    checkTypesAndAddViewToRow(title, row, typeElement, textType, lp, value, rowIndex, colIndex, lista, sameUser, tableViewArraylist.get(colIndex));
 
 
                             }
@@ -1479,18 +1497,20 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                                 else {
 
                                     if (!isStable_col) {
-                                        infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
+                                        infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser,tableViewArraylist.get(colIndex));
                                         row.addView(infoET);
                                     }
                                 }
                             }
 
 
-                            if (isStable_col)
-                                setStable_col_tv(typeElement , lp, value, rowIndex, colIndex, sameUser);
+//                            if (isStable_col)
+//                                setStable_col_tv(typeElement , lp, value, rowIndex, colIndex, sameUser);
 
 
                         }
+                        if (isStable_col)
+                            setStable_col_tv(typeElement , lp, value, rowIndex, colIndex, sameUser);
 
 
 
@@ -1555,13 +1575,13 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     private void checkTypesAndAddViewToRow( TableRow row, int typeElement, int textType, TableRow.LayoutParams lp,
                                             String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser) {
 
-        checkTypesAndAddViewToRow( "",  row,  typeElement,  textType,  lp, value,  rowIndex,  colIndex,  lista,  sameUser);
+        checkTypesAndAddViewToRow( "",  row,  typeElement,  textType,  lp, value,  rowIndex,  colIndex,  lista,  sameUser , null);
 
     }
 
 
     private void checkTypesAndAddViewToRow(String title, TableRow row, int typeElement, int textType, TableRow.LayoutParams lp,
-                                           String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser) {
+                                           String value, int rowIndex, int colIndex, ArrayList<Spinner_item> lista, boolean sameUser , TableViewItem item) {
 
 
 //            if (rowIndex >= tableViewArraylist.size() && plagioiTitloi == null)
@@ -1574,7 +1594,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         if (typeElement == TABLE_NO_ELEMENT ) {
         }
         else  if (typeElement == TEXTVIEW_ITEM_READ_ONLY_VALUE || typeElement == TEXTVIEW_VALUE_FROM_VIEW){
-            infoTV = getTextview(lp, value);
+            infoTV = getTextview(lp, value , item);
             row.addView(infoTV);
 
         }
@@ -1614,7 +1634,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             }
 
             else {
-                infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser);
+                infoET = getEditText(lp, value, rowIndex, colIndex, textType, sameUser, item);
                 row.addView(infoET);
             }
 
@@ -1946,7 +1966,27 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     }
 
 
-    @SuppressLint("SetTextI18n")
+    private TextView getTextview(TableRow.LayoutParams lp, String text ,TableViewItem item ) {
+
+        TextView tv = getTextview(lp, text);
+
+        if (item != null && (item.normalMinValue > 0 || item.normalMaxValue > 0)){
+            try {
+                double value = Double.parseDouble(text);
+                if (value < item.normalMinValue || value > item.normalMaxValue) {
+                    tv.setTextColor(Color.BLACK);
+                    tv.setTypeface(null, Typeface.BOLD);
+                }
+            }
+            catch (Exception ignored){
+
+            }
+        }
+
+        return tv;
+    }
+
+        @SuppressLint("SetTextI18n")
     private TextView getTextview(TableRow.LayoutParams lp, String text ){
 
         TextView  textView = new TextView(ctx);
@@ -2545,6 +2585,23 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
 
 
+    private EditText getEditText(TableRow.LayoutParams lp, String text, final int positionRow, final int indexOfColumn, int edittextType, boolean sameUser , TableViewItem item) {
+        EditText et = getEditText(lp, text, positionRow, indexOfColumn, edittextType, sameUser);
+        if (item != null && (item.normalMinValue > 0 || item.normalMaxValue > 0)){
+            try {
+                double value = Double.parseDouble(text);
+                if (value < item.normalMinValue || value > item.normalMaxValue) {
+                    et.setTextColor(Color.BLACK);
+                    et.setTypeface(null, Typeface.BOLD);
+                }
+
+            }
+            catch (Exception ignored){
+
+            }
+        }
+        return et;
+    }
 
 
     private EditText getEditText(TableRow.LayoutParams lp, String text, final int positionRow, final int indexOfColumn, int edittextType, boolean sameUser){

@@ -71,7 +71,7 @@ public class SearchPatientNosilAdapter extends RecyclerView.Adapter<SearchPatien
 
         final String bed = apotelesmata.getBed();
 
-        final String namePat = apotelesmata.getFirstName() + " " + apotelesmata.getLastName() +
+        final String namePat = apotelesmata.getLastName() + " " + apotelesmata.getFirstName() +
                 " ( " + apotelesmata.getDatebirth() + " )  του " + apotelesmata.getFatherName();
         final String transgroupID = String.valueOf(apotelesmata.getTransgroupID());
         final String code = apotelesmata.getCode();

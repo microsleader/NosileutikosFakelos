@@ -28,6 +28,7 @@ import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.customers.Frontis;
+import micros_leader.george.nosileutikosfakelos.customers.KianousStavros;
 import micros_leader.george.nosileutikosfakelos.databinding.FragmentIatrikesOdigiesFragmentBinding;
 
 import static micros_leader.george.nosileutikosfakelos.BasicActivity.isHeader;
@@ -338,6 +339,9 @@ public class Iatrikes_odigies_fragment extends Fragment  {
             case Customers.CUSTID_FRONTIS:
             case Customers.CUSTID_FRONTIS_2:
                 return Frontis.getMedicalInsLista(main.isDoctor);
+
+            case Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA:
+                return KianousStavros.getMedicalInsLista(true);
 
             case Customers.CUSTID_MEDITERRANEO:
                 return InfoSpecificLists.getMedicalInsLista();

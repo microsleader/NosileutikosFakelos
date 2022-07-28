@@ -33,7 +33,7 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
 
     private Context ctx;
     private String base_URL ;
-    private String query;
+    public String query;
     private  String companyID;
     private Activity activity;
     private IData listener = null;
@@ -87,7 +87,9 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
 
             base_URL = Utils.getAddress(ctx) + ":" + Utils.getPort(ctx) + "/rquery?cquery=";
             companyID = Utils.getcompanyID(ctx);
-            query = new Str_queries().getFloors(companyID);
+
+            if (query == null || query.isEmpty())
+                query = new Str_queries().getFloors(companyID);
 
             URL = Utils.URLreplaceBlanks("http://" + base_URL + Server.Crypt.encrypt(query));
 
@@ -206,12 +208,19 @@ public class AsyncTaskGetFloors extends AsyncTask<String, Void, JSONArray> {
         alertDialog.dismiss();
 
 
-            adapter = new ArrayAdapter<>(activity, R.layout.spinner_layout2, floorsLista);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = new ArrayAdapter<>(activity, R.layout.spinner_layout2, floorsLista);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         if (floorsLista != null) {
             floorsSP.setAdapter(adapter);
-            floorsSP.setSelection(Utils.getPosFloorID(activity));
+            int posFloor = Utils.getPosFloorID(activity);
+
+            //ΑΥΤΟ ΤΟ ΒΑΖΩ ΕΠΕΙΔΗ ΣΕ ΚΑΠΟΙΑ ΦΥΛΛΑΔΙΑ ΘΕΛΟΥΝ ΝΑ ΒΛΕΠΟΥΝ ΣΥΓΚΕΚΡΙΜΕΝΟΥς ΟΡΟΦΟΥΣ ΚΑΙ ΓΙΝΕΤΑΙ ΜΠΕΡΔΕΜΑ
+            // ΜΕ ΤΗΝ ΕΠΙΛΟΓΗ ΑΠΟ ΑΛΛΟ ΦΥΛΛΑΔΙΟ ΠΟΥ ΕΧΕΙ ΚΡΑΤΗΣΕΙ ΣΤΗ ΜΝΗΜΗ
+            if (posFloor < floorsLista.size())
+                floorsSP.setSelection(posFloor);
+            else
+                floorsSP.setSelection(0);
         }
 
     }

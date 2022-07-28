@@ -32,6 +32,7 @@ import micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokathar
 import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.customers.Frontis;
+import micros_leader.george.nosileutikosfakelos.customers.KianousStavros;
 import micros_leader.george.nosileutikosfakelos.databinding.ActivityTestBaseBinding;
 import micros_leader.george.nosileutikosfakelos.databinding.FragmentSinexeisBinding;
 
@@ -593,6 +594,8 @@ public class SinexeisFragment extends Fragment {
             case Customers.CUSTID_FRONTIS_2:
                 return Frontis.getSinexeisMetriseisLista();
 
+            case Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA:
+                return KianousStavros.getSinexeisMetriseisLista(true);
             case Customers.CUSTID_MEDITERRANEO:
                 return InfoSpecificLists.getSinexeisMetriseisLista();
 

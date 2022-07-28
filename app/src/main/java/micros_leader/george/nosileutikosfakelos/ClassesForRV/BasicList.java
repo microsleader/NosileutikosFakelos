@@ -86,6 +86,8 @@ public class BasicList {
                 x.spinnerLista = (ArrayList) lista.get(i).lista;
 
             x.lookup_query = lista.get(i).lookup_query;
+            x.normalMinValue = lista.get(i).normalMinValue;
+            x.normalMaxValue = lista.get(i).normalMaxValue;
 
             table_lista.add(x);
         }

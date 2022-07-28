@@ -26,6 +26,10 @@ public class MyApplication extends Application {
         return MyApplication.context;
     }
 
+    public static Integer getCustomerID() {
+        return Utils.getCustomerID(MyApplication.context);
+    }
+
     public static void setCustID(int custID){
         Utils.setCustomerID(context,custID);
     }

@@ -129,23 +129,23 @@ public class SettingsActivity extends BasicActivity  {
              imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
 
         String address = bd.addressText.getText().toString().trim();
-        if (Patterns.IP_ADDRESS.matcher(address).matches() || Patterns.WEB_URL.matcher(address).matches()){
+       // if (Patterns.IP_ADDRESS.matcher(address).matches() || Patterns.WEB_URL.matcher(address).matches()){
 
             sp = getSharedPreferences("settings", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("address",bd.addressText.getText().toString().trim());
             editor.putString("port",bd.portText.getText().toString().trim());
-            editor.commit();
+            editor.apply();
 
             Toast.makeText(this, "Οι ρυθμίσεις σας αποθηκεύτηκαν", Toast.LENGTH_SHORT).show();
 
             finish();
 
-        }
+      //  }
 
-        else{
-            Toast.makeText(this, "Δεν είναι έγκυρη η διεύθυνση", Toast.LENGTH_SHORT).show();
-        }
+//        else{
+//            Toast.makeText(this, "Δεν είναι έγκυρη η διεύθυνση", Toast.LENGTH_SHORT).show();
+//        }
     }
 
 

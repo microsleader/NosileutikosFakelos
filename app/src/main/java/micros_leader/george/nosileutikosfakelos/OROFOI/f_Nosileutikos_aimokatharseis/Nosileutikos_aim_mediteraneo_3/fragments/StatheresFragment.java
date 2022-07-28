@@ -40,6 +40,7 @@ import micros_leader.george.nosileutikosfakelos.R;
 import micros_leader.george.nosileutikosfakelos.Str_queries;
 import micros_leader.george.nosileutikosfakelos.Utils;
 import micros_leader.george.nosileutikosfakelos.customers.Frontis;
+import micros_leader.george.nosileutikosfakelos.customers.KianousStavros;
 import micros_leader.george.nosileutikosfakelos.databinding.FragmentStatheresBinding;
 
 import static micros_leader.george.nosileutikosfakelos.BasicActivity.isHeader;
@@ -205,8 +206,9 @@ public class StatheresFragment extends Fragment {
         main.alertDialog.show();
         AsyncTaskUpdate_JSON task;
 
-                String code = Utils.getfirstPartSplitCommaString(main.bd.patientsTV.getText().toString());
-                main.transgroupID =  main.getTransgroupIDUsingCode.get(code);
+        String code = Utils.getfirstPartSplitCommaString(main.bd.patientsTV.getText().toString());
+        main.transgroupID =  main.getTransgroupIDUsingCode.get(code);
+        String patientID = main.getPatientIDUsingCode.get(code);
 
         main.setValuesTo_valuesJSON(null,listaAdaptor,valuesGiaApothikeusi);
 
@@ -232,6 +234,8 @@ public class StatheresFragment extends Fragment {
         else
             task = new AsyncTaskUpdate_JSON(main, id, main.transgroupID, "Nursing_Hemodialysis_initial2_MEDIT",
                     namesGiaApothikeusi, Utils.replaceTrueOrFalse(valuesGiaApothikeusi), null);
+
+        task.patientID = patientID;
 
         task.setEkseresiPedion(new String []{"ksiro_varos","teliko_arxiko_varos","teliko_varos_exodou",
                 "diafora_varous","final_weight","med_instr_additional_weight","target_UF"});
@@ -547,6 +551,9 @@ public class StatheresFragment extends Fragment {
            case Customers.CUSTID_FRONTIS:
            case Customers.CUSTID_FRONTIS_2:
                return Frontis.getStathersMetriseisLista();
+
+           case Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA:
+               return KianousStavros.getStathersMetriseisLista(true);
 
            case Customers.CUSTID_MEDITERRANEO:
                return InfoSpecificLists.getStathersMetriseisLista();

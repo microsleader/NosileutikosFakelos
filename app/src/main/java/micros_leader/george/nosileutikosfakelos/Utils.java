@@ -138,6 +138,9 @@ public class Utils  {
     }
 
     public static  boolean isNetworkAvailable2(Context ctx) {
+        if (ctx == null)
+            return false;
+
         final ConnectivityManager cm = (ConnectivityManager)ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (cm != null) {
@@ -521,7 +524,7 @@ public class Utils  {
 
     }
 
-        public static HashMap<String, Integer> getFloorMap(Context context) {
+    public static HashMap<String, Integer> getFloorMap(Context context) {
         sp = context.getSharedPreferences("loginSettings", Activity.MODE_PRIVATE);
         String floorsStr = sp.getString("floorsMapStr", "");
         Gson gson = new Gson();
@@ -1323,7 +1326,7 @@ public class Utils  {
 
     //ΚΑΝΩ ΚΑΠΟΙΕΣ ΦΟΡΕΣ ΚΑΤΙ ΔΟΚΙΜΕΣ ΜΟΝΟ ΓΙΑ ΤΟ TABLE
     public static String convertDateTomillisecondsTable(String date){
-        if (!date.isEmpty())
+        if (date !=null && !date.isEmpty())
            return convertDateTomilliseconds(date);
         return "";
     }

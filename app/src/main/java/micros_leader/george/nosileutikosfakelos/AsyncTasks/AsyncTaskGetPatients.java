@@ -173,8 +173,8 @@ public class AsyncTaskGetPatients extends AsyncTask<String, Void, JSONArray> {
 
 
                     patientsTV.setText(patientsNosileuomenoi.get(0).getTransgroupID() + " , "
-                            + patientsNosileuomenoi.get(0).getFirstName() + " " +
-                            patientsNosileuomenoi.get(0).getLastName() + " του " +
+                            + patientsNosileuomenoi.get(0).getLastName() + " " +
+                            patientsNosileuomenoi.get(0).getFirstName() + " του " +
                             patientsNosileuomenoi.get(0).getFatherName()) ;
                     alertDialog.dismiss();
 

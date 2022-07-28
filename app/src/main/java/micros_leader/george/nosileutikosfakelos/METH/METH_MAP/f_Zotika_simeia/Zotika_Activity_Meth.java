@@ -21,11 +21,13 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetFloors;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.PrintReport;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.BasicRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
+import micros_leader.george.nosileutikosfakelos.Customers;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_Zotika_simeia.Zotika_simeia_Activity;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -35,6 +37,8 @@ import micros_leader.george.nosileutikosfakelos.Utils;
 
 import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.get24HoursLista;
 import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.getZotika24oroAnaOraLista_Meth;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.ag.floatingactionmenu.OptionsFabLayout;
 import com.shashank.sony.fancydialoglib.Animation;
@@ -66,6 +70,7 @@ public class Zotika_Activity_Meth extends BasicActivity {
         neaEggrafiBT = findViewById(R.id.neaEggrafiBT);
         hoursSP = findViewById(R.id.hoursSP);
         diagramBT = findViewById(R.id.diagramBT);
+
         fabMenu = findViewById(R.id.fabMenu);
 
 
@@ -77,11 +82,17 @@ public class Zotika_Activity_Meth extends BasicActivity {
     public void initialize(){
         if (extendedAct == null)
             extendedAct = this;
+
         neaEgrafiListener();
         table = "Nursing_Zotika_Simeia_Meth";
         //thereIsImagePrinterButton(ReportIDs.ZOTIKA_SIMEIA_FLOOR_AND_METH, PrintReport.ReportParams.TRANSGROUP_ID_AND_DATE_STR);
         //timeListener();
-        diagramButtonListener();
+
+        if (Utils.getCustomerID(extendedAct) == Customers.CUSTID_MEDITERRANEO)
+            diagramBT.setVisibility(View.GONE);
+        else
+            diagramButtonListener();
+
         alertDialog = Utils.setLoadingAlertDialog(extendedAct);
 
         watchLista = get24HoursLista();
@@ -299,6 +310,31 @@ public class Zotika_Activity_Meth extends BasicActivity {
 
 
 
+
+
+
+
+    @Override
+    public void getPatientsList(AppCompatActivity extendedActivity, int textviewID, int spinnerID) {
+        if (floorSP == null)
+            floorSP = findViewById(spinnerID);
+
+        if (patientsTV == null)
+            patientsTV = findViewById(textviewID);
+
+        this.extendedAct = extendedActivity;
+        AsyncTaskGetFloors s ;
+        if (activityFromSigxoneusi == null)
+            s = new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter);
+        else
+            s = new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter,activityFromSigxoneusi);
+        s.query = " select id,name from floor where companyid = " + Utils.getcompanyID(extendedActivity) + " and id  in (6)"; //μόνο ισογειο και μεθ
+        s.execute();
+    }
+
+
+
+
     @Override
     public void setValuesTo_valuesJSON(int[] titles_positions, ArrayList<ItemsRV> listAdaptor) {
         super.setValuesTo_valuesJSON(titles_positions, listAdaptor);
@@ -326,6 +362,7 @@ public class Zotika_Activity_Meth extends BasicActivity {
         getZotikaSimeia_meth_24oro();
 
     }
+
 
 
     @Override
@@ -366,6 +403,7 @@ public class Zotika_Activity_Meth extends BasicActivity {
 
         }
     }
+
 
 
 }

@@ -124,6 +124,7 @@ public class DF_Notifications extends DialogFragment {
                         n.username  = results.getJSONObject(i).optString("username");
                         n.patient  = results.getJSONObject(i).optString("patient");
                         n.message = results.getJSONObject(i).getString("Message");
+                        n.date = results.getJSONObject(i).getString("dateorder");
                         n.isConfirmed = results.getJSONObject(i).optInt("Confirmation") == 1;
                         n.confirmDate  = results.getJSONObject(i).optString("confirmDate");
 
@@ -192,7 +193,7 @@ public class DF_Notifications extends DialogFragment {
             case NOTIFICATIONS_TO_CONFIRM:
 
                 query = Str_queries.CUR_DATE +
-                        " select  * , dbo.DateTimeToString(confirmation_date) as confirmDate , dbo.NAMEUSER(UserID) as username " +
+                        " select  * ,dbo.datetostr(date) + ' ' + dbo.timetostr(date) as dateorder, dbo.DateTimeToString(confirmation_date) as confirmDate , dbo.NAMEUSER(UserID) as username " +
                         " from Notification_messages" +
                         " where companyid = " + companyID +
                         " and date > @curDate  - ( 86400000 * 14 ) " +
@@ -202,7 +203,7 @@ public class DF_Notifications extends DialogFragment {
 
             case MEDICAL_INS_NOTIFICATIONS:
                 query = "declare @curDate bigint = dbo.datetime_to_date( dbo.timeToNum(GETDATE()))\n" +
-                        "select top 100 * , dbo.DateTimeToString(confirmation_date) as confirmDate , dbo.NAMEUSER(Conifrmed_userID) as username ,dbo.nameperson(patientID) as patient \n" +
+                        "select top 100 * , dbo.datetostr(date) + ' ' + dbo.timetostr(date) as dateorder, dbo.DateTimeToString(confirmation_date) as confirmDate , dbo.NAMEUSER(Conifrmed_userID) as username ,dbo.nameperson(patientID) as patient \n" +
                         "from Nursing_iatrikes_entoles \n" +
                         " where companyid = " + companyID +
                         (patientID != null && isIconPressed ? " and  patientID = " + patientID : "" ) +

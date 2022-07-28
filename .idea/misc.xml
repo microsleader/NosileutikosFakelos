@@ -16,6 +16,8 @@
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_kathetires_kalliergies_meth.xml" value="0.24453125" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_kathetires_meth.xml" value="0.3137135922330097" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_kathimerino__zigisma_.xml" value="0.2936893203883495" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_logodosia__meth.xml" value="0.24140625" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_main.xml" value="0.29765625" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_main__aim_3.xml" value="0.28398058252427183" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_menu_general.xml" value="0.33313106796116504" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_menu_general_new.xml" value="0.28828125" />
@@ -31,12 +33,16 @@
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/custom_diaitologio_adapter_layout.xml" value="0.2875" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/custom_general_menu_item_layout.xml" value="0.33313106796116504" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/custom_isozigio_p_a.xml" value="0.5" />
-        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/custom_kathetires_rv.xml" value="0.3137135922330097" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/custom_kathetires_rv.xml" value="0.67" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/custom_many_items_spinner_rec_adapter.xml" value="0.26171875" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/custom_rv_notifications.xml" value="0.41504854368932037" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/df_send_notifications_doctors.xml" value="0.3391990291262136" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/fragment_sinexeis.xml" value="0.29765625" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/fragment_statheres.xml" value="0.67" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/fragment_table.xml" value="0.296875" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/item_detail.xml" value="0.27109375" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/main_fragment.xml" value="0.33313106796116504" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/test_layout.xml" value="0.29765625" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/menu/menu_zotika.xml" value="0.5265625" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/menu/menu_zotika_meth.xml" value="0.5265625" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/menu/nosil_aim_frontis.xml" value="0.5265625" />

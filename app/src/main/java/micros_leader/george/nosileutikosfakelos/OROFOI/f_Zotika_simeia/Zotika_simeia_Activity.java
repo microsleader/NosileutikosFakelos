@@ -36,9 +36,11 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetFloors;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
+import micros_leader.george.nosileutikosfakelos.Customers;
 import micros_leader.george.nosileutikosfakelos.InfoSpecificLists;
 import micros_leader.george.nosileutikosfakelos.OROFOI.f_karta_xorigisis_farmakon.FarmakaListActivity;
 import micros_leader.george.nosileutikosfakelos.R;
@@ -49,10 +51,11 @@ import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.get24Ho
 import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.getZotika24oroAnaOraLista;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Zotika_simeia_Activity extends BasicActivity {
 
-    public Button diagramBT;
+    public Button newEntryBT, diagramBT;
     public Spinner hoursSP;
     private RV_zotika_ana_ora_adapter adapterRV;
 
@@ -63,19 +66,29 @@ public class Zotika_simeia_Activity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zotika_simeia_ana_ora_);
 
+       // newEntryBT = findViewById(R.id.newEntryBT);
         diagramBT = findViewById(R.id.diagramButton);
         fabMenu = findViewById(R.id.fabMenu);
 
         initialize();
     }
 
+
+
+
     public void initialize(){
         if (extendedAct == null)
             extendedAct = this;
 
+
         table = "Nursing_Zotika_Simeia";
         getAll_col_names( getZotika24oroAnaOraLista());
         diagramButtonListener();
+        if (Utils.getCustomerID(extendedAct) == Customers.CUSTID_MEDITERRANEO)
+            diagramBT.setVisibility(View.GONE);
+
+      //  newEntryBT.setOnClickListener(view -> { newList = InfoSpecificLists.getZotika24oroAnaOraLista(); adapterRV.updateLista(newList); });
+
         fabListener();
         titloi_positions = new int[]{};
         adapterRV = new RV_zotika_ana_ora_adapter(extendedAct, getZotika24oroAnaOraLista(),titloi_positions);
@@ -208,7 +221,6 @@ public class Zotika_simeia_Activity extends BasicActivity {
         }
 
         date = dateTV.getText().toString();
-
         adapterRV.updateLista(newList);
 
 
@@ -380,5 +392,24 @@ public class Zotika_simeia_Activity extends BasicActivity {
         dialog.show();
 
 
+    }
+
+
+    @Override
+    public void getPatientsList(AppCompatActivity extendedActivity, int textviewID, int spinnerID) {
+        if (floorSP == null)
+            floorSP = findViewById(spinnerID);
+
+        if (patientsTV == null)
+            patientsTV = findViewById(textviewID);
+
+        this.extendedAct = extendedActivity;
+        AsyncTaskGetFloors s ;
+        if (activityFromSigxoneusi == null)
+            s = new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter);
+        else
+            s = new AsyncTaskGetFloors(extendedActivity, floorSP, floorAdapter,activityFromSigxoneusi);
+        s.query = " select id,name from floor where companyid = " + Utils.getcompanyID(extendedActivity) + " and id not in (6)"; //εκτος ισογειο και μεθ
+        s.execute();
     }
 }
