@@ -3995,6 +3995,7 @@ public class InfoSpecificLists extends StaticFields{
              lista.add(new TableViewItem("ID","ID", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
              if (allPatients) {
                  lista.add(new TableViewItem("Ασθενής", "patName", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE).setStable_col(true));
+                 lista.add(new TableViewItem("Δωμάτιο", "bedcode", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
                  lista.add(new TableViewItem("Νοσηλευτής", "username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
                  lista.add(new TableViewItem("Ημ/νία", "dateStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
                  lista.add(new TableViewItem("Ωρα", "timeStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
@@ -4004,6 +4005,7 @@ public class InfoSpecificLists extends StaticFields{
                //  lista.add(new TableViewItem("Ωρα", "Watch", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE).setStable_col(true));
                  lista.add(new TableViewItem("Ωρα", "time", TEXTVIEW_CLOCK_TYPE, TABLE_NO_TYPE).setStable_col(true));
                  lista.add(new TableViewItem("Ασθενής", "patName", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
+                 lista.add(new TableViewItem("Δωμάτιο", "bedcode", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
                  lista.add(new TableViewItem("Νοσηλευτής", "username", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
                  lista.add(new TableViewItem("Ημ/νία", "dateStr", TEXTVIEW_ITEM_READ_ONLY_VALUE, TABLE_NO_TYPE));
              }

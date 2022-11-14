@@ -79,6 +79,10 @@ public class Frontis {
             lista.add(new ItemsRV("Ξηρό βάρος", "ksiro_varos", "", EDITTEXT_ITEM,DEKADIKOS));
             lista.add(new ItemsRV("Max UF (ml/h)", "max_uf", "", EDITTEXT_ITEM,DEKADIKOS));
             lista.add(new ItemsRV("Βελόνες", "velonesID", SPINNER_ITEM_NEW, "Nursing_items_statheres_metr_velones"));
+
+            lista.add(new ItemsRV("Χωρητ. ηπαρινισμού σκελών Α", "skelon_A", "", EDITTEXT_ITEM, KEIMENO));
+            lista.add(new ItemsRV("Χωρητ. ηπαρινισμού σκελών Φ", "skelon_f", "", EDITTEXT_ITEM, KEIMENO));
+
             lista.add(new ItemsRV("Epoetin", "epoetinID",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_epoetin"));
 
             lista.add(new ItemsRV("Etelalcetide", "etelalcetide", "",  EDITTEXT_ITEM,KEIMENO));
@@ -141,6 +145,8 @@ public class Frontis {
             lista.add(new ItemsRV("Ξηρό βάρος", "ksiro_varos", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Max UF (ml/h)", "max_uf", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
             lista.add(new ItemsRV("Βελόνες", "velonesName", "",TEXTVIEW_ITEM_READ_ONLY_VALUE ));
+            lista.add(new ItemsRV("Χωρητ. ηπαρινισμού σκελών Α", "skelon_A", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Χωρητ. ηπαρινισμού σκελών Φ", "skelon_f", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
             lista.add(new ItemsRV("Epoetin", "epoName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
@@ -178,8 +184,8 @@ public class Frontis {
         BasicList lista = new BasicList();
 
         //lista.add(new ItemsRV("Ημ/νία","datestr", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-
        // lista.add(new ItemsRV("Προγρ. \nώρα έναρξης:", "schedule_time_start","" , TEXTVIEW_CLOCK_TYPE ));
+
         lista.add(new ItemsRV("Ώρα έναρξης:", "time_start", "", TEXTVIEW_CLOCK_TYPE));
         lista.add(new ItemsRV("Διάρκεια:", "duration_aim_ID", SPINNER_ITEM_NEW, Spinner_items_lists.getDuration_aim()));
         lista.add(new ItemsRV("Ώρα λήξης:", "time_finish", "", TEXTVIEW_CLOCK_TYPE));
@@ -222,7 +228,7 @@ public class Frontis {
         lista.add(new ItemsRV("Κεντρ. φλεβ.καθετηρας μονιμος", "flev_kathtiras_monimos", false, CHECKBOX_ITEM));
         lista.add(new ItemsRV("Κεντρ. φλεβ.καθετηρας προσωρινος", "flev_kathtiras_prosorinos", false, CHECKBOX_ITEM));
 
-        lista.add(new ItemsRV("Κεντρ. φλεβ.καθετηρας_κειμενο", "flev_kathtiras_text", "", EDITTEXT_ITEM, KEIMENO));
+        lista.add(new ItemsRV("Κεντρ. φλεβ.καθετηρας_κείμενο", "flev_kathtiras_text", "", EDITTEXT_ITEM, KEIMENO));
         lista.add(new ItemsRV("Χωρητ. ηπαρινισμού σκελών Α", "skelon_A", "", EDITTEXT_ITEM, KEIMENO));
 
         lista.add(new ItemsRV("Χωρητ. ηπαρινισμού σκελών Φ", "skelon_f", "", EDITTEXT_ITEM, KEIMENO));

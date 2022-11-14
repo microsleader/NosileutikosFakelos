@@ -105,7 +105,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
             valuesGiaApothikeusi = new ArrayList<>();
             main.getAll_col_names(iatrikesOdigiesLista(),namesGiaApothikeusi);
 
-            if (Customers.isFrontis(main.custID)) {
+            if (Customers.isFrontis(main.custID) || main.custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA) {
                 bd.neaEggrafiBT.setVisibility(View.VISIBLE);
                 bd.neaEggrafiBT.setOnClickListener(view -> { main.id =""; Toast.makeText(main, "Μπορείτε να κάνετε μία νέα εγγραφή", Toast.LENGTH_SHORT).show(); });
             }
@@ -154,7 +154,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
                     .replace("n.agogiDosisName,","")
                     .replace("n.fe_Name,","").replace("n.carnitine_Name,","")
                     .replace("n.vitB_Name,","").replace("n.etel_Name,","")
-                    .replace("n.velonesName,","")
+                    .replace("n.velonesName,","").replace("n.doctorName,","")
             ;
 
             if ( Customers.isFrontis(main.custID))
@@ -202,7 +202,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
                     }
                 }
 
-                if (main.isNurse) {
+                if (main.isNurse && !main.isDoctor) {
                     newList.get(0).setValue(month + " / " + yearName);
                     newList.get(1).setValue(doctorName);
 
@@ -341,7 +341,7 @@ public class Iatrikes_odigies_fragment extends Fragment  {
                 return Frontis.getMedicalInsLista(main.isDoctor);
 
             case Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA:
-                return KianousStavros.getMedicalInsLista(true);
+                return KianousStavros.getMedicalInsLista(true,main.isDoctor);
 
             case Customers.CUSTID_MEDITERRANEO:
                 return InfoSpecificLists.getMedicalInsLista();

@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.onesignal.OneSignal;
+//import com.onesignal.OneSignal;
 
 import org.json.JSONArray;
 import org.json.JSONException;

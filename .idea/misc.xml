@@ -9,9 +9,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/george/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/auto_complete_list.xml" value="0.379247572815534" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/drawable/edittext_enabled.xml" value="0.28359375" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/drawable/edittext_shape.xml" value="0.31171875" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/drawable/edittext_table.xml" value="0.55078125" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/drawable/textview_title_table.xml" value="0.55078125" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/abc_action_bar_title_item.xml" value="0.3938106796116505" />
+        <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_diagnoseis_istoriko.xml" value="0.3938106796116505" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_item_list.xml" value="0.29854368932038833" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_kathetires_kalliergies_meth.xml" value="0.24453125" />
         <entry key="..\:/Users/george/androidProjects/NosileutikosFakelos/app/src/main/res/layout/activity_kathetires_meth.xml" value="0.3137135922330097" />

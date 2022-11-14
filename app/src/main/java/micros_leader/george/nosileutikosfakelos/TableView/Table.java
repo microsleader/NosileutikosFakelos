@@ -20,8 +20,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -45,6 +47,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -322,6 +325,9 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             exeiSinolo = bundle.getBoolean("exeiSinolo", false);
         if (bundle.containsKey("editable"))
             isEditable = bundle.getBoolean("editable", false);
+        if (bundle.containsKey("modify_everything"))
+            modify_everything = bundle.getBoolean("modify_everything", false);
+
         if (bundle.containsKey("saveTransgroupID"))
             saveTransgroupID = bundle.getBoolean("saveTransgroupID", true);
         if (bundle.containsKey("toolbar_title"))
@@ -333,6 +339,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 
         if (bundle.containsKey("hasValuesForCH"))
             hasValuesForCH = bundle.getBoolean("hasValuesForCH", false);
+
 
 
         if (bundle.containsKey("setOnlyFirstRowAvalaible"))
@@ -406,6 +413,10 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             exeiSinolo = in.getBooleanExtra("exeiSinolo",false);
         if (in.hasExtra("editable"))
             isEditable = in.getBooleanExtra("editable",false);
+        if (in.hasExtra("modify_everything"))
+            modify_everything = in.getBooleanExtra("modify_everything",false);
+
+
         if (in.hasExtra("saveTransgroupID"))
             saveTransgroupID = in.getBooleanExtra("saveTransgroupID",true);
         if (in.hasExtra("toolbar_title"))
@@ -1241,11 +1252,12 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
 //                lldetailTitles.addView(titlerow);
 //            }
 
+            String userID = "";
             TableRow row;
             int id = 0;
             if (results.getJSONObject(rowIndex).has("ID")) {
                 id = results.getJSONObject(rowIndex).optInt("ID");
-                String userID = checkIfThereIsUserID(results.getJSONObject(rowIndex));
+                userID = checkIfThereIsUserID(results.getJSONObject(rowIndex));
 
                 row = getRowWithLP(id,userID);
             }
@@ -1262,7 +1274,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                 boolean sameUser = true;
 
                 if (jsonObject.has("UserID") || jsonObject.has("userID")) {
-                    String userID = Utils.convertObjToString(jsonObject.opt("UserID"));
+                    userID = Utils.convertObjToString(jsonObject.opt("UserID"));
                     if (!userID.equals(currentUser) && !userID.equals(""))
                         sameUser = false;
 
@@ -1549,6 +1561,11 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
             }
 
 
+            if (isEditable || modify_everything){
+                addDeleteButton(userID, row ,id);
+            }
+
+
 
             ll.addView(row);
             arxikes_timesValuesMap.put(rowIndex,valuesJson);
@@ -1569,6 +1586,34 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
     }
 
 
+
+    private void addDeleteButton(String userID, TableRow row , int id){
+        ImageButton b = new ImageButton(ctx);
+        b.setImageResource(R.drawable.cancel);
+        TableRow.LayoutParams lp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        b.setLayoutParams(lp);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (userID == null || (!userID.equals(currentUser) && !userID.equals("")) && !modify_everything )
+                    Toast.makeText(ctx,  R.string.error_user_id, Toast.LENGTH_SHORT).show();
+                else {
+
+                    final AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
+                    alertDialog.setTitle("Διαγραφη");
+                    alertDialog.setMessage("Διαγραφη της επιλεγμένης εγγραφής ;");
+                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ΟΚ",
+                            (dialog, which) -> deleteData(id));
+
+
+                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "ΑΚΥΡΩΣΗ",
+                            (dialog, which) -> dialog.dismiss());
+                    alertDialog.show();
+                }
+            }
+        });
+        row.addView(b);
+    }
 
 
 
@@ -1920,31 +1965,31 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
         row.setLayoutParams(lp);
 
 
-        if (isEditable || modify_everything)
-            row.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-
-                    if (userID == null || (!userID.equals(currentUser) && !userID.equals("")))
-                        Toast.makeText(ctx,  R.string.error_user_id, Toast.LENGTH_SHORT).show();
-                    else {
-
-                        final AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
-                        alertDialog.setTitle("Διαγραφη");
-                        alertDialog.setMessage("Διαγραφη της επιλεγμένης εγγραφής ;");
-                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ΟΚ",
-                                (dialog, which) -> deleteData(id));
-
-
-                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "ΑΚΥΡΩΣΗ",
-                                (dialog, which) -> dialog.dismiss());
-                        alertDialog.show();
-                    }
-
-                    return false;
-
-                }
-            });
+//        if (isEditable || modify_everything)
+//            row.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View v) {
+//
+//                    if (userID == null || (!userID.equals(currentUser) && !userID.equals("")) && !modify_everything )
+//                        Toast.makeText(ctx,  R.string.error_user_id, Toast.LENGTH_SHORT).show();
+//                    else {
+//
+//                        final AlertDialog alertDialog = new AlertDialog.Builder(ctx).create();
+//                        alertDialog.setTitle("Διαγραφη");
+//                        alertDialog.setMessage("Διαγραφη της επιλεγμένης εγγραφής ;");
+//                        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ΟΚ",
+//                                (dialog, which) -> deleteData(id));
+//
+//
+//                        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "ΑΚΥΡΩΣΗ",
+//                                (dialog, which) -> dialog.dismiss());
+//                        alertDialog.show();
+//                    }
+//
+//                    return false;
+//
+//                }
+//            });
 
 
 
@@ -2827,6 +2872,7 @@ public class Table implements AsyncCompleteTask2, AsyncGetUpdate_JSON, MyDialogF
                 @Override
                 public void taskComplete2(JSONArray results) throws JSONException {
                     if (results != null && !results.getJSONObject(0).has("status")){
+
                         Spinner_item item  = new Spinner_item();
                         //Η πρωτη επιλογή να ειναι κενή
                         item.setId(0);

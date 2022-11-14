@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="micros_leader.george.nosileutikosfakelos">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk tools:overrideLibrary="com.shashank.sony.fancydialoglib" />
 
@@ -24,7 +23,8 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true"
         android:windowSoftInputMode="stateAlwaysHidden"
-        tools:replace="android:appComponentFactory">
+        tools:replace="android:appComponentFactory"
+        tools:targetApi="p">
         <activity
             android:name=".OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3.PrepairPatientActivity"
             android:exported="true" />
@@ -145,7 +145,8 @@
             android:name=".OROFOI.f_Nosileutikos_aimokatharseis.activities.Nephroxenia_Main_Activity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".SplashScreenActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

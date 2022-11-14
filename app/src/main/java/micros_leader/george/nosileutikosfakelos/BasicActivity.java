@@ -1,6 +1,7 @@
 package micros_leader.george.nosileutikosfakelos;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -257,7 +258,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
     public ArrayList<JSONObject> jsonLista;
     public ArrayList<ItemsRV> list;
     public RecyclerView recyclerView;
-    public int titloi_positions[] = new int[]{};
+    public int[] titloi_positions = new int[]{};
     public int floorID;
     public int sinolikosVathmos;
     public String userID;
@@ -1412,7 +1413,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 // ΒΟΛΕΥΕΙ ΓΙΑ ΦΡΑΓΚΜΕΝΤ
 
 
-    public void insertOrUpdateListener(final CircularProgressButton but, final ArrayList<ItemsRV>  listaAdaptor, final String names_col[],
+    public void insertOrUpdateListener(final CircularProgressButton but, final ArrayList<ItemsRV>  listaAdaptor, final String[] names_col,
                                        final ArrayList<String> namesLista, final ArrayList<String> valuesLista){
         but.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1541,6 +1542,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
         }
         else if (updateIMB != null){
             updateIMB.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("SuspiciousIndentation")
                 @Override
                 public void onClick(View v) {
                     if (nurseID.equals(Utils.getUserID(BasicActivity.this))) {
@@ -1583,6 +1585,7 @@ public class BasicActivity  extends AppCompatActivity implements IData, AsyncCom
 
 
 
+    @SuppressLint("SuspiciousIndentation")
     public void insert_or_update_data(ArrayList<ItemsRV>  listaAdaptor , String[] names_col){
 
         if (alertDialog == null)

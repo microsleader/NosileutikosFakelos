@@ -1,5 +1,7 @@
 package micros_leader.george.nosileutikosfakelos.customers;
 
+import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.SPINNER_TYPE_NEW;
+import static micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV.TEXTVIEW_TYPE;
 import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.AKERAIOS;
 import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.AKERAIOS_WITH_NEGATIVE;
 import static micros_leader.george.nosileutikosfakelos.InfoSpecificLists.CHECKBOX_ITEM;
@@ -34,20 +36,22 @@ public class KianousStavros {
         BasicList lista = new BasicList();
 
         // lista.add(new ItemsRV("Ημ/νία:", "schedule_time_start","" , TEXTVIEW_TYPE ));
-        if (!isForRV)
+        if (!isForRV) {
             lista.add(new ItemsRV("ID", "ID", "", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        }
+        lista.add(new ItemsRV("Ημ/νία", "tg_datein", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
         lista.add(new ItemsRV("Είδος αιμοκάθαρσης", "eidos_aimID", SPINNER_ITEM_NEW, "Nursing_items_med_instr_eidos_aim").setcompareColValue("med_eidos_aim_name"));
         lista.add(new ItemsRV("Διάρκεια:", "duration_aim_ID", SPINNER_ITEM_NEW, Spinner_items_lists.getDuration_aim()).setcompareColValue("duration"));
-        lista.add(new ItemsRV("Διαστ. πίεση εισόδου:", "diast_eisodou", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("Συστ. πίεση εισόδου:", "sist_eisodou", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Διαστ. πίεση εισόδου:", "diast_eisodou", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("Ξηρό βάρος (kg):", "xiro_varos", "", EDITTEXT_ITEM, DEKADIKOS).setcompareColValue("ksiro_varos"));
 
         lista.add(new ItemsRV("Βάρος προ αιμ. (kg):", "arxiko_varos", "", EDITTEXT_ITEM, DEKADIKOS));
-        lista.add(new ItemsRV("Βάρος μετά συνεδρίας (kg):", "varos_meta_sinedrias", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Βάρος μετά τελευταίας συνεδρίας (kg):", "varos_meta_sinedrias", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("Διαφορά βάρους(kg):", "diafora_varous", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
         lista.add(new ItemsRV("Βάρος εξόδου (kg):", "varos_exodou", "", EDITTEXT_ITEM, DEKADIKOS));
-        lista.add(new ItemsRV("Διαστ. εξόδου :", "diast_exodou", "", EDITTEXT_ITEM, DEKADIKOS));
         lista.add(new ItemsRV("Συστ. εξόδου :", "sist_exodou", "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Διαστ. εξόδου :", "diast_exodou", "", EDITTEXT_ITEM, DEKADIKOS));
 
         lista.add(new ItemsRV("Ένδειξη βάρους", "endiksiVarous", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
         lista.add(new ItemsRV("Ένδειξη Φίλτρου", "endiksiFiltrou",  SPINNER_ITEM_NEW, Spinner_items_lists.getEndeiksiFiltrou()));
@@ -87,10 +91,13 @@ public class KianousStavros {
         BasicList lista = new BasicList();
 
 
-        if (!isForRV)
-            lista.add(new ItemsRV("ID", "ID", "",  TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+        if (!isForRV) {
+            lista.add(new ItemsRV("ID", "ID", "", TABLE_NO_ELEMENT, TABLE_NO_TYPE));
+            lista.add(new ItemsRV("Ημ/νία και ώρα", "dateTime", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+        }
+        else
+            lista.add(new ItemsRV("Ημ/νία και ώρα", "Date", "", TEXTVIEW_TYPE));
 
-        lista.add(new ItemsRV("Ημ/νία και ώρα", "Date", "", isForRV ? TEXTVIEW_DATETIME_TYPE : TEXTVIEW_DATE_TYPE));
         lista.add(new ItemsRV("Πίεση αρτ.γραμμής", "piesi_art", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
         lista.add(new ItemsRV("Πίεση φλεβ.γραμμής", "piesi_flev", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
         lista.add(new ItemsRV("TMP", "TMP", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
@@ -99,7 +106,10 @@ public class KianousStavros {
         lista.add(new ItemsRV("Αντλία αίματος", "antlia_aimatos", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
         lista.add(new ItemsRV("Θερμοκρασία διαλυμ.", "thermokrasia_dialimatos", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
         lista.add(new ItemsRV("Ροή διαλυμ.", "roi_dialimatos", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
-        lista.add(new ItemsRV("Θερμοκρασία (°C)", "thermokrasia", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
+
+        lista.add(new ItemsRV("Θερμοκρασία Σώματος", "thermokrasia_somatos", SPINNER_ITEM_NEW, "thermokrasia_somatos_choices"));
+        lista.add(new ItemsRV("Θερμ. Σώματος(°C)", "thermokrasia", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
+
         lista.add(new ItemsRV("Σφύξεις:", "sfikseis", "", EDITTEXT_ITEM, AKERAIOS));
         lista.add(new ItemsRV("Συστολική πίεση (mmHg)", "sis_piesi", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
         lista.add(new ItemsRV("Διαστολική πίεση (mmHg)", "dias_piesi", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
@@ -111,9 +121,12 @@ public class KianousStavros {
         lista.add(new ItemsRV("Ρυθμ. ξηράς κάθαρ.", "rithmos_ksiras_katharsis", "", EDITTEXT_ITEM, AKERAIOS_WITH_NEGATIVE));
 
         lista.add(new ItemsRV("Kt/V", "Kt_V", "", EDITTEXT_ITEM, DEKADIKOS_WITH_NEGATIVE));
-
+        lista.add(new ItemsRV("Αλλεργίες", "allergies", "", EDITTEXT_ITEM,  KEIMENO));
 
         lista.add(new ItemsRV("Μετάγγιση", "metaggisi",  false, CHECKBOX_ITEM));
+
+        lista.add(new ItemsRV("CRP", "crp",  "", EDITTEXT_ITEM, DEKADIKOS));
+        lista.add(new ItemsRV("Ht", "ht",  "", EDITTEXT_ITEM, DEKADIKOS));
 
 
 
@@ -135,52 +148,106 @@ public class KianousStavros {
     }
 
 
-    public static ArrayList getMedicalInsLista(boolean isForRV) {
+    public static ArrayList getMedicalInsLista(boolean isForRV , boolean isDoctor) {
 
         BasicList lista = new BasicList();
 
-        lista.add(new ItemsRV("Μήνας/Έτος", "Month", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+        if (!isForRV || !isDoctor) {
 
-        lista.add(new ItemsRV("Ιατρός", "doctorid", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Μήνας/Έτος", "Month", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
-        lista.add(new ItemsRV("Είδος αιμοκάθαρσης", "eidosName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Συχνότητα αιμοκ.\nανά εβδομάδα", "sixnotita_aim", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Διάρκεια", "durationName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE ));
-        lista.add(new ItemsRV("Φίλτρο", "filName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Ιατρός", "doctorid", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
-        lista.add(new ItemsRV("Αντιπηκτική αγωγή", "agogiName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Αρχική δόση αντιπ. αγωγ.", "agogiDosisName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Είδος αιμοκάθαρσης", "eidosName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Συχνότητα αιμοκ.\nανά εβδομάδα", "sixnotita_aim", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Διάρκεια", "durationName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Φίλτρο", "filName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
-        lista.add(new ItemsRV("Δόση συντήρησης", "dosiSintirisis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("χρόνος διακοπής\nαντλίας  ηπαρίνης", "xronosDiakopisIparinis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Αγγ. Προσπέλαση (τύπος)", "agg_prospelasi", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Αγγ. Προσπέλαση (θέση)", "ag_pros_thesi", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Αγγ. Προσ. (τύπος κείμενο)", "agg_prospelasi_text", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Αντιπηκτική αγωγή", "agogiName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            //lista.add(new ItemsRV("Αρχική δόση αντιπ. αγωγ.", "agogiDosisName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
-
-        lista.add(new ItemsRV("Ροή αίματος (ml/min)", "roi_aima", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Ροή διαλύματος (ml/min)", "roi_dialima", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-
-        lista.add(new ItemsRV("Διάλυμα - είδος", "dialeimaName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Νάτριο (mmol/L)", "agogimotita", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Διττανθρακικά (meq/l)", "Dittanthrakika", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Θερμοκρασία", "temparture", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-
-        lista.add(new ItemsRV("Μέγιστος Ρυθμός\n Αφυδάτωσης (ml/h)", "rithmos_afidatosis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-
-        lista.add(new ItemsRV("Ξηρό βάρος (kg)", "ksiro_varos", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Δόση συντήρησης", "dosiSintirisis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            //  lista.add(new ItemsRV("χρόνος διακοπής\nαντλίας  ηπαρίνης", "xronosDiakopisIparinis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            //  lista.add(new ItemsRV("Αγγ. Προσπέλαση (τύπος)", "agg_prospelasi", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            //  lista.add(new ItemsRV("Αγγ. Προσπέλαση (θέση)", "ag_pros_thesi", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            //  lista.add(new ItemsRV("Αγγ. Προσ. (τύπος κείμενο)", "agg_prospelasi_text", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
 
-        lista.add(new ItemsRV("Αλλεργίες", "allergiesMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
-        lista.add(new ItemsRV("Φαρμ. αγωγή", "farmAgogiMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Ροή αίματος (ml/min)", "roi_aima", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Ροή διαλύματος (ml/min)", "roi_dialima", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
-        lista.add(new ItemsRV("Εμβόλιο ηπ.Β", "embolio_b", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
-        lista.add(new ItemsRV("Αντιγριπ. εμβόλιο", "embolio_antiFlu", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
-        lista.add(new ItemsRV("Εμβόλιο πνευμονιόκοκου", "embolio_pneum", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
-        lista.add(new ItemsRV("Εμβόλιο covid 19", "embolio_covid", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
-        lista.add(new ItemsRV("Γενικές οδηγίες", "genikes_odigies", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Διάλυμα - είδος", "dialeimaName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Νάτριο (mmol/L)", "agogimotita", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Διττανθρακικά (meq/l)", "Dittanthrakika", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Θερμοκρασία", "temparture", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+
+            lista.add(new ItemsRV("Μέγιστος Ρυθμός\n Αφυδάτωσης (ml/h)", "rithmos_afidatosis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+
+            lista.add(new ItemsRV("Ξηρό βάρος (kg)", "ksiro_varos", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
 
 
+            // lista.add(new ItemsRV("Αλλεργίες", "allergiesMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Αλλεργίες", "allergies", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Φαρμ. αγωγή", "farmAgogiMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+
+            lista.add(new ItemsRV("Αντιγριπ. εμβόλιο", "embolio_antiFlu", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. ηπ.Β δόση 1", "embolio_b", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. ηπ.Β δόση 2", "embolio_b2", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. ηπ.Β δόση 3", "embolio_b3", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. πνευμονιόκοκου δόση 1", "embolio_pneum", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. πνευμονιόκοκου δόση 2", "embolio_pneum2", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. covid 19 δόση 1", "embolio_covid", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. covid 19 δόση 2", "embolio_covid2", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. covid 19 δόση 3", "embolio_covid3", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. covid 19 δόση 4", "embolio_covid4", "", TEXTVIEW_ITEM_READ_ONLY_VALUE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Γενικές οδηγίες", "genikes_odigies", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+
+        }
+        else{
+
+            lista.add(new ItemsRV("Έτος", "Year",  SPINNER_ITEM_NEW, "Years"));
+            lista.add(new ItemsRV("Μήνας", "Month",  SPINNER_ITEM_NEW, "Month"));
+
+            lista.add(new ItemsRV("Ιατρός", "doctorName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+
+            lista.add(new ItemsRV("Είδος αιμοκάθαρσης", "eidos_aim",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_eidos_aim"));
+            lista.add(new ItemsRV("Συχνότητα αιμοκ.\nανά εβδομάδα", "sixnotita_aim", "", EDITTEXT_ITEM,DEKADIKOS));
+            lista.add(new ItemsRV("Διάρκεια", "duration_aim_ID", SPINNER_ITEM_NEW, Spinner_items_lists.getDuration_aim()));
+            lista.add(new ItemsRV("Φίλτρο", "Filter",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_filter"));
+
+            lista.add(new ItemsRV("Αντιπηκτική αγωγή", "agogi",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_agogi"));
+            lista.add(new ItemsRV("Δόση συντήρησης", "dosiSintirisis", "", EDITTEXT_ITEM, KEIMENO));
+            lista.add(new ItemsRV("Ροή αίματος (ml/min)", "roi_aima", "",  EDITTEXT_ITEM,DEKADIKOS));
+            lista.add(new ItemsRV("Ροή διαλύματος (ml/min)", "roi_dialima", "",  EDITTEXT_ITEM,DEKADIKOS));
+
+            lista.add(new ItemsRV("Διάλυμα - είδος", "dialima",  SPINNER_ITEM_NEW,"Nursing_items_med_instr_dialima"));
+            lista.add(new ItemsRV("Νάτριο (mmol/L)", "agogimotita", "", EDITTEXT_ITEM, DEKADIKOS));
+            lista.add(new ItemsRV("Διττανθρακικά", "Dittanthrakika", "", EDITTEXT_ITEM, DEKADIKOS));
+            lista.add(new ItemsRV("Θερμοκρασία", "temparture", "", EDITTEXT_ITEM,DEKADIKOS));
+
+            lista.add(new ItemsRV("Μέγιστος Ρυθμός\n Αφυδάτωσης (ml/h)", "rithmos_afidatosis", "", EDITTEXT_ITEM, DEKADIKOS));
+            lista.add(new ItemsRV("Ξηρό βάρος (kg)", "ksiro_varos", "", EDITTEXT_ITEM, DEKADIKOS));
+
+            // lista.add(new ItemsRV("Αλλεργίες", "allergiesMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+            lista.add(new ItemsRV("Αλλεργίες", "allergies", "", EDITTEXT_ITEM,KEIMENO));
+            lista.add(new ItemsRV("Φαρμ. αγωγή", "farmAgogiMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+
+
+            lista.add(new ItemsRV("Αντιγριπ. εμβόλιο", "embolio_antiFlu", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. ηπ.Β δόση 1", "embolio_b", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. ηπ.Β δόση 2", "embolio_b2", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. ηπ.Β δόση 3", "embolio_b3", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
+
+            lista.add(new ItemsRV("Εμβ. πνευμονιόκοκου δόση 1", "embolio_pneum", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ. πνευμονιόκοκου δόση 2", "embolio_pneum2", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
+
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 1", "embolio_covid", "", TEXTVIEW_TYPE, TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 2", "embolio_covid2", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 3", "embolio_covid3", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Εμβ.covid 19 δόση 4", "embolio_covid4", "", TEXTVIEW_TYPE,TEXTVIEW_DATE_TYPE));
+            lista.add(new ItemsRV("Γενικές οδηγίες", "genikes_odigies", "",  EDITTEXT_ITEM,KEIMENO));
+
+        }
         if (isForRV)
             return lista.getList();
         else

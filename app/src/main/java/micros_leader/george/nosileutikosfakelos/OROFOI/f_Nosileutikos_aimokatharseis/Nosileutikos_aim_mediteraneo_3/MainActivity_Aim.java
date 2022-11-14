@@ -1,5 +1,7 @@
 package micros_leader.george.nosileutikosfakelos.OROFOI.f_Nosileutikos_aimokatharseis.Nosileutikos_aim_mediteraneo_3;
 
+import static micros_leader.george.nosileutikosfakelos.StaticFields.TEXTVIEW_ITEM_READ_ONLY_VALUE;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import com.github.ag.floatingactionmenu.OptionsFabLayout;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +44,7 @@ import java.util.TimerTask;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON;
 import micros_leader.george.nosileutikosfakelos.AsyncTasks.AsyncTaskGetJSON2;
 import micros_leader.george.nosileutikosfakelos.BasicActivity;
+import micros_leader.george.nosileutikosfakelos.ClassesForRV.ItemsRV;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.PatientsOfTheDay;
 import micros_leader.george.nosileutikosfakelos.ClassesForRV.Vardies;
 import micros_leader.george.nosileutikosfakelos.Customers;
@@ -431,6 +435,8 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                                     in.putExtra("toolbar_title","Φαρμ. αγωγή συνεδρ." + patName);
                                     in.putExtra("patientID",patientID);
+                                    if (custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA)
+                                        in.putExtra("modify_everything",true);
                                     startActivity(in);
 
                                 }});
@@ -793,22 +799,39 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                     };
 
+
+//                    lista.add(new ItemsRV("Δόση συντήρησης", "dosiSintirisis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Ροή αίματος (ml/min)", "roi_aima", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Ροή διαλύματος (ml/min)", "roi_dialima", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Διάλυμα - είδος", "dialeimaName", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Νάτριο (mmol/L)", "agogimotita", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Διττανθρακικά (meq/l)", "Dittanthrakika", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Θερμοκρασία", "temparture", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Μέγιστος Ρυθμός\n Αφυδάτωσης (ml/h)", "rithmos_afidatosis", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Ξηρό βάρος (kg)", "ksiro_varos", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Αλλεργίες", "allergiesMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+//                    lista.add(new ItemsRV("Φαρμ. αγωγή", "farmAgogiMeds", "", TEXTVIEW_ITEM_READ_ONLY_VALUE));
+
+
+
                     String [] colsKianos = new String[]{"doctorName","eidos" ,
                             "sixnotita_aim" ,"durationName",
                             "fil",
 
-                            "agogName" , "agogiDosiName"  ,
-                            "max_uf","ksiro_varos",
+                            "agogName" , "dosiSintirisis"  ,
+                            "roi_aima","roi_dialima",
 
-                            "roi_aima" ,"roi_dialima" ,
-                            "dial","agogimotita" ,
-
+                            "dialeimaName" ,"agogimotita" ,
                             "Dittanthrakika" ,"temparture",
-
+                            "rithmos_afidatosis" ,"ksiro_varos",
+                           // "allergiesMeds" ,"farmAgogiMeds",
 
                             "genikes_odigies",
-                            "emvolio_ip_b" ,"emvolio_antigrip",
-                            "emvolio_pneum_str" ,"embolio_covid1_str",
+                            "emvolio_ip_b" ,"emvolio_ip_b2" ,
+                            "emvolio_antigrip",
+                            "emvolio_pneum_str","emvolio_pneum_str2",
+                            "embolio_covid1_str", "embolio_covid2_str" ,
+                            "embolio_covid3_str", "embolio_covid4_str",
 
                     };
 
@@ -836,23 +859,26 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
                     };
 
+
                     String []  plagioiTitloiKianos = new String[]{"Ιατρός","Είδος Αιμ." ,
                             "Συχνότητα αιμοκ.\nανά εβδομάδα" ,"Διάρκεια",
                             "Φίλτρο",
 
-                            "Αντιπηκτική αγωγή" ,"Αρχική δόση\nαντιπ. αγωγ."  ,
-                            "Μέγιστος Ρυθμός\n Αφυδάτωσης", "Ξηρό βάρος",
+                            "Αντιπηκτική αγωγή" , "Δόση συντήρησης"  ,
+                            "Ροή αίματος (ml/min)", "Ροή διαλύματος (ml/min)",
 
-                            "Ροή αίματος" ,"Ροή διαλύματος" ,
                             "Διάλυμα - είδος",  "Νάτριο"  ,
-
                             "Διττανθρακικά (meq/l)" ,"Θερμοκρασία",
+                            "Μέγιστος Ρυθμός\n Αφυδάτωσης (ml/h)" ,"Ξηρό βάρος (kg)",
+                           // "Αλλεργίες" ,"Φαρμ. αγωγή",
 
 
                             "Γενικές οδηγίες",
-                            "Εμβόλιο ηπατίτιδας Β" ,"Αντιγριπικό εμβόλιο",
-                            "Εμβόλιο πνευμονιόκοκκου" ,
-                            "Εμβόλιο COVID 19"
+                            "Εμβ. ηπατίτιδας Β 1" , "Εμβ. ηπατίτιδας Β 2" ,
+                            "Αντιγριπικό εμβόλιο",
+                            "Εμβ. πνευμονιόκοκκου 1" ,"Εμβ. πνευμονιόκοκκου 2",
+                            "Εμβ. COVID 19 δόση 1", "Εμβ. COVID 19 δόση 2",
+                            "Εμβ. COVID 19 δόση 3", "Εμβ. COVID 19 δόση 4"
 
                     };
 
@@ -955,6 +981,23 @@ public class MainActivity_Aim extends BasicActivity implements   AsyncCompleteTa
 
         task.execute();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

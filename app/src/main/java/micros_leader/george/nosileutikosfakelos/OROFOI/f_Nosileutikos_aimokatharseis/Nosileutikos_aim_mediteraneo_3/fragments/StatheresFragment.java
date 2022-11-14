@@ -218,12 +218,16 @@ public class StatheresFragment extends Fragment {
             String value = e.getValue();
             if (docSP.getSelectedItem() != null && value.equals(docSP.getSelectedItem().toString())){
                  key = e.getKey();
-                valuesGiaApothikeusi.add(String.valueOf(key));
+                 ipefIatrosVardiasID = (String.valueOf(key));
             }
 
         }
+
         namesGiaApothikeusi.add("ipefthinos_iatros_vardias");
         valuesGiaApothikeusi.add(ipefIatrosVardiasID);
+
+        namesGiaApothikeusi.add("dataFromTablet");
+        valuesGiaApothikeusi.add("1");
 
 
 
@@ -238,7 +242,7 @@ public class StatheresFragment extends Fragment {
         task.patientID = patientID;
 
         task.setEkseresiPedion(new String []{"ksiro_varos","teliko_arxiko_varos","teliko_varos_exodou",
-                "diafora_varous","final_weight","med_instr_additional_weight","target_UF"});
+                "diafora_varous","final_weight","tg_datein","med_instr_additional_weight","target_UF"});
 
         final String strKey = String.valueOf(key);
         task.listener = new AsyncGetUpdate_JSON() {
@@ -259,6 +263,10 @@ public class StatheresFragment extends Fragment {
                   //  Utils.timeHandlerErrorButton(bd.updateButton, main);
                    // Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                 }
+
+                namesGiaApothikeusi.remove("dataFromTablet");
+                valuesGiaApothikeusi.remove(valuesGiaApothikeusi.size()-1);
+
                 Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
                 main.alertDialog.dismiss();
 
@@ -279,6 +287,8 @@ public class StatheresFragment extends Fragment {
 
 
     public void getOldTeleutaiesMetriseis(boolean is_patient_changed) {
+//        if (main.custID == 1137)
+//            return;
 
         if (is_patient_changed) {
             ArrayList<ItemsRV> emptyList = statheresLista();
@@ -340,7 +350,7 @@ public class StatheresFragment extends Fragment {
                             main.alertDialog.dismiss();
                     }
                     catch (Exception e){
-
+                        e.printStackTrace();
                     }
                 }
             };

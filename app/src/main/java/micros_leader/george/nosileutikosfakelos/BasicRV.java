@@ -682,6 +682,8 @@ public class BasicRV extends RecyclerView.Adapter<BasicRV.MyViewHolder> implemen
                                         }
 
 
+
+
                                         if (oldValuesLista != null)
                                             if (oldValuesLista.get(position).equals(String.valueOf(id)))
                                                 valueForOldLista = name;

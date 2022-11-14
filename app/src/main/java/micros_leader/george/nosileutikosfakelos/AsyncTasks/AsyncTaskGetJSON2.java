@@ -58,6 +58,14 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
         this.ctx = act;
     }
 
+
+
+
+
+
+
+
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -79,6 +87,15 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
             cancel(true);
         }
     }
+
+
+
+
+
+
+
+
+
 
     @Override
     protected JSONArray doInBackground(String... params) {
@@ -126,6 +143,18 @@ public class AsyncTaskGetJSON2 extends AsyncTask<String, Void, JSONArray> {
 
         return JArray;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     protected void onPostExecute(JSONArray result) {

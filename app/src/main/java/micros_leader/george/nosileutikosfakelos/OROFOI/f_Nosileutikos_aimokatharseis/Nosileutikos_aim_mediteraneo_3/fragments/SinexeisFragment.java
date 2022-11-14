@@ -206,6 +206,7 @@ public class SinexeisFragment extends Fragment {
             String query ;
             if (Customers.isFrontis(main.custID)){
                 query = " select top 1 ni.* , " +
+                        //"" +
                         " (select max(m.VitB)  from Nursing_Medical_Instructions m where m.PatientID=ni.PatientID) as VitB, \n" +
                         " (select max(m.Carnitine)  from Nursing_Medical_Instructions m where m.PatientID=ni.PatientID) as Carnitine, \n" +
                         " (select max(m.Alfacalcidol)  from Nursing_Medical_Instructions m where m.PatientID=ni.PatientID) as Alfacalcidol,\n" +
@@ -215,6 +216,8 @@ public class SinexeisFragment extends Fragment {
                         "  (select max(m.Paracalcitol)  from Nursing_Medical_Instructions m where m.PatientID=ni.PatientID) as Paracalcitol \n " +
 
                         " from Nursing_Hemodialysis_2_MEDIT  ni \n" +
+                       // (main.custID == Customers.CUSTID_KYANOS_STAVROS_MTN_PATRA ? " left join thermokrasia_somatos ts on ts.id = ni.thermokrasia_somatos \n" : "" )+
+                        //" from Nursing_Hemodialysis_2_MEDIT  ni \n" +
                         " where ni.patientid = " + patientID +
 
                         " order by date desc ,  id desc \n";
